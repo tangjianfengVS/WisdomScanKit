@@ -26,7 +26,15 @@ extension UIViewController {
                                       answerTasks: answerTask, errorTasks: errorTask)
         switch type {
         case .push:
-            push(VC: rqCodeVC)
+            
+            if self.isKind(of: UINavigationController.self){
+                (self as! UINavigationController).pushViewController(rqCodeVC, animated: true)
+            }else if navigationController != nil {
+                navigationController!.pushViewController(rqCodeVC, animated: true)
+            }else{
+                push(VC: rqCodeVC)
+            }
+            
         case .present:
             present(rqCodeVC, animated: true, completion: nil)
         }

@@ -15,7 +15,8 @@
 		A5EEF0872196F0BB00BDD24A /* WisdomScanConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EEF07C2196F0BB00BDD24A /* WisdomScanConfig.swift */; };
 		A5EEF0882196F0BB00BDD24A /* WisdomScanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EEF07D2196F0BB00BDD24A /* WisdomScanManager.swift */; };
 		A5EEF0892196F0BB00BDD24A /* WisdomRQCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EEF0842196F0BB00BDD24A /* WisdomRQCodeVC.swift */; };
-		A5EEF08A2196F0BB00BDD24A /* WisdomNavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EEF0852196F0BB00BDD24A /* WisdomNavigationController+Extension.swift */; };
+		A5EEF08E219702C300BDD24A /* WisdomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EEF08C219702C300BDD24A /* WisdomViewController.swift */; };
+		A5EEF08F219702C300BDD24A /* WisdomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5EEF08D219702C300BDD24A /* WisdomViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +30,8 @@
 		A5EEF07C2196F0BB00BDD24A /* WisdomScanConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomScanConfig.swift; sourceTree = "<group>"; };
 		A5EEF07D2196F0BB00BDD24A /* WisdomScanManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomScanManager.swift; sourceTree = "<group>"; };
 		A5EEF0842196F0BB00BDD24A /* WisdomRQCodeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomRQCodeVC.swift; sourceTree = "<group>"; };
-		A5EEF0852196F0BB00BDD24A /* WisdomNavigationController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WisdomNavigationController+Extension.swift"; sourceTree = "<group>"; };
+		A5EEF08C219702C300BDD24A /* WisdomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomViewController.swift; sourceTree = "<group>"; };
+		A5EEF08D219702C300BDD24A /* WisdomViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WisdomViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,8 @@
 			children = (
 				A5EEF07B2196F0BB00BDD24A /* WisdomScanKit */,
 				A5EEF0692196F03500BDD24A /* AppDelegate.swift */,
+				A5EEF08C219702C300BDD24A /* WisdomViewController.swift */,
+				A5EEF08D219702C300BDD24A /* WisdomViewController.xib */,
 				A5EEF06B2196F03500BDD24A /* ViewController.swift */,
 				A5EEF06D2196F03500BDD24A /* Main.storyboard */,
 				A5EEF0702196F03600BDD24A /* Assets.xcassets */,
@@ -78,7 +82,6 @@
 			children = (
 				A5EEF07C2196F0BB00BDD24A /* WisdomScanConfig.swift */,
 				A5EEF07D2196F0BB00BDD24A /* WisdomScanManager.swift */,
-				A5EEF0852196F0BB00BDD24A /* WisdomNavigationController+Extension.swift */,
 				A5EEF07E2196F0BB00BDD24A /* WisdomUI */,
 			);
 			path = WisdomScanKit;
@@ -193,6 +196,7 @@
 				A5EEF0742196F03600BDD24A /* LaunchScreen.storyboard in Resources */,
 				A5EEF0712196F03600BDD24A /* Assets.xcassets in Resources */,
 				A5EEF06F2196F03500BDD24A /* Main.storyboard in Resources */,
+				A5EEF08F219702C300BDD24A /* WisdomViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,8 +209,8 @@
 			files = (
 				A5EEF0892196F0BB00BDD24A /* WisdomRQCodeVC.swift in Sources */,
 				A5EEF0872196F0BB00BDD24A /* WisdomScanConfig.swift in Sources */,
-				A5EEF08A2196F0BB00BDD24A /* WisdomNavigationController+Extension.swift in Sources */,
 				A5EEF0882196F0BB00BDD24A /* WisdomScanManager.swift in Sources */,
+				A5EEF08E219702C300BDD24A /* WisdomViewController.swift in Sources */,
 				A5EEF06C2196F03500BDD24A /* ViewController.swift in Sources */,
 				A5EEF06A2196F03500BDD24A /* AppDelegate.swift in Sources */,
 			);
