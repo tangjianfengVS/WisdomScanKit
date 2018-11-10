@@ -12,9 +12,20 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
     }
 
-
+    @IBAction func clickScanRQCode(_ sender: UIButton) {
+        
+        startScanRQCode(type: .present, themeTypes: .green, answerTask: { (text, isStartScan) in
+            
+            isStartScan = false
+            
+        }) { (error, isStartScan) in
+            
+            isStartScan = false
+        }
+    }
+    
 }
 

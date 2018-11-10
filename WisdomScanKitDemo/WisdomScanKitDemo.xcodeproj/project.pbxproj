@@ -12,6 +12,11 @@
 		A58FDFAF219536A1001DC584 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A58FDFAD219536A1001DC584 /* Main.storyboard */; };
 		A58FDFB1219536A2001DC584 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A58FDFB0219536A2001DC584 /* Assets.xcassets */; };
 		A58FDFB4219536A2001DC584 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A58FDFB2219536A2001DC584 /* LaunchScreen.storyboard */; };
+		A58FDFBF21956994001DC584 /* WisdomScanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58FDFBE21956994001DC584 /* WisdomScanManager.swift */; };
+		A58FDFC521956A6E001DC584 /* WisdomRQCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58FDFC421956A6E001DC584 /* WisdomRQCodeVC.swift */; };
+		A58FDFC721956F5C001DC584 /* WisdomScanConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58FDFC621956F5C001DC584 /* WisdomScanConfig.swift */; };
+		A58FDFC92195853F001DC584 /* WisdomViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58FDFC82195853E001DC584 /* WisdomViewController+Extension.swift */; };
+		A58FDFCB21958565001DC584 /* WisdomNavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58FDFCA21958565001DC584 /* WisdomNavigationController+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +27,11 @@
 		A58FDFB0219536A2001DC584 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A58FDFB3219536A2001DC584 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A58FDFB5219536A2001DC584 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A58FDFBE21956994001DC584 /* WisdomScanManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomScanManager.swift; sourceTree = "<group>"; };
+		A58FDFC421956A6E001DC584 /* WisdomRQCodeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomRQCodeVC.swift; sourceTree = "<group>"; };
+		A58FDFC621956F5C001DC584 /* WisdomScanConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomScanConfig.swift; sourceTree = "<group>"; };
+		A58FDFC82195853E001DC584 /* WisdomViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WisdomViewController+Extension.swift"; sourceTree = "<group>"; };
+		A58FDFCA21958565001DC584 /* WisdomNavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WisdomNavigationController+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +64,7 @@
 		A58FDFA8219536A1001DC584 /* WisdomScanKitDemo */ = {
 			isa = PBXGroup;
 			children = (
+				A58FDFBD219556D7001DC584 /* WisdomScanKit */,
 				A58FDFA9219536A1001DC584 /* AppDelegate.swift */,
 				A58FDFAB219536A1001DC584 /* ViewController.swift */,
 				A58FDFAD219536A1001DC584 /* Main.storyboard */,
@@ -62,6 +73,66 @@
 				A58FDFB5219536A2001DC584 /* Info.plist */,
 			);
 			path = WisdomScanKitDemo;
+			sourceTree = "<group>";
+		};
+		A58FDFBD219556D7001DC584 /* WisdomScanKit */ = {
+			isa = PBXGroup;
+			children = (
+				A58FDFC621956F5C001DC584 /* WisdomScanConfig.swift */,
+				A58FDFBE21956994001DC584 /* WisdomScanManager.swift */,
+				A58FDFC82195853E001DC584 /* WisdomViewController+Extension.swift */,
+				A58FDFCA21958565001DC584 /* WisdomNavigationController+Extension.swift */,
+				A58FDFC0219569C0001DC584 /* WisdomUI */,
+			);
+			path = WisdomScanKit;
+			sourceTree = "<group>";
+		};
+		A58FDFC0219569C0001DC584 /* WisdomUI */ = {
+			isa = PBXGroup;
+			children = (
+				A58FDFC321956A56001DC584 /* ScanRQCode */,
+				A5EEF0352196D83A00BDD24A /* ScanBankCard */,
+			);
+			path = WisdomUI;
+			sourceTree = "<group>";
+		};
+		A58FDFC321956A56001DC584 /* ScanRQCode */ = {
+			isa = PBXGroup;
+			children = (
+				A58FDFC421956A6E001DC584 /* WisdomRQCodeVC.swift */,
+			);
+			path = ScanRQCode;
+			sourceTree = "<group>";
+		};
+		A5EEF0352196D83A00BDD24A /* ScanBankCard */ = {
+			isa = PBXGroup;
+			children = (
+				A5EEF0402196D8D000BDD24A /* DataFlow */,
+				A5EEF04B2196D8D000BDD24A /* Interface */,
+				A5EEF0362196D8D000BDD24A /* ScanCore */,
+			);
+			path = ScanBankCard;
+			sourceTree = "<group>";
+		};
+		A5EEF0362196D8D000BDD24A /* ScanCore */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ScanCore;
+			sourceTree = "<group>";
+		};
+		A5EEF0402196D8D000BDD24A /* DataFlow */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DataFlow;
+			sourceTree = "<group>";
+		};
+		A5EEF04B2196D8D000BDD24A /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Interface;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,7 +207,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				A58FDFAC219536A1001DC584 /* ViewController.swift in Sources */,
+				A58FDFBF21956994001DC584 /* WisdomScanManager.swift in Sources */,
+				A58FDFCB21958565001DC584 /* WisdomNavigationController+Extension.swift in Sources */,
+				A58FDFC521956A6E001DC584 /* WisdomRQCodeVC.swift in Sources */,
+				A58FDFC92195853F001DC584 /* WisdomViewController+Extension.swift in Sources */,
 				A58FDFAA219536A1001DC584 /* AppDelegate.swift in Sources */,
+				A58FDFC721956F5C001DC584 /* WisdomScanConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,15 +359,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HFM99A4RBU;
 				INFOPLIST_FILE = WisdomScanKitDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/WisdomScanKitDemo/WisdomScanKit/WisdomUI/ScanBankCard/ScanCore/exbankcardcore",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "All-over-the-sky-star.WisdomScanKitDemo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -300,15 +382,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HFM99A4RBU;
 				INFOPLIST_FILE = WisdomScanKitDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/WisdomScanKitDemo/WisdomScanKit/WisdomUI/ScanBankCard/ScanCore/exbankcardcore",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "All-over-the-sky-star.WisdomScanKitDemo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
