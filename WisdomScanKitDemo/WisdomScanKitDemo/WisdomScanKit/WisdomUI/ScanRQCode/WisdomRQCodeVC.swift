@@ -18,7 +18,7 @@ class WisdomRQCodeVC: UIViewController {
     
     private var themeType: WisdomRQCodeThemeType = .green
     
-    private var scanSession : AVCaptureSession?
+    private var scanSession: AVCaptureSession?
     
     private let scanAnimationDuration = 2.5
     
@@ -33,12 +33,23 @@ class WisdomRQCodeVC: UIViewController {
                                       AVMetadataObject.ObjectType.aztec,
                                       AVMetadataObject.ObjectType.qr]
     
+    private(set) var hideNavBar = false
+    
+    public var isCreatNav: Bool = false
+    
+    private var navbarDelegate: WisdomScanNavbarDelegate?
+    
+    private var navbarBackBtn: UIButton?
+    
+    private var headerTitle: String=" "
+    
+    private var rightBtn: UIButton?
+    
     private var lightOn = false
     
     private var isStartScan: Bool = false{
         didSet{
             if isStartScan {
-                
                 scanLine.layer.add(scanAnimation(), forKey: "scan")
                 guard let scanSession = scanSession else{
                     return
@@ -96,19 +107,37 @@ class WisdomRQCodeVC: UIViewController {
         return btn
     }()
     
-    override func viewDidAppear(_ animated: Bool){
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool){
+        super.viewWillAppear(animated)
+        if hideNavBar {
+            navigationController?.setNavigationBarHidden(true, animated: true)
+        }
         isStartScan = true
     }
     
-    init(types: WisdomScanningType, themeTypes: WisdomRQCodeThemeType?,
-                                   answerTasks: @escaping WisdomAnswerTask,
-                                    errorTasks: @escaping WisdomErrorTask) {
-        type = types
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if hideNavBar {
+            navigationController?.setNavigationBarHidden(false, animated: true)
+        }
+    }
     
+    init(types: WisdomScanningType,
+         themeTypes: WisdomRQCodeThemeType?,
+         navBarTasks: WisdomNavBarTask,
+         answerTasks: @escaping WisdomAnswerTask,
+         errorTasks: @escaping WisdomErrorTask) {
+        type = types
+        
         if themeTypes != nil{
             themeType = themeTypes!
         }
+        
+        let delegate = navBarTasks(&hideNavBar)
+        if delegate != nil {
+            navbarDelegate = delegate
+        }
+        
         answerTask = answerTasks
         errorTask = errorTasks
         super.init(nibName: nil, bundle: nil)
@@ -121,6 +150,7 @@ class WisdomRQCodeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setNavbarUI()
         setupScanSession()
     }
     
@@ -171,13 +201,41 @@ class WisdomRQCodeVC: UIViewController {
         }
     }
     
+    private func setNavbarUI(){
+        if navbarDelegate != nil {
+            navbarBackBtn = navbarDelegate?.wisdomNavbarBackBtnItme()
+            headerTitle = navbarDelegate?.wisdomNavbarThemeTitle() ?? "Wisdom Scan"
+            rightBtn = navbarDelegate?.wisdomNavbarRightBtnItme()
+            
+            navbarBackBtn!.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
+        }
+        
+        if !hideNavBar{
+            if navbarBackBtn != nil {
+                navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navbarBackBtn!)
+            }
+            
+            if rightBtn != nil {
+                navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn!)
+            }
+            title = headerTitle
+        }
+    }
+    
     @objc private func clickBackBtn(){
         if type == .push {
             
-            if  navigationController != nil {
+            if navigationController != nil && isCreatNav {
+                UIView.animate(withDuration: 0.35, animations: {
+                    self.navigationController!.view.transform = CGAffineTransform(translationX: self.navigationController!.view.bounds.width, y: 0)
+                }) { (_) in
+                    self.navigationController!.view.removeFromSuperview()
+                    self.navigationController!.removeFromParent()
+                }
+            }else if navigationController != nil && !isCreatNav {
                 navigationController!.popViewController(animated: true)
             }else{
-                UIView.animate(withDuration: 0.4, animations: {
+                UIView.animate(withDuration: 0.35, animations: {
                     self.view.transform = CGAffineTransform(translationX: self.view.bounds.width, y: 0)
                 }) { (_) in
                     self.view.removeFromSuperview()
@@ -185,7 +243,11 @@ class WisdomRQCodeVC: UIViewController {
                 }
             }
         }else if type == .present{
-            dismiss(animated: true, completion: nil)
+            if navigationController != nil {
+                navigationController!.dismiss(animated: true, completion: nil)
+            }else{
+                dismiss(animated: true, completion: nil)
+            }
         }
     }
     
@@ -251,13 +313,10 @@ class WisdomRQCodeVC: UIViewController {
         let okAction = UIAlertAction(title: "去开启", style: .default, handler: {
             action in
             
-            
             let url = URL(string: UIApplication.openSettingsURLString)
             if url != nil && UIApplication.shared.canOpenURL(url!){
                 UIApplication.shared.openURL(url!)
             }
-            
-            
         })
         alert.addAction(cancelAction)
         alert.addAction(okAction)
@@ -272,7 +331,6 @@ class WisdomRQCodeVC: UIViewController {
         sender.isSelected = lightOn
         turnTorchOn()
     }
-    
     
     private func scanAnimation() -> CABasicAnimation{
         let startPoint = CGPoint(x: 240/2 , y: 10)
@@ -319,7 +377,7 @@ class WisdomRQCodeVC: UIViewController {
 }
 
 extension WisdomRQCodeVC : AVCaptureMetadataOutputObjectsDelegate{
-    //4.播放声音
+    
     class func playAlertSound(sound:String){
         guard let soundPath = Bundle.main.path(forResource: sound, ofType: nil)  else { return }
         guard let soundUrl = NSURL(string: soundPath) else { return }

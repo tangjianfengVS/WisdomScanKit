@@ -13,20 +13,38 @@ class WisdomViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
 
 
     @IBAction func clickScanRQCode(_ sender: UIButton) {
         
-        startScanRQCode(type: .push, themeTypes: .green, answerTask: { (text, isStartScan) in
+        startScanRQCode(type: .push, themeTypes: .green, navBarTask: { (hideNavBar) ->(WisdomScanNavbarDelegate?) in
+            hideNavBar = false
+            return self
             
-            isStartScan = true
+        }, answerTask: { (text, nextStartScan) in
             
-        }) { (error, isStartScan) in
+            nextStartScan = true
             
-            //isStartScan = false
+        }) { (error, nextStartScan) in
+            
+            nextStartScan = true
         }
     }
+}
 
+extension WisdomViewController: WisdomScanNavbarDelegate{
+    func wisdomNavbarBackBtnItme() -> UIButton {
+        let btn = UIButton()
+        btn.setTitle("返回", for: .normal)
+        return btn
+    }
+    
+    func wisdomNavbarThemeTitle() -> String {
+        return "Wisdom Scan"
+    }
+    
+    func wisdomNavbarRightBtnItme() -> UIButton? {
+        return nil
+    }
 }

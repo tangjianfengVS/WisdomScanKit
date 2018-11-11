@@ -8,6 +8,8 @@
 
 import UIKit
 
+public typealias WisdomNavBarTask = ((inout Bool)->(WisdomScanNavbarDelegate?))
+
 public typealias WisdomAnswerTask = ((String, inout Bool)->())
 
 public typealias WisdomErrorTask = ((String, inout Bool)->())
@@ -21,3 +23,15 @@ public enum WisdomRQCodeThemeType {
     case green
     case snowy
 }
+
+@objc public protocol WisdomScanNavbarDelegate  {
+    /** 返回按钮 */
+    func wisdomNavbarBackBtnItme()->UIButton
+    
+    /** 标题 */
+    func wisdomNavbarThemeTitle()->String
+    
+    /** 右边操作按钮 */
+    func wisdomNavbarRightBtnItme()->UIButton?
+}
+
