@@ -45,6 +45,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A55EB7BF2198005B0097503B /* ScanPhoto */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ScanPhoto;
+			sourceTree = "<group>";
+		};
 		A5EEF05D2196F03500BDD24A = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +99,7 @@
 			children = (
 				A5EEF07F2196F0BB00BDD24A /* ScanBankCard */,
 				A5EEF0832196F0BB00BDD24A /* ScanRQCode */,
+				A55EB7BF2198005B0097503B /* ScanPhoto */,
 			);
 			path = WisdomUI;
 			sourceTree = "<group>";
