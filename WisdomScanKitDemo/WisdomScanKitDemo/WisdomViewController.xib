@@ -33,11 +33,27 @@
                         <action selector="clickScanRQCode:" destination="-1" eventType="touchUpInside" id="aX9-X5-u59"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y8Q-K9-ykB">
+                    <rect key="frame" x="152.5" y="391" width="70" height="35"/>
+                    <color key="backgroundColor" red="1" green="0.57810515169999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="OQC-5q-GRu"/>
+                        <constraint firstAttribute="height" constant="35" id="TM9-7l-ZeY"/>
+                    </constraints>
+                    <state key="normal" title="拍照">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="clickScanPhoto:" destination="-1" eventType="touchUpInside" id="unW-dY-PDL"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="nsk-vD-mcD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="6s3-DC-rFN"/>
+                <constraint firstItem="y8Q-K9-ykB" firstAttribute="top" secondItem="nsk-vD-mcD" secondAttribute="bottom" constant="40" id="FhV-tv-j9I"/>
                 <constraint firstItem="nsk-vD-mcD" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Hlq-iG-0K4"/>
+                <constraint firstItem="y8Q-K9-ykB" firstAttribute="centerX" secondItem="nsk-vD-mcD" secondAttribute="centerX" id="yhS-sf-Iuc"/>
             </constraints>
         </view>
     </objects>

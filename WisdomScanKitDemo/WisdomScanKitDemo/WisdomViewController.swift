@@ -12,7 +12,6 @@ class WisdomViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
 
 
@@ -29,6 +28,15 @@ class WisdomViewController: UIViewController {
         }) { (error, nextStartScan) in
             
             nextStartScan = true
+        }
+    }
+    
+    @IBAction func clickScanPhoto(_ sender: UIButton) {
+        
+        startScanPhotos(type: .push, photosTypes: .nine, photosTask: { (list) in
+            
+        }) { (error, nextScan) in
+            
         }
     }
 }

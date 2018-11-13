@@ -274,7 +274,7 @@ class WisdomRQCodeVC: UIViewController {
             let input =  try AVCaptureDeviceInput(device: device)
             let output = AVCaptureMetadataOutput()
             scanSession = AVCaptureSession()
-   
+
             if scanSession!.canAddInput(input){
                 scanSession!.addInput(input)
             }
@@ -295,7 +295,6 @@ class WisdomRQCodeVC: UIViewController {
             previewLayer.videoGravity = .resizeAspectFill
             previewLayer.frame = view.layer.bounds
             view.layer.insertSublayer(previewLayer, at: 0)
-
             //持续对焦
             if device.isFocusModeSupported(.continuousAutoFocus){
                 try  input.device.lockForConfiguration()

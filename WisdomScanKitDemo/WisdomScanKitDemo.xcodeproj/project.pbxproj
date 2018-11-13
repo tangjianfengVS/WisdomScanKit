@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A55EB7C1219801280097503B /* WisdomPhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55EB7C0219801280097503B /* WisdomPhotosVC.swift */; };
+		A5DA9BC7219A638100CD6BCF /* WisdomPhotoEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DA9BC6219A638100CD6BCF /* WisdomPhotoEditView.swift */; };
+		A5DA9BC9219A640400CD6BCF /* WisdomPhotoEditView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5DA9BC8219A640400CD6BCF /* WisdomPhotoEditView.xib */; };
 		A5EEF06A2196F03500BDD24A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EEF0692196F03500BDD24A /* AppDelegate.swift */; };
 		A5EEF06C2196F03500BDD24A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EEF06B2196F03500BDD24A /* ViewController.swift */; };
 		A5EEF06F2196F03500BDD24A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5EEF06D2196F03500BDD24A /* Main.storyboard */; };
@@ -20,6 +23,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A55EB7C0219801280097503B /* WisdomPhotosVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotosVC.swift; sourceTree = "<group>"; };
+		A5DA9BC6219A638100CD6BCF /* WisdomPhotoEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomPhotoEditView.swift; sourceTree = "<group>"; };
+		A5DA9BC8219A640400CD6BCF /* WisdomPhotoEditView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WisdomPhotoEditView.xib; sourceTree = "<group>"; };
 		A5EEF0662196F03500BDD24A /* WisdomScanKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WisdomScanKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5EEF0692196F03500BDD24A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5EEF06B2196F03500BDD24A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -48,6 +54,9 @@
 		A55EB7BF2198005B0097503B /* ScanPhoto */ = {
 			isa = PBXGroup;
 			children = (
+				A55EB7C0219801280097503B /* WisdomPhotosVC.swift */,
+				A5DA9BC6219A638100CD6BCF /* WisdomPhotoEditView.swift */,
+				A5DA9BC8219A640400CD6BCF /* WisdomPhotoEditView.xib */,
 			);
 			path = ScanPhoto;
 			sourceTree = "<group>";
@@ -202,6 +211,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5EEF0742196F03600BDD24A /* LaunchScreen.storyboard in Resources */,
+				A5DA9BC9219A640400CD6BCF /* WisdomPhotoEditView.xib in Resources */,
 				A5EEF0712196F03600BDD24A /* Assets.xcassets in Resources */,
 				A5EEF06F2196F03500BDD24A /* Main.storyboard in Resources */,
 				A5EEF08F219702C300BDD24A /* WisdomViewController.xib in Resources */,
@@ -217,7 +227,9 @@
 			files = (
 				A5EEF0892196F0BB00BDD24A /* WisdomRQCodeVC.swift in Sources */,
 				A5EEF0872196F0BB00BDD24A /* WisdomScanConfig.swift in Sources */,
+				A5DA9BC7219A638100CD6BCF /* WisdomPhotoEditView.swift in Sources */,
 				A5EEF0882196F0BB00BDD24A /* WisdomScanManager.swift in Sources */,
+				A55EB7C1219801280097503B /* WisdomPhotosVC.swift in Sources */,
 				A5EEF08E219702C300BDD24A /* WisdomViewController.swift in Sources */,
 				A5EEF06C2196F03500BDD24A /* ViewController.swift in Sources */,
 				A5EEF06A2196F03500BDD24A /* AppDelegate.swift in Sources */,

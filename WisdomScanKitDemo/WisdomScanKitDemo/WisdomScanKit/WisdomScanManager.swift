@@ -18,6 +18,29 @@ class WisdomScanManager: NSObject {
 
 extension UIViewController {
     
+    public func startScanPhotos(type: WisdomScanningType,
+                                photosTypes: WisdomPhotosType?,
+                                photosTask: @escaping WisdomPhotosTask,
+                                errorTask: @escaping WisdomErrorTask) {
+        
+        let photosVC = WisdomPhotosVC(photosTypes: photosTypes,
+                                      photosTasks: photosTask,
+                                      errorTasks: errorTask)
+        
+        switch type {
+        case .push:
+            if isKind(of: UINavigationController.self){
+                (self as! UINavigationController).pushViewController(photosVC, animated: true)
+            }else if navigationController != nil {
+                navigationController!.pushViewController(photosVC, animated: true)
+            }else{
+                push(rootVC: photosVC)
+            }
+        case .present:
+            present(photosVC, animated: true, completion: nil)
+        }
+    }
+    
     public func startScanRQCode(type: WisdomScanningType,
                                 themeTypes: WisdomRQCodeThemeType?,
                                 navBarTask: WisdomNavBarTask,
@@ -58,6 +81,10 @@ extension UIViewController {
             rootVC = nav
         }
         
+        push(rootVC: rootVC)
+    }
+    
+    private func push(rootVC: UIViewController) {
         addChild(rootVC)
         view.addSubview(rootVC.view)
         rootVC.view.transform = CGAffineTransform(translationX: view.bounds.width, y: 0)

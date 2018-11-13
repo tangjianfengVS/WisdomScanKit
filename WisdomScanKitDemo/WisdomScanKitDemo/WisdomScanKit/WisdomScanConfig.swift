@@ -14,6 +14,8 @@ public typealias WisdomAnswerTask = ((String, inout Bool)->())
 
 public typealias WisdomErrorTask = ((String, inout Bool)->())
 
+public typealias WisdomPhotosTask = (([UIImage])->())
+
 public enum WisdomScanningType {
     case push
     case present
@@ -22,6 +24,17 @@ public enum WisdomScanningType {
 public enum WisdomRQCodeThemeType {
     case green
     case snowy
+}
+
+public enum WisdomPhotosType {
+    case once
+    case nine
+}
+
+public enum WisdomActionType {
+    case cancel
+    case edit
+    case real
 }
 
 @objc public protocol WisdomScanNavbarDelegate  {
