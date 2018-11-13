@@ -34,7 +34,7 @@ class WisdomPhotosVC: UIViewController {
         })
         
         view.frame = CGRect(x: 0, y: 0, width: 200, height: 30)
-        view.center = CGPoint(x: self.view.center.x, y: self.cameraBtn.center.y - 100)
+        view.center = CGPoint(x: self.view.center.x, y: self.cameraBtn.center.y - 95)
         view.backgroundColor = UIColor.clear
         view.isHidden = true
         return view
@@ -48,11 +48,26 @@ class WisdomPhotosVC: UIViewController {
     private lazy var animationBgBtn: UIButton = {
         let btn = UIButton(frame: CGRect(origin: .zero, size: animationViewSize))
         btn.center = center
+        btn.layer.borderWidth = 1.5
+        btn.layer.borderColor = UIColor.white.cgColor
         btn.isHidden = true
         btn.layer.shadowOpacity = 0.9
         btn.layer.shadowColor = UIColor.white.cgColor
-        btn.layer.shadowOffset = CGSize(width: 2, height: 2)
+        btn.layer.shadowOffset = CGSize(width: 0, height: 0)
         return btn
+    }()
+    
+    private lazy var titleLab: UILabel = {
+        let lab = UILabel(frame: CGRect(x: 0, y: -25, width: 30, height: 20))
+        lab.layer.cornerRadius = 10
+        lab.layer.masksToBounds = true
+        lab.layer.borderWidth = 0.7
+        lab.layer.borderColor = UIColor.white.cgColor
+        lab.textAlignment = .center
+        lab.textColor = UIColor.white
+        lab.text = "0"
+        lab.font = UIFont.boldSystemFont(ofSize: 16)
+        return lab
     }()
     
     private lazy var bgView: UIView = {
@@ -81,11 +96,14 @@ class WisdomPhotosVC: UIViewController {
     }()
 
     private lazy var cameraBtn: UIButton = {
-        let btn = UIButton(frame: CGRect(x: 0, y: kScreenHeight - bottomSizeHight - 65,
-                                     width: 70, height: 70))
+        let btn = UIButton(frame: CGRect(x: 0, y: kScreenHeight - bottomSizeHight - 72,
+                                     width: 72, height: 72))
         btn.center.x = self.view.center.x
         btn.setTitleColor(UIColor.white, for: .normal)
-        btn.setBackgroundImage(UIImage(named: "icon_touxiang"), for: .normal)
+        btn.setBackgroundImage(UIImage(named: "share_coupon_btn_bg_normal"), for: .normal)
+        btn.setBackgroundImage(UIImage(named: "share_coupon_btn_bg"), for: .disabled)
+        btn.setTitle("上限", for: .disabled)
+        btn.setTitleColor(UIColor.black, for: .disabled)
         btn.addTarget(self, action: #selector(photoAction), for: .touchUpInside)
         return btn
     }()
@@ -248,10 +266,10 @@ class WisdomPhotosVC: UIViewController {
             view.addSubview(bgView)
             bgView.addSubview(save)
             bgView.addSubview(cancel)
-            
         case .nine:
             view.addSubview(animationBgBtn)
             view.addSubview(editView)
+            animationBgBtn.addSubview(titleLab)
         }
     }
     
@@ -275,8 +293,8 @@ class WisdomPhotosVC: UIViewController {
     
     private func stopRunning(){
         captureSession.stopRunning()
-        cameraBtn.isHidden = true
         bgView.isHidden = false
+        cameraBtn.isHidden = true
         
         UIView.animate(withDuration: 0.25) {
             self.cancel.transform = CGAffineTransform.init(translationX: -50, y: 0)
@@ -286,6 +304,8 @@ class WisdomPhotosVC: UIViewController {
     
     private func photoAnimation(image: UIImage){
         maxCount -= 1
+        let num = Int(titleLab.text!)
+        titleLab.text = String(num! + 1)
         
         let imageView = UIImageView(image: image)
         imageView.frame = view.frame
@@ -310,7 +330,8 @@ class WisdomPhotosVC: UIViewController {
         imageView.layer.add(groupAnimation, forKey: "WisdomPhotoAnimation")
         
         if maxCount < 0{
-            stopRunning()
+            cameraBtn.isEnabled = false
+            captureSession.stopRunning()
         }
     }
     
@@ -327,8 +348,9 @@ class WisdomPhotosVC: UIViewController {
     
     @objc private func nineCancelAction(){
         maxCount = 8
-        cameraBtn.isHidden = false
+        cameraBtn.isEnabled = true
         animationBgBtn.isHidden = true
+        titleLab.text = "0"
         captureSession.startRunning()
     }
     
@@ -431,8 +453,7 @@ extension WisdomPhotosVC : UIImagePickerControllerDelegate, UINavigationControll
                     device.torchMode = .off
                 }
                 device.unlockForConfiguration()
-            }
-            catch{
+            }catch{
                 
             }
         }

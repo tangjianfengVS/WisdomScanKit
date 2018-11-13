@@ -35,6 +35,7 @@ class WisdomViewController: UIViewController {
         
         startScanPhotos(type: .push, photosTypes: .nine, photosTask: { (list) in
             
+            print(list.count)
         }) { (error, nextScan) in
             
         }
