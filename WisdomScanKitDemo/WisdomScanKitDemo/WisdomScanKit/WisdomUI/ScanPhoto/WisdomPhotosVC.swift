@@ -170,12 +170,13 @@ class WisdomPhotosVC: UIViewController {
     
     private var currentImageList: [UIImage] = []
     
-    init(photosTypes: WisdomPhotosType?,
+    init(types: WisdomScanningType,
+         photosTypes: WisdomPhotosType?,
          photosTasks: @escaping WisdomPhotosTask,
          errorTasks: @escaping WisdomErrorTask) {
         photosTask = photosTasks
         errorTask = errorTasks
-        
+        type = types
         if photosTypes != nil{
             photosType = photosTypes!
         }
@@ -184,6 +185,20 @@ class WisdomPhotosVC: UIViewController {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewWillAppear(_ animated: Bool){
+        super.viewWillAppear(animated)
+        if navigationController != nil {
+            navigationController?.setNavigationBarHidden(true, animated: true)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if navigationController != nil {
+            navigationController?.setNavigationBarHidden(false, animated: true)
+        }
     }
     
     override func viewDidLoad() {

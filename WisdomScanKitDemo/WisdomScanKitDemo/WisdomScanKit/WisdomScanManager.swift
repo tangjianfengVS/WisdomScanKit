@@ -24,7 +24,8 @@ extension UIViewController {
                                 photosTask: @escaping WisdomPhotosTask,
                                 errorTask: @escaping WisdomErrorTask) {
         
-        let photosVC = WisdomPhotosVC(photosTypes: photosTypes,
+        let photosVC = WisdomPhotosVC(types: type,
+                                      photosTypes: photosTypes,
                                       photosTasks: photosTask,
                                       errorTasks: errorTask)
         switch type {

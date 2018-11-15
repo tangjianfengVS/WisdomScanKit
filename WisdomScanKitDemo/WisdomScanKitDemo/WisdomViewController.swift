@@ -33,7 +33,7 @@ class WisdomViewController: UIViewController {
     
     @IBAction func clickScanPhoto(_ sender: UIButton) {
         
-        startScanPhotos(type: .push, photosTypes: .nine, photosTask: { (list) in
+        startScanPhotos(type: .present, photosTypes: .nine, photosTask: { (list) in
             
             print(list.count)
         }) { (error, nextScan) in
