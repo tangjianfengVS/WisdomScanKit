@@ -170,8 +170,6 @@ class WisdomPhotosVC: UIViewController {
     
     private var currentImageList: [UIImage] = []
     
-    private var currentImageView: UIImageView?
-    
     init(photosTypes: WisdomPhotosType?,
          photosTasks: @escaping WisdomPhotosTask,
          errorTasks: @escaping WisdomErrorTask) {
@@ -311,28 +309,39 @@ class WisdomPhotosVC: UIViewController {
         let imageView = UIImageView(image: image)
         imageView.frame = view.frame
         view.insertSubview(imageView, belowSubview: backBtn)
-        currentImageView = imageView
-        
-        let groupAnimation = CAAnimationGroup()
-        groupAnimation.duration = 0.3
-        groupAnimation.isRemovedOnCompletion = false
-        groupAnimation.fillMode = CAMediaTimingFillMode.forwards
-        
-        let scaleDown = CABasicAnimation(keyPath: "transform.scale")
-        scaleDown.fromValue = 1.0
-        scaleDown.toValue = 0.2
-        
-        let position = CABasicAnimation(keyPath: "position")
-        position.fromValue = NSValue(cgPoint: imageView.layer.position)
-        position.toValue = NSValue(cgPoint: center)
-        
-        groupAnimation.animations = [scaleDown, position]
-        groupAnimation.delegate = self
-        imageView.layer.add(groupAnimation, forKey: "WisdomPhotoAnimation")
         
         if maxCount <= 0{
             cameraBtn.isEnabled = false
             captureSession.stopRunning()
+        }
+        //let groupAnimation = CAAnimationGroup()
+        //groupAnimation.duration = 0.3
+        //groupAnimation.isRemovedOnCompletion = false
+        //groupAnimation.fillMode = CAMediaTimingFillMode.forwards
+
+        //let scaleDown = CABasicAnimation(keyPath: "transform.scale")
+        //scaleDown.fromValue = 1.0
+        //scaleDown.toValue = 0.2
+
+        //let position = CABasicAnimation(keyPath: "position")
+        //position.fromValue = NSValue(cgPoint: imageView.layer.position)
+        //position.toValue = NSValue(cgPoint: center)
+
+        //groupAnimation.animations = [scaleDown, position]
+        //groupAnimation.delegate = self
+        //imageView.layer.add(groupAnimation, forKey: "WisdomPhotoAnimation")
+        
+        let scbl = animationViewSize.width/view.bounds.width
+        let ydblW = view.center.x-center.x
+        let ydblY = center.y-view.center.y
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            imageView.transform = CGAffineTransform(translationX: -ydblW, y: ydblY)
+            imageView.transform = imageView.transform.scaledBy(x: scbl, y: scbl)
+        }) { (_) in
+            imageView.removeFromSuperview()
+            self.animationBgBtn.isHidden = false
+            self.animationBgBtn.setBackgroundImage(self.currentImageList.last, for: .normal)
         }
     }
     
@@ -387,30 +396,6 @@ class WisdomPhotosVC: UIViewController {
         }
     }
     
-    @objc private func showEidtView(){
-        captureSession.stopRunning()
-        WisdomPhotoEditVC.showEdit(rootVC: self,
-                                   imageList: currentImageList,
-                                   beginCenter: center,
-                                   beginSize: animationViewSize, endTask: {[weak self](res, list) in
-             if res{
-                self?.currentImageList = list
-                if (self?.currentImageList.count)! > 0{
-                    self?.maxCount = 9 - (self?.currentImageList.count)!
-                    let numbStr = String((self?.currentImageList.count)!)
-                    self?.titleLab.text = numbStr
-                    self?.animationBgBtn.setBackgroundImage(self?.currentImageList.last, for: .normal)
-                }else{
-                    self?.nineCancelAction()
-                }
-             }
-             self?.cameraBtn.isEnabled = (self?.currentImageList.count)! == 9 ? false:true
-             if (self?.currentImageList.count)! < 9 {
-                 self?.captureSession.startRunning()
-             }
-        })
-    }
-    
     private func upgrades(){
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
             let alert = UIAlertController(title: "打开照相机提示", message: "需要扫码来同步消息,添加好友和上传图片,您是否允许打开相机?", preferredStyle: .alert)
@@ -434,7 +419,7 @@ class WisdomPhotosVC: UIViewController {
     }
 }
 
-extension WisdomPhotosVC : UIImagePickerControllerDelegate, UINavigationControllerDelegate, CAAnimationDelegate {
+extension WisdomPhotosVC : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     /** 切换摄像头 */
     @objc private func toggleCamera() {
         let res : Bool = (currentDevice?.torchMode == .on) ? true : false
@@ -485,12 +470,28 @@ extension WisdomPhotosVC : UIImagePickerControllerDelegate, UINavigationControll
         }
     }
     
-    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        if flag {
-            currentImageView?.removeFromSuperview()
-            currentImageView = nil
-            animationBgBtn.isHidden = false
-            animationBgBtn.setBackgroundImage(currentImageList.last, for: .normal)
-        }
+    /** 打开图片选择编辑器 */
+    @objc func showEidtView(){
+        captureSession.stopRunning()
+        WisdomPhotoEditVC.showEdit(rootVC: self,
+                                   imageList: currentImageList,
+                                   beginCenter: center,
+                                   beginSize: animationViewSize, endTask: {[weak self](res, list) in
+           if res{
+                self?.currentImageList = list
+                if (self?.currentImageList.count)! > 0{
+                    self?.maxCount = 9 - (self?.currentImageList.count)!
+                    let numbStr = String((self?.currentImageList.count)!)
+                    self?.titleLab.text = numbStr
+                    self?.animationBgBtn.setBackgroundImage(self?.currentImageList.last, for: .normal)
+                }else{
+                    self?.nineCancelAction()
+                }
+           }
+           self?.cameraBtn.isEnabled = (self?.currentImageList.count)! == 9 ? false:true
+           if (self?.currentImageList.count)! < 9 {
+               self?.captureSession.startRunning()
+           }
+        })
     }
 }
