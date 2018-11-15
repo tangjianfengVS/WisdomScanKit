@@ -23,9 +23,9 @@ class WisdomPhotoEditCell: UICollectionViewCell {
     }()
     
     private lazy var imageView: UIImageView = {
-        let view = UIImageView(frame: CGRect(x: 5, y: 5,
-                                             width: self.contentView.bounds.width - 10,
-                                             height: self.contentView.bounds.height - 10))
+        let view = UIImageView(frame: CGRect(x: 7, y: 7,
+                                             width: self.contentView.bounds.width - 14,
+                                             height: self.contentView.bounds.height - 14))
         return view
     }()
     

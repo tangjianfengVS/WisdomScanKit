@@ -13,8 +13,9 @@ class WisdomPhotoEditVC: UIViewController {
     
     private let PhotoEditCellKey = "WisdomPhotoEditCellkey"
     
-    private let spacing: CGFloat = 6
-    private let BSpacing: CGFloat = 15
+    private let spacing: CGFloat = 3
+    
+    private let BSpacing: CGFloat = 16
     
     lazy var listView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -53,7 +54,7 @@ class WisdomPhotoEditVC: UIViewController {
         editVC.view.transform = CGAffineTransform(translationX: -ydblW, y: ydblY)
         editVC.view.transform = editVC.view.transform.scaledBy(x: scbl, y: scbl)
         
-        UIView.animate(withDuration: 2, animations: {
+        UIView.animate(withDuration: 0.35, animations: {
             editVC.view.transform = .identity
         })
     }
