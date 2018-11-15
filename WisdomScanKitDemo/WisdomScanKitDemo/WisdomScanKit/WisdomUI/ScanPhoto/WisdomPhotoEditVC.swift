@@ -79,14 +79,13 @@ class WisdomPhotoEditVC: UIViewController {
         let ydblW = view.center.x-beginCenter.x
         let ydblY = beginCenter.y-view.center.y
         
-        UIView.animate(withDuration: 3.30, animations: {
+        UIView.animate(withDuration: 0.35, animations: {
             self.view.transform = CGAffineTransform(translationX: -ydblW, y: ydblY)
             self.view.transform = self.view.transform.scaledBy(x: scbl, y: scbl)
         }) { (_) in
         
             if btn == self.backBtn {
                 self.callBack(false,[])
-                
             }else if btn == self.realBtn {
                 self.callBack(true,self.imageArray)
             }
