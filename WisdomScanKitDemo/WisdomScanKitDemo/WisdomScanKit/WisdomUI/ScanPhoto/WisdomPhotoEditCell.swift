@@ -18,7 +18,7 @@ class WisdomPhotoEditCell: UICollectionViewCell {
     private lazy var deleteBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 23, height: 23))
         btn.addTarget(self, action: #selector(clickDelete), for: .touchUpInside)
-        btn.setBackgroundImage(UIImage(named: "pt_close"), for: .normal)
+        btn.setBackgroundImage(UIImage(named: "mycenter_icon_cross"), for: .normal)
         return btn
     }()
     

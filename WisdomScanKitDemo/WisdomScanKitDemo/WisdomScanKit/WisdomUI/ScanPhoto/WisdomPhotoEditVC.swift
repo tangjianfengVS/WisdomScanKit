@@ -29,11 +29,45 @@ class WisdomPhotoEditVC: UIViewController {
         return view
     }()
     
+    lazy var backBtn: UIButton = {
+        let btn = UIButton(frame: CGRect(x: 30, y: self.view.bounds.height - 40, width: 50, height: 30))
+        btn.addTarget(self, action: #selector(clickBack(btn:)), for: .touchUpInside)
+        btn.setTitle("取消", for: .normal)
+        return btn
+    }()
+    
+    lazy var realBtn: UIButton = {
+        let btn = UIButton(frame: CGRect(x: self.view.bounds.width - 30 - 50,
+                                         y: self.view.bounds.height - 40, width: 50, height: 30))
+        btn.addTarget(self, action: #selector(clickBack(btn:)), for: .touchUpInside)
+        btn.setTitle("完成", for: .normal)
+        return btn
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.black
         view.addSubview(listView)
+        view.addSubview(backBtn)
+        view.addSubview(realBtn)
         listView.frame = view.bounds
+    }
+    
+    @objc private func clickBack(btn: UIButton){
+//        UIView.animate(withDuration: 0.35, animations: {
+//
+//        }) { (_) in
+        
+            if btn == self.backBtn {
+                
+                
+            }else if btn == self.realBtn {
+                
+                
+            }
+            self.view.removeFromSuperview()
+            self.removeFromParent()
+//        }
     }
     
     class func showEdit(rootVC: UIViewController,
@@ -57,6 +91,10 @@ class WisdomPhotoEditVC: UIViewController {
         UIView.animate(withDuration: 0.35, animations: {
             editVC.view.transform = .identity
         })
+    }
+    
+    deinit {
+        print("编辑器释放")
     }
 }
 

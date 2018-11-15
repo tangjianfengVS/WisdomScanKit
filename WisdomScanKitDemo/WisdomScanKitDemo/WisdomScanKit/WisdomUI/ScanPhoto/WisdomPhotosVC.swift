@@ -352,6 +352,7 @@ class WisdomPhotosVC: UIViewController {
         cameraBtn.isEnabled = true
         animationBgBtn.isHidden = true
         titleLab.text = "0"
+        currentImageList.removeAll()
         captureSession.startRunning()
     }
     
