@@ -11,13 +11,19 @@ import UIKit
 class WisdomPhotoEditVC: UIViewController {
     private var imageArray: [UIImage] = []
     
+    private let beginCenter: CGPoint!
+    
+    private let beginSize: CGSize!
+    
+    private let callBack: ((Bool,[UIImage])->())!
+    
     private let PhotoEditCellKey = "WisdomPhotoEditCellkey"
     
     private let spacing: CGFloat = 3
     
     private let BSpacing: CGFloat = 16
     
-    lazy var listView: UICollectionView = {
+    private lazy var listView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.register(WisdomPhotoEditCell.self, forCellWithReuseIdentifier: PhotoEditCellKey)
@@ -29,20 +35,35 @@ class WisdomPhotoEditVC: UIViewController {
         return view
     }()
     
-    lazy var backBtn: UIButton = {
+    private lazy var backBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: 30, y: self.view.bounds.height - 40, width: 50, height: 30))
         btn.addTarget(self, action: #selector(clickBack(btn:)), for: .touchUpInside)
         btn.setTitle("取消", for: .normal)
         return btn
     }()
     
-    lazy var realBtn: UIButton = {
+    private lazy var realBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: self.view.bounds.width - 30 - 50,
                                          y: self.view.bounds.height - 40, width: 50, height: 30))
         btn.addTarget(self, action: #selector(clickBack(btn:)), for: .touchUpInside)
         btn.setTitle("完成", for: .normal)
         return btn
     }()
+    
+    init(imageList: [UIImage],
+         beginCenters: CGPoint,
+         beginSizse: CGSize,
+         endTask: @escaping ((Bool,[UIImage])->())) {
+        beginCenter = beginCenters
+        beginSize = beginSizse
+        callBack = endTask
+        imageArray = imageList
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,28 +75,35 @@ class WisdomPhotoEditVC: UIViewController {
     }
     
     @objc private func clickBack(btn: UIButton){
-//        UIView.animate(withDuration: 0.35, animations: {
-//
-//        }) { (_) in
+        let scbl = beginSize.width/view.bounds.width
+        let ydblW = view.center.x-beginCenter.x
+        let ydblY = beginCenter.y-view.center.y
+        
+        UIView.animate(withDuration: 3.30, animations: {
+            self.view.transform = CGAffineTransform(translationX: -ydblW, y: ydblY)
+            self.view.transform = self.view.transform.scaledBy(x: scbl, y: scbl)
+        }) { (_) in
         
             if btn == self.backBtn {
-                
+                self.callBack(false,[])
                 
             }else if btn == self.realBtn {
-                
-                
+                self.callBack(true,self.imageArray)
             }
             self.view.removeFromSuperview()
             self.removeFromParent()
-//        }
+        }
     }
     
     class func showEdit(rootVC: UIViewController,
                         imageList: [UIImage],
                         beginCenter: CGPoint,
-                        beginSize: CGSize) {
-        let editVC = WisdomPhotoEditVC()
-        editVC.imageArray = imageList
+                        beginSize: CGSize,
+                        endTask: @escaping ((Bool,[UIImage])->())) {
+        let editVC = WisdomPhotoEditVC(imageList: imageList,
+                                       beginCenters:beginCenter,
+                                       beginSizse: beginSize,
+                                       endTask: endTask)
         editVC.view.frame = rootVC.view.frame
         
         rootVC.addChild(editVC)

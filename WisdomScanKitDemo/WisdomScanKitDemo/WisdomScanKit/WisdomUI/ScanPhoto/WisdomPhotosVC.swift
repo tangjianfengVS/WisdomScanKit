@@ -12,9 +12,9 @@ import AVFoundation
 class WisdomPhotosVC: UIViewController {
     private let animationViewSize = CGSize(width: 65, height: UIScreen.main.bounds.height*65/UIScreen.main.bounds.width)
     
-    private var maxCount: Int = 8 {
+    private var maxCount: Int = 9 {
         didSet{
-            if maxCount == 8 {
+            if maxCount == 9 {
                 editView.isHidden = true
             }else{
                 editView.isHidden = false
@@ -166,7 +166,7 @@ class WisdomPhotosVC: UIViewController {
     
     private let kScreenHeight = UIScreen.main.bounds.height
     
-    public var bottomSizeHight: CGFloat = 40
+    public var bottomSizeHight: CGFloat = 38
     
     private var currentImageList: [UIImage] = []
     
@@ -330,14 +330,14 @@ class WisdomPhotosVC: UIViewController {
         groupAnimation.delegate = self
         imageView.layer.add(groupAnimation, forKey: "WisdomPhotoAnimation")
         
-        if maxCount < 0{
+        if maxCount <= 0{
             cameraBtn.isEnabled = false
             captureSession.stopRunning()
         }
     }
     
     @objc private func onceCancelAction(){
-        maxCount = 8
+        maxCount = 9
         cameraBtn.isHidden = false
         captureSession.startRunning()
         
@@ -348,7 +348,7 @@ class WisdomPhotosVC: UIViewController {
     }
     
     @objc private func nineCancelAction(){
-        maxCount = 8
+        maxCount = 9
         cameraBtn.isEnabled = true
         animationBgBtn.isHidden = true
         titleLab.text = "0"
@@ -392,7 +392,23 @@ class WisdomPhotosVC: UIViewController {
         WisdomPhotoEditVC.showEdit(rootVC: self,
                                    imageList: currentImageList,
                                    beginCenter: center,
-                                   beginSize: animationViewSize)
+                                   beginSize: animationViewSize, endTask: {[weak self](res, list) in
+             if res{
+                self?.currentImageList = list
+                if (self?.currentImageList.count)! > 0{
+                    self?.maxCount = 9 - (self?.currentImageList.count)!
+                    let numbStr = String((self?.currentImageList.count)!)
+                    self?.titleLab.text = numbStr
+                    self?.animationBgBtn.setBackgroundImage(self?.currentImageList.last, for: .normal)
+                }else{
+                    self?.nineCancelAction()
+                }
+             }
+             self?.cameraBtn.isEnabled = (self?.currentImageList.count)! == 9 ? false:true
+             if (self?.currentImageList.count)! < 9 {
+                 self?.captureSession.startRunning()
+             }
+        })
     }
     
     private func upgrades(){
