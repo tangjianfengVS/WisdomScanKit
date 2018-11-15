@@ -18,6 +18,7 @@ class WisdomScanManager: NSObject {
 
 extension UIViewController {
     
+    /**  拍照  */
     public func startScanPhotos(type: WisdomScanningType,
                                 photosTypes: WisdomPhotosType?,
                                 photosTask: @escaping WisdomPhotosTask,
@@ -26,7 +27,6 @@ extension UIViewController {
         let photosVC = WisdomPhotosVC(photosTypes: photosTypes,
                                       photosTasks: photosTask,
                                       errorTasks: errorTask)
-        
         switch type {
         case .push:
             if isKind(of: UINavigationController.self){
@@ -41,6 +41,7 @@ extension UIViewController {
         }
     }
     
+    /**  扫码  */
     public func startScanRQCode(type: WisdomScanningType,
                                 themeTypes: WisdomRQCodeThemeType?,
                                 navBarTask: WisdomNavBarTask,
@@ -80,7 +81,6 @@ extension UIViewController {
             rqCodeVC.isCreatNav = true
             rootVC = nav
         }
-        
         push(rootVC: rootVC)
     }
     

@@ -27,7 +27,7 @@ class WisdomPhotosVC: UIViewController {
             if actionType == .cancel{
                 self!.nineCancelAction()
             }else if actionType == .edit{
-                
+                self!.showEidtView()
             }else if actionType == .real{
                 self!.saveAction()
             }
@@ -54,6 +54,7 @@ class WisdomPhotosVC: UIViewController {
         btn.layer.shadowOpacity = 0.9
         btn.layer.shadowColor = UIColor.white.cgColor
         btn.layer.shadowOffset = CGSize(width: 0, height: 0)
+        btn.addTarget(self, action: #selector(showEidtView), for: .touchUpInside)
         return btn
     }()
     
@@ -383,6 +384,14 @@ class WisdomPhotosVC: UIViewController {
                 dismiss(animated: true, completion: nil)
             }
         }
+    }
+    
+    @objc private func showEidtView(){
+        captureSession.stopRunning()
+        WisdomPhotoEditVC.showEdit(rootVC: self,
+                                   imageList: currentImageList,
+                                   beginCenter: center,
+                                   beginSize: animationViewSize)
     }
     
     private func upgrades(){

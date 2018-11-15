@@ -1,0 +1,49 @@
+//
+//  WisdomPhotoEditCell.swift
+//  WisdomScanKitDemo
+//
+//  Created by jianfeng on 2018/11/15.
+//  Copyright © 2018年 All over the sky star. All rights reserved.
+//
+
+import UIKit
+
+class WisdomPhotoEditCell: UICollectionViewCell {
+    public var image: UIImage? {
+        didSet{
+            imageView.image = image
+        }
+    }
+    
+    private lazy var deleteBtn: UIButton = {
+        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 23, height: 23))
+        btn.addTarget(self, action: #selector(clickDelete), for: .touchUpInside)
+        btn.setBackgroundImage(UIImage(named: "pt_close"), for: .normal)
+        return btn
+    }()
+    
+    private lazy var imageView: UIImageView = {
+        let view = UIImageView(frame: CGRect(x: 5, y: 5,
+                                             width: self.contentView.bounds.width - 10,
+                                             height: self.contentView.bounds.height - 10))
+        return view
+    }()
+    
+    var callBack: (()->())?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.addSubview(imageView)
+        contentView.addSubview(deleteBtn)
+    }
+    
+    @objc private func clickDelete(){
+        if callBack != nil {
+            callBack!()
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
