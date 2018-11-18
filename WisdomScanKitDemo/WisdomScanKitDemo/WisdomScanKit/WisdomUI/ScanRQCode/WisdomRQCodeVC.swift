@@ -77,9 +77,11 @@ class WisdomRQCodeVC: UIViewController {
         let btn = UIButton()
     
         if type == .push{
-            btn.setImage(UIImage.init(named: "左右箭头"), for: .normal)
+            let image = WisdomScanKit.bundleImage(name: "black_backIcon")
+            btn.setImage(image, for: .normal)
         }else if type == .present{
-            btn.setImage(UIImage.init(named: "左右箭头"), for: .normal)
+            let image = WisdomScanKit.bundleImage(name: "black_backIcon")
+            btn.setImage(image, for: .normal)
         }
         
         btn.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
@@ -90,19 +92,23 @@ class WisdomRQCodeVC: UIViewController {
     }()
     
     fileprivate lazy var scanPane: UIImageView = {
-        let scan = UIImageView(image: UIImage.init(named: "QRCode_ScanBox"))
+        let image = WisdomScanKit.bundleImage(name: "QRCode_ScanBox")
+        let scan = UIImageView(image: image)
         return scan
     }()
     
     fileprivate lazy var scanLine: UIImageView = {
-        let scanLine = UIImageView(image: UIImage.init(named: "QRCode_ScanLine"))
+        let image = WisdomScanKit.bundleImage(name: "QRCode_ScanLine")
+        let scanLine = UIImageView(image: image)
         return scanLine
     }()
     
     fileprivate lazy var lightBtn: UIButton = {
         let btn = UIButton()
-        btn.setBackgroundImage(UIImage(named: "scan_on"), for: .selected)
-        btn.setBackgroundImage(UIImage(named: "scan_off"), for: .normal)
+        var image = WisdomScanKit.bundleImage(name: "light_scan_on")
+        btn.setBackgroundImage(image, for: .selected)
+        image = WisdomScanKit.bundleImage(name: "light_scan_off")
+        btn.setBackgroundImage(image, for: .normal)
         btn.addTarget(self, action: #selector(light(sender:)), for: .touchUpInside)
         return btn
     }()
@@ -162,7 +168,7 @@ class WisdomRQCodeVC: UIViewController {
         view.addSubview(lightBtn)
         view.addSubview(titleLab)
         
-        backBtn.frame = CGRect(x: 18, y: 30, width: 34, height: 34)
+        backBtn.frame = CGRect(x: 15, y: 30, width: 34, height: 34)
         
         scanPane.frame = CGRect(x: 0, y: 0, width: 240, height: 240)
         scanPane.center = view.center
@@ -250,7 +256,7 @@ class WisdomRQCodeVC: UIViewController {
     }
     
     fileprivate func setupScanSession(){
-        let authStatus = WisdomScanManager.authorizationStatus()
+        let authStatus = WisdomScanKit.authorizationStatus()
         switch authStatus {
         case .authorized:
             open()
@@ -306,14 +312,14 @@ class WisdomRQCodeVC: UIViewController {
     
     private func upgrades(){
         showAlert(title: "开启照相机提示", message: "App需要您同意，才能访问相机扫码和摄像", cancelActionTitle: "取消", rightActionTitle: "去开启") { (action) in
-            WisdomScanManager.authorizationScan()
+            WisdomScanKit.authorizationScan()
         }
     }
     
     @objc fileprivate func light(sender: UIButton){
         lightOn = !lightOn
         sender.isSelected = lightOn
-        WisdomScanManager.turnTorchOn(light: lightOn)
+        WisdomScanKit.turnTorchOn(light: lightOn)
     }
     
     fileprivate func scanAnimation() -> CABasicAnimation{

@@ -16,7 +16,7 @@ public typealias WisdomErrorTask = ((String, inout Bool)->())
 
 public typealias WisdomPhotosTask = (([UIImage])->())
 
-/** 调用摄像头控制器动画类型 */
+/** 调用摄像控制器动画样式 */
 public enum WisdomScanningType {
     case push
     case present

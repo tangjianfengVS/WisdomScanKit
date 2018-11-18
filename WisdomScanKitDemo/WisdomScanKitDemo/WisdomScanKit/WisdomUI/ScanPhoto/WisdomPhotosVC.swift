@@ -83,15 +83,18 @@ class WisdomPhotosVC: UIViewController {
 
     private lazy var photoBtn: UIButton = {
         let btn = UIButton()
-        btn.setBackgroundImage(UIImage.init(named: "ic_waterprint_revolve"), for: .normal)
+        let image = WisdomScanKit.bundleImage(name: "ic_waterprint_revolve")
+        btn.setBackgroundImage(image, for: .normal)
         btn.addTarget(self, action: #selector(toggleCamera), for: .touchUpInside)
         return btn
     }()
 
     private lazy var photoLightBtn: UIButton = {
         let btn = UIButton()
-        btn.setBackgroundImage(UIImage.init(named: "qrcode_light_normal"), for: .normal)
-        btn.setBackgroundImage(UIImage.init(named: "qrcode_light_pressed"), for: .selected)
+        var image = WisdomScanKit.bundleImage(name: "qrcode_light_normal")
+        btn.setBackgroundImage(image, for: .normal)
+        image = WisdomScanKit.bundleImage(name: "qrcode_light_pressed")
+        btn.setBackgroundImage(image, for: .selected)
         btn.addTarget(self, action: #selector(clickPhotoLightBtn), for: .touchUpInside)
         return btn
     }()
@@ -101,10 +104,13 @@ class WisdomPhotosVC: UIViewController {
                                      width: 72, height: 72))
         btn.center.x = self.view.center.x
         btn.setTitleColor(UIColor.white, for: .normal)
-        btn.setBackgroundImage(UIImage(named: "share_coupon_btn_bg_normal"), for: .normal)
-        btn.setBackgroundImage(UIImage(named: "share_coupon_btn_bg"), for: .disabled)
-        btn.setTitle("已上限", for: .disabled)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        var image = WisdomScanKit.bundleImage(name: "share_coupon_btn_bg_normal")
+        btn.setBackgroundImage(image, for: .normal)
+        image = WisdomScanKit.bundleImage(name: "share_coupon_btn_bg")
+        btn.setBackgroundImage(image, for: .disabled)
+        btn.setTitle("上限9张", for: .disabled)
+        btn.setTitleColor(UIColor.lightText, for: .disabled)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         btn.setTitleColor(UIColor.black, for: .disabled)
         btn.addTarget(self, action: #selector(photoAction), for: .touchUpInside)
         return btn
@@ -114,7 +120,8 @@ class WisdomPhotosVC: UIViewController {
         let btn = UIButton(frame: CGRect(x: (self.bgView.bounds.width - 55)/2,
                                          y: (self.bgView.bounds.height - 55)/2,
                                          width: 55, height: 55))
-        btn.setBackgroundImage(UIImage(named: "scan_icon_cancel"), for: .normal)
+        let image = WisdomScanKit.bundleImage(name: "scan_icon_cancel")
+        btn.setBackgroundImage(image, for: .normal)
         btn.addTarget(self, action: #selector(onceCancelAction), for: .touchUpInside)
         return btn
     }()
@@ -123,18 +130,21 @@ class WisdomPhotosVC: UIViewController {
         let btn = UIButton(frame: CGRect(x: (self.bgView.bounds.width - 55)/2,
                                          y: (self.bgView.bounds.height - 55)/2,
                                          width: 55, height: 55))
-        btn.setBackgroundImage(UIImage(named: "list_icon_choose"), for: .normal)
+        let image = WisdomScanKit.bundleImage(name: "list_icon_choose")
+        btn.setBackgroundImage(image, for: .normal)
         btn.addTarget(self, action: #selector(saveAction), for: .touchUpInside)
         return btn
     }()
     
     private lazy var backBtn: UIButton = {
-        let btn = UIButton(frame: CGRect(x: 16, y: 30, width: 34, height: 34))
+        let btn = UIButton(frame: CGRect(x: 15, y: 30, width: 34, height: 34))
         
         if type == .push{
-            btn.setImage(UIImage.init(named: "左右箭头"), for: .normal)
+            let image = WisdomScanKit.bundleImage(name: "black_backIcon")
+            btn.setImage(image, for: .normal)
         }else if type == .present{
-            btn.setImage(UIImage.init(named: "左右箭头"), for: .normal)
+            let image = WisdomScanKit.bundleImage(name: "black_backIcon")
+            btn.setImage(image, for: .normal)
         }
         
         btn.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
@@ -218,7 +228,7 @@ class WisdomPhotosVC: UIViewController {
     }
     
     private func setupScanSession(){
-        let authStatus = WisdomScanManager.authorizationStatus()
+        let authStatus = WisdomScanKit.authorizationStatus()
         switch authStatus {
         case .authorized:
             createSession()
@@ -393,7 +403,7 @@ class WisdomPhotosVC: UIViewController {
     
     @objc private func clickPhotoLightBtn(btn: UIButton){
         btn.isSelected = !btn.isSelected
-        WisdomScanManager.turnTorchOn(light: btn.isSelected)
+        WisdomScanKit.turnTorchOn(light: btn.isSelected)
     }
     
     @objc private func clickBackBtn(){
@@ -419,7 +429,7 @@ class WisdomPhotosVC: UIViewController {
     
     private func upgrades(){
         showAlert(title: "开启照相机提示", message: "App需要您同意，才能访问相机扫码和摄像", cancelActionTitle: "取消", rightActionTitle: "去开启") { (action) in
-            WisdomScanManager.authorizationScan()
+            WisdomScanKit.authorizationScan()
         }
     }
     
@@ -438,7 +448,7 @@ extension WisdomPhotosVC: UIImagePickerControllerDelegate, UINavigationControlle
         let res : Bool = (currentDevice?.torchMode == .on) ? true : false
         if res && currentDevice == backFacingCamera{
             photoLightBtn.isSelected = false
-            WisdomScanManager.turnTorchOn(light: false)
+            WisdomScanKit.turnTorchOn(light: false)
         }
                 
         captureSession.beginConfiguration()

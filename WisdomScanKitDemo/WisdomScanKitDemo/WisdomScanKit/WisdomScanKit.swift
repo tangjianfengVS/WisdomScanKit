@@ -1,5 +1,5 @@
 //
-//  WisdomScanManager.swift
+//  WisdomScanKit.swift
 //  WisdomScanKitDemo
 //
 //  Created by jianfeng on 2018/11/9.
@@ -9,12 +9,13 @@
 import UIKit
 import AVFoundation
 
-class WisdomScanManager: NSObject {
-    
+class WisdomScanKit: NSObject {
+    /** 获取摄像状态权限 */
     class func authorizationStatus() -> AVAuthorizationStatus {
         return AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
     }
     
+    /** 内部跳转系统设置 */
     class func authorizationScan() {
         let url = URL(string: UIApplication.openSettingsURLString)
         
@@ -23,6 +24,7 @@ class WisdomScanManager: NSObject {
         }
     }
     
+    /** 手电筒操作 */
     class func turnTorchOn(light: Bool){
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else{
             if light{
@@ -45,10 +47,16 @@ class WisdomScanManager: NSObject {
             }
         }
     }
+    
+    class func bundleImage(name: String)-> UIImage {
+        let bundle = Bundle.init(path:Bundle.init(for: WisdomScanKit.self).path(forResource: "WisdomScanKit", ofType: "bundle")!)!
+        let url = bundle.path(forResource: name, ofType: "png")! 
+        let image = UIImage(contentsOfFile: url)!
+        return image
+    }
 }
 
 extension UIViewController {
-    
     /**  拍照  */
     public func startScanPhotos(type: WisdomScanningType,
                                 photosTypes: WisdomPhotosType?,
@@ -130,7 +138,6 @@ extension UIViewController {
         }
     }
 }
-
 
 extension UIViewController {
     fileprivate func push(rqCodeVC: WisdomRQCodeVC, hideNavBar: Bool) {
