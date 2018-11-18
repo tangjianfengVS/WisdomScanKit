@@ -47,13 +47,27 @@
                         <action selector="clickScanPhoto:" destination="-1" eventType="touchUpInside" id="unW-dY-PDL"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0zS-mp-O8b">
+                    <rect key="frame" x="152.5" y="241" width="70" height="35"/>
+                    <color key="backgroundColor" red="0.66422420739999999" green="0.66424006219999998" blue="0.66423153879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" title="扫银行卡">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="clickScanBackCard:" destination="-1" eventType="touchUpInside" id="FHL-qX-l0j"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="nsk-vD-mcD" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="6s3-DC-rFN"/>
+                <constraint firstItem="0zS-mp-O8b" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="7Lm-sw-aP1"/>
                 <constraint firstItem="y8Q-K9-ykB" firstAttribute="top" secondItem="nsk-vD-mcD" secondAttribute="bottom" constant="40" id="FhV-tv-j9I"/>
                 <constraint firstItem="nsk-vD-mcD" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Hlq-iG-0K4"/>
+                <constraint firstItem="0zS-mp-O8b" firstAttribute="height" secondItem="nsk-vD-mcD" secondAttribute="height" id="n1E-er-0rk"/>
+                <constraint firstItem="nsk-vD-mcD" firstAttribute="top" secondItem="0zS-mp-O8b" secondAttribute="bottom" constant="40" id="qva-fu-IhM"/>
                 <constraint firstItem="y8Q-K9-ykB" firstAttribute="centerX" secondItem="nsk-vD-mcD" secondAttribute="centerX" id="yhS-sf-Iuc"/>
+                <constraint firstItem="0zS-mp-O8b" firstAttribute="width" secondItem="nsk-vD-mcD" secondAttribute="width" id="zUl-Rn-E2J"/>
             </constraints>
         </view>
     </objects>

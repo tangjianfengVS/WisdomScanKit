@@ -101,8 +101,8 @@ class WisdomRQCodeVC: UIViewController {
     
     private lazy var lightBtn : UIButton = {
         let btn = UIButton()
-        btn.setBackgroundImage(UIImage(named: "qrcode_scan_btn_flash_down"), for: .selected)
-        btn.setBackgroundImage(UIImage(named: "qrcode_scan_btn_flash_nor"), for: .normal)
+        btn.setBackgroundImage(UIImage(named: "scan_on"), for: .selected)
+        btn.setBackgroundImage(UIImage(named: "scan_off"), for: .normal)
         btn.addTarget(self, action: #selector(light(sender:)), for: .touchUpInside)
         return btn
     }()
@@ -174,7 +174,7 @@ class WisdomRQCodeVC: UIViewController {
             scanLine.frame = CGRect(x: 5, y: 60, width: scanPane.bounds.width - 10, height: 3)
         }
         
-        lightBtn.frame = CGRect(x: 0, y: 0, width: 45, height: 60)
+        lightBtn.frame = CGRect(x: 0, y: 0, width: 55, height: 23)
         lightBtn.center = view.center
         var frame = lightBtn.frame
         frame.origin.y = scanPane.frame.maxY + 30
@@ -197,15 +197,15 @@ class WisdomRQCodeVC: UIViewController {
             scanPane.layer.borderColor = UIColor(red: 212, green: 224, blue: 244, alpha: 1).cgColor
 
             titleLab.textColor = UIColor(red: 212, green: 224, blue: 244, alpha: 1)
-            scanLine.backgroundColor =  UIColor(red: 212, green: 224, blue: 244, alpha: 1)
+            scanLine.backgroundColor = UIColor(red: 212, green: 224, blue: 244, alpha: 1)
         }
     }
     
     private func setNavbarUI(){
         if navbarDelegate != nil {
-            navbarBackBtn = navbarDelegate?.wisdomNavbarBackBtnItme()
-            headerTitle = navbarDelegate?.wisdomNavbarThemeTitle() ?? "Wisdom Scan"
-            rightBtn = navbarDelegate?.wisdomNavbarRightBtnItme()
+            navbarBackBtn = navbarDelegate?.wisdomNavbarBackBtnItme(navigationVC: navigationController)
+            headerTitle = navbarDelegate?.wisdomNavbarThemeTitle(navigationVC: navigationController) ?? "Wisdom Scan"
+            rightBtn = navbarDelegate?.wisdomNavbarRightBtnItme(navigationVC: navigationController)
             
             navbarBackBtn!.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
         }

@@ -9,11 +9,9 @@
 import UIKit
 
 class WisdomViewController: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
 
     @IBAction func clickScanRQCode(_ sender: UIButton) {
         
@@ -40,20 +38,29 @@ class WisdomViewController: UIViewController {
             
         }
     }
+    
+    @IBAction func clickScanBackCard(_ sender: UIButton) {
+        
+//        startScanBankCard(type: .push, answerTask: { (numb, issss) in
+//
+//        }) { (error, ssss) in
+//
+//        }
+    }
 }
 
 extension WisdomViewController: WisdomScanNavbarDelegate{
-    func wisdomNavbarBackBtnItme() -> UIButton {
+    func wisdomNavbarBackBtnItme(navigationVC: UINavigationController?) -> UIButton {
         let btn = UIButton()
         btn.setTitle("返回", for: .normal)
         return btn
     }
     
-    func wisdomNavbarThemeTitle() -> String {
+    func wisdomNavbarThemeTitle(navigationVC: UINavigationController?) -> String {
         return "Wisdom Scan"
     }
     
-    func wisdomNavbarRightBtnItme() -> UIButton? {
+    func wisdomNavbarRightBtnItme(navigationVC: UINavigationController?) -> UIButton? {
         return nil
     }
 }

@@ -13,7 +13,6 @@ class WisdomScanManager: NSObject {
    
     
     
-    
 }
 
 extension UIViewController {
@@ -63,7 +62,6 @@ extension UIViewController {
             }else{
                 push(rqCodeVC: rqCodeVC, hideNavBar: rqCodeVC.hideNavBar)
             }
-            
         case .present:
             var rootVC: UIViewController = rqCodeVC
             if !rqCodeVC.hideNavBar {
@@ -74,7 +72,10 @@ extension UIViewController {
             present(rootVC, animated: true, completion: nil)
         }
     }
-    
+}
+
+
+extension UIViewController {
     private func push(rqCodeVC: WisdomRQCodeVC, hideNavBar: Bool) {
         var rootVC: UIViewController = rqCodeVC
         if !hideNavBar {
@@ -95,6 +96,3 @@ extension UIViewController {
         }
     }
 }
-
-
-

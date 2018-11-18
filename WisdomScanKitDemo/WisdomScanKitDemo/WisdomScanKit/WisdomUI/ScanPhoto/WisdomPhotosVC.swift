@@ -144,7 +144,11 @@ class WisdomPhotosVC: UIViewController {
     }()
 
     /** 音视频采集会话 */
-    private let captureSession = AVCaptureSession()
+    private lazy var captureSession: AVCaptureSession={
+        let session = AVCaptureSession()
+        session.beginConfiguration()
+        return session
+    }()
     
     private var backFacingCamera: AVCaptureDevice?
     

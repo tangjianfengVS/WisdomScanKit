@@ -112,42 +112,10 @@
 		A5EEF07E2196F0BB00BDD24A /* WisdomUI */ = {
 			isa = PBXGroup;
 			children = (
-				A5EEF07F2196F0BB00BDD24A /* ScanBankCard */,
 				A5EEF0832196F0BB00BDD24A /* ScanRQCode */,
 				A55EB7BF2198005B0097503B /* ScanPhoto */,
 			);
 			path = WisdomUI;
-			sourceTree = "<group>";
-		};
-		A5EEF07F2196F0BB00BDD24A /* ScanBankCard */ = {
-			isa = PBXGroup;
-			children = (
-				A5EEF0802196F0BB00BDD24A /* DataFlow */,
-				A5EEF0812196F0BB00BDD24A /* Interface */,
-				A5EEF0822196F0BB00BDD24A /* ScanCore */,
-			);
-			path = ScanBankCard;
-			sourceTree = "<group>";
-		};
-		A5EEF0802196F0BB00BDD24A /* DataFlow */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = DataFlow;
-			sourceTree = "<group>";
-		};
-		A5EEF0812196F0BB00BDD24A /* Interface */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Interface;
-			sourceTree = "<group>";
-		};
-		A5EEF0822196F0BB00BDD24A /* ScanCore */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ScanCore;
 			sourceTree = "<group>";
 		};
 		A5EEF0832196F0BB00BDD24A /* ScanRQCode */ = {

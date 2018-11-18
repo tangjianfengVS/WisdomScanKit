@@ -16,21 +16,25 @@ public typealias WisdomErrorTask = ((String, inout Bool)->())
 
 public typealias WisdomPhotosTask = (([UIImage])->())
 
+/** 调用摄像头控制器动画类型 */
 public enum WisdomScanningType {
     case push
     case present
 }
 
+/** 二维码扫描样式 */
 public enum WisdomRQCodeThemeType {
     case green
     case snowy
 }
 
+/** 拍照张数样式 */
 public enum WisdomPhotosType {
     case once
     case nine
 }
 
+/** 点击事件类型 */
 public enum WisdomActionType {
     case cancel
     case edit
@@ -39,12 +43,12 @@ public enum WisdomActionType {
 
 @objc public protocol WisdomScanNavbarDelegate  {
     /** 返回按钮 */
-    func wisdomNavbarBackBtnItme()->UIButton
+    func wisdomNavbarBackBtnItme(navigationVC: UINavigationController?)->UIButton
     
     /** 标题 */
-    func wisdomNavbarThemeTitle()->String
+    func wisdomNavbarThemeTitle(navigationVC: UINavigationController?)->String
     
     /** 右边操作按钮 */
-    func wisdomNavbarRightBtnItme()->UIButton?
+    func wisdomNavbarRightBtnItme(navigationVC: UINavigationController?)->UIButton?
 }
 
