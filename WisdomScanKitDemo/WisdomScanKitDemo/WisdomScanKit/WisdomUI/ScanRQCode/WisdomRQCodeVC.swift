@@ -10,19 +10,19 @@ import UIKit
 import AVFoundation
 
 class WisdomRQCodeVC: UIViewController {
-    private let answerTask: WisdomAnswerTask!
+    fileprivate let answerTask: WisdomAnswerTask!
     
-    private let errorTask: WisdomErrorTask!
+    fileprivate let errorTask: WisdomErrorTask!
     
-    private var type: WisdomScanningType = .push
+    fileprivate var type: WisdomScanningType = .push
     
-    private var themeType: WisdomRQCodeThemeType = .green
+    fileprivate var themeType: WisdomRQCodeThemeType = .green
     
-    private var scanSession: AVCaptureSession?
+    fileprivate var scanSession: AVCaptureSession?
     
-    private let scanAnimationDuration = 2.5
+    fileprivate let scanAnimationDuration = 2.5
     
-    private let supportedCodeTypes = [AVMetadataObject.ObjectType.upce,
+    fileprivate let supportedCodeTypes = [AVMetadataObject.ObjectType.upce,
                                       AVMetadataObject.ObjectType.pdf417,
                                       AVMetadataObject.ObjectType.code39,
                                       AVMetadataObject.ObjectType.code39Mod43,
@@ -33,21 +33,21 @@ class WisdomRQCodeVC: UIViewController {
                                       AVMetadataObject.ObjectType.aztec,
                                       AVMetadataObject.ObjectType.qr]
     
-    private(set) var hideNavBar = false
+    fileprivate(set) var hideNavBar = false
     
     public var isCreatNav: Bool = false
     
-    private var navbarDelegate: WisdomScanNavbarDelegate?
+    fileprivate var navbarDelegate: WisdomScanNavbarDelegate?
     
-    private var navbarBackBtn: UIButton?
+    fileprivate var navbarBackBtn: UIButton?
     
-    private var headerTitle: String=" "
+    fileprivate var headerTitle: String=" "
     
-    private var rightBtn: UIButton?
+    fileprivate var rightBtn: UIButton?
     
-    private var lightOn = false
+    fileprivate var lightOn = false
     
-    private var isStartScan: Bool = false{
+    fileprivate var isStartScan: Bool = false{
         didSet{
             if isStartScan {
                 scanLine.layer.add(scanAnimation(), forKey: "scan")
@@ -64,7 +64,7 @@ class WisdomRQCodeVC: UIViewController {
         }
     }
     
-    private lazy var titleLab: UILabel = {
+    fileprivate lazy var titleLab: UILabel = {
         let label: UILabel = UILabel.init()
         label.textColor = UIColor.white
         label.font = UIFont.systemFont(ofSize: 13)
@@ -73,7 +73,7 @@ class WisdomRQCodeVC: UIViewController {
         return label
     }()
     
-    private lazy var backBtn: UIButton = {
+    fileprivate lazy var backBtn: UIButton = {
         let btn = UIButton()
     
         if type == .push{
@@ -89,17 +89,17 @@ class WisdomRQCodeVC: UIViewController {
         return btn
     }()
     
-    private lazy var scanPane: UIImageView = {
+    fileprivate lazy var scanPane: UIImageView = {
         let scan = UIImageView(image: UIImage.init(named: "QRCode_ScanBox"))
         return scan
     }()
     
-    private lazy var scanLine : UIImageView = {
+    fileprivate lazy var scanLine: UIImageView = {
         let scanLine = UIImageView(image: UIImage.init(named: "QRCode_ScanLine"))
         return scanLine
     }()
     
-    private lazy var lightBtn : UIButton = {
+    fileprivate lazy var lightBtn: UIButton = {
         let btn = UIButton()
         btn.setBackgroundImage(UIImage(named: "scan_on"), for: .selected)
         btn.setBackgroundImage(UIImage(named: "scan_off"), for: .normal)
@@ -156,7 +156,6 @@ class WisdomRQCodeVC: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = UIColor.black
-        
         view.addSubview(backBtn)
         view.addSubview(scanPane)
         scanPane.addSubview(scanLine)
@@ -174,7 +173,7 @@ class WisdomRQCodeVC: UIViewController {
             scanLine.frame = CGRect(x: 5, y: 60, width: scanPane.bounds.width - 10, height: 3)
         }
         
-        lightBtn.frame = CGRect(x: 0, y: 0, width: 55, height: 23)
+        lightBtn.frame = CGRect(x: 0, y: 0, width: 52, height: 22)
         lightBtn.center = view.center
         var frame = lightBtn.frame
         frame.origin.y = scanPane.frame.maxY + 30
@@ -222,9 +221,8 @@ class WisdomRQCodeVC: UIViewController {
         }
     }
     
-    @objc private func clickBackBtn(){
+    @objc fileprivate func clickBackBtn(){
         if type == .push {
-            
             if navigationController != nil && isCreatNav {
                 UIView.animate(withDuration: 0.35, animations: {
                     self.navigationController!.view.transform = CGAffineTransform(translationX: self.navigationController!.view.bounds.width, y: 0)
@@ -251,8 +249,8 @@ class WisdomRQCodeVC: UIViewController {
         }
     }
     
-    private func setupScanSession(){
-        let authStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
+    fileprivate func setupScanSession(){
+        let authStatus = WisdomScanManager.authorizationStatus()
         switch authStatus {
         case .authorized:
             open()
@@ -265,7 +263,7 @@ class WisdomRQCodeVC: UIViewController {
         }
     }
     
-    private func open() {
+    fileprivate func open() {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else {
             return
         }
@@ -307,31 +305,18 @@ class WisdomRQCodeVC: UIViewController {
     }
     
     private func upgrades(){
-        let alert = UIAlertController(title: "开启照相机提示", message: "App需要您的同意,才能访问相机,用于扫码和摄像", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-        let okAction = UIAlertAction(title: "去开启", style: .default, handler: {
-            action in
-            
-            let url = URL(string: UIApplication.openSettingsURLString)
-            if url != nil && UIApplication.shared.canOpenURL(url!){
-                UIApplication.shared.openURL(url!)
-            }
-        })
-        alert.addAction(cancelAction)
-        alert.addAction(okAction)
-        
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-            self.present(alert, animated: true, completion: nil)
+        showAlert(title: "开启照相机提示", message: "App需要您同意，才能访问相机扫码和摄像", cancelActionTitle: "取消", rightActionTitle: "去开启") { (action) in
+            WisdomScanManager.authorizationScan()
         }
     }
     
-    @objc private func light(sender: UIButton){
+    @objc fileprivate func light(sender: UIButton){
         lightOn = !lightOn
         sender.isSelected = lightOn
-        turnTorchOn()
+        WisdomScanManager.turnTorchOn(light: lightOn)
     }
     
-    private func scanAnimation() -> CABasicAnimation{
+    fileprivate func scanAnimation() -> CABasicAnimation{
         let startPoint = CGPoint(x: 240/2 , y: 10)
         let endPoint = CGPoint(x: 240/2, y: 240-20)
         let translation = CABasicAnimation(keyPath: "position")
@@ -342,28 +327,6 @@ class WisdomRQCodeVC: UIViewController {
         translation.repeatCount = MAXFLOAT
         translation.autoreverses = true
         return translation
-    }
-    
-    private func turnTorchOn(){
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else{
-            if lightOn{
-                //ZHInvestScanManager.confirm(title: "温馨提示", message: "闪光灯不可用", controller: self)
-            }
-            return
-        }
-        if device.hasTorch{
-            do{
-                try device.lockForConfiguration()
-                if lightOn && device.torchMode == .off{
-                    device.torchMode = .on
-                }
-                if !lightOn && device.torchMode == .on{
-                    device.torchMode = .off
-                }
-                device.unlockForConfiguration()
-            }
-            catch{ }
-        }
     }
     
     deinit{
@@ -377,7 +340,7 @@ class WisdomRQCodeVC: UIViewController {
 
 extension WisdomRQCodeVC : AVCaptureMetadataOutputObjectsDelegate{
     
-    class func playAlertSound(sound:String){
+    class fileprivate func playAlertSound(sound:String){
         guard let soundPath = Bundle.main.path(forResource: sound, ofType: nil)  else { return }
         guard let soundUrl = NSURL(string: soundPath) else { return }
         

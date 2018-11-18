@@ -9,21 +9,21 @@
 import UIKit
 
 class WisdomPhotoEditVC: UIViewController {
-    private var imageArray: [UIImage] = []
+    fileprivate var imageArray: [UIImage] = []
     
-    private let beginCenter: CGPoint!
+    fileprivate let beginCenter: CGPoint!
     
-    private let beginSize: CGSize!
+    fileprivate let beginSize: CGSize!
     
-    private let callBack: ((Bool,[UIImage])->())!
+    fileprivate let callBack: ((Bool,[UIImage])->())!
     
-    private let PhotoEditCellKey = "WisdomPhotoEditCellkey"
+    fileprivate let PhotoEditCellKey = "WisdomPhotoEditCellkey"
     
-    private let spacing: CGFloat = 3
+    fileprivate let spacing: CGFloat = 3
     
-    private let BSpacing: CGFloat = 16
+    fileprivate let BSpacing: CGFloat = 16
     
-    private lazy var listView: UICollectionView = {
+    fileprivate lazy var listView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.register(WisdomPhotoEditCell.self, forCellWithReuseIdentifier: PhotoEditCellKey)
@@ -35,14 +35,14 @@ class WisdomPhotoEditVC: UIViewController {
         return view
     }()
     
-    private lazy var backBtn: UIButton = {
+    fileprivate lazy var backBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: 30, y: self.view.bounds.height - 40, width: 50, height: 30))
         btn.addTarget(self, action: #selector(clickBack(btn:)), for: .touchUpInside)
         btn.setTitle("取消", for: .normal)
         return btn
     }()
     
-    private lazy var realBtn: UIButton = {
+    fileprivate lazy var realBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: self.view.bounds.width - 30 - 50,
                                          y: self.view.bounds.height - 40, width: 50, height: 30))
         btn.addTarget(self, action: #selector(clickBack(btn:)), for: .touchUpInside)
@@ -74,7 +74,7 @@ class WisdomPhotoEditVC: UIViewController {
         listView.frame = view.bounds
     }
     
-    @objc private func clickBack(btn: UIButton){
+    @objc fileprivate func clickBack(btn: UIButton){
         let scbl = beginSize.width/view.bounds.width
         let ydblW = view.center.x-beginCenter.x
         let ydblY = beginCenter.y-view.center.y

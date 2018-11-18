@@ -7,12 +7,44 @@
 //
 
 import UIKit
+import AVFoundation
 
 class WisdomScanManager: NSObject {
     
-   
+    class func authorizationStatus() -> AVAuthorizationStatus {
+        return AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
+    }
     
+    class func authorizationScan() {
+        let url = URL(string: UIApplication.openSettingsURLString)
+        
+        if url != nil && UIApplication.shared.canOpenURL(url!){
+            UIApplication.shared.openURL(url!)
+        }
+    }
     
+    class func turnTorchOn(light: Bool){
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else{
+            if light{
+                //ZHInvestScanManager.confirm(title: "温馨提示", message: "闪光灯不可用", controller: self)
+            }
+            return
+        }
+        if device.hasTorch{
+            do{
+                try device.lockForConfiguration()
+                if light && device.torchMode == .off{
+                    device.torchMode = .on
+                }
+                if !light && device.torchMode == .on{
+                    device.torchMode = .off
+                }
+                device.unlockForConfiguration()
+            }catch{
+                
+            }
+        }
+    }
 }
 
 extension UIViewController {
@@ -72,11 +104,36 @@ extension UIViewController {
             present(rootVC, animated: true, completion: nil)
         }
     }
+    
+    /** 界面提示 */
+    public func showAlert(title: String,
+                          message: String,
+                          cancelActionTitle: String?,
+                          rightActionTitle: String?,
+                          handler: @escaping ((UIAlertAction) -> Void)) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        if cancelActionTitle != nil {
+            let cancelAction = UIAlertAction(title: cancelActionTitle, style: .cancel, handler: nil)
+            alert.addAction(cancelAction)
+        }
+        
+        if rightActionTitle != nil {
+            let rightAction = UIAlertAction(title: rightActionTitle, style: .default, handler: { action in
+                handler(action)
+            })
+            alert.addAction(rightAction)
+        }
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
 }
 
 
 extension UIViewController {
-    private func push(rqCodeVC: WisdomRQCodeVC, hideNavBar: Bool) {
+    fileprivate func push(rqCodeVC: WisdomRQCodeVC, hideNavBar: Bool) {
         var rootVC: UIViewController = rqCodeVC
         if !hideNavBar {
             let nav = UINavigationController(rootViewController: rqCodeVC)
@@ -86,7 +143,7 @@ extension UIViewController {
         push(rootVC: rootVC)
     }
     
-    private func push(rootVC: UIViewController) {
+    fileprivate func push(rootVC: UIViewController) {
         addChild(rootVC)
         view.addSubview(rootVC.view)
         rootVC.view.transform = CGAffineTransform(translationX: view.bounds.width, y: 0)

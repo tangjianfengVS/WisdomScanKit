@@ -103,13 +103,14 @@ class WisdomPhotosVC: UIViewController {
         btn.setTitleColor(UIColor.white, for: .normal)
         btn.setBackgroundImage(UIImage(named: "share_coupon_btn_bg_normal"), for: .normal)
         btn.setBackgroundImage(UIImage(named: "share_coupon_btn_bg"), for: .disabled)
-        btn.setTitle("上限", for: .disabled)
+        btn.setTitle("已上限", for: .disabled)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         btn.setTitleColor(UIColor.black, for: .disabled)
         btn.addTarget(self, action: #selector(photoAction), for: .touchUpInside)
         return btn
     }()
     
-    lazy var cancel: UIButton = {
+    private lazy var cancel: UIButton = {
         let btn = UIButton(frame: CGRect(x: (self.bgView.bounds.width - 55)/2,
                                          y: (self.bgView.bounds.height - 55)/2,
                                          width: 55, height: 55))
@@ -118,7 +119,7 @@ class WisdomPhotosVC: UIViewController {
         return btn
     }()
     
-    lazy var save: UIButton = {
+    private lazy var save: UIButton = {
         let btn = UIButton(frame: CGRect(x: (self.bgView.bounds.width - 55)/2,
                                          y: (self.bgView.bounds.height - 55)/2,
                                          width: 55, height: 55))
@@ -217,7 +218,7 @@ class WisdomPhotosVC: UIViewController {
     }
     
     private func setupScanSession(){
-        let authStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
+        let authStatus = WisdomScanManager.authorizationStatus()
         switch authStatus {
         case .authorized:
             createSession()
@@ -265,6 +266,7 @@ class WisdomPhotosVC: UIViewController {
                 self.view.layer.insertSublayer(self.cameraPreviewLayer!, at: 0)
                 self.cameraPreviewLayer?.frame = self.view.layer.frame
                 /** 启动音视频采集的会话 */
+                self.captureSession.commitConfiguration()
                 self.captureSession.startRunning()
                 self.createPhotoBtn()
             }
@@ -291,7 +293,7 @@ class WisdomPhotosVC: UIViewController {
         }
     }
     
-    @objc func photoAction(){
+    @objc private func photoAction(){
         let videoConnection = stillImageOutput?.connection(with: AVMediaType.video)
         /** 输出端以异步方式采集静态图像 */
         stillImageOutput?.captureStillImageAsynchronously(from: videoConnection!, completionHandler: { (imageDataSampleBuffer, error) -> Void in
@@ -391,7 +393,7 @@ class WisdomPhotosVC: UIViewController {
     
     @objc private func clickPhotoLightBtn(btn: UIButton){
         btn.isSelected = !btn.isSelected
-        turnTorchOn(lightOn: btn.isSelected)
+        WisdomScanManager.turnTorchOn(light: btn.isSelected)
     }
     
     @objc private func clickBackBtn(){
@@ -416,16 +418,8 @@ class WisdomPhotosVC: UIViewController {
     }
     
     private func upgrades(){
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-            let alert = UIAlertController(title: "打开照相机提示", message: "需要扫码来同步消息,添加好友和上传图片,您是否允许打开相机?", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-            let okAction = UIAlertAction(title: "去开启", style: .default, handler: {
-                action in
-                //NotificationCenter.default.post(name: NSNotification.Name(OpenURL_Notification_Name), object: OpenURLFuncType.cameraCodeType)
-            })
-            alert.addAction(cancelAction)
-            alert.addAction(okAction)
-            self.present(alert, animated: false, completion: nil)
+        showAlert(title: "开启照相机提示", message: "App需要您同意，才能访问相机扫码和摄像", cancelActionTitle: "取消", rightActionTitle: "去开启") { (action) in
+            WisdomScanManager.authorizationScan()
         }
     }
     
@@ -438,13 +432,13 @@ class WisdomPhotosVC: UIViewController {
     }
 }
 
-extension WisdomPhotosVC : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension WisdomPhotosVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     /** 切换摄像头 */
-    @objc private func toggleCamera() {
+    @objc fileprivate func toggleCamera() {
         let res : Bool = (currentDevice?.torchMode == .on) ? true : false
         if res && currentDevice == backFacingCamera{
-            turnTorchOn(lightOn : false)
             photoLightBtn.isSelected = false
+            WisdomScanManager.turnTorchOn(light: false)
         }
                 
         captureSession.beginConfiguration()
@@ -465,28 +459,6 @@ extension WisdomPhotosVC : UIImagePickerControllerDelegate, UINavigationControll
         }
         currentDevice = newDevice
         captureSession.commitConfiguration()
-    }
-    
-    private func turnTorchOn(lightOn : Bool){
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else{
-            if lightOn{
-                //ZHInvestScanManager.confirm(title: "温馨提示", message: "闪光灯不可用", controller: self)
-            }
-            return
-        }
-        if device.hasTorch{
-            do{
-                try device.lockForConfiguration()
-                if lightOn && device.torchMode == .off{
-                    device.torchMode = .on
-                }else{
-                    device.torchMode = .off
-                }
-                device.unlockForConfiguration()
-            }catch{
-                
-            }
-        }
     }
     
     /** 打开图片选择编辑器 */
