@@ -137,9 +137,7 @@ extension UIViewController {
             self.present(alert, animated: true, completion: nil)
         }
     }
-}
-
-extension UIViewController {
+    
     fileprivate func push(rqCodeVC: WisdomRQCodeVC, hideNavBar: Bool) {
         var rootVC: UIViewController = rqCodeVC
         if !hideNavBar {
