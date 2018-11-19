@@ -23,6 +23,14 @@ class WisdomPhotoEditVC: UIViewController {
     
     fileprivate let BSpacing: CGFloat = 16
     
+    fileprivate lazy var emptyView: UIImageView = {
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 28*100/48))
+        let image = WisdomScanKit.bundleImage(name: "empty_icon")
+        imageView.image = image
+        imageView.center = self.view.center
+        return imageView
+    }()
+    
     fileprivate lazy var listView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -72,6 +80,8 @@ class WisdomPhotoEditVC: UIViewController {
         view.addSubview(backBtn)
         view.addSubview(realBtn)
         listView.frame = view.bounds
+        
+        view.insertSubview(emptyView, aboveSubview: listView)
     }
     
     @objc fileprivate func clickBack(btn: UIButton){
@@ -127,6 +137,7 @@ class WisdomPhotoEditVC: UIViewController {
 
 extension WisdomPhotoEditVC: UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        emptyView.isHidden = imageArray.count > 0 ? true:false
         return imageArray.count
     }
     

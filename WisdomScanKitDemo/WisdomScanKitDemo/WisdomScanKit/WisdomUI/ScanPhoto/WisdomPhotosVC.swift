@@ -119,7 +119,7 @@ class WisdomPhotosVC: UIViewController {
     private lazy var cancel: UIButton = {
         let btn = UIButton(frame: CGRect(x: (self.bgView.bounds.width - 55)/2,
                                          y: (self.bgView.bounds.height - 55)/2,
-                                         width: 55, height: 55))
+                                         width: 60, height: 60))
         let image = WisdomScanKit.bundleImage(name: "scan_icon_cancel")
         btn.setBackgroundImage(image, for: .normal)
         btn.addTarget(self, action: #selector(onceCancelAction), for: .touchUpInside)
@@ -129,7 +129,7 @@ class WisdomPhotosVC: UIViewController {
     private lazy var save: UIButton = {
         let btn = UIButton(frame: CGRect(x: (self.bgView.bounds.width - 55)/2,
                                          y: (self.bgView.bounds.height - 55)/2,
-                                         width: 55, height: 55))
+                                         width: 52, height: 52))
         let image = WisdomScanKit.bundleImage(name: "list_icon_choose")
         btn.setBackgroundImage(image, for: .normal)
         btn.addTarget(self, action: #selector(saveAction), for: .touchUpInside)
@@ -379,6 +379,7 @@ class WisdomPhotosVC: UIViewController {
     @objc private func onceCancelAction(){
         maxCount = 9
         cameraBtn.isHidden = false
+        bgView.isHidden = true
         captureSession.startRunning()
         
         UIView.animate(withDuration: 0.25) {
