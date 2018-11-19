@@ -15,7 +15,8 @@ class WisdomPhotoEditView: UIView {
     private var callBack: ((WisdomActionType)->())?
     
     class func initWithNib(callBacks: @escaping ((WisdomActionType)->())) -> WisdomPhotoEditView {
-        let nib = UINib(nibName: "WisdomPhotoEditView", bundle: nil)
+        let bundle = Bundle(for: WisdomScanKit.self)
+        let nib = UINib(nibName: "WisdomPhotoEditView", bundle: bundle)
         let editView: WisdomPhotoEditView = nib.instantiate(withOwner: nil, options: nil).first as! WisdomPhotoEditView
         editView.callBack = callBacks
         return editView

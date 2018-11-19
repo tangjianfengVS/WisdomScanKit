@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name         = "WisdomsScanKit"
-  s.version      = "0.0.2"
-  s.summary      = "A short description of WisdomsScanKit."
-  s.description  = "WisdomsScanKit housekeeper"
+  s.version      = "0.0.3"
+  s.summary      = "Powerful camera scanner frame"
+  s.description  = "Powerful scanner frame, support to scan qr code, full screen camera shooting, support to scan the bank card number. Swift version, fully compatible with OC project calls."
 
   s.homepage     = "https://github.com/tangjianfengVS/WisdomScanKitDemo"
   s.license      = { :type => "MIT", :file => "FILE_LICENSE" }

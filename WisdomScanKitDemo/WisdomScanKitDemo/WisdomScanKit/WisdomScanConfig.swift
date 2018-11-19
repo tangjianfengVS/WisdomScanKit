@@ -17,26 +17,26 @@ public typealias WisdomErrorTask = ((String, inout Bool)->())
 public typealias WisdomPhotosTask = (([UIImage])->())
 
 /** 调用摄像控制器动画样式 */
-public enum WisdomScanningType {
-    case push
+public enum WisdomScanningType: NSInteger {
+    case push=0
     case present
 }
 
 /** 二维码扫描样式 */
-public enum WisdomRQCodeThemeType {
-    case green
+public enum WisdomRQCodeThemeType: NSInteger {
+    case green=0
     case snowy
 }
 
 /** 拍照张数样式 */
-public enum WisdomPhotosType {
-    case once
+public enum WisdomPhotosType: NSInteger {
+    case once=0
     case nine
 }
 
 /** 点击事件类型 */
-public enum WisdomActionType {
-    case cancel
+public enum WisdomActionType: NSInteger {
+    case cancel=0
     case edit
     case real
 }

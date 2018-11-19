@@ -128,7 +128,7 @@ extension UIViewController {
         }
         
         if rightActionTitle != nil {
-            let rightAction = UIAlertAction(title: rightActionTitle, style: .default, handler: { action in
+            let rightAction = UIAlertAction(title: rightActionTitle, style: UIAlertAction.Style.default, handler: { action in
                 handler(action)
             })
             alert.addAction(rightAction)
