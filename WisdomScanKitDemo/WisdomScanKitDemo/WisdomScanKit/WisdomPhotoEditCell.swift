@@ -15,21 +15,21 @@ class WisdomPhotoEditCell: UICollectionViewCell {
         }
     }
     
-    private lazy var deleteBtn: UIButton = {
+    fileprivate lazy var deleteBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 23, height: 23))
         btn.addTarget(self, action: #selector(clickDelete), for: .touchUpInside)
         btn.setBackgroundImage(UIImage(named: "mycenter_icon_cross"), for: .normal)
         return btn
     }()
     
-    private lazy var imageView: UIImageView = {
+    fileprivate lazy var imageView: UIImageView = {
         let view = UIImageView(frame: CGRect(x: 7, y: 7,
                                              width: self.contentView.bounds.width - 14,
                                              height: self.contentView.bounds.height - 14))
         return view
     }()
     
-    var callBack: (()->())?
+    public var callBack: (()->())?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,7 +37,7 @@ class WisdomPhotoEditCell: UICollectionViewCell {
         contentView.addSubview(deleteBtn)
     }
     
-    @objc private func clickDelete(){
+    @objc fileprivate func clickDelete(){
         if callBack != nil {
             callBack!()
         }

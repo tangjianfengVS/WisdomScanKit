@@ -9,12 +9,12 @@
 import UIKit
 
 class WisdomPhotoEditView: UIView {
-    @IBOutlet private weak var cancelBtn: UIButton!
-    @IBOutlet private weak var editBtn: UIButton!
-    @IBOutlet private weak var realBtn: UIButton!
-    private var callBack: ((WisdomActionType)->())?
+    @IBOutlet fileprivate weak var cancelBtn: UIButton!
+    @IBOutlet fileprivate weak var editBtn: UIButton!
+    @IBOutlet fileprivate weak var realBtn: UIButton!
+    fileprivate var callBack: ((WisdomActionType)->())?
     
-    class func initWithNib(callBacks: @escaping ((WisdomActionType)->())) -> WisdomPhotoEditView {
+    public class func initWithNib(callBacks: @escaping ((WisdomActionType)->())) -> WisdomPhotoEditView {
         let bundle = Bundle(for: WisdomScanKit.self)
         let nib = UINib(nibName: "WisdomPhotoEditView", bundle: bundle)
         let editView: WisdomPhotoEditView = nib.instantiate(withOwner: nil, options: nil).first as! WisdomPhotoEditView

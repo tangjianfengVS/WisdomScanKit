@@ -206,7 +206,7 @@ class WisdomRQCodeVC: UIViewController {
         }
     }
     
-    private func setNavbarUI(){
+    fileprivate func setNavbarUI(){
         if navbarDelegate != nil {
             navbarBackBtn = navbarDelegate?.wisdomNavbarBackBtnItme(navigationVC: navigationController)
             headerTitle = navbarDelegate?.wisdomNavbarThemeTitle(navigationVC: navigationController) ?? "Wisdom Scan"
@@ -310,7 +310,7 @@ class WisdomRQCodeVC: UIViewController {
         }
     }
     
-    private func upgrades(){
+    fileprivate func upgrades(){
         showAlert(title: "开启照相机提示", message: "App需要您同意，才能访问相机扫码和摄像", cancelActionTitle: "取消", rightActionTitle: "去开启") { (action) in
             WisdomScanKit.authorizationScan()
         }
