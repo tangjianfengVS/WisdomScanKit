@@ -186,15 +186,13 @@ class WisdomPhotosVC: UIViewController {
     fileprivate var currentImageList: [UIImage] = []
     
     init(types: WisdomScanningType,
-         photosTypes: WisdomPhotosType?,
+         photosTypes: WisdomPhotosType,
          photosTasks: @escaping WisdomPhotosTask,
          errorTasks: @escaping WisdomErrorTask) {
         photosTask = photosTasks
         errorTask = errorTasks
         type = types
-        if photosTypes != nil{
-            photosType = photosTypes!
-        }
+        photosType = photosTypes
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -232,12 +230,18 @@ class WisdomPhotosVC: UIViewController {
         switch authStatus {
         case .authorized:
             createSession()
+            
         case .denied:
-            upgrades()
+            if errorTask(WisdomScanErrorType.denied){
+                upgrades()
+            }
         case .notDetermined:
             createSession()
+            
         case .restricted:
-            print("")
+            if errorTask(WisdomScanErrorType.restricted){
+                
+            }
         }
     }
     

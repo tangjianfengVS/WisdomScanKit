@@ -7,38 +7,47 @@
 //
 
 import UIKit
+import AVFoundation
 
-public typealias WisdomNavBarTask = ((inout Bool)->(WisdomScanNavbarDelegate?))
+public typealias WisdomRQCodeAnswerTask = ((String, AVCaptureSession)->())
 
-public typealias WisdomAnswerTask = ((String, inout Bool)->())
+public typealias WisdomRQCodeErrorTask = ((AVCaptureSession?, WisdomScanErrorType)->(Bool))
 
-public typealias WisdomErrorTask = ((String, inout Bool)->())
+public typealias WisdomErrorTask = ((WisdomScanErrorType)->(Bool)) 
 
 public typealias WisdomPhotosTask = (([UIImage])->())
 
 /** 调用摄像控制器动画样式 */
-public enum WisdomScanningType: NSInteger {
+@objc public enum WisdomScanningType: NSInteger {
     case push=0
-    case present
+    case present=1
 }
 
 /** 二维码扫描样式 */
-public enum WisdomRQCodeThemeType: NSInteger {
+@objc public enum WisdomRQCodeThemeType: NSInteger {
     case green=0
-    case snowy
+    case snowy=1
 }
 
 /** 拍照张数样式 */
-public enum WisdomPhotosType: NSInteger {
+@objc public enum WisdomPhotosType: NSInteger {
     case once=0
-    case nine
+    case nine=1
 }
 
 /** 点击事件类型 */
-public enum WisdomActionType: NSInteger {
+@objc public enum WisdomActionType: NSInteger {
     case cancel=0
-    case edit
-    case real
+    case edit=1
+    case real=2
+}
+
+/** 摄像错误类型 */
+@objc public enum WisdomScanErrorType: NSInteger {
+    case denied=0       // 摄像关闭
+    case restricted=1   // 无摄像
+    case codeError=2    // 扫二维码失败
+    case lightError=3   // 打开灯失败
 }
 
 @objc public protocol WisdomScanNavbarDelegate  {
@@ -51,4 +60,3 @@ public enum WisdomActionType: NSInteger {
     /** 右边操作按钮 */
     func wisdomNavbarRightBtnItme(navigationVC: UINavigationController?)->UIButton?
 }
-

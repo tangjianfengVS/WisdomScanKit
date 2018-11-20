@@ -15,27 +15,21 @@ class WisdomViewController: UIViewController {
 
     @IBAction func clickScanRQCode(_ sender: UIButton) {
         
-        startScanRQCode(type: .push, themeTypes: .green, navBarTask: { (hideNavBar) ->(WisdomScanNavbarDelegate?) in
-            hideNavBar = true
-            return self
+        startScanRQCode(type: .push, themeTypes: .green, navDelegate: nil, answerTask: { (str, session) in
             
-        }, answerTask: { (text, nextStartScan) in
+        }) { (session, type) -> (Bool) in
             
-            nextStartScan = true
-            
-        }) { (error, nextStartScan) in
-            
-            nextStartScan = true
+            return true
         }
     }
     
     @IBAction func clickScanPhoto(_ sender: UIButton) {
         
-        startScanPhotos(type: .present, photosTypes: .nine, photosTask: { (list) in
+        startScanPhotos(type: .push, photosTypes: .once, photosTask: { (list) in
             
-            print(list.count)
-        }) { (error, nextScan) in
+        }) { (type) -> (Bool) in
             
+            return true
         }
     }
     

@@ -57,11 +57,11 @@ class WisdomScanKit: NSObject {
 }
 
 extension UIViewController {
-    /**  拍照  */
-    public func startScanPhotos(type: WisdomScanningType,
-                                photosTypes: WisdomPhotosType?,
-                                photosTask: @escaping WisdomPhotosTask,
-                                errorTask: @escaping WisdomErrorTask) {
+    /** 拍照 */
+    @objc public func startScanPhotos(type: WisdomScanningType,
+                                      photosTypes: WisdomPhotosType,
+                                      photosTask: @escaping WisdomPhotosTask,
+                                      errorTask: @escaping WisdomErrorTask) {
         
         let photosVC = WisdomPhotosVC(types: type,
                                       photosTypes: photosTypes,
@@ -81,16 +81,16 @@ extension UIViewController {
         }
     }
     
-    /**  扫码  */
-    public func startScanRQCode(type: WisdomScanningType,
-                                themeTypes: WisdomRQCodeThemeType?,
-                                navBarTask: WisdomNavBarTask,
-                                answerTask: @escaping WisdomAnswerTask,
-                                errorTask: @escaping WisdomErrorTask ) {
+    /** 扫码 */
+    @objc public func startScanRQCode(type: WisdomScanningType,
+                                      themeTypes: WisdomRQCodeThemeType,
+                                      navDelegate: WisdomScanNavbarDelegate?,
+                                      answerTask: @escaping WisdomRQCodeAnswerTask,
+                                      errorTask: @escaping WisdomRQCodeErrorTask) {
         
         let rqCodeVC = WisdomRQCodeVC(types: type,
                                       themeTypes: themeTypes,
-                                      navBarTasks: navBarTask,
+                                      navDelegate: navDelegate,
                                       answerTasks: answerTask,
                                       errorTasks: errorTask)
         switch type {
@@ -100,11 +100,11 @@ extension UIViewController {
             }else if navigationController != nil {
                 navigationController!.pushViewController(rqCodeVC, animated: true)
             }else{
-                push(rqCodeVC: rqCodeVC, hideNavBar: rqCodeVC.hideNavBar)
+                push(rqCodeVC: rqCodeVC, navDelegate: navDelegate)
             }
         case .present:
             var rootVC: UIViewController = rqCodeVC
-            if !rqCodeVC.hideNavBar {
+            if navDelegate != nil {
                 let nav = UINavigationController(rootViewController: rqCodeVC)
                 rqCodeVC.isCreatNav = true
                 rootVC = nav
@@ -114,11 +114,11 @@ extension UIViewController {
     }
     
     /** 界面提示 */
-    public func showAlert(title: String,
-                          message: String,
-                          cancelActionTitle: String?,
-                          rightActionTitle: String?,
-                          handler: @escaping ((UIAlertAction) -> Void)) {
+    @objc public func showAlert(title: String,
+                                message: String,
+                                cancelActionTitle: String?,
+                                rightActionTitle: String?,
+                                handler: @escaping ((UIAlertAction) -> Void)) {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
@@ -138,9 +138,9 @@ extension UIViewController {
         }
     }
     
-    fileprivate func push(rqCodeVC: WisdomRQCodeVC, hideNavBar: Bool) {
+    fileprivate func push(rqCodeVC: WisdomRQCodeVC, navDelegate: WisdomScanNavbarDelegate?) {
         var rootVC: UIViewController = rqCodeVC
-        if !hideNavBar {
+        if navDelegate != nil {
             let nav = UINavigationController(rootViewController: rqCodeVC)
             rqCodeVC.isCreatNav = true
             rootVC = nav

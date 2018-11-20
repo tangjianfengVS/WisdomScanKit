@@ -10,34 +10,30 @@ import UIKit
 import AVFoundation
 
 class WisdomRQCodeVC: UIViewController {
-    fileprivate let answerTask: WisdomAnswerTask!
+    fileprivate let answerTask: WisdomRQCodeAnswerTask!
     
-    fileprivate let errorTask: WisdomErrorTask!
+    fileprivate let errorTask: WisdomRQCodeErrorTask!
     
-    fileprivate var type: WisdomScanningType = .push
+    fileprivate let type: WisdomScanningType!
     
-    fileprivate var themeType: WisdomRQCodeThemeType = .green
+    fileprivate let themeType: WisdomRQCodeThemeType!
     
     fileprivate var scanSession: AVCaptureSession?
     
     fileprivate let scanAnimationDuration = 2.5
     
     fileprivate let supportedCodeTypes = [AVMetadataObject.ObjectType.upce,
-                                      AVMetadataObject.ObjectType.pdf417,
-                                      AVMetadataObject.ObjectType.code39,
-                                      AVMetadataObject.ObjectType.code39Mod43,
-                                      AVMetadataObject.ObjectType.code93,
-                                      AVMetadataObject.ObjectType.code128,
-                                      AVMetadataObject.ObjectType.ean8,
-                                      AVMetadataObject.ObjectType.ean13,
-                                      AVMetadataObject.ObjectType.aztec,
-                                      AVMetadataObject.ObjectType.qr]
+                                          AVMetadataObject.ObjectType.pdf417,
+                                          AVMetadataObject.ObjectType.code39,
+                                          AVMetadataObject.ObjectType.code39Mod43,
+                                          AVMetadataObject.ObjectType.code93,
+                                          AVMetadataObject.ObjectType.code128,
+                                          AVMetadataObject.ObjectType.ean8,
+                                          AVMetadataObject.ObjectType.ean13,
+                                          AVMetadataObject.ObjectType.aztec,
+                                          AVMetadataObject.ObjectType.qr]
     
-    fileprivate(set) var hideNavBar = false
-    
-    public var isCreatNav: Bool = false
-    
-    fileprivate var navbarDelegate: WisdomScanNavbarDelegate?
+    fileprivate(set) var navbarDelegate: WisdomScanNavbarDelegate?
     
     fileprivate var navbarBackBtn: UIButton?
     
@@ -46,6 +42,8 @@ class WisdomRQCodeVC: UIViewController {
     fileprivate var rightBtn: UIButton?
     
     fileprivate var lightOn = false
+    
+    var isCreatNav: Bool=false
     
     fileprivate var isStartScan: Bool = false{
         didSet{
@@ -115,7 +113,7 @@ class WisdomRQCodeVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
-        if hideNavBar {
+        if navbarDelegate != nil {
             navigationController?.setNavigationBarHidden(true, animated: true)
         }
         isStartScan = true
@@ -123,27 +121,19 @@ class WisdomRQCodeVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if hideNavBar {
+        if navbarDelegate != nil {
             navigationController?.setNavigationBarHidden(false, animated: true)
         }
     }
     
     init(types: WisdomScanningType,
-         themeTypes: WisdomRQCodeThemeType?,
-         navBarTasks: WisdomNavBarTask,
-         answerTasks: @escaping WisdomAnswerTask,
-         errorTasks: @escaping WisdomErrorTask) {
+         themeTypes: WisdomRQCodeThemeType,
+         navDelegate: WisdomScanNavbarDelegate?,
+         answerTasks: @escaping WisdomRQCodeAnswerTask,
+         errorTasks: @escaping WisdomRQCodeErrorTask) {
         type = types
-        
-        if themeTypes != nil{
-            themeType = themeTypes!
-        }
-        
-        let delegate = navBarTasks(&hideNavBar)
-        if delegate != nil {
-            navbarDelegate = delegate
-        }
-        
+        themeType = themeTypes
+        navbarDelegate = navDelegate
         answerTask = answerTasks
         errorTask = errorTasks
         super.init(nibName: nil, bundle: nil)
@@ -191,18 +181,17 @@ class WisdomRQCodeVC: UIViewController {
         frame.origin.y = scanPane.frame.minY - 60
         titleLab.frame = frame
         
-        switch themeType {
-        case .green:
-            print("")
-        case .snowy:
+        if themeType == .snowy {
             scanPane.image = nil
             scanLine.image = nil
-
+            
             scanPane.layer.borderWidth = 1
             scanPane.layer.borderColor = UIColor(red: 212, green: 224, blue: 244, alpha: 1).cgColor
-
+            
             titleLab.textColor = UIColor(red: 212, green: 224, blue: 244, alpha: 1)
             scanLine.backgroundColor = UIColor(red: 212, green: 224, blue: 244, alpha: 1)
+        }else if themeType == .green{
+            
         }
     }
     
@@ -215,16 +204,14 @@ class WisdomRQCodeVC: UIViewController {
             navbarBackBtn!.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
         }
         
-        if !hideNavBar{
-            if navbarBackBtn != nil {
-                navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navbarBackBtn!)
-            }
-            
-            if rightBtn != nil {
-                navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn!)
-            }
-            title = headerTitle
+        if navbarBackBtn != nil {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navbarBackBtn!)
         }
+        
+        if rightBtn != nil {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn!)
+        }
+        title = headerTitle
     }
     
     @objc fileprivate func clickBackBtn(){
@@ -260,12 +247,18 @@ class WisdomRQCodeVC: UIViewController {
         switch authStatus {
         case .authorized:
             open()
+            
         case .denied:
-            upgrades()
+            if errorTask(nil,WisdomScanErrorType.denied){
+                upgrades()
+            }
         case .notDetermined:
             open()
+            
         case .restricted:
-            print("")
+            if errorTask(nil,WisdomScanErrorType.restricted){
+                upgrades()
+            }
         }
     }
     
@@ -364,13 +357,13 @@ extension WisdomRQCodeVC : AVCaptureMetadataOutputObjectsDelegate{
                 let strvalue = resultObj.stringValue
                 
                 if strvalue != nil {
-                    answerTask(strvalue!,&isStartScan)
+                    answerTask(strvalue!,scanSession!)
                 }else{
-                    errorTask("扫描结果为空",&isStartScan)
+                    errorTask(scanSession, WisdomScanErrorType.codeError)
                 }
             }
         }else{
-            errorTask("扫描结果为空",&isStartScan)
+            errorTask(scanSession, WisdomScanErrorType.codeError)
         }
     }
 }
