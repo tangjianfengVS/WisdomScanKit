@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "WisdomsScanKit"
-  s.version      = "0.0.7"
+  s.version      = "0.0.8"
   s.summary      = "Powerful camera scanner frame"
   s.description  = "Powerful scanner frame, support to scan qr code, full screen camera shooting, support to scan the bank card number. Swift version, fully compatible with OC project calls."
 
@@ -9,6 +9,7 @@ Pod::Spec.new do |s|
 
   s.author             = { "tangjianfeng" => "497609288@qq.com" }
   s.platform     = :ios, "8.0"
+  s.swift_version= '4.2'
   s.ios.deployment_target = "8.0"
   # s.osx.deployment_target = "10.7"
   # s.watchos.deployment_target = "2.0"
@@ -16,5 +17,4 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/tangjianfengVS/WisdomScanKitDemo.git", :tag => s.version }
 
   s.source_files  = "WisdomScanKitDemo/WisdomScanKitDemo/WisdomScanKit/*.swift"
-  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.2' } 
 end
