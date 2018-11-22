@@ -23,7 +23,9 @@ class WisdomPhotosVC: UIViewController {
     }
     
     fileprivate lazy var editView: WisdomPhotoEditView = {
-        let view = WisdomPhotoEditView.initWithNib(callBacks: {[weak self] (actionType) in
+        let frame = CGRect(x: self.view.center.x - 100,
+                           y: self.cameraBtn.center.y - 95 - 15, width: 200, height: 30)
+        let view = WisdomPhotoEditView(frame: frame, callBacks: {[weak self] (actionType) in
             if actionType == .cancel{
                 self!.nineCancelAction()
             }else if actionType == .edit{
@@ -33,8 +35,6 @@ class WisdomPhotosVC: UIViewController {
             }
         })
         
-        view.frame = CGRect(x: 0, y: 0, width: 200, height: 30)
-        view.center = CGPoint(x: self.view.center.x, y: self.cameraBtn.center.y - 95)
         view.backgroundColor = UIColor.clear
         view.isHidden = true
         return view

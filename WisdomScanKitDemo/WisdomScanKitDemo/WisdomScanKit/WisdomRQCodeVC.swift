@@ -113,7 +113,7 @@ class WisdomRQCodeVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
-        if navbarDelegate != nil {
+        if navbarDelegate == nil {
             navigationController?.setNavigationBarHidden(true, animated: true)
         }
         isStartScan = true
@@ -121,7 +121,7 @@ class WisdomRQCodeVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if navbarDelegate != nil {
+        if navbarDelegate == nil {
             navigationController?.setNavigationBarHidden(false, animated: true)
         }
     }
@@ -355,15 +355,14 @@ extension WisdomRQCodeVC : AVCaptureMetadataOutputObjectsDelegate{
         if metadataObjects.count > 0{
             if let resultObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject{
                 let strvalue = resultObj.stringValue
-                
                 if strvalue != nil {
                     answerTask(strvalue!,scanSession!)
                 }else{
-                    errorTask(scanSession, WisdomScanErrorType.codeError)
+                    let _: Bool = errorTask(scanSession, WisdomScanErrorType.codeError)
                 }
             }
         }else{
-            errorTask(scanSession, WisdomScanErrorType.codeError)
+            let _: Bool = errorTask(scanSession, WisdomScanErrorType.codeError)
         }
     }
 }

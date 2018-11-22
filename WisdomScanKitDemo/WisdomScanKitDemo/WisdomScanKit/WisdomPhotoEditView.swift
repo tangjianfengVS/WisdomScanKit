@@ -9,36 +9,48 @@
 import UIKit
 
 class WisdomPhotoEditView: UIView {
-    @IBOutlet fileprivate weak var cancelBtn: UIButton!
-    @IBOutlet fileprivate weak var editBtn: UIButton!
-    @IBOutlet fileprivate weak var realBtn: UIButton!
-    fileprivate var callBack: ((WisdomActionType)->())?
+    fileprivate lazy var cancelBtn: UIButton = {
+        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 30))
+        btn.center = CGPoint(x: self.editBtn.center.x - 50 - 26, y: self.center.y)
+        btn.backgroundColor = UIColor.clear
+        btn.layer.borderColor = UIColor.white.cgColor
+        btn.layer.borderWidth = 1
+        btn.setTitleColor(UIColor.white, for: .normal)
+        return btn
+    }()
     
-    public class func initWithNib(callBacks: @escaping ((WisdomActionType)->())) -> WisdomPhotoEditView {
-        let bundle = Bundle(for: WisdomScanKit.self)
-        let nib = UINib(nibName: "WisdomPhotoEditView", bundle: bundle)
-        let editView: WisdomPhotoEditView = nib.instantiate(withOwner: nil, options: nil).first as! WisdomPhotoEditView
-        editView.callBack = callBacks
-        return editView
+    fileprivate lazy var editBtn: UIButton = {
+        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 30))
+        btn.center = self.center
+        btn.backgroundColor = UIColor.clear
+        btn.layer.borderColor = UIColor.white.cgColor
+        btn.layer.borderWidth = 1
+        btn.setTitleColor(UIColor.white, for: .normal)
+        return btn
+    }()
+    
+    fileprivate lazy var realBtn: UIButton = {
+        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 30))
+        btn.center = CGPoint(x: self.editBtn.center.x + 50 + 26, y: self.center.y)
+        btn.backgroundColor = UIColor.clear
+        btn.layer.borderColor = UIColor.white.cgColor
+        btn.layer.borderWidth = 1
+        btn.setTitleColor(UIColor.white, for: .normal)
+        return btn
+    }()
+    
+    fileprivate let callBack: ((WisdomActionType)->())!
+    
+    init(frame: CGRect, callBacks: @escaping ((WisdomActionType)->())) {
+        callBack = callBacks
+        super.init(frame: frame)
+        addSubview(cancelBtn)
+        addSubview(editBtn)
+        addSubview(realBtn)
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        cancelBtn.backgroundColor = UIColor.clear
-        editBtn.backgroundColor = UIColor.clear
-        realBtn.backgroundColor = UIColor.clear
-        
-        cancelBtn.layer.borderColor = UIColor.white.cgColor
-        editBtn.layer.borderColor = UIColor.white.cgColor
-        realBtn.layer.borderColor = UIColor.white.cgColor
-        
-        cancelBtn.layer.borderWidth = 1
-        editBtn.layer.borderWidth = 1
-        realBtn.layer.borderWidth = 1
-        
-        cancelBtn.setTitleColor(UIColor.white, for: .normal)
-        editBtn.setTitleColor(UIColor.white, for: .normal)
-        realBtn.setTitleColor(UIColor.white, for: .normal)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     @IBAction func clickCancelBtn(_ sender: UIButton) {
