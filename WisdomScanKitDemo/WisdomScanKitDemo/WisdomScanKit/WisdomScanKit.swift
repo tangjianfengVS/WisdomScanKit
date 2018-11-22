@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import Photos
 
 class WisdomScanKit: NSObject {
     /** 获取摄像状态权限 */
@@ -46,6 +47,11 @@ class WisdomScanKit: NSObject {
                 
             }
         }
+    }
+    
+    /** 相册权限 */
+    class func authorizationPhoto()->PHAuthorizationStatus {
+        return PHPhotoLibrary.authorizationStatus()
     }
     
     class func bundleImage(name: String)-> UIImage {
@@ -87,12 +93,12 @@ extension UIViewController {
      *     WisdomErrorTask   :   ScannPhotos失败错误回调
      */
     @objc public func startScanPhotos(type: WisdomScanningType,
-                                      photosTypes: WisdomPhotosType,
+                                      photoCountType: WisdomPhotosCountType,
                                       photosTask: @escaping WisdomPhotosTask,
                                       errorTask: @escaping WisdomErrorTask) {
         
         let photosVC = WisdomPhotosVC(types: type,
-                                      photosTypes: photosTypes,
+                                      photoCountTypes: photoCountType,
                                       photosTasks: photosTask,
                                       errorTasks: errorTask)
         switch type {
@@ -142,6 +148,48 @@ extension UIViewController {
             if navDelegate != nil {
                 let nav = UINavigationController(rootViewController: rqCodeVC)
                 rqCodeVC.isCreatNav = true
+                rootVC = nav
+            }
+            present(rootVC, animated: true, completion: nil)
+        }
+    }
+    
+    /**
+     *     获取系统相册图片 :
+     *     WisdomSetectPhotoType   :
+     *     WisdomSetectPhotoType   :
+     *     WisdomPhotosCountType   :
+     *     WisdomScanNavbarDelegate:  ScanRQCode导航栏代理，不需要显示导航栏传nil
+     *     WisdomPhotosTask        :
+     *     WisdomErrorTask         :
+     */
+    @objc public func startSelectSystemPhoto(type: WisdomScanningType,
+                                             setectTypes: WisdomSetectPhotoType,
+                                             photoCountTypes: WisdomPhotosCountType,
+                                             navDelegate: WisdomScanNavbarDelegate?,
+                                             photoTasks: @escaping WisdomPhotosTask,
+                                             errorTasks: @escaping WisdomErrorTask) {
+        
+        let selectVC = WisdomPhotoSelectVC(types: type,
+                                           setectTypes: setectTypes,
+                                           photoCountTypes: photoCountTypes,
+                                           navDelegate: navDelegate,
+                                           photoTasks: photoTasks,
+                                           errorTasks: errorTasks)
+        switch type {
+        case .push:
+            if isKind(of: UINavigationController.self){
+                (self as! UINavigationController).pushViewController(selectVC, animated: true)
+            }else if navigationController != nil {
+                navigationController!.pushViewController(selectVC, animated: true)
+            }else{
+                //push(rqCodeVC: selectVC, navDelegate: navDelegate)
+            }
+        case .present:
+            var rootVC: UIViewController = selectVC
+            if navDelegate != nil {
+                let nav = UINavigationController(rootViewController: selectVC)
+                selectVC.isCreatNav = true
                 rootVC = nav
             }
             present(rootVC, animated: true, completion: nil)

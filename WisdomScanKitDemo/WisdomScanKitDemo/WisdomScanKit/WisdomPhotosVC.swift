@@ -170,9 +170,9 @@ class WisdomPhotosVC: UIViewController {
     /** 相机预览图层 */
     fileprivate var cameraPreviewLayer:AVCaptureVideoPreviewLayer?
     
-    fileprivate var type: WisdomScanningType = .push
+    fileprivate let type: WisdomScanningType!
     
-    fileprivate var photosType: WisdomPhotosType = .once
+    fileprivate let photoCountType: WisdomPhotosCountType!
     
     fileprivate let photosTask: WisdomPhotosTask!
     
@@ -185,13 +185,13 @@ class WisdomPhotosVC: UIViewController {
     fileprivate var currentImageList: [UIImage] = []
     
     init(types: WisdomScanningType,
-         photosTypes: WisdomPhotosType,
+         photoCountTypes: WisdomPhotosCountType,
          photosTasks: @escaping WisdomPhotosTask,
          errorTasks: @escaping WisdomErrorTask) {
         photosTask = photosTasks
         errorTask = errorTasks
         type = types
-        photosType = photosTypes
+        photoCountType = photoCountTypes
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -294,7 +294,7 @@ class WisdomPhotosVC: UIViewController {
         photoBtn.frame = CGRect(x: view.bounds.width - 40, y: 60, width: 26, height: 22)
         photoLightBtn.frame = CGRect(x: view.bounds.width - 40, y: 100, width: 26, height: 26)
         
-        switch photosType {
+        switch photoCountType! {
         case .once:
             view.addSubview(bgView)
             bgView.addSubview(save)
@@ -303,6 +303,7 @@ class WisdomPhotosVC: UIViewController {
             view.addSubview(animationBgBtn)
             view.addSubview(editView)
             animationBgBtn.addSubview(titleLab)
+        default: break
         }
     }
     
@@ -315,9 +316,9 @@ class WisdomPhotosVC: UIViewController {
             if let stillImage = UIImage(data: imageData!) {
                 self.currentImageList.append(stillImage)
                 
-                if self.photosType == .once{
+                if self.photoCountType == .once{
                     self.stopRunning()
-                }else if self.photosType == .nine {
+                }else if self.photoCountType == .nine {
                     self.photoAnimation(image: stillImage)
                 }
             }

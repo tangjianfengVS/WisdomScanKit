@@ -25,7 +25,7 @@ class WisdomViewController: UIViewController {
     
     @IBAction func clickScanPhoto(_ sender: UIButton) {
         
-        startScanPhotos(type: .push, photosTypes: .nine, photosTask: { (list) in
+        startScanPhotos(type: .push, photoCountType: .nine, photosTask: { (list) in
             
         }) { (type) -> (Bool) in
             
@@ -35,11 +35,12 @@ class WisdomViewController: UIViewController {
     
     @IBAction func clickScanBackCard(_ sender: UIButton) {
         
-//        startScanBankCard(type: .push, answerTask: { (numb, issss) in
-//
-//        }) { (error, ssss) in
-//
-//        }
+        startSelectSystemPhoto(type: .push, setectTypes: .group, photoCountTypes: .nine, navDelegate: nil, photoTasks: { (list) in
+            
+        }) { (error) -> (Bool) in
+            
+            return true
+        }
     }
 }
 

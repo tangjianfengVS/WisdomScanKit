@@ -30,7 +30,7 @@ public typealias WisdomPhotosTask = (([UIImage])->())
 }
 
 /** 拍照张数样式 */
-@objc public enum WisdomPhotosType: NSInteger {
+@objc public enum WisdomPhotosCountType: NSInteger {
     case once=0
     case nine=1
 }
@@ -48,6 +48,13 @@ public typealias WisdomPhotosTask = (([UIImage])->())
     case restricted=1   // 无摄像
     case codeError=2    // 扫二维码失败
     case lightError=3   // 打开灯失败
+    case photosError=4  // 打开相册失败
+}
+
+/** 系统相册图片展示样式 */
+@objc public enum WisdomSetectPhotoType: NSInteger {
+    case none=0
+    case group=1   // 分组
 }
 
 @objc public protocol WisdomScanNavbarDelegate  {
