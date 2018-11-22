@@ -17,7 +17,7 @@ class WisdomPhotoEditView: UIView {
         btn.layer.borderWidth = 1
         btn.setTitle("取消", for: .normal)
         btn.setTitleColor(UIColor.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         btn.addTarget(self, action: #selector(clickCancelBtn(_:)), for: .touchUpInside)
         return btn
     }()
@@ -30,7 +30,7 @@ class WisdomPhotoEditView: UIView {
         btn.layer.borderWidth = 1
         btn.setTitle("删选", for: .normal)
         btn.setTitleColor(UIColor.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         btn.addTarget(self, action: #selector(clickEditBtn(_:)), for: .touchUpInside)
         return btn
     }()
@@ -43,7 +43,7 @@ class WisdomPhotoEditView: UIView {
         btn.layer.borderWidth = 1
         btn.setTitle("完成", for: .normal)
         btn.setTitleColor(UIColor.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         btn.addTarget(self, action: #selector(clickRealBtn(_:)), for: .touchUpInside)
         return btn
     }()

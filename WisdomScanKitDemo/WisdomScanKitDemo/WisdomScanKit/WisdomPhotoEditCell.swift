@@ -18,14 +18,15 @@ class WisdomPhotoEditCell: UICollectionViewCell {
     fileprivate lazy var deleteBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 23, height: 23))
         btn.addTarget(self, action: #selector(clickDelete), for: .touchUpInside)
-        btn.setBackgroundImage(UIImage(named: "mycenter_icon_cross"), for: .normal)
+        let image = WisdomScanKit.bundleImage(name: "mycenter_icon_cross")
+        btn.setBackgroundImage(image, for: .normal)
         return btn
     }()
     
     fileprivate lazy var imageView: UIImageView = {
-        let view = UIImageView(frame: CGRect(x: 7, y: 7,
-                                             width: self.contentView.bounds.width - 14,
-                                             height: self.contentView.bounds.height - 14))
+        let view = UIImageView(frame: CGRect(x: 8, y: 8,
+                                             width: self.contentView.bounds.width - 16,
+                                             height: self.contentView.bounds.height - 16))
         return view
     }()
     

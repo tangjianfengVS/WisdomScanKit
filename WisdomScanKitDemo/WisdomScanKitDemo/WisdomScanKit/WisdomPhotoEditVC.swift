@@ -19,7 +19,7 @@ class WisdomPhotoEditVC: UIViewController {
     
     fileprivate let PhotoEditCellKey = "WisdomPhotoEditCellkey"
     
-    fileprivate let spacing: CGFloat = 3
+    fileprivate let spacing: CGFloat = 0
     
     fileprivate let BSpacing: CGFloat = 16
     
@@ -93,7 +93,7 @@ class WisdomPhotoEditVC: UIViewController {
             self.view.transform = CGAffineTransform(translationX: -ydblW, y: ydblY)
             self.view.transform = self.view.transform.scaledBy(x: scbl, y: scbl)
         }) { (_) in
-        
+            self.view.isHidden = true
             if btn == self.backBtn {
                 self.callBack(false,[])
             }else if btn == self.realBtn {

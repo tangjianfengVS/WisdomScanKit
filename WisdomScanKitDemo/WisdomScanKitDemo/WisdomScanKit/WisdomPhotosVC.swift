@@ -24,7 +24,7 @@ class WisdomPhotosVC: UIViewController {
     
     fileprivate lazy var editView: WisdomPhotoEditView = {
         let frame = CGRect(x: self.view.center.x - 100,
-                           y: self.cameraBtn.center.y - 95 - 15, width: 200, height: 28)
+                           y: self.cameraBtn.center.y - 95 - 15, width: 200, height: 30)
         let view = WisdomPhotoEditView(frame: frame, callBacks: {[weak self] (actionType) in
             if actionType == .cancel{
                 self!.nineCancelAction()
