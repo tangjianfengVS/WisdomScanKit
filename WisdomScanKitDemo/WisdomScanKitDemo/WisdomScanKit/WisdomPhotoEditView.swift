@@ -10,32 +10,41 @@ import UIKit
 
 class WisdomPhotoEditView: UIView {
     fileprivate lazy var cancelBtn: UIButton = {
-        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 30))
-        btn.center = CGPoint(x: self.editBtn.center.x - 50 - 26, y: self.center.y)
+        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: self.bounds.height))
+        btn.center = CGPoint(x: self.editBtn.center.x - 50 - 25, y: self.bounds.height/2)
         btn.backgroundColor = UIColor.clear
         btn.layer.borderColor = UIColor.white.cgColor
         btn.layer.borderWidth = 1
+        btn.setTitle("取消", for: .normal)
         btn.setTitleColor(UIColor.white, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        btn.addTarget(self, action: #selector(clickCancelBtn(_:)), for: .touchUpInside)
         return btn
     }()
     
     fileprivate lazy var editBtn: UIButton = {
-        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 30))
-        btn.center = self.center
+        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: self.bounds.height))
+        btn.center = CGPoint(x: self.bounds.width/2, y: self.bounds.height/2)
         btn.backgroundColor = UIColor.clear
         btn.layer.borderColor = UIColor.white.cgColor
         btn.layer.borderWidth = 1
+        btn.setTitle("删选", for: .normal)
         btn.setTitleColor(UIColor.white, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        btn.addTarget(self, action: #selector(clickEditBtn(_:)), for: .touchUpInside)
         return btn
     }()
     
     fileprivate lazy var realBtn: UIButton = {
-        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 30))
-        btn.center = CGPoint(x: self.editBtn.center.x + 50 + 26, y: self.center.y)
+        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: self.bounds.height))
+        btn.center = CGPoint(x: self.editBtn.center.x + 50 + 25, y: self.bounds.height/2)
         btn.backgroundColor = UIColor.clear
         btn.layer.borderColor = UIColor.white.cgColor
         btn.layer.borderWidth = 1
+        btn.setTitle("完成", for: .normal)
         btn.setTitleColor(UIColor.white, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        btn.addTarget(self, action: #selector(clickRealBtn(_:)), for: .touchUpInside)
         return btn
     }()
     
@@ -53,21 +62,15 @@ class WisdomPhotoEditView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @IBAction func clickCancelBtn(_ sender: UIButton) {
-        if callBack != nil {
-            callBack!(.cancel)
-        }
+    @objc fileprivate func clickCancelBtn(_ sender: UIButton) {
+        callBack(.cancel)
     }
     
-    @IBAction func clickEditBtn(_ sender: UIButton) {
-        if callBack != nil {
-            callBack!(.edit)
-        }
+    @objc fileprivate func clickEditBtn(_ sender: UIButton) {
+        callBack(.edit)
     }
     
-    @IBAction func clickRealBtn(_ sender: UIButton) {
-        if callBack != nil {
-            callBack!(.real)
-        }
+    @objc fileprivate func clickRealBtn(_ sender: UIButton) {
+        callBack(.real)
     }
 }
