@@ -92,12 +92,12 @@
 			children = (
 				A5EEF07C2196F0BB00BDD24A /* WisdomScanConfig.swift */,
 				A5EEF07D2196F0BB00BDD24A /* WisdomScanKit.swift */,
-				A5314EC021A1258E001A0BE6 /* WisdomScanKit.bundle */,
 				A5585A3F21A2D1B10005AAE4 /* WisdomRQCodeVC.swift */,
 				A5585A4521A2D1C50005AAE4 /* WisdomPhotosVC.swift */,
 				A5585A4321A2D1C50005AAE4 /* WisdomPhotoEditVC.swift */,
 				A5585A4121A2D1C50005AAE4 /* WisdomPhotoEditView.swift */,
 				A5585A4221A2D1C50005AAE4 /* WisdomPhotoEditCell.swift */,
+				A5314EC021A1258E001A0BE6 /* WisdomScanKit.bundle */,
 			);
 			path = WisdomScanKit;
 			sourceTree = "<group>";

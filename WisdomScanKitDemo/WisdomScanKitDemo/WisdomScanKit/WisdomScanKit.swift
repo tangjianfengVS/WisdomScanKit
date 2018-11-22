@@ -57,7 +57,35 @@ class WisdomScanKit: NSObject {
 }
 
 extension UIViewController {
-    /** 拍照 */
+    fileprivate func push(rqCodeVC: WisdomRQCodeVC, navDelegate: WisdomScanNavbarDelegate?) {
+        var rootVC: UIViewController = rqCodeVC
+        if navDelegate != nil {
+            let nav = UINavigationController(rootViewController: rqCodeVC)
+            rqCodeVC.isCreatNav = true
+            rootVC = nav
+        }
+        push(rootVC: rootVC)
+    }
+    
+    fileprivate func push(rootVC: UIViewController) {
+        addChild(rootVC)
+        view.addSubview(rootVC.view)
+        rootVC.view.transform = CGAffineTransform(translationX: view.bounds.width, y: 0)
+        
+        UIView.animate(withDuration: 0.35) {
+            rootVC.view.transform = .identity
+        }
+    }
+}
+
+extension UIViewController {
+    /**
+     *     ScannPhotos拍摄图片，支持拍摄多张:
+     *     WisdomScanningType:   ScannPhotos跳转动画类型
+     *     WisdomPhotosType  :   ScannPhotos数量类型
+     *     WisdomPhotosTask  :   ScannPhotos完成回调
+     *     WisdomErrorTask   :   ScannPhotos失败错误回调
+     */
     @objc public func startScanPhotos(type: WisdomScanningType,
                                       photosTypes: WisdomPhotosType,
                                       photosTask: @escaping WisdomPhotosTask,
@@ -81,7 +109,14 @@ extension UIViewController {
         }
     }
     
-    /** 扫码 */
+    /**
+     *     扫二维码(ScanRQCode) :
+     *     WisdomScanningType      :   ScanRQCode跳转动画类型
+     *     WisdomRQCodeThemeType   :   ScanRQCode主题风格
+     *     WisdomScanNavbarDelegate:   ScanRQCode导航栏代理，不需要显示导航栏传nil
+     *     WisdomRQCodeAnswerTask  :   ScanRQCode 完成回调
+     *     WisdomRQCodeErrorTask   :   ScanRQCode 失败回调
+     */
     @objc public func startScanRQCode(type: WisdomScanningType,
                                       themeTypes: WisdomRQCodeThemeType,
                                       navDelegate: WisdomScanNavbarDelegate?,
@@ -113,7 +148,7 @@ extension UIViewController {
         }
     }
     
-    /** 界面提示 */
+    /** 系统界面提示 */
     @objc public func showAlert(title: String,
                                 message: String,
                                 cancelActionTitle: String?,
@@ -121,7 +156,6 @@ extension UIViewController {
                                 handler: @escaping ((UIAlertAction) -> Void)) {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
         if cancelActionTitle != nil {
             let cancelAction = UIAlertAction(title: cancelActionTitle, style: .cancel, handler: nil)
             alert.addAction(cancelAction)
@@ -135,26 +169,6 @@ extension UIViewController {
         }
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
             self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
-    fileprivate func push(rqCodeVC: WisdomRQCodeVC, navDelegate: WisdomScanNavbarDelegate?) {
-        var rootVC: UIViewController = rqCodeVC
-        if navDelegate != nil {
-            let nav = UINavigationController(rootViewController: rqCodeVC)
-            rqCodeVC.isCreatNav = true
-            rootVC = nav
-        }
-        push(rootVC: rootVC)
-    }
-    
-    fileprivate func push(rootVC: UIViewController) {
-        addChild(rootVC)
-        view.addSubview(rootVC.view)
-        rootVC.view.transform = CGAffineTransform(translationX: view.bounds.width, y: 0)
-        
-        UIView.animate(withDuration: 0.35) {
-            rootVC.view.transform = .identity
         }
     }
 }
