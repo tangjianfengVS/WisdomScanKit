@@ -14,7 +14,7 @@ class WisdomPhotoEditView: UIView {
         btn.center = CGPoint(x: self.editBtn.center.x - 50 - 25, y: self.bounds.height/2)
         btn.backgroundColor = UIColor.clear
         btn.layer.borderColor = UIColor.white.cgColor
-        btn.layer.borderWidth = 1
+        btn.layer.borderWidth = 1.1
         btn.setTitle("取消", for: .normal)
         btn.setTitleColor(UIColor.white, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
@@ -27,7 +27,7 @@ class WisdomPhotoEditView: UIView {
         btn.center = CGPoint(x: self.bounds.width/2, y: self.bounds.height/2)
         btn.backgroundColor = UIColor.clear
         btn.layer.borderColor = UIColor.white.cgColor
-        btn.layer.borderWidth = 1
+        btn.layer.borderWidth = 1.1
         btn.setTitle("删选", for: .normal)
         btn.setTitleColor(UIColor.white, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
@@ -40,7 +40,7 @@ class WisdomPhotoEditView: UIView {
         btn.center = CGPoint(x: self.editBtn.center.x + 50 + 25, y: self.bounds.height/2)
         btn.backgroundColor = UIColor.clear
         btn.layer.borderColor = UIColor.white.cgColor
-        btn.layer.borderWidth = 1
+        btn.layer.borderWidth = 1.1
         btn.setTitle("完成", for: .normal)
         btn.setTitleColor(UIColor.white, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
