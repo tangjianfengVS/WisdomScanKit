@@ -100,8 +100,8 @@ class WisdomPhotosVC: UIViewController {
     }()
 
     fileprivate lazy var cameraBtn: UIButton = {
-        let btn = UIButton(frame: CGRect(x: 0, y: kScreenHeight - bottomSizeHight - 73,
-                                     width: 73, height: 73))
+        let btn = UIButton(frame: CGRect(x: 0, y: kScreenHeight - bottomSizeHight - 74,
+                                     width: 74, height: 74))
         btn.center.x = self.view.center.x
         btn.setTitleColor(UIColor.white, for: .normal)
         var image = WisdomScanKit.bundleImage(name: "share_coupon_btn_bg_normal")
@@ -109,8 +109,8 @@ class WisdomPhotosVC: UIViewController {
         image = WisdomScanKit.bundleImage(name: "share_coupon_btn_bg")
         btn.setBackgroundImage(image, for: .disabled)
         btn.setTitle("上限9张", for: .disabled)
-        btn.setTitleColor(UIColor(white: 0.6, alpha: 1), for: .disabled)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        btn.setTitleColor(UIColor(white: 0.3, alpha: 1), for: .disabled)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         btn.addTarget(self, action: #selector(photoAction), for: .touchUpInside)
         return btn
     }()
