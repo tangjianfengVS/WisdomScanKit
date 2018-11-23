@@ -54,11 +54,36 @@ class WisdomScanKit: NSObject {
         return PHPhotoLibrary.authorizationStatus()
     }
     
+    /** bundle图片 */
     class func bundleImage(name: String)-> UIImage {
         let bundle = Bundle.init(path:Bundle.init(for: WisdomScanKit.self).path(forResource: "WisdomScanKit", ofType: "bundle")!)!
         let url = bundle.path(forResource: name, ofType: "png")! 
         let image = UIImage(contentsOfFile: url)!
         return image
+    }
+    
+    /** 系统返回的相册集名称为英文，我们需要转换为中文 */
+    class func titleOfAlbumForChinse(title: String?) -> String? {
+        if title == "Slo-mo" {
+            return "慢动作"
+        } else if title == "Recently Added" {
+            return "最近添加"
+        } else if title == "Favorites" {
+            return "个人收藏"
+        } else if title == "Recently Deleted" {
+            return "最近删除"
+        } else if title == "Videos" {
+            return "视频"
+        } else if title == "All Photos" {
+            return "所有照片"
+        } else if title == "Selfies" {
+            return "自拍"
+        } else if title == "Screenshots" {
+            return "屏幕快照"
+        } else if title == "Camera Roll" {
+            return "相机胶卷"
+        }
+        return title
     }
 }
 
