@@ -29,10 +29,11 @@ public typealias WisdomPhotoTask = (([UIImage])->())
     case snowy=1
 }
 
-/** 拍照张数样式 */
+/** 照片张数样式 */
 @objc public enum WisdomPhotoCountType: NSInteger {
-    case once=0
-    case nine=1
+    case once=0  // 1张
+    case four=2  // 4张
+    case nine=3  // 9张
 }
 
 /** 点击事件类型 */

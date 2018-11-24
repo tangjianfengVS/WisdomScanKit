@@ -36,7 +36,7 @@ class WisdomPhotoSelectCell: UICollectionViewCell {
         }
     }
     
-    public var hander: ((Bool,UIImage)->())?
+    public var hander: ((Bool,UIImage)->(Bool))?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -49,9 +49,9 @@ class WisdomPhotoSelectCell: UICollectionViewCell {
     }
     
     @objc private func clickSelectedBtn(btn: UIButton){
-        btn.isSelected = !btn.isSelected
         if hander != nil {
-            hander!(btn.isSelected,image!)
+            let res = hander!(btn.isSelected,image!)
+            btn.isSelected = res
         }
     }
 }

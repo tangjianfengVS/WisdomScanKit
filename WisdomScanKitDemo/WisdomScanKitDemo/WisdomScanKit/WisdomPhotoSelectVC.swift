@@ -14,6 +14,8 @@ class WisdomPhotoSelectVC: UIViewController {
     
     fileprivate let spacing: CGFloat = 5
     
+    fileprivate var barHight: CGFloat = 45
+    
     fileprivate lazy var lineCount: CGFloat = {
         return self.view.bounds.width > 330 ? 4:3
     }()
@@ -57,11 +59,15 @@ class WisdomPhotoSelectVC: UIViewController {
     }()
     
     fileprivate lazy var selectBar: WisdomPhotoSelectBar = {
-        let bar = WisdomPhotoSelectBar(frame: CGRect(x: 0, y: self.view.bounds.height - 40,
-                                                     width: self.view.bounds.width, height: 40),
+        let bar = WisdomPhotoSelectBar(frame: CGRect(x: 0, y: self.view.bounds.height - barHight,
+                                                     width: self.view.bounds.width, height: barHight),
                                                      handers: { [weak self] (res) in
-                                                        
+            if self?.imageResults.count == 0{
+                return
+            }
             
+            self?.photoTask((self?.imageResults)!)
+            self?.clickBackBtn()
         })
         return bar
     }()
@@ -82,7 +88,7 @@ class WisdomPhotoSelectVC: UIViewController {
     
     var isCreatNav: Bool=false
     
-    fileprivate var items: [WisdomAlbumItem] = []
+    //fileprivate var items: [WisdomAlbumItem] = []
     
     /** 缩略图大小 */
     var assetGridThumbnailSize: CGSize!
@@ -95,6 +101,8 @@ class WisdomPhotoSelectVC: UIViewController {
     
     fileprivate var imageResults: [UIImage] = []
     
+    fileprivate var indexPathResults: [IndexPath] = []
+    
     init(startTypes: WisdomScanStartType,
          showElectTypes: WisdomShowElectPhotoType,
          countTypes: WisdomPhotoCountType,
@@ -103,7 +111,7 @@ class WisdomPhotoSelectVC: UIViewController {
          errorTasks: @escaping WisdomErrorTask) {
         startType = startTypes
         showElectType = showElectTypes
-        countType = .nine//countTypes
+        countType = countTypes
         photoTask = photoTasks
         errorTask = errorTasks
         delegate = navDelegate
@@ -141,6 +149,17 @@ class WisdomPhotoSelectVC: UIViewController {
         })
     }
     
+    override func viewSafeAreaInsetsDidChange() {
+        if #available(iOS 11.0, *) {
+            if view.safeAreaInsets.bottom > 0{
+                barHight = 64
+                selectBar.frame = CGRect(x: 0, y: self.view.bounds.height - barHight,
+                                         width: self.view.bounds.width, height: barHight)
+            }
+        }
+        listView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: barHight + spacing, right: 0)
+    }
+    
     fileprivate func upgrades(){
         showAlert(title: "允许访问相册提示", message: "App需要您同意，才能访问相册读取图片", cancelActionTitle: "取消", rightActionTitle: "去开启") { (action) in
             WisdomScanKit.authorizationScan()
@@ -153,7 +172,7 @@ class WisdomPhotoSelectVC: UIViewController {
         let allPhotosOptions = PHFetchOptions()
         /** 按照创建时间倒序排列 */
         allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate",
-                                                                 ascending: false)]
+                                                             ascending: false)]
         /** 只获取图片 */
         allPhotosOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         assetsFetchResults = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: allPhotosOptions)
@@ -210,10 +229,94 @@ class WisdomPhotoSelectVC: UIViewController {
         }
     }
     
+    fileprivate func updatePhotoSelect(res: Bool, image: UIImage,index: IndexPath) -> Bool{
+        switch countType! {
+        case .once:
+            let first = indexPathResults.first
+            if !res{
+                imageResults.removeAll()
+                indexPathResults.removeAll()
+                imageResults.append(image)
+                indexPathResults.append(index)
+                
+                updateCount()
+                if first != nil{
+                    listView.reloadItems(at: [first!,index])
+                }else{
+                    listView.reloadItems(at: [index])
+                }
+                return true
+            }else{
+                imageResults.removeAll()
+                indexPathResults.removeAll()
+                
+                updateCount()
+                listView.reloadItems(at: [index])
+                return false
+            }
+        case .four:
+            if !res{
+                if imageResults.count >= 4 {
+                    return false
+                }
+                imageResults.append(image)
+                indexPathResults.append(index)
+                
+                updateCount()
+                return true
+            }else{
+                for (ix,path) in indexPathResults.enumerated() {
+                    if path == index{
+                        imageResults.remove(at: ix)
+                        indexPathResults.remove(at: ix)
+                    }
+                }
+                updateCount()
+                return false
+            }
+        case .nine:
+            if !res{
+                if imageResults.count >= 9 {
+                    return false
+                }
+                imageResults.append(image)
+                indexPathResults.append(index)
+                
+                updateCount()
+                return true
+            }else{
+                for (ix,path) in indexPathResults.enumerated() {
+                    if path == index{
+                        imageResults.remove(at: ix)
+                        indexPathResults.remove(at: ix)
+                    }
+                }
+                updateCount()
+                return false
+            }
+        default:
+            break
+        }
+        return true
+    }
+    
+    private func updateCount(){
+        if imageResults.count > 0 {
+            rightBtn.isEnabled = true
+            rightBtn.setTitle("(" + String(imageResults.count) + ") 重置", for: .normal)
+            selectBar.display(res: true)
+        }else{
+            rightBtn.isEnabled = false
+            rightBtn.setTitle("   重置", for: .normal)
+            selectBar.display(res: false)
+        }
+    }
+    
     @objc fileprivate func reset(btn: UIButton){
         btn.isEnabled = false
         btn.setTitle("   重置", for: .normal)
         imageResults.removeAll()
+        indexPathResults.removeAll()
         listView.reloadData()
     }
     
@@ -239,7 +342,7 @@ extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSou
                                   options: nil) { (image, nfo) in
             cell.image = image
                                     
-            if self.imageResults.contains(image!){
+            if self.indexPathResults.contains(indexPath){
                 cell.selectBtn.isSelected = true
             }else{
                 cell.selectBtn.isSelected = false
@@ -247,23 +350,8 @@ extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSou
         }
         
         cell.hander = {[weak self] (res, image) in
-            if res {
-                self?.imageResults.append(image)
-            }else{
-                for (index,images) in (self?.imageResults)!.enumerated() {
-                    if image == images{
-                        self?.imageResults.remove(at: index)
-                    }
-                }
-            }
-            
-            if (self?.imageResults.count)! > 0 {
-                self?.rightBtn.isEnabled = true
-                self?.rightBtn.setTitle("(" + String((self?.imageResults.count)!) + ") 重置", for: .normal)
-            }else{
-                self?.rightBtn.isEnabled = false
-                self?.rightBtn.setTitle("   重置", for: .normal)
-            }
+            let resCell = self?.updatePhotoSelect(res: res, image: image, index: indexPath)
+            return resCell!
         }
         return cell
     }
