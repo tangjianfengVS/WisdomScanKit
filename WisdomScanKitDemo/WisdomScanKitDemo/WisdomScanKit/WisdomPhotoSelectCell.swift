@@ -19,31 +19,39 @@ class WisdomPhotoSelectCell: UICollectionViewCell {
         return view
     }()
     
+    private(set) lazy var selectBtn: UIButton = {
+        let btn = UIButton(frame: CGRect(x: self.contentView.bounds.width - 22, y: 2, width: 20, height: 20))
+        var image = WisdomScanKit.bundleImage(name: "shan_element_book")
+        btn.setBackgroundImage(image, for: .normal)
+        image = WisdomScanKit.bundleImage(name: "selectedbackgroud_icon")
+        btn.setBackgroundImage(image, for: .selected)
+        btn.addTarget(self, action: #selector(clickSelectedBtn), for: .touchUpInside)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        return btn
+    }()
+    
     public var image: UIImage? {
         didSet{
             imageView.image = image
         }
     }
     
+    public var hander: ((Bool,UIImage)->())?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = UIColor.red
         contentView.addSubview(imageView)
+        contentView.addSubview(selectBtn)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func updateSize(iconSize: CGSize) -> CGRect{
-        let WC = fabsf(Float(iconSize.width - contentView.bounds.width))
-        let HC = fabsf(Float(iconSize.height - contentView.bounds.height))
-        if WC <= HC {
-            let h = iconSize.height/iconSize.width*contentView.bounds.width
-            return CGRect(x: 0, y: 0, width: contentView.bounds.width, height: h)
-        }else {
-            let w = iconSize.width/iconSize.height*contentView.bounds.height
-            return CGRect(x: 0, y: 0, width: w, height: contentView.bounds.height)
+    @objc private func clickSelectedBtn(btn: UIButton){
+        btn.isSelected = !btn.isSelected
+        if hander != nil {
+            hander!(btn.isSelected,image!)
         }
     }
 }

@@ -15,7 +15,7 @@ class WisdomViewController: UIViewController {
 
     @IBAction func clickScanRQCode(_ sender: UIButton) {
         
-        startScanRQCode(type: .push, themeTypes: .green, navDelegate: nil, answerTask: { (str, session) in
+        startScanRQCode(startType: .push, themeType: .green, navDelegate: nil, answerTask: { (str, session) in
             
         }) { (session, type) -> (Bool) in
             
@@ -25,7 +25,7 @@ class WisdomViewController: UIViewController {
     
     @IBAction func clickScanPhoto(_ sender: UIButton) {
         
-        startScanPhotos(type: .push, photoCountType: .nine, photosTask: { (list) in
+        startScanPhotos(startType: .push, countType: .nine, photosTask: { (list) in
             
         }) { (type) -> (Bool) in
             
@@ -35,7 +35,7 @@ class WisdomViewController: UIViewController {
     
     @IBAction func clickScanBackCard(_ sender: UIButton) {
         
-        startSelectSystemPhoto(type: .push, setectTypes: .group, photoCountTypes: .nine, navDelegate: nil, photoTasks: { (list) in
+        startSelectSystemPhoto(startType: .push, showElectType: .system, countType: .nine, navDelegate: nil, photoTasks: { (list) in
             
         }) { (error) -> (Bool) in
             

@@ -138,10 +138,10 @@ class WisdomPhotosVC: UIViewController {
     fileprivate lazy var backBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: 15, y: 30, width: 34, height: 34))
         
-        if type == .push{
+        if startType == .push{
             let image = WisdomScanKit.bundleImage(name: "black_backIcon")
             btn.setImage(image, for: .normal)
-        }else if type == .present{
+        }else if startType == .present{
             let image = WisdomScanKit.bundleImage(name: "black_backIcon")
             btn.setImage(image, for: .normal)
         }
@@ -170,11 +170,11 @@ class WisdomPhotosVC: UIViewController {
     /** 相机预览图层 */
     fileprivate var cameraPreviewLayer:AVCaptureVideoPreviewLayer?
     
-    fileprivate let type: WisdomScanningType!
+    fileprivate let startType: WisdomScanStartType!
     
-    fileprivate let photoCountType: WisdomPhotosCountType!
+    fileprivate let countType: WisdomPhotoCountType!
     
-    fileprivate let photosTask: WisdomPhotosTask!
+    fileprivate let photoTask: WisdomPhotoTask!
     
     fileprivate let errorTask: WisdomErrorTask!
     
@@ -184,14 +184,14 @@ class WisdomPhotosVC: UIViewController {
     
     fileprivate var currentImageList: [UIImage] = []
     
-    init(types: WisdomScanningType,
-         photoCountTypes: WisdomPhotosCountType,
-         photosTasks: @escaping WisdomPhotosTask,
+    init(startTypes: WisdomScanStartType,
+         countTypes: WisdomPhotoCountType,
+         photoTasks: @escaping WisdomPhotoTask,
          errorTasks: @escaping WisdomErrorTask) {
-        photosTask = photosTasks
+        photoTask = photoTasks
         errorTask = errorTasks
-        type = types
-        photoCountType = photoCountTypes
+        startType = startTypes
+        countType = countTypes
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -294,7 +294,7 @@ class WisdomPhotosVC: UIViewController {
         photoBtn.frame = CGRect(x: view.bounds.width - 40, y: 60, width: 26, height: 22)
         photoLightBtn.frame = CGRect(x: view.bounds.width - 40, y: 100, width: 26, height: 26)
         
-        switch photoCountType! {
+        switch countType! {
         case .once:
             view.addSubview(bgView)
             bgView.addSubview(save)
@@ -316,9 +316,9 @@ class WisdomPhotosVC: UIViewController {
             if let stillImage = UIImage(data: imageData!) {
                 self.currentImageList.append(stillImage)
                 
-                if self.photoCountType == .once{
+                if self.countType == .once{
                     self.stopRunning()
-                }else if self.photoCountType == .nine {
+                }else if self.countType == .nine {
                     self.photoAnimation(image: stillImage)
                 }
             }
@@ -402,7 +402,7 @@ class WisdomPhotosVC: UIViewController {
     }
     
     @objc fileprivate func saveAction(){
-        photosTask!(currentImageList)
+        photoTask!(currentImageList)
         clickBackBtn()
     }
     
@@ -412,7 +412,7 @@ class WisdomPhotosVC: UIViewController {
     }
     
     @objc fileprivate func clickBackBtn(){
-        if type == .push {
+        if startType == .push {
             if navigationController != nil  {
                 navigationController!.popViewController(animated: true)
             }else{
@@ -423,7 +423,7 @@ class WisdomPhotosVC: UIViewController {
                     self.removeFromParent()
                 }
             }
-        }else if type == .present{
+        }else if startType == .present{
             if navigationController != nil {
                 navigationController!.dismiss(animated: true, completion: nil)
             }else{
@@ -447,7 +447,7 @@ class WisdomPhotosVC: UIViewController {
     }
 }
 
-extension WisdomPhotosVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension WisdomPhotosVC {
     /** 切换摄像头 */
     @objc fileprivate func toggleCamera() {
         let res : Bool = (currentDevice?.torchMode == .on) ? true : false

@@ -10,11 +10,11 @@ import UIKit
 import AVFoundation
 
 class WisdomRQCodeVC: UIViewController {
-    fileprivate let answerTask: WisdomRQCodeAnswerTask!
+    fileprivate let answerTask: WisdomRQCodeFinishTask!
     
     fileprivate let errorTask: WisdomRQCodeErrorTask!
     
-    fileprivate let type: WisdomScanningType!
+    fileprivate let startType: WisdomScanStartType!
     
     fileprivate let themeType: WisdomRQCodeThemeType!
     
@@ -74,10 +74,10 @@ class WisdomRQCodeVC: UIViewController {
     fileprivate lazy var backBtn: UIButton = {
         let btn = UIButton()
     
-        if type == .push{
+        if startType == .push{
             let image = WisdomScanKit.bundleImage(name: "black_backIcon")
             btn.setImage(image, for: .normal)
-        }else if type == .present{
+        }else if startType == .present{
             let image = WisdomScanKit.bundleImage(name: "black_backIcon")
             btn.setImage(image, for: .normal)
         }
@@ -126,12 +126,12 @@ class WisdomRQCodeVC: UIViewController {
         }
     }
     
-    init(types: WisdomScanningType,
+    init(startTypes: WisdomScanStartType,
          themeTypes: WisdomRQCodeThemeType,
          navDelegate: WisdomScanNavbarDelegate?,
-         answerTasks: @escaping WisdomRQCodeAnswerTask,
+         answerTasks: @escaping WisdomRQCodeFinishTask,
          errorTasks: @escaping WisdomRQCodeErrorTask) {
-        type = types
+        startType = startTypes
         themeType = themeTypes
         navbarDelegate = navDelegate
         answerTask = answerTasks
@@ -215,7 +215,7 @@ class WisdomRQCodeVC: UIViewController {
     }
     
     @objc fileprivate func clickBackBtn(){
-        if type == .push {
+        if startType == .push {
             if navigationController != nil && isCreatNav {
                 UIView.animate(withDuration: 0.35, animations: {
                     self.navigationController!.view.transform = CGAffineTransform(translationX: self.navigationController!.view.bounds.width, y: 0)
@@ -233,7 +233,7 @@ class WisdomRQCodeVC: UIViewController {
                     self.removeFromParent()
                 }
             }
-        }else if type == .present{
+        }else if startType == .present{
             if navigationController != nil {
                 navigationController!.dismiss(animated: true, completion: nil)
             }else{

@@ -16,6 +16,8 @@
 		A568409E21A697A0004B8437 /* WisdomPhotoSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A568409D21A697A0004B8437 /* WisdomPhotoSelectVC.swift */; };
 		A56840A021A6CF14004B8437 /* WisdomAlbumItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A568409F21A6CF14004B8437 /* WisdomAlbumItem.swift */; };
 		A5E9486121A7979C0071EC7F /* WisdomPhotoSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E9486021A7979C0071EC7F /* WisdomPhotoSelectCell.swift */; };
+		A5E9488D21A95CBC0071EC7F /* WisdomPhotoSelectBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E9488C21A95CBC0071EC7F /* WisdomPhotoSelectBar.swift */; };
+		A5E9488F21A9633E0071EC7F /* WisdomScanKit+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E9488E21A9633E0071EC7F /* WisdomScanKit+Extension.swift */; };
 		A5EEF06A2196F03500BDD24A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EEF0692196F03500BDD24A /* AppDelegate.swift */; };
 		A5EEF06C2196F03500BDD24A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EEF06B2196F03500BDD24A /* ViewController.swift */; };
 		A5EEF06F2196F03500BDD24A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5EEF06D2196F03500BDD24A /* Main.storyboard */; };
@@ -37,6 +39,8 @@
 		A568409D21A697A0004B8437 /* WisdomPhotoSelectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomPhotoSelectVC.swift; sourceTree = "<group>"; };
 		A568409F21A6CF14004B8437 /* WisdomAlbumItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomAlbumItem.swift; sourceTree = "<group>"; };
 		A5E9486021A7979C0071EC7F /* WisdomPhotoSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomPhotoSelectCell.swift; sourceTree = "<group>"; };
+		A5E9488C21A95CBC0071EC7F /* WisdomPhotoSelectBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomPhotoSelectBar.swift; sourceTree = "<group>"; };
+		A5E9488E21A9633E0071EC7F /* WisdomScanKit+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WisdomScanKit+Extension.swift"; sourceTree = "<group>"; };
 		A5EEF0662196F03500BDD24A /* WisdomScanKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WisdomScanKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5EEF0692196F03500BDD24A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5EEF06B2196F03500BDD24A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -98,6 +102,7 @@
 			children = (
 				A5EEF07C2196F0BB00BDD24A /* WisdomScanConfig.swift */,
 				A5EEF07D2196F0BB00BDD24A /* WisdomScanKit.swift */,
+				A5E9488E21A9633E0071EC7F /* WisdomScanKit+Extension.swift */,
 				A5585A3F21A2D1B10005AAE4 /* WisdomRQCodeVC.swift */,
 				A5585A4521A2D1C50005AAE4 /* WisdomPhotosVC.swift */,
 				A5585A4321A2D1C50005AAE4 /* WisdomPhotoEditVC.swift */,
@@ -106,6 +111,7 @@
 				A568409D21A697A0004B8437 /* WisdomPhotoSelectVC.swift */,
 				A568409F21A6CF14004B8437 /* WisdomAlbumItem.swift */,
 				A5E9486021A7979C0071EC7F /* WisdomPhotoSelectCell.swift */,
+				A5E9488C21A95CBC0071EC7F /* WisdomPhotoSelectBar.swift */,
 				A5314EC021A1258E001A0BE6 /* WisdomScanKit.bundle */,
 			);
 			path = WisdomScanKit;
@@ -184,11 +190,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5E9488F21A9633E0071EC7F /* WisdomScanKit+Extension.swift in Sources */,
 				A5EEF0872196F0BB00BDD24A /* WisdomScanConfig.swift in Sources */,
 				A5585A4021A2D1B20005AAE4 /* WisdomRQCodeVC.swift in Sources */,
 				A5EEF0882196F0BB00BDD24A /* WisdomScanKit.swift in Sources */,
 				A5EEF08E219702C300BDD24A /* WisdomViewController.swift in Sources */,
 				A5EEF06C2196F03500BDD24A /* ViewController.swift in Sources */,
+				A5E9488D21A95CBC0071EC7F /* WisdomPhotoSelectBar.swift in Sources */,
 				A5E9486121A7979C0071EC7F /* WisdomPhotoSelectCell.swift in Sources */,
 				A5585A4821A2D1C50005AAE4 /* WisdomPhotoEditVC.swift in Sources */,
 				A5EEF06A2196F03500BDD24A /* AppDelegate.swift in Sources */,

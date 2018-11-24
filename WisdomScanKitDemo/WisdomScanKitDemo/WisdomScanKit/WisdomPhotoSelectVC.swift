@@ -10,13 +10,12 @@ import UIKit
 import Photos
 
 class WisdomPhotoSelectVC: UIViewController {
-    
     fileprivate let WisdomPhotoSelectCellID = "WisdomPhotoSelectCellID"
     
-    fileprivate let spacing: CGFloat = 8
+    fileprivate let spacing: CGFloat = 5
     
     fileprivate lazy var lineCount: CGFloat = {
-        return self.view.bounds.width > 380 ? 4:3
+        return self.view.bounds.width > 330 ? 4:3
     }()
     
     fileprivate lazy var listView: UICollectionView = {
@@ -29,23 +28,55 @@ class WisdomPhotoSelectVC: UIViewController {
                                  height: (self.view.bounds.width-(self.lineCount+1)*spacing)/self.lineCount)
         layout.minimumInteritemSpacing = spacing
         layout.minimumLineSpacing = spacing
-        layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: 0, right: spacing)
+        layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
         let scale = UIScreen.main.scale
         let cellSize = layout.itemSize
         assetGridThumbnailSize = CGSize(width:cellSize.width*scale, height:cellSize.height*scale)
-        view.backgroundColor = UIColor(white: 0.9, alpha: 1)
+        view.backgroundColor = UIColor.white
         return view
     }()
     
-    fileprivate let type: WisdomScanningType!
+    fileprivate var navbarBackBtn: UIButton = {
+        let btn = UIButton()
+        let image = WisdomScanKit.bundleImage(name: "black_backIcon")
+        btn.setImage(image, for: .normal)
+        btn.setTitle("返回", for: .normal)
+        btn.setTitleColor(UIColor.black, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        return btn
+    }()
     
-    fileprivate let setectType: WisdomSetectPhotoType!
+    fileprivate lazy var rightBtn: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("   重置", for: .normal)
+        btn.setTitleColor(UIColor.gray, for: .disabled)
+        btn.setTitleColor(UIColor.black, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        btn.addTarget(self, action: #selector(reset(btn:)), for: .touchUpInside)
+        return btn
+    }()
     
-    fileprivate let photoCountType: WisdomPhotosCountType!
+    fileprivate lazy var selectBar: WisdomPhotoSelectBar = {
+        let bar = WisdomPhotoSelectBar(frame: CGRect(x: 0, y: self.view.bounds.height - 40,
+                                                     width: self.view.bounds.width, height: 40),
+                                                     handers: { [weak self] (res) in
+                                                        
+            
+        })
+        return bar
+    }()
+    
+    fileprivate var headerTitle: String="我的相册"
+    
+    fileprivate let startType: WisdomScanStartType!
+    
+    fileprivate let showElectType: WisdomShowElectPhotoType!
+    
+    fileprivate let countType: WisdomPhotoCountType!
     
     fileprivate var delegate: WisdomScanNavbarDelegate?
     
-    fileprivate let photosTask: WisdomPhotosTask!
+    fileprivate let photoTask: WisdomPhotoTask!
     
     fileprivate let errorTask: WisdomErrorTask!
     
@@ -53,22 +84,27 @@ class WisdomPhotoSelectVC: UIViewController {
     
     fileprivate var items: [WisdomAlbumItem] = []
     
-    //缩略图大小
+    /** 缩略图大小 */
     var assetGridThumbnailSize: CGSize!
     
-    // 带缓存的图片管理对象
+    /** 带缓存的图片管理对象 */
     let imageManager = PHCachingImageManager()
     
-    init(types: WisdomScanningType,
-         setectTypes: WisdomSetectPhotoType,
-         photoCountTypes: WisdomPhotosCountType,
+    /**取得的资源结果，用了存放的PHAsset */
+    fileprivate var assetsFetchResults: PHFetchResult<PHAsset>?
+    
+    fileprivate var imageResults: [UIImage] = []
+    
+    init(startTypes: WisdomScanStartType,
+         showElectTypes: WisdomShowElectPhotoType,
+         countTypes: WisdomPhotoCountType,
          navDelegate: WisdomScanNavbarDelegate?,
-         photoTasks: @escaping WisdomPhotosTask,
+         photoTasks: @escaping WisdomPhotoTask,
          errorTasks: @escaping WisdomErrorTask) {
-        type = types
-        setectType = setectTypes
-        photoCountType = photoCountTypes
-        photosTask = photoTasks
+        startType = startTypes
+        showElectType = showElectTypes
+        countType = .nine//countTypes
+        photoTask = photoTasks
         errorTask = errorTasks
         delegate = navDelegate
         super.init(nibName: nil, bundle: nil)
@@ -76,8 +112,10 @@ class WisdomPhotoSelectVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor(white: 0.95, alpha: 1)
         view.addSubview(listView)
+        view.addSubview(selectBar)
+        setNavbarUI()
         authoriza()
     }
     
@@ -111,58 +149,72 @@ class WisdomPhotoSelectVC: UIViewController {
     
     /** 加载系统所有图片 */
     fileprivate func loadSystemImages() {
-        // 如果没有传入值 则获取所有资源
-//        if assetsFetchResults == nil {
-//            //则获取所有资源
-//            let allPhotosOptions = PHFetchOptions()
-//            //按照创建时间倒序排列
-//            allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate",
-//                                                                 ascending: false)]
-//            //只获取图片
-//            allPhotosOptions.predicate = NSPredicate(format: "mediaType = %d",
-//                                                     PHAssetMediaType.image.rawValue)
-//            assetsFetchResults = PHAsset.fetchAssets(with: PHAssetMediaType.image,
-//                                                     options: allPhotosOptions)
-//        }
-//        // 初始化和重置缓存
-//        self.imageManager = PHCachingImageManager()
-//        self.resetCachedAssets()
+        /** 则获取所有资源 */
+        let allPhotosOptions = PHFetchOptions()
+        /** 按照创建时间倒序排列 */
+        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate",
+                                                                 ascending: false)]
+        /** 只获取图片 */
+        allPhotosOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+        assetsFetchResults = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: allPhotosOptions)
         
-        /** 列出所有系统的智能相册 */
-        let smartOptions = PHFetchOptions()
-        let smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum,
-                                                                  subtype: .albumRegular,
-                                                                  options: smartOptions)
-        convertCollection(collection: smartAlbums)
-        /** 列出所有用户创建的相册 */
-        let userCollections = PHCollectionList.fetchTopLevelUserCollections(with: nil)
-        convertCollection(collection: userCollections as! PHFetchResult<PHAssetCollection>)
-        
-        /** 相册按包含的照片数量排序（降序）*/
-        items.sort { (item1, item2) -> Bool in
-            return item1.fetchResult.count > item2.fetchResult.count
-        }
-        
-        DispatchQueue.main.async{
+        DispatchQueue.main.async {
             self.listView.reloadData()
         }
     }
     
-    /** 转化处理获取到的相簿 */
-    private func convertCollection(collection:PHFetchResult<PHAssetCollection>){
-        for i in 0..<collection.count{
-            /** 获取出但前相簿内的图片 */
-            let resultsOptions = PHFetchOptions()
-            resultsOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-            resultsOptions.predicate = NSPredicate(format: "mediaType = %d",PHAssetMediaType.image.rawValue)
-            let c = collection[i]
-            let assetsFetchResult = PHAsset.fetchAssets(in: c , options: resultsOptions)
-            /** 没有图片的空相簿不显示 */
-            if assetsFetchResult.count > 0{
-                let title = WisdomScanKit.titleOfAlbumForChinse(title: c.localizedTitle)
-                items.append( WisdomAlbumItem(title: title, fetchResult: assetsFetchResult) )
+    fileprivate func setNavbarUI(){
+        if delegate != nil {
+            navbarBackBtn = delegate!.wisdomNavbarBackBtnItme(navigationVC: navigationController)
+            headerTitle = delegate!.wisdomNavbarThemeTitle(navigationVC: navigationController)
+            
+            let btn = delegate!.wisdomNavbarRightBtnItme(navigationVC: navigationController)
+            if btn != nil{
+               rightBtn = btn!
             }
         }
+        rightBtn.frame = CGRect(x: 0, y: 0, width: 56, height: 30)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navbarBackBtn)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn)
+        navbarBackBtn.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
+        title = headerTitle
+        rightBtn.isEnabled = false
+        rightBtn.titleLabel?.textAlignment = .right
+    }
+    
+    @objc fileprivate func clickBackBtn(){
+        if startType == .push {
+            if navigationController != nil && isCreatNav {
+                UIView.animate(withDuration: 0.35, animations: {
+                    self.navigationController!.view.transform = CGAffineTransform(translationX: self.navigationController!.view.bounds.width, y: 0)
+                }) { (_) in
+                    self.navigationController!.view.removeFromSuperview()
+                    self.navigationController!.removeFromParent()
+                }
+            }else if navigationController != nil && !isCreatNav {
+                navigationController!.popViewController(animated: true)
+            }else{
+                UIView.animate(withDuration: 0.35, animations: {
+                    self.view.transform = CGAffineTransform(translationX: self.view.bounds.width, y: 0)
+                }) { (_) in
+                    self.view.removeFromSuperview()
+                    self.removeFromParent()
+                }
+            }
+        }else if startType == .present{
+            if navigationController != nil {
+                navigationController!.dismiss(animated: true, completion: nil)
+            }else{
+                dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+    
+    @objc fileprivate func reset(btn: UIButton){
+        btn.isEnabled = false
+        btn.setTitle("   重置", for: .normal)
+        imageResults.removeAll()
+        listView.reloadData()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -171,59 +223,51 @@ class WisdomPhotoSelectVC: UIViewController {
 }
 
 extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSource{
-
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return 1
-//    }
-//
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return items.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        //为了提供表格显示性能，已创建完成的单元需重复使用
-//        let identify:String = "myCell"
-//        //同一形式的单元格重复使用，在声明时已注册
-//        let cell = tableView.dequeueReusableCell(withIdentifier: identify, for: indexPath) as UITableViewCell
-//        let item = self.items[indexPath.row]
-//        let titleLabel = cell.contentView.viewWithTag(1) as! UILabel
-//        titleLabel.text = item.title
-//        let countLabel = cell.contentView.viewWithTag(2) as! UILabel
-//        countLabel.text = "(\(item.fetchResult.count))"
-//        return cell
-//    }
-    
-    //重置缓存
-    func resetCachedAssets(){
-        self.imageManager.stopCachingImagesForAllAssets()
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return items.count
-    }
-    
-    // CollectionView行数
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items[section].fetchResult.count
+        if assetsFetchResults == nil {
+            return 0
+        }
+        return assetsFetchResults!.count
     }
     
-    // 获取单元格
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        // 获取设计的单元格，不需要再动态添加界面元素
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WisdomPhotoSelectCellID, for: indexPath) as! WisdomPhotoSelectCell
-        let albumItem = items[indexPath.section]
-        let asset = albumItem.fetchResult[indexPath.item]
-        //获取缩略图
-        self.imageManager.requestImage(for: asset,
-                                       targetSize: assetGridThumbnailSize,
-                                       contentMode: PHImageContentMode.default,
-                                       options: nil) { (image, nfo) in
+        let asset = assetsFetchResults![indexPath.item]
+        imageManager.requestImage(for: asset,
+                                  targetSize: assetGridThumbnailSize,
+                                  contentMode: PHImageContentMode.default,
+                                  options: nil) { (image, nfo) in
             cell.image = image
+                                    
+            if self.imageResults.contains(image!){
+                cell.selectBtn.isSelected = true
+            }else{
+                cell.selectBtn.isSelected = false
+            }
+        }
+        
+        cell.hander = {[weak self] (res, image) in
+            if res {
+                self?.imageResults.append(image)
+            }else{
+                for (index,images) in (self?.imageResults)!.enumerated() {
+                    if image == images{
+                        self?.imageResults.remove(at: index)
+                    }
+                }
+            }
+            
+            if (self?.imageResults.count)! > 0 {
+                self?.rightBtn.isEnabled = true
+                self?.rightBtn.setTitle("(" + String((self?.imageResults.count)!) + ") 重置", for: .normal)
+            }else{
+                self?.rightBtn.isEnabled = false
+                self?.rightBtn.setTitle("   重置", for: .normal)
+            }
         }
         return cell
     }
     
-    // 单元格点击响应
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        let myAsset = self.assetsFetchResults[indexPath.row]
         
