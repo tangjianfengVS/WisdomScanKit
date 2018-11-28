@@ -104,32 +104,6 @@ class WisdomPhotoEditVC: UIViewController {
         }
     }
     
-    class func showEdit(rootVC: UIViewController,
-                        imageList: [UIImage],
-                        beginCenter: CGPoint,
-                        beginSize: CGSize,
-                        endTask: @escaping ((Bool,[UIImage])->())) {
-        let editVC = WisdomPhotoEditVC(imageList: imageList,
-                                       beginCenters:beginCenter,
-                                       beginSizse: beginSize,
-                                       endTask: endTask)
-        editVC.view.frame = rootVC.view.frame
-        
-        rootVC.addChild(editVC)
-        rootVC.view.addSubview(editVC.view)
-        
-        let scbl = beginSize.width/rootVC.view.bounds.width
-        let ydblW = rootVC.view.center.x-beginCenter.x
-        let ydblY = -rootVC.view.center.y+beginCenter.y
-        
-        editVC.view.transform = CGAffineTransform(translationX: -ydblW, y: ydblY)
-        editVC.view.transform = editVC.view.transform.scaledBy(x: scbl, y: scbl)
-        
-        UIView.animate(withDuration: 0.35, animations: {
-            editVC.view.transform = .identity
-        })
-    }
-    
     deinit {
         print("编辑器释放")
     }

@@ -62,12 +62,18 @@ class WisdomPhotoSelectVC: UIViewController {
         let bar = WisdomPhotoSelectBar(frame: CGRect(x: 0, y: self.view.bounds.height - barHight,
                                                      width: self.view.bounds.width, height: barHight),
                                                      handers: { [weak self] (res) in
-            if self?.imageResults.count == 0{
-                return
+            if res{
+                if self?.imageResults.count == 0{
+                    return
+                }
+                self?.photoTask((self?.imageResults)!)
+                self?.clickBackBtn()
+            }else{
+                WisdomScanKit.startPhotoChrome(beginImage: nil,
+                                               beginIndex: 0,
+                                               imageList: (self?.imageList)!,
+                                               beginRect: .zero)
             }
-            
-            self?.photoTask((self?.imageResults)!)
-            self?.clickBackBtn()
         })
         return bar
     }()
@@ -76,11 +82,11 @@ class WisdomPhotoSelectVC: UIViewController {
     
     fileprivate let startType: WisdomScanStartType!
     
-    fileprivate let showElectType: WisdomShowElectPhotoType!
+    fileprivate let electType: WisdomShowElectPhotoType!
     
     fileprivate let countType: WisdomPhotoCountType!
     
-    fileprivate var delegate: WisdomScanNavbarDelegate?
+    //fileprivate var delegate: WisdomScanNavbarDelegate?
     
     fileprivate let photoTask: WisdomPhotoTask!
     
@@ -88,33 +94,26 @@ class WisdomPhotoSelectVC: UIViewController {
     
     var isCreatNav: Bool=false
     
-    //fileprivate var items: [WisdomAlbumItem] = []
-    
     /** 缩略图大小 */
-    var assetGridThumbnailSize: CGSize!
-    
-    /** 带缓存的图片管理对象 */
-    let imageManager = PHCachingImageManager()
+    fileprivate var assetGridThumbnailSize: CGSize!
     
     /**取得的资源结果，用了存放的PHAsset */
-    fileprivate var assetsFetchResults: PHFetchResult<PHAsset>?
+    fileprivate var imageList: [UIImage] = []//PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
     
     fileprivate var imageResults: [UIImage] = []
     
     fileprivate var indexPathResults: [IndexPath] = []
     
     init(startTypes: WisdomScanStartType,
-         showElectTypes: WisdomShowElectPhotoType,
+         electTypes: WisdomShowElectPhotoType,
          countTypes: WisdomPhotoCountType,
-         navDelegate: WisdomScanNavbarDelegate?,
          photoTasks: @escaping WisdomPhotoTask,
          errorTasks: @escaping WisdomErrorTask) {
         startType = startTypes
-        showElectType = showElectTypes
+        electType = electTypes
         countType = countTypes
         photoTask = photoTasks
         errorTask = errorTasks
-        delegate = navDelegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -175,7 +174,31 @@ class WisdomPhotoSelectVC: UIViewController {
                                                              ascending: false)]
         /** 只获取图片 */
         allPhotosOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
-        assetsFetchResults = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: allPhotosOptions)
+        let assetsFetchResults = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: allPhotosOptions)
+        
+        let imageManager = PHImageManager.default()
+        // 新建一个PHImageRequestOptions对象
+        let imageRequestOption = PHImageRequestOptions()
+        // PHImageRequestOptions是否有效
+        imageRequestOption.isSynchronous = true
+        // 缩略图的压缩模式设置为无
+        imageRequestOption.resizeMode = .none
+        // 缩略图的质量为高质量，不管加载时间花多少
+        imageRequestOption.deliveryMode = .highQualityFormat
+        
+        assetsFetchResults.enumerateObjects({ ( asset : PHAsset, index : Int, ss : UnsafeMutablePointer<ObjCBool>) in
+            
+            imageManager.requestImage(for: asset,
+                                      targetSize: UIScreen.main.bounds.size,//self.assetGridThumbnailSize,
+                                      contentMode: PHImageContentMode.aspectFit,
+                                      options: imageRequestOption,
+                                      resultHandler: { (image, _) -> Void in
+                if image != nil{
+                    self.imageList.append(image!)
+                    print(image!)
+                }
+            })
+        })
         
         DispatchQueue.main.async {
             self.listView.reloadData()
@@ -183,15 +206,15 @@ class WisdomPhotoSelectVC: UIViewController {
     }
     
     fileprivate func setNavbarUI(){
-        if delegate != nil {
-            navbarBackBtn = delegate!.wisdomNavbarBackBtnItme(navigationVC: navigationController)
-            headerTitle = delegate!.wisdomNavbarThemeTitle(navigationVC: navigationController)
-            
-            let btn = delegate!.wisdomNavbarRightBtnItme(navigationVC: navigationController)
-            if btn != nil{
-               rightBtn = btn!
-            }
-        }
+//        if delegate != nil {
+//            navbarBackBtn = delegate!.wisdomNavbarBackBtnItme(navigationVC: navigationController)
+//            headerTitle = delegate!.wisdomNavbarThemeTitle(navigationVC: navigationController)
+//
+//            let btn = delegate!.wisdomNavbarRightBtnItme(navigationVC: navigationController)
+//            if btn != nil{
+//               rightBtn = btn!
+//            }
+//        }
         rightBtn.frame = CGRect(x: 0, y: 0, width: 56, height: 30)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navbarBackBtn)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn)
@@ -327,26 +350,17 @@ class WisdomPhotoSelectVC: UIViewController {
 
 extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if assetsFetchResults == nil {
-            return 0
-        }
-        return assetsFetchResults!.count
+        return imageList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WisdomPhotoSelectCellID, for: indexPath) as! WisdomPhotoSelectCell
-        let asset = assetsFetchResults![indexPath.item]
-        imageManager.requestImage(for: asset,
-                                  targetSize: assetGridThumbnailSize,
-                                  contentMode: PHImageContentMode.default,
-                                  options: nil) { (image, nfo) in
-            cell.image = image
-                                    
-            if self.indexPathResults.contains(indexPath){
-                cell.selectBtn.isSelected = true
-            }else{
-                cell.selectBtn.isSelected = false
-            }
+        cell.image = imageList[indexPath.item]
+        
+        if self.indexPathResults.contains(indexPath){
+            cell.selectBtn.isSelected = true
+        }else{
+            cell.selectBtn.isSelected = false
         }
         
         cell.hander = {[weak self] (res, image) in
@@ -357,17 +371,13 @@ extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let myAsset = self.assetsFetchResults[indexPath.row]
-        
-        //这里不使用segue跳转（建议用segue跳转）
-//        let detailViewController = UIStoryboard(name: "Main", bundle: nil)
-//            .instantiateViewController(withIdentifier: "detail")
-//            as! ImageDetailViewController
-//        detailViewController.myAsset = myAsset
-//
-//        // navigationController跳转到detailViewController
-//        self.navigationController!.pushViewController(detailViewController,
-//                                                      animated:true)
+        let cell = collectionView.cellForItem(at: indexPath) as! WisdomPhotoSelectCell
+        let window = UIApplication.shared.delegate?.window!
+        let rect = cell.convert(cell.bounds, to: window)
+        print(rect)
+        WisdomScanKit.startPhotoChrome(beginImage: cell.image,
+                                       beginIndex: indexPath.item,
+                                       imageList: imageList,
+                                       beginRect: rect)
     }
-    
 }

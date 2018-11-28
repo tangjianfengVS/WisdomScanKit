@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import Photos
 
 public typealias WisdomRQCodeFinishTask = ((String, AVCaptureSession)->())
 
@@ -16,6 +17,8 @@ public typealias WisdomRQCodeErrorTask = ((AVCaptureSession?, WisdomScanErrorTyp
 public typealias WisdomErrorTask = ((WisdomScanErrorType)->(Bool)) 
 
 public typealias WisdomPhotoTask = (([UIImage])->())
+
+public typealias WisdomPhotosHander = (([PHAsset], [UIImage])->())
 
 /** 调用摄像控制器动画样式 */
 @objc public enum WisdomScanStartType: NSInteger {
@@ -54,8 +57,8 @@ public typealias WisdomPhotoTask = (([UIImage])->())
 
 /** 系统相册图片展示样式 */
 @objc public enum WisdomShowElectPhotoType: NSInteger {
-    case system=0  // 系统
-    case group=1   // 多选
+    case systemElect=0  // 系统类型，有分类Controller
+    case allElect=1     // 总包括类型，无分类Controller
 }
 
 @objc public protocol WisdomScanNavbarDelegate  {

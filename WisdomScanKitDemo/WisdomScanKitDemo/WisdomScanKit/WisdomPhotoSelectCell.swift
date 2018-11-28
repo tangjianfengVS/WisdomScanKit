@@ -20,7 +20,7 @@ class WisdomPhotoSelectCell: UICollectionViewCell {
     }()
     
     private(set) lazy var selectBtn: UIButton = {
-        let btn = UIButton(frame: CGRect(x: self.contentView.bounds.width - 22, y: 2, width: 20, height: 20))
+        let btn = UIButton(frame: CGRect(x: self.contentView.bounds.width - 23, y: 2, width: 21, height: 21))
         var image = WisdomScanKit.bundleImage(name: "shan_element_book")
         btn.setBackgroundImage(image, for: .normal)
         image = WisdomScanKit.bundleImage(name: "selectedbackgroud_icon")

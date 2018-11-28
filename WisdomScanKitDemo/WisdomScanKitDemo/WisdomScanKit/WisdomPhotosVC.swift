@@ -479,10 +479,10 @@ extension WisdomPhotosVC {
     /** 打开图片选择编辑器 */
     @objc fileprivate func showEidtView(){
         captureSession.stopRunning()
-        WisdomPhotoEditVC.showEdit(rootVC: self,
-                                   imageList: currentImageList,
-                                   beginCenter: center,
-                                   beginSize: animationViewSize, endTask: {[weak self](res, list) in
+        WisdomScanKit.startPhotoEdit(rootVC: self,
+                                     imageList: currentImageList,
+                                     beginCenter: center,
+                                     beginSize: animationViewSize, endTask: {[weak self](res, list) in
            if res{
                 self?.currentImageList = list
                 if (self?.currentImageList.count)! > 0{

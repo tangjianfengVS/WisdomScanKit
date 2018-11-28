@@ -19,7 +19,7 @@ class WisdomPhotoSelectBar: UIView {
     }()
     
     private(set) lazy var rightBtn: UIButton = {
-        let btn = UIButton(frame: CGRect(x: self.bounds.width - 70, y: 6, width: 55, height: 32))
+        let btn = UIButton(frame: CGRect(x: self.bounds.width - 70, y: 5, width: 58, height: 32))
         btn.addTarget(self, action: #selector(clickSelectedBtn), for: .touchUpInside)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         btn.backgroundColor = UIColor(red: 26/256.0, green: 100/256.0, blue: 26/256.0, alpha: 1)

@@ -87,37 +87,41 @@ extension UIViewController {
      *     WisdomPhotoTask         :  完成回调
      *     WisdomErrorTask         :  失败回调
      */
-    @objc public func startSelectSystemPhoto(startType: WisdomScanStartType,
-                                             showElectType: WisdomShowElectPhotoType,
-                                             countType: WisdomPhotoCountType,
-                                             navDelegate: WisdomScanNavbarDelegate?,
-                                             photoTasks: @escaping WisdomPhotoTask,
-                                             errorTasks: @escaping WisdomErrorTask) {
-        
-        let selectVC = WisdomPhotoSelectVC(startTypes: startType,
-                                           showElectTypes: showElectType,
-                                           countTypes: countType,
-                                           navDelegate: navDelegate,
-                                           photoTasks: photoTasks,
-                                           errorTasks: errorTasks)
-        switch startType {
-        case .push:
-            if isKind(of: UINavigationController.self){
-                (self as! UINavigationController).pushViewController(selectVC, animated: true)
-            }else if navigationController != nil {
-                navigationController!.pushViewController(selectVC, animated: true)
-            }else{
-                //push(rqCodeVC: selectVC, navDelegate: navDelegate)
-            }
-        case .present:
-            var rootVC: UIViewController = selectVC
-            if navDelegate != nil {
+    @objc public func startElectSystemPhoto(startType: WisdomScanStartType,
+                                            electType: WisdomShowElectPhotoType,
+                                            countType: WisdomPhotoCountType,
+                                            photoTasks: @escaping WisdomPhotoTask,
+                                            errorTasks: @escaping WisdomErrorTask) {
+        if electType == .allElect {
+            let selectVC = WisdomPhotoSelectVC(startTypes: startType,
+                                               electTypes: electType,
+                                               countTypes: countType,
+                                               photoTasks: photoTasks,
+                                               errorTasks: errorTasks)
+            switch startType {
+            case .push:
+                if isKind(of: UINavigationController.self){
+                    (self as! UINavigationController).pushViewController(selectVC, animated: true)
+                }else if navigationController != nil {
+                    navigationController!.pushViewController(selectVC, animated: true)
+                }else{
+                    let nav = UINavigationController(rootViewController: selectVC)
+                    nav.view.layer.borderWidth = 1
+                    nav.view.layer.borderColor = UIColor(white: 0.5, alpha: 1).cgColor
+                    nav.view.layer.shadowColor = UIColor.gray.cgColor
+                    nav.view.layer.shadowOpacity = 1
+                    selectVC.isCreatNav = true
+                    push(rootVC: nav)
+                }
+            case .present:
                 let nav = UINavigationController(rootViewController: selectVC)
                 selectVC.isCreatNav = true
-                rootVC = nav
+                present(nav, animated: true, completion: nil)
             }
-            present(rootVC, animated: true, completion: nil)
-        }
+        }else if electType == .systemElect {
+            
+            
+        } 
     }
     
     /** 系统界面提示 */
