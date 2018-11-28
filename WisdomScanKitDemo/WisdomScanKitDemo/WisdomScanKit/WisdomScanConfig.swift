@@ -57,7 +57,7 @@ public typealias WisdomPhotosHander = (([PHAsset], [UIImage])->())
 
 /** 系统相册图片展示样式 */
 @objc public enum WisdomShowElectPhotoType: NSInteger {
-    case systemElect=0  // 系统类型，有分类Controller
+    //case systemElect=0  // 系统类型，有分类Controller
     case allElect=1     // 总包括类型，无分类Controller
 }
 

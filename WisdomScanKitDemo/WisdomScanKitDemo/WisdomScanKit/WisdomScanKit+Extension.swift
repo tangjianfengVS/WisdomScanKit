@@ -92,36 +92,38 @@ extension UIViewController {
                                             countType: WisdomPhotoCountType,
                                             photoTasks: @escaping WisdomPhotoTask,
                                             errorTasks: @escaping WisdomErrorTask) {
+        
+        let selectVC = WisdomPhotoSelectVC(startTypes: startType,
+                                           electTypes: electType,
+                                           countTypes: countType,
+                                           photoTasks: photoTasks,
+                                           errorTasks: errorTasks)
         if electType == .allElect {
-            let selectVC = WisdomPhotoSelectVC(startTypes: startType,
-                                               electTypes: electType,
-                                               countTypes: countType,
-                                               photoTasks: photoTasks,
-                                               errorTasks: errorTasks)
-            switch startType {
-            case .push:
-                if isKind(of: UINavigationController.self){
-                    (self as! UINavigationController).pushViewController(selectVC, animated: true)
-                }else if navigationController != nil {
-                    navigationController!.pushViewController(selectVC, animated: true)
-                }else{
-                    let nav = UINavigationController(rootViewController: selectVC)
-                    nav.view.layer.borderWidth = 1
-                    nav.view.layer.borderColor = UIColor(white: 0.5, alpha: 1).cgColor
-                    nav.view.layer.shadowColor = UIColor.gray.cgColor
-                    nav.view.layer.shadowOpacity = 1
-                    selectVC.isCreatNav = true
-                    push(rootVC: nav)
-                }
-            case .present:
-                let nav = UINavigationController(rootViewController: selectVC)
-                selectVC.isCreatNav = true
-                present(nav, animated: true, completion: nil)
-            }
+            
         }else if electType == .systemElect {
             
-            
-        } 
+        }
+        
+        switch startType {
+        case .push:
+            if isKind(of: UINavigationController.self){
+                (self as! UINavigationController).pushViewController(selectVC, animated: true)
+            }else if navigationController != nil {
+                navigationController!.pushViewController(selectVC, animated: true)
+            }else{
+                let nav = UINavigationController(rootViewController: selectVC)
+                nav.view.layer.borderWidth = 1
+                nav.view.layer.borderColor = UIColor(white: 0.5, alpha: 1).cgColor
+                nav.view.layer.shadowColor = UIColor.gray.cgColor
+                nav.view.layer.shadowOpacity = 1
+                selectVC.isCreatNav = true
+                push(rootVC: nav)
+            }
+        case .present:
+            let nav = UINavigationController(rootViewController: selectVC)
+            selectVC.isCreatNav = true
+            present(nav, animated: true, completion: nil)
+        }
     }
     
     /** 系统界面提示 */
