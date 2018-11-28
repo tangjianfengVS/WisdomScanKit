@@ -18,8 +18,6 @@ public typealias WisdomErrorTask = ((WisdomScanErrorType)->(Bool))
 
 public typealias WisdomPhotoTask = (([UIImage])->())
 
-public typealias WisdomPhotosHander = (([PHAsset], [UIImage])->())
-
 /** 调用摄像控制器动画样式 */
 @objc public enum WisdomScanStartType: NSInteger {
     case push=0
