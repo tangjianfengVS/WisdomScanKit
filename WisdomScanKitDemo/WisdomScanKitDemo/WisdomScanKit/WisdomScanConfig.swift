@@ -21,6 +21,7 @@ public typealias WisdomErrorTask = ((WisdomScanErrorType)->(Bool))
 public typealias WisdomPhotoTask = (([UIImage])->())
 
 public let WisdomPhotoChromeUpdateIndex_Key = "WisdomPhotoChromeUpdateIndex_NotiKey"
+
 public let WisdomPhotoChromeUpdateFrame_Key = "WisdomPhotoChromeUpdateFrame_NotiKey"
 
 /** 调用摄像控制器动画样式 */

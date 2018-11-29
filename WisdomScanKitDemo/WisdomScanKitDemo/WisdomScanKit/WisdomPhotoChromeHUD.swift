@@ -65,13 +65,13 @@ class WisdomPhotoChromeHUD: UIView {
         backgroundColor = UIColor.clear
         addGestureRecognizer(tap)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateIndex(notif:)), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateFrame_Key), object: nil)
-        
         if imageArray.count > 0 {
             addSubview(imageView)
             imageView.image = imageArray[currentIndex]
             imageView.frame = beginRect
             showAnimation()
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(updateIndex(notif:)), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateFrame_Key), object: nil)
         }else{
             addSubview(emptyView)
         }
@@ -85,6 +85,7 @@ class WisdomPhotoChromeHUD: UIView {
     
     fileprivate func showAnimation() {
         let rect = WisdomScanKit.getImageChromeRect(image: imageArray[currentIndex])
+        
         UIView.animate(withDuration: 0.35, animations: {
             self.imageView.frame = rect
         }) { (_) in
@@ -100,12 +101,12 @@ class WisdomPhotoChromeHUD: UIView {
     }
     
     @objc fileprivate func tapTouch(tap: UITapGestureRecognizer){
+        backgroundColor = UIColor.clear
+        listView.isHidden = true
+        
         let rect = WisdomScanKit.getImageChromeRect(image: imageArray[currentIndex])
         imageView.image = imageArray[currentIndex]
         imageView.frame = rect
-        
-        backgroundColor = UIColor.clear
-        listView.isHidden = true
         imageView.isHidden = false
         
         UIView.animate(withDuration: 0.35, animations: {

@@ -134,14 +134,15 @@ class WisdomPhotoSelectVC: UIViewController {
             let indexPath = IndexPath(item: index, section: 0)
             listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.bottom, animated: false)
             
-//            let cell = listView.cellForItem(at: indexPath) as! WisdomPhotoSelectCell
-//            let window = UIApplication.shared.delegate?.window!
-//            let rect = cell.convert(cell.bounds, to: window)
-//            print(rect)
-//
-//            DispatchQueue.global().async {
-//                NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateFrame_Key), object: rect)
-//            }
+            let window = UIApplication.shared.delegate?.window!
+            let cell = self.listView.dequeueReusableCell(withReuseIdentifier: WisdomPhotoSelectCellID, for: indexPath)
+            let rect = cell.convert(cell.bounds, to: window)
+            print(rect)
+            
+            DispatchQueue.global().async {
+                
+                NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateFrame_Key), object: rect)
+            }
         }
     }
     
