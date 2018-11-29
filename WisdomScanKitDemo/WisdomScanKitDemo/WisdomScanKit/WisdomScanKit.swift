@@ -23,11 +23,17 @@ class WisdomScanKit: NSObject {
                                              beginRect: CGRect) {
         let window = UIApplication.shared.keyWindow
         var imageListNew = imageList
+        var imageRect = beginRect
+        
         if imageList.count == 0 && beginImage != nil {
             imageListNew.append(beginImage!)
         }
+        
+        if imageRect == .zero{
+            imageRect = CGRect(x: 5,y: 70,width: ItemSize, height: ItemSize)
+        }
     
-        let hud = WisdomPhotoChromeHUD(beginIndex: beginIndex, imageList: imageListNew, beginRect: beginRect)
+        let hud = WisdomPhotoChromeHUD(beginIndex: beginIndex, imageList: imageListNew, beginRect: imageRect)
         window?.addSubview(hud)
     }
     

@@ -69,9 +69,7 @@ class WisdomPhotoSelectVC: UIViewController {
                 self?.photoTask((self?.imageResults)!)
                 self?.clickBackBtn()
             }else{
-                WisdomScanKit.startPhotoChrome(beginImage: nil,
-                                               beginIndex: 0,
-                                               imageList: (self?.imageList)!,
+                WisdomScanKit.startPhotoChrome(beginImage: nil,beginIndex: 0,imageList: (self?.imageList)!,
                                                beginRect: .zero)
             }
         })
@@ -98,7 +96,7 @@ class WisdomPhotoSelectVC: UIViewController {
     fileprivate var assetGridThumbnailSize: CGSize!
     
     /**取得的资源结果，用了存放的PHAsset */
-    fileprivate var imageList: [UIImage] = []//PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
+    fileprivate var imageList: [UIImage] = []
     
     fileprivate var imageResults: [UIImage] = []
     
@@ -124,6 +122,27 @@ class WisdomPhotoSelectVC: UIViewController {
         view.addSubview(selectBar)
         setNavbarUI()
         authoriza()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateIndex(notif:)), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateIndex_Key), object: nil)
+    }
+    
+    @objc private func updateIndex(notif: Notification){
+        if let index = notif.object as? Int {
+            if index >= imageList.count{
+                return
+            }
+            let indexPath = IndexPath(item: index, section: 0)
+            listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.bottom, animated: false)
+            
+//            let cell = listView.cellForItem(at: indexPath) as! WisdomPhotoSelectCell
+//            let window = UIApplication.shared.delegate?.window!
+//            let rect = cell.convert(cell.bounds, to: window)
+//            print(rect)
+//
+//            DispatchQueue.global().async {
+//                NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateFrame_Key), object: rect)
+//            }
+        }
     }
     
     fileprivate func authoriza() {
@@ -341,6 +360,10 @@ class WisdomPhotoSelectVC: UIViewController {
         imageResults.removeAll()
         indexPathResults.removeAll()
         listView.reloadData()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     required init?(coder aDecoder: NSCoder) {

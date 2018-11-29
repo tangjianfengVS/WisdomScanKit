@@ -10,6 +10,8 @@ import UIKit
 import AVFoundation
 import Photos
 
+let ItemSize: CGFloat = UIScreen.main.bounds.width > 330 ? (UIScreen.main.bounds.width-5*5)/4 :(UIScreen.main.bounds.width-4*5)/3
+
 public typealias WisdomRQCodeFinishTask = ((String, AVCaptureSession)->())
 
 public typealias WisdomRQCodeErrorTask = ((AVCaptureSession?, WisdomScanErrorType)->(Bool))
@@ -17,6 +19,9 @@ public typealias WisdomRQCodeErrorTask = ((AVCaptureSession?, WisdomScanErrorTyp
 public typealias WisdomErrorTask = ((WisdomScanErrorType)->(Bool)) 
 
 public typealias WisdomPhotoTask = (([UIImage])->())
+
+public let WisdomPhotoChromeUpdateIndex_Key = "WisdomPhotoChromeUpdateIndex_NotiKey"
+public let WisdomPhotoChromeUpdateFrame_Key = "WisdomPhotoChromeUpdateFrame_NotiKey"
 
 /** 调用摄像控制器动画样式 */
 @objc public enum WisdomScanStartType: NSInteger {
