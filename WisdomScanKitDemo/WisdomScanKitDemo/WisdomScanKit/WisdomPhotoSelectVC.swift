@@ -27,7 +27,7 @@ class WisdomPhotoSelectVC: UIViewController {
     
     fileprivate lazy var coverView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.black
+        view.backgroundColor = UIColor.white
         view.isHidden = true
         return view
     }()
@@ -119,15 +119,22 @@ class WisdomPhotoSelectVC: UIViewController {
     /** 缩略图大小 */
     fileprivate var assetGridThumbnailSize: CGSize!
     
-    /** 取得的资源结果，用了存放的PHAsset */
+    /** 取得的资源集合，用了存放的PHAsset */
+    fileprivate var assetsFetchResults: PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
+    
+    /** 取得的屏幕比例资源集合 */
     fileprivate var imageList: [UIImage] = []
     
+    /** 选择的结果资源 */
     fileprivate var imageResults: [UIImage] = []
     
     fileprivate var indexPathResults: [IndexPath] = []
     
     /** 浏览页正在展示的图片 */
     fileprivate var currentShowImagerRect: CGRect = .zero
+    
+    /** 带缓存的图片管理对象 */
+    fileprivate let imageManager = PHCachingImageManager()
     
     init(startTypes: WisdomScanStartType,
          //electTypes: WisdomShowElectPhotoType,
@@ -181,13 +188,13 @@ class WisdomPhotoSelectVC: UIViewController {
                 self.coverView.frame = cell!.frame
                 self.currentShowImagerRect = rect
             }else{
-                //var newPoint: CGPoint = .zero
-                //if self.currentShowImagerRect.maxX + self.spacing >= self.listView.bounds.width{
-                //    newPoint = CGPoint(x: self.spacing, y: self.listView.frame.height - self.currentShowImagerRect.size.height - self.listView.contentInset.bottom)
-                //}else{
-                    //newPoint = CGPoint(x: currentShowImagerRect.maxX + currentShowImagerRect.size.width + spacing, y: currentShowImagerRect.maxY)
-                //}
-                //self.currentShowImagerRect = CGRect(origin: newPoint, size: self.currentShowImagerRect.size)
+            //var newPoint: CGPoint = .zero
+            //if self.currentShowImagerRect.maxX + self.spacing >= self.listView.bounds.width{
+            //    newPoint = CGPoint(x: self.spacing, y: self.listView.frame.height - self.currentShowImagerRect.size.height - self.listView.contentInset.bottom)
+            //}else{
+                //newPoint = CGPoint(x: currentShowImagerRect.maxX + currentShowImagerRect.size.width + spacing, y: currentShowImagerRect.maxY)
+            //}
+            //self.currentShowImagerRect = CGRect(origin: newPoint, size: self.currentShowImagerRect.size)
             }
             
             DispatchQueue.global().async {
@@ -245,9 +252,12 @@ class WisdomPhotoSelectVC: UIViewController {
                                                              ascending: false)]
         /** 只获取图片 */
         allPhotosOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
-        let assetsFetchResults = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: allPhotosOptions)
+        assetsFetchResults = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: allPhotosOptions)
         
-        let imageManager = PHImageManager.default()
+        DispatchQueue.main.async {
+            self.listView.reloadData()
+        }
+        
         // 新建一个PHImageRequestOptions对象
         let imageRequestOption = PHImageRequestOptions()
         // PHImageRequestOptions是否有效
@@ -259,8 +269,8 @@ class WisdomPhotoSelectVC: UIViewController {
         
         assetsFetchResults.enumerateObjects({ ( asset : PHAsset, index : Int, ss : UnsafeMutablePointer<ObjCBool>) in
             
-            imageManager.requestImage(for: asset,
-                                      targetSize: UIScreen.main.bounds.size,//self.assetGridThumbnailSize,
+            self.imageManager.requestImage(for: asset,
+                                      targetSize: UIScreen.main.bounds.size,
                                       contentMode: PHImageContentMode.aspectFit,
                                       options: imageRequestOption,
                                       resultHandler: { (image, _) -> Void in
@@ -269,10 +279,6 @@ class WisdomPhotoSelectVC: UIViewController {
                 }
             })
         })
-        
-        DispatchQueue.main.async {
-            self.listView.reloadData()
-        }
     }
     
     fileprivate func setNavbarUI(){
@@ -414,6 +420,7 @@ class WisdomPhotoSelectVC: UIViewController {
     }
     
     deinit {
+        imageManager.stopCachingImagesForAllAssets()
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -424,12 +431,19 @@ class WisdomPhotoSelectVC: UIViewController {
 
 extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageList.count
+        return assetsFetchResults.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WisdomPhotoSelectCellID, for: indexPath) as! WisdomPhotoSelectCell
-        cell.image = imageList[indexPath.item]
+        
+        imageManager.requestImage(for: assetsFetchResults[indexPath.item],
+                                              targetSize: assetGridThumbnailSize,
+                                              contentMode: PHImageContentMode.aspectFit,
+                                              options: nil,
+                                              resultHandler: { (image, _) -> Void in
+                cell.image = image
+        })
         
         if self.indexPathResults.contains(indexPath){
             cell.selectBtn.isSelected = true
