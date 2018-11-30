@@ -465,9 +465,19 @@ extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSou
         coverView.isHidden = false
         coverView.frame = cell.frame
         currentShowImagerRect = rect
-        WisdomScanKit.startPhotoChrome(beginImage: cell.image,
-                                       beginIndex: indexPath.item,
-                                       imageList: imageList,
-                                       beginRect: currentShowImagerRect)
+        
+        if assetsFetchResults.count == imageList.count {
+            WisdomScanKit.startPhotoChrome(beginImage: cell.image,
+                                           beginIndex: indexPath.item,
+                                           imageList: imageList,
+                                           beginRect: currentShowImagerRect)
+        }else{
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
+                WisdomScanKit.startPhotoChrome(beginImage: cell.image,
+                                               beginIndex: indexPath.item,
+                                               imageList: self.imageList,
+                                               beginRect: self.currentShowImagerRect)
+            }
+        }
     }
 }
