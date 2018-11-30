@@ -86,7 +86,7 @@ class WisdomPhotoChromeHUD: UIView {
     fileprivate func showAnimation() {
         let rect = WisdomScanKit.getImageChromeRect(image: imageArray[currentIndex])
         
-        UIView.animate(withDuration: 0.35, animations: {
+        UIView.animate(withDuration: 0.30, animations: {
             self.imageView.frame = rect
         }) { (_) in
             self.backgroundColor = UIColor.black
@@ -109,7 +109,7 @@ class WisdomPhotoChromeHUD: UIView {
         imageView.frame = rect
         imageView.isHidden = false
         
-        UIView.animate(withDuration: 0.35, animations: {
+        UIView.animate(withDuration: 0.30, animations: {
             self.imageView.frame = self.imageRect
         }) { (_) in
             self.removeFromSuperview()
