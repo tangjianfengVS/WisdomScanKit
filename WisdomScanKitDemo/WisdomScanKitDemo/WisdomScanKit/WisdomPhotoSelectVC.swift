@@ -14,8 +14,13 @@ class WisdomPhotoSelectVC: UIViewController {
     
     fileprivate let spacing: CGFloat = 5
     
-    fileprivate var barHight: CGFloat = 45
+    /** 底部Bar高度 */
+    fileprivate var barHeght: CGFloat = 45
     
+    /** 导航栏高度 */
+    fileprivate var navBarHeght: CGFloat = 64
+    
+    /** 横排个数 */
     fileprivate lazy var lineCount: CGFloat = {
         return self.view.bounds.width > 330 ? 4:3
     }()
@@ -59,8 +64,8 @@ class WisdomPhotoSelectVC: UIViewController {
     }()
     
     fileprivate lazy var selectBar: WisdomPhotoSelectBar = {
-        let bar = WisdomPhotoSelectBar(frame: CGRect(x: 0, y: self.view.bounds.height - barHight,
-                                                     width: self.view.bounds.width, height: barHight),
+        let bar = WisdomPhotoSelectBar(frame: CGRect(x: 0, y: self.view.bounds.height - barHeght,
+                                                     width: self.view.bounds.width, height: barHeght),
                                                      handers: { [weak self] (res) in
             if res{
                 if self?.imageResults.count == 0{
@@ -69,8 +74,15 @@ class WisdomPhotoSelectVC: UIViewController {
                 self?.photoTask((self?.imageResults)!)
                 self?.clickBackBtn()
             }else{
-                WisdomScanKit.startPhotoChrome(beginImage: nil,beginIndex: 0,imageList: (self?.imageList)!,
-                                               beginRect: .zero)
+                let indexPath = IndexPath(item: 0, section: 0)
+                self?.listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.top, animated: false)
+                self?.currentShowImagerRect = CGRect(x: (self?.spacing)!,
+                                                     y: (self?.navBarHeght)! + (self?.spacing)!,
+                                                     width: ItemSize, height: ItemSize)
+                WisdomScanKit.startPhotoChrome(beginImage: nil,
+                                               beginIndex: 0,
+                                               imageList: (self?.imageList)!,
+                                               beginRect: (self?.currentShowImagerRect)!)
             }
         })
         return bar
@@ -80,7 +92,7 @@ class WisdomPhotoSelectVC: UIViewController {
     
     fileprivate let startType: WisdomScanStartType!
     
-    fileprivate let electType: WisdomShowElectPhotoType!
+    //fileprivate let electType: WisdomShowElectPhotoType!
     
     fileprivate let countType: WisdomPhotoCountType!
     
@@ -95,20 +107,23 @@ class WisdomPhotoSelectVC: UIViewController {
     /** 缩略图大小 */
     fileprivate var assetGridThumbnailSize: CGSize!
     
-    /**取得的资源结果，用了存放的PHAsset */
+    /** 取得的资源结果，用了存放的PHAsset */
     fileprivate var imageList: [UIImage] = []
     
     fileprivate var imageResults: [UIImage] = []
     
     fileprivate var indexPathResults: [IndexPath] = []
     
+    /** 浏览页正在展示的图片 */
+    fileprivate var currentShowImagerRect: CGRect = .zero
+    
     init(startTypes: WisdomScanStartType,
-         electTypes: WisdomShowElectPhotoType,
+         //electTypes: WisdomShowElectPhotoType,
          countTypes: WisdomPhotoCountType,
          photoTasks: @escaping WisdomPhotoTask,
          errorTasks: @escaping WisdomErrorTask) {
         startType = startTypes
-        electType = electTypes
+        //electType = electTypes
         countType = countTypes
         photoTask = photoTasks
         errorTask = errorTasks
@@ -126,6 +141,10 @@ class WisdomPhotoSelectVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateIndex(notif:)), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateIndex_Key), object: nil)
     }
     
+    /**
+     *  处理浏览页面图片在本页面滚动跟踪的Rect
+     *  作用：用于浏览结束动画的Rect锁定
+     */
     @objc private func updateIndex(notif: Notification){
         if let index = notif.object as? Int {
             if index >= imageList.count{
@@ -135,13 +154,24 @@ class WisdomPhotoSelectVC: UIViewController {
             listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.bottom, animated: false)
             
             let window = UIApplication.shared.delegate?.window!
-            let cell = self.listView.dequeueReusableCell(withReuseIdentifier: WisdomPhotoSelectCellID, for: indexPath)
-            let rect = cell.convert(cell.bounds, to: window)
-            print(rect)
+            let cell = listView.cellForItem(at: indexPath)
+            var rect: CGRect = .zero
             
             DispatchQueue.global().async {
+                if cell != nil{
+                    rect = cell!.convert(cell!.bounds, to: window)
+                    self.currentShowImagerRect = rect
+                }else{
+                    var newPoint: CGPoint = .zero
+                    if self.currentShowImagerRect.maxX + self.spacing >= self.listView.bounds.width{
+                        newPoint = CGPoint(x: self.spacing, y: self.listView.frame.height - self.currentShowImagerRect.size.height - self.listView.contentInset.bottom)
+                    }else{
+                        //newPoint = CGPoint(x: currentShowImagerRect.maxX + currentShowImagerRect.size.width + spacing, y: currentShowImagerRect.maxY)
+                    }
+                    self.currentShowImagerRect = CGRect(origin: newPoint, size: self.currentShowImagerRect.size)
+                }
                 
-                NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateFrame_Key), object: rect)
+                NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateFrame_Key), object: self.currentShowImagerRect)
             }
         }
     }
@@ -171,12 +201,13 @@ class WisdomPhotoSelectVC: UIViewController {
     override func viewSafeAreaInsetsDidChange() {
         if #available(iOS 11.0, *) {
             if view.safeAreaInsets.bottom > 0{
-                barHight = 64
-                selectBar.frame = CGRect(x: 0, y: self.view.bounds.height - barHight,
-                                         width: self.view.bounds.width, height: barHight)
+                barHeght = 64
+                selectBar.frame = CGRect(x: 0, y: self.view.bounds.height - barHeght,
+                                         width: self.view.bounds.width, height: barHeght)
             }
+            navBarHeght = view.safeAreaInsets.top
         }
-        listView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: barHight + spacing, right: 0)
+        listView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: barHeght, right: 0)
     }
     
     fileprivate func upgrades(){
@@ -215,7 +246,6 @@ class WisdomPhotoSelectVC: UIViewController {
                                       resultHandler: { (image, _) -> Void in
                 if image != nil{
                     self.imageList.append(image!)
-                    print(image!)
                 }
             })
         })
@@ -226,15 +256,14 @@ class WisdomPhotoSelectVC: UIViewController {
     }
     
     fileprivate func setNavbarUI(){
-//        if delegate != nil {
-//            navbarBackBtn = delegate!.wisdomNavbarBackBtnItme(navigationVC: navigationController)
-//            headerTitle = delegate!.wisdomNavbarThemeTitle(navigationVC: navigationController)
-//
-//            let btn = delegate!.wisdomNavbarRightBtnItme(navigationVC: navigationController)
-//            if btn != nil{
-//               rightBtn = btn!
-//            }
-//        }
+        //if delegate != nil {
+        //    navbarBackBtn = delegate!.wisdomNavbarBackBtnItme(navigationVC: navigationController)
+        //    headerTitle = delegate!.wisdomNavbarThemeTitle(navigationVC: navigationController)
+        //    let btn = delegate!.wisdomNavbarRightBtnItme(navigationVC: navigationController)
+        //    if btn != nil{
+        //       rightBtn = btn!
+        //    }
+        //}
         rightBtn.frame = CGRect(x: 0, y: 0, width: 56, height: 30)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navbarBackBtn)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn)
@@ -272,6 +301,7 @@ class WisdomPhotoSelectVC: UIViewController {
         }
     }
     
+    /** 处理不同类型模式下的图片选择 */
     fileprivate func updatePhotoSelect(res: Bool, image: UIImage,index: IndexPath) -> Bool{
         switch countType! {
         case .once:
@@ -398,10 +428,10 @@ extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSou
         let cell = collectionView.cellForItem(at: indexPath) as! WisdomPhotoSelectCell
         let window = UIApplication.shared.delegate?.window!
         let rect = cell.convert(cell.bounds, to: window)
-        print(rect)
+        currentShowImagerRect = rect
         WisdomScanKit.startPhotoChrome(beginImage: cell.image,
                                        beginIndex: indexPath.item,
                                        imageList: imageList,
-                                       beginRect: rect)
+                                       beginRect: currentShowImagerRect)
     }
 }

@@ -9,17 +9,18 @@
 import UIKit
 
 extension UIViewController {
+    
     /**
-     *     ScannPhotos拍摄图片，支持拍摄多张:
+     *     ScannPhoto拍摄图片（支持设置张数）:
      *     WisdomScanningType:   ScannPhotos跳转动画类型
      *     WisdomPhotosType  :   ScannPhotos数量类型
      *     WisdomPhotosTask  :   ScannPhotos完成回调
      *     WisdomErrorTask   :   ScannPhotos失败错误回调
      */
-    @objc public func startScanPhotos(startType: WisdomScanStartType,
-                                      countType: WisdomPhotoCountType,
-                                      photosTask: @escaping WisdomPhotoTask,
-                                      errorTask: @escaping WisdomErrorTask) {
+    @objc public func startScanPhoto(startType: WisdomScanStartType,
+                                     countType: WisdomPhotoCountType,
+                                     photosTask: @escaping WisdomPhotoTask,
+                                     errorTask: @escaping WisdomErrorTask) {
         
         let photosVC = WisdomPhotosVC(startTypes: startType,
                                       countTypes: countType,
@@ -40,7 +41,7 @@ extension UIViewController {
     }
     
     /**
-     *     扫二维码(ScanRQCode):
+     *     二维码扫描 ScanRQCode:
      *     WisdomScanningType      :   ScanRQCode跳转动画类型
      *     WisdomRQCodeThemeType   :   ScanRQCode主题风格
      *     WisdomScanNavbarDelegate:   ScanRQCode导航栏代理，不需要显示导航栏传nil
@@ -79,31 +80,27 @@ extension UIViewController {
     }
     
     /**
-     *     获取系统相册图片 :
+     *     展示系统相册图片 :
      *     WisdomScanStartType     :  系统相册跳转动画类型
      *     WisdomSetectPhotoType   :  系统相册图片展示样式
      *     WisdomPhotoCountType    :  选择数量
-     *     WisdomScanNavbarDelegate:  ScanRQCode导航栏代理，不需要显示导航栏传nil
      *     WisdomPhotoTask         :  完成回调
      *     WisdomErrorTask         :  失败回调
      */
     @objc public func startElectSystemPhoto(startType: WisdomScanStartType,
-                                            electType: WisdomShowElectPhotoType,
+                                            //electType: WisdomShowElectPhotoType,
                                             countType: WisdomPhotoCountType,
-                                            photoTasks: @escaping WisdomPhotoTask,
-                                            errorTasks: @escaping WisdomErrorTask) {
+                                            photoTask: @escaping WisdomPhotoTask,
+                                            errorTask: @escaping WisdomErrorTask) {
         
         let selectVC = WisdomPhotoSelectVC(startTypes: startType,
-                                           electTypes: electType,
+                                           //electTypes: electType,
                                            countTypes: countType,
-                                           photoTasks: photoTasks,
-                                           errorTasks: errorTasks)
-        if electType == .allElect {
-            
-        }else if electType == .systemElect {
-            
-        }
-        
+                                           photoTasks: photoTask,
+                                           errorTasks: errorTask)
+        //if electType == .allElect {
+        //}else if electType == .systemElect {
+        //}
         switch startType {
         case .push:
             if isKind(of: UINavigationController.self){

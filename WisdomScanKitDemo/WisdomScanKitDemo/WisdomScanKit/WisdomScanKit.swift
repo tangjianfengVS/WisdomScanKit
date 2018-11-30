@@ -116,17 +116,22 @@ class WisdomScanKit: NSObject {
     }
     
     /** 获取摄像状态权限 */
-    class func authorizationStatus() -> AVAuthorizationStatus {
+    @objc class func authorizationStatus() -> AVAuthorizationStatus {
         return AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
     }
     
     /** 内部跳转系统设置 */
-    class func authorizationScan() {
+    @objc class func authorizationScan() {
         let url = URL(string: UIApplication.openSettingsURLString)
         
         if url != nil && UIApplication.shared.canOpenURL(url!){
             UIApplication.shared.openURL(url!)
         }
+    }
+    
+    /** 相册权限 */
+    @objc class func authorizationPhoto()->PHAuthorizationStatus {
+        return PHPhotoLibrary.authorizationStatus()
     }
     
     /** Flashlight operation */
@@ -151,11 +156,6 @@ class WisdomScanKit: NSObject {
                 
             }
         }
-    }
-    
-    /** 相册权限 */
-    class func authorizationPhoto()->PHAuthorizationStatus {
-        return PHPhotoLibrary.authorizationStatus()
     }
     
     /** bundle图片 */

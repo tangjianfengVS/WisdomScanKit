@@ -20,8 +20,10 @@ public typealias WisdomErrorTask = ((WisdomScanErrorType)->(Bool))
 
 public typealias WisdomPhotoTask = (([UIImage])->())
 
+/** 浏览页面下标更新跟踪通知 */
 public let WisdomPhotoChromeUpdateIndex_Key = "WisdomPhotoChromeUpdateIndex_NotiKey"
 
+/** 浏览页面Rect更新跟踪通知 */
 public let WisdomPhotoChromeUpdateFrame_Key = "WisdomPhotoChromeUpdateFrame_NotiKey"
 
 /** 调用摄像控制器动画样式 */
@@ -60,10 +62,10 @@ public let WisdomPhotoChromeUpdateFrame_Key = "WisdomPhotoChromeUpdateFrame_Noti
 }
 
 /** 系统相册图片展示样式 */
-@objc public enum WisdomShowElectPhotoType: NSInteger {
-    case systemElect=0  // 系统类型，有分类Controller(暂未实现)
-    case allElect=1     // 总包括类型，无分类Controller
-}
+//@objc public enum WisdomShowElectPhotoType: NSInteger {
+//    case systemElect=0  // 系统类型，有分类Controller(暂未实现)
+//    case allElect=1     // 总包括类型，无分类Controller
+//}
 
 @objc public protocol WisdomScanNavbarDelegate  {
     /** 返回按钮 */
