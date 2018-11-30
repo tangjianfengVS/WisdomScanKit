@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import Photos
 
+/** 图片浏览器Item的大小 */
 let ItemSize: CGFloat = UIScreen.main.bounds.width > 330 ? (UIScreen.main.bounds.width-5*5)/4 :(UIScreen.main.bounds.width-4*5)/3
 
 public typealias WisdomRQCodeFinishTask = ((String, AVCaptureSession)->())
@@ -21,10 +22,13 @@ public typealias WisdomErrorTask = ((WisdomScanErrorType)->(Bool))
 public typealias WisdomPhotoTask = (([UIImage])->())
 
 /** 浏览页面下标更新跟踪通知 */
-public let WisdomPhotoChromeUpdateIndex_Key = "WisdomPhotoChromeUpdateIndex_NotiKey"
+public let WisdomPhotoChromeUpdateIndex_Key = "WisdomPhotoChromeUpdateIndex_Key"
+
+/** 浏览页面结束动画完成更新通知 */
+public let WisdomPhotoChromeUpdateCover_Key = "WisdomPhotoChromeUpdateCover_Key"
 
 /** 浏览页面Rect更新跟踪通知 */
-public let WisdomPhotoChromeUpdateFrame_Key = "WisdomPhotoChromeUpdateFrame_NotiKey"
+public let WisdomPhotoChromeUpdateFrame_Key = "WisdomPhotoChromeUpdateFrame_Key"
 
 /** 调用摄像控制器动画样式 */
 @objc public enum WisdomScanStartType: NSInteger {

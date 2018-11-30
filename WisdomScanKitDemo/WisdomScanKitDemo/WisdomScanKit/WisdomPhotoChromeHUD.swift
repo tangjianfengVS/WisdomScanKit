@@ -70,7 +70,7 @@ class WisdomPhotoChromeHUD: UIView {
             imageView.image = imageArray[currentIndex]
             imageView.frame = beginRect
             showAnimation()
-            
+
             NotificationCenter.default.addObserver(self, selector: #selector(updateIndex(notif:)), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateFrame_Key), object: nil)
         }else{
             addSubview(emptyView)
@@ -104,14 +104,14 @@ class WisdomPhotoChromeHUD: UIView {
         backgroundColor = UIColor.clear
         listView.isHidden = true
         
-        let rect = WisdomScanKit.getImageChromeRect(image: imageArray[currentIndex])
         imageView.image = imageArray[currentIndex]
-        imageView.frame = rect
         imageView.isHidden = false
+        imageView.frame = WisdomScanKit.getImageChromeRect(image: imageArray[currentIndex])
         
         UIView.animate(withDuration: 0.30, animations: {
             self.imageView.frame = self.imageRect
         }) { (_) in
+            NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateCover_Key), object:nil)
             self.removeFromSuperview()
         }
     }

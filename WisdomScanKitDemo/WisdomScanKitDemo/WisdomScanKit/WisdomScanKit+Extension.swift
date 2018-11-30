@@ -11,7 +11,7 @@ import UIKit
 extension UIViewController {
     
     /**
-     *     ScannPhoto拍摄图片（支持设置张数）:
+     *     全屏拍摄图片（支持设置张数）:
      *     WisdomScanningType:   ScannPhotos跳转动画类型
      *     WisdomPhotosType  :   ScannPhotos数量类型
      *     WisdomPhotosTask  :   ScannPhotos完成回调

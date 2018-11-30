@@ -12,7 +12,7 @@ import Photos
 class WisdomPhotoSelectVC: UIViewController {
     fileprivate let WisdomPhotoSelectCellID = "WisdomPhotoSelectCellID"
     
-    fileprivate let spacing: CGFloat = 5
+    fileprivate let spacing: CGFloat = 4
     
     /** 底部Bar高度 */
     fileprivate var barHeght: CGFloat = 45
@@ -23,6 +23,13 @@ class WisdomPhotoSelectVC: UIViewController {
     /** 横排个数 */
     fileprivate lazy var lineCount: CGFloat = {
         return self.view.bounds.width > 330 ? 4:3
+    }()
+    
+    fileprivate lazy var coverView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.black
+        view.isHidden = true
+        return view
     }()
     
     fileprivate lazy var listView: UICollectionView = {
@@ -74,11 +81,16 @@ class WisdomPhotoSelectVC: UIViewController {
                 self?.photoTask((self?.imageResults)!)
                 self?.clickBackBtn()
             }else{
+                self?.coverView.isHidden = false
                 let indexPath = IndexPath(item: 0, section: 0)
-                self?.listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.top, animated: false)
+                self?.listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.bottom, animated: false)
                 self?.currentShowImagerRect = CGRect(x: (self?.spacing)!,
                                                      y: (self?.navBarHeght)! + (self?.spacing)!,
                                                      width: ItemSize, height: ItemSize)
+                
+                self?.coverView.frame = CGRect(x: (self?.spacing)!,y: (self?.spacing)!,
+                                               width: ItemSize, height: ItemSize)
+                
                 WisdomScanKit.startPhotoChrome(beginImage: nil,
                                                beginIndex: 0,
                                                imageList: (self?.imageList)!,
@@ -134,11 +146,18 @@ class WisdomPhotoSelectVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(white: 0.95, alpha: 1)
         view.addSubview(listView)
+        listView.addSubview(coverView)
         view.addSubview(selectBar)
         setNavbarUI()
         authoriza()
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateIndex(notif:)), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateIndex_Key), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateCover), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateCover_Key), object: nil)
+    }
+    
+    @objc private func updateCover(){
+        coverView.isHidden = true
     }
     
     /**
@@ -151,26 +170,27 @@ class WisdomPhotoSelectVC: UIViewController {
                 return
             }
             let indexPath = IndexPath(item: index, section: 0)
-            listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.bottom, animated: false)
+            listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.top, animated: false)
             
             let window = UIApplication.shared.delegate?.window!
             let cell = listView.cellForItem(at: indexPath)
             var rect: CGRect = .zero
             
+            if cell != nil{
+                rect = cell!.convert(cell!.bounds, to: window)
+                self.coverView.frame = cell!.frame
+                self.currentShowImagerRect = rect
+            }else{
+                //var newPoint: CGPoint = .zero
+                //if self.currentShowImagerRect.maxX + self.spacing >= self.listView.bounds.width{
+                //    newPoint = CGPoint(x: self.spacing, y: self.listView.frame.height - self.currentShowImagerRect.size.height - self.listView.contentInset.bottom)
+                //}else{
+                    //newPoint = CGPoint(x: currentShowImagerRect.maxX + currentShowImagerRect.size.width + spacing, y: currentShowImagerRect.maxY)
+                //}
+                //self.currentShowImagerRect = CGRect(origin: newPoint, size: self.currentShowImagerRect.size)
+            }
+            
             DispatchQueue.global().async {
-                if cell != nil{
-                    rect = cell!.convert(cell!.bounds, to: window)
-                    self.currentShowImagerRect = rect
-                }else{
-                    var newPoint: CGPoint = .zero
-                    if self.currentShowImagerRect.maxX + self.spacing >= self.listView.bounds.width{
-                        newPoint = CGPoint(x: self.spacing, y: self.listView.frame.height - self.currentShowImagerRect.size.height - self.listView.contentInset.bottom)
-                    }else{
-                        //newPoint = CGPoint(x: currentShowImagerRect.maxX + currentShowImagerRect.size.width + spacing, y: currentShowImagerRect.maxY)
-                    }
-                    self.currentShowImagerRect = CGRect(origin: newPoint, size: self.currentShowImagerRect.size)
-                }
-                
                 NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateFrame_Key), object: self.currentShowImagerRect)
             }
         }
@@ -428,6 +448,8 @@ extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSou
         let cell = collectionView.cellForItem(at: indexPath) as! WisdomPhotoSelectCell
         let window = UIApplication.shared.delegate?.window!
         let rect = cell.convert(cell.bounds, to: window)
+        coverView.isHidden = false
+        coverView.frame = cell.frame
         currentShowImagerRect = rect
         WisdomScanKit.startPhotoChrome(beginImage: cell.image,
                                        beginIndex: indexPath.item,
