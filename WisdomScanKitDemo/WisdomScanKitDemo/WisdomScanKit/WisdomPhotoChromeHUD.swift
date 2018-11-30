@@ -14,11 +14,11 @@ class WisdomPhotoChromeHUD: UIView {
     
     fileprivate let imageArray: [UIImage]!
     
+    /** 当前浏览标示 */
     fileprivate var currentIndex: Int!
     
+    /** 当前结束目标图片归位Rect */
     fileprivate var imageRect: CGRect!
-    
-    fileprivate var pagCount: Int = 0
     
     fileprivate lazy var layout = WisdomPhotoChromeFlowLayout {[weak self] (index) in
         if index < (self?.imageArray.count)!{
@@ -51,7 +51,7 @@ class WisdomPhotoChromeHUD: UIView {
         let view = UICollectionView(frame: self.frame, collectionViewLayout: layout)
         view.register(WisdomPhotoChromeCell.self, forCellWithReuseIdentifier: WisdomPhotoChromeHUDCellID)
         view.dataSource = self
-        //view.isPagingEnabled = true
+        //view.isPagingEnabled = true 自定义FlowLayout的滚动位置，需要关闭分页
         view.backgroundColor = UIColor.clear
         view.decelerationRate = UIScrollView.DecelerationRate.fast
         return view
@@ -126,7 +126,6 @@ class WisdomPhotoChromeHUD: UIView {
 }
 
 extension WisdomPhotoChromeHUD: UICollectionViewDataSource,UICollectionViewDelegate{
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imageArray.count
     }

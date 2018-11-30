@@ -94,9 +94,9 @@ class WisdomPhotoSelectVC: UIViewController {
     
     //fileprivate let electType: WisdomShowElectPhotoType!
     
-    fileprivate let countType: WisdomPhotoCountType!
-    
     //fileprivate var delegate: WisdomScanNavbarDelegate?
+    
+    fileprivate let countType: WisdomPhotoCountType!
     
     fileprivate let photoTask: WisdomPhotoTask!
     

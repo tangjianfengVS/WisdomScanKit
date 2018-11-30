@@ -10,6 +10,7 @@ import AVFoundation
 import Photos
 
 class WisdomScanKit: NSObject {
+    
     /**
      *     图片浏览器:
      *     beginImage  :  当前展示的图片

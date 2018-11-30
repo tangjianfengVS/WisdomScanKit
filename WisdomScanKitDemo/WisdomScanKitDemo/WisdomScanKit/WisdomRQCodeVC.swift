@@ -16,6 +16,7 @@ class WisdomRQCodeVC: UIViewController {
     
     fileprivate let startType: WisdomScanStartType!
     
+    /** 主题风格 */
     fileprivate let themeType: WisdomRQCodeThemeType!
     
     fileprivate var scanSession: AVCaptureSession?

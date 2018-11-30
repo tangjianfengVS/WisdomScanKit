@@ -24,7 +24,6 @@ class WisdomPhotoChromeFlowLayout: UICollectionViewFlowLayout {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /** 计算布局 */
     override func prepare() {
         super.prepare()
         itemSize = collectionView!.bounds.size
