@@ -472,12 +472,13 @@ extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSou
                                            imageList: imageList,
                                            beginRect: currentShowImagerRect)
         }else{
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
-                WisdomScanKit.startPhotoChrome(beginImage: cell.image,
-                                               beginIndex: indexPath.item,
-                                               imageList: self.imageList,
-                                               beginRect: self.currentShowImagerRect)
-            }
+//            let time: Double = Double(assetsFetchResults.count - imageList.count)
+//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time * 0.08) {
+//                WisdomScanKit.startPhotoChrome(beginImage: cell.image,
+//                                               beginIndex: indexPath.item,
+//                                               imageList: self.imageList,
+//                                               beginRect: self.currentShowImagerRect)
+//            }
         }
     }
 }

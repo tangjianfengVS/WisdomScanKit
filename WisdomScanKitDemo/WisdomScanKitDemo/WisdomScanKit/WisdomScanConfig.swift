@@ -21,10 +21,10 @@ public typealias WisdomErrorTask = ((WisdomScanErrorType)->(Bool))
 
 public typealias WisdomPhotoTask = (([UIImage])->())
 
-/** 浏览页面下标更新跟踪通知 */
+/** 浏览页面下标更新通知 */
 public let WisdomPhotoChromeUpdateIndex_Key = "WisdomPhotoChromeUpdateIndex_Key"
 
-/** 浏览页面结束动画完成更新通知 */
+/** 浏览页面结束动画更新通知 */
 public let WisdomPhotoChromeUpdateCover_Key = "WisdomPhotoChromeUpdateCover_Key"
 
 /** 浏览页面Rect更新跟踪通知 */
