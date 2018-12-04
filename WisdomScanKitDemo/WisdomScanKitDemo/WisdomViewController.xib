@@ -58,7 +58,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x75-HB-duD">
-                    <rect key="frame" x="205" y="103" width="70" height="35"/>
+                    <rect key="frame" x="205" y="121" width="70" height="35"/>
                     <color key="backgroundColor" red="0.0" green="0.59999999999999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" name="HoeflerText-Regular" family="Hoefler Text" pointSize="17"/>
                     <state key="normal" title="Success">
@@ -137,27 +137,8 @@
                         <action selector="text2ButtonClick:" destination="-1" eventType="touchUpInside" id="tTF-7O-czq"/>
                     </connections>
                 </button>
-                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I9k-1E-t8f">
-                    <rect key="frame" x="205" y="511" width="70" height="35"/>
-                    <color key="backgroundColor" red="0.0" green="0.59999999999999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                    <state key="normal" title="Hide">
-                        <color key="titleColor" red="0.08564772457" green="0.49405008550000001" blue="0.69020420309999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                    <state key="selected" title="Show">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <state key="highlighted">
-                        <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                    </state>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                            <integer key="value" value="10"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
-                </button>
                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KB5-Sm-BC0">
-                    <rect key="frame" x="205" y="177" width="70" height="35"/>
+                    <rect key="frame" x="205" y="186" width="70" height="35"/>
                     <color key="backgroundColor" red="0.0" green="0.59999999999999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" name="HoeflerText-Regular" family="Hoefler Text" pointSize="17"/>
                     <state key="normal" title="Error">
@@ -177,7 +158,6 @@
             <constraints>
                 <constraint firstItem="KB5-Sm-BC0" firstAttribute="height" secondItem="67L-v7-6iG" secondAttribute="height" id="3Is-Az-vEC"/>
                 <constraint firstItem="aah-aG-hqg" firstAttribute="top" secondItem="67L-v7-6iG" secondAttribute="bottom" constant="30" id="5Q6-r5-MnY"/>
-                <constraint firstItem="I9k-1E-t8f" firstAttribute="top" secondItem="kOo-KJ-hH3" secondAttribute="bottom" constant="30" id="8uj-Qb-dRS"/>
                 <constraint firstItem="67L-v7-6iG" firstAttribute="width" secondItem="aah-aG-hqg" secondAttribute="width" id="9G7-fp-0jp"/>
                 <constraint firstItem="kOo-KJ-hH3" firstAttribute="centerX" secondItem="5aE-FZ-2ge" secondAttribute="centerX" id="CJ2-XM-2Ma"/>
                 <constraint firstItem="0zS-mp-O8b" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="80" id="CQ0-0K-0pj"/>
@@ -189,27 +169,24 @@
                 <constraint firstItem="y8Q-K9-ykB" firstAttribute="top" secondItem="nsk-vD-mcD" secondAttribute="bottom" constant="40" id="FhV-tv-j9I"/>
                 <constraint firstItem="67L-v7-6iG" firstAttribute="height" secondItem="aah-aG-hqg" secondAttribute="height" id="Fti-Ae-0td"/>
                 <constraint firstItem="nsk-vD-mcD" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Hlq-iG-0K4"/>
+                <constraint firstItem="67L-v7-6iG" firstAttribute="top" secondItem="KB5-Sm-BC0" secondAttribute="bottom" constant="30" id="JYH-aO-B18"/>
                 <constraint firstItem="x75-HB-duD" firstAttribute="height" secondItem="aah-aG-hqg" secondAttribute="height" id="Jas-aP-QP8"/>
                 <constraint firstItem="67L-v7-6iG" firstAttribute="centerX" secondItem="aah-aG-hqg" secondAttribute="centerX" id="KCe-AG-Uzy"/>
-                <constraint firstItem="I9k-1E-t8f" firstAttribute="centerX" secondItem="aah-aG-hqg" secondAttribute="centerX" id="KJN-Yk-7ya"/>
                 <constraint firstItem="kOo-KJ-hH3" firstAttribute="height" secondItem="5aE-FZ-2ge" secondAttribute="height" id="Lu2-ab-Ppj"/>
                 <constraint firstItem="5aE-FZ-2ge" firstAttribute="width" secondItem="aah-aG-hqg" secondAttribute="width" id="OG0-ww-3oh"/>
                 <constraint firstItem="KB5-Sm-BC0" firstAttribute="centerX" secondItem="67L-v7-6iG" secondAttribute="centerX" id="RA4-XF-tSO"/>
                 <constraint firstItem="x75-HB-duD" firstAttribute="width" secondItem="aah-aG-hqg" secondAttribute="width" id="T64-Mb-eXA"/>
-                <constraint firstItem="I9k-1E-t8f" firstAttribute="width" secondItem="aah-aG-hqg" secondAttribute="width" id="Tgd-Ns-6D9"/>
                 <constraint firstItem="5aE-FZ-2ge" firstAttribute="top" secondItem="aah-aG-hqg" secondAttribute="bottom" constant="30" id="dnM-0t-kHe"/>
-                <constraint firstItem="I9k-1E-t8f" firstAttribute="height" secondItem="aah-aG-hqg" secondAttribute="height" id="eP2-Px-nca"/>
                 <constraint firstItem="KB5-Sm-BC0" firstAttribute="width" secondItem="67L-v7-6iG" secondAttribute="width" id="gMR-3b-e1w"/>
                 <constraint firstItem="y8Q-K9-ykB" firstAttribute="leading" secondItem="0zS-mp-O8b" secondAttribute="leading" id="ibB-PL-1p5"/>
-                <constraint firstItem="KB5-Sm-BC0" firstAttribute="top" secondItem="x75-HB-duD" secondAttribute="bottom" constant="39" id="itH-q0-ffZ"/>
                 <constraint firstItem="aah-aG-hqg" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="laO-ax-LBt"/>
                 <constraint firstItem="aah-aG-hqg" firstAttribute="height" secondItem="nsk-vD-mcD" secondAttribute="height" id="mpt-Bm-2wb"/>
                 <constraint firstItem="0zS-mp-O8b" firstAttribute="height" secondItem="nsk-vD-mcD" secondAttribute="height" id="n1E-er-0rk"/>
                 <constraint firstItem="nsk-vD-mcD" firstAttribute="top" secondItem="0zS-mp-O8b" secondAttribute="bottom" constant="40" id="qva-fu-IhM"/>
-                <constraint firstItem="x75-HB-duD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="103" id="rpk-T7-5Dm"/>
                 <constraint firstItem="5aE-FZ-2ge" firstAttribute="height" secondItem="aah-aG-hqg" secondAttribute="height" id="sfL-cL-jXc"/>
                 <constraint firstItem="nsk-vD-mcD" firstAttribute="leading" secondItem="0zS-mp-O8b" secondAttribute="leading" id="tF8-lN-qW5"/>
                 <constraint firstItem="aah-aG-hqg" firstAttribute="width" secondItem="nsk-vD-mcD" secondAttribute="width" id="xCC-wF-nOE"/>
+                <constraint firstItem="KB5-Sm-BC0" firstAttribute="top" secondItem="x75-HB-duD" secondAttribute="bottom" constant="30" id="xNM-og-jU9"/>
                 <constraint firstItem="0zS-mp-O8b" firstAttribute="width" secondItem="nsk-vD-mcD" secondAttribute="width" id="zUl-Rn-E2J"/>
             </constraints>
             <point key="canvasLocation" x="53.600000000000001" y="48.125937031484263"/>

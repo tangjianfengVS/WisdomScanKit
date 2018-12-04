@@ -231,10 +231,11 @@ extension WisdomHUD {
     }
     
     
-    /**  失败提示
+    /**  3.失败提示
      *   text:   文字
      *   默认时间，默认不可交互(全屏遮罩)
      */
+    @discardableResult
     @objc public static func showError(text: String?)-> WisdomHUD {
         var errorStr = text
         if text == nil || text?.count == 0 {
@@ -244,11 +245,12 @@ extension WisdomHUD {
     }
     
     
-    /**  失败提示
+    /**  4.失败提示
      *   text:   文字
      *   delay:  持续时间
      *   enable: 是否全屏遮罩
      */
+    @discardableResult
     @objc public static func showError(text: String?, delay: TimeInterval, enable: Bool = true)-> WisdomHUD {
         var errorStr = text
         if text == nil || text?.count == 0 {
@@ -258,79 +260,68 @@ extension WisdomHUD {
     }
     
     
-    /**  耗时加载
-     *   无文字Loading，默认不可交互(全屏遮罩)
-     */
-    @objc public static func showLoading()-> WisdomHUD {
-        return WisdomHUD(texts: nil,types:.loading,delays: 0,enable:false).show()
-    }
-    
-    
-    /**  耗时加载
-     *   text:   Loading文字，默认不可交互(全屏遮罩)
-     */
-    @objc public static func showLoading(text: String?)-> WisdomHUD {
-        return WisdomHUD(texts: text,types:.loading,delays: 0,enable:false).show()
-    }
-    
-    
-    /**  耗时加载
-     *   无文字Loading
-     *   enable: 是否全屏遮罩
-     */
-    @objc public static func showLoading(enable: Bool = false)-> WisdomHUD {
-        return WisdomHUD(texts: nil,types:.loading,delays: 0,enable:enable).show()
-    }
-    
-    
-    /**  耗时加载
-     *   text:   Loading文字
-     *   enable: 是否全屏遮罩
-     */
-    @objc public static func showLoading(text: String?, enable: Bool = true)-> WisdomHUD {
-        return WisdomHUD(texts: text,types:.loading,delays: 0,enable:enable).show()
-    }
-    
-    
-    /**  警告信息提示展示
+    /**  5.警告信息提示展示
      *   text:   文字
      *   默认时间，默认不可交互(全屏遮罩)
      */
+    @discardableResult
     @objc public static func showInfo(text: String?)-> WisdomHUD {
         return WisdomHUD(texts: text, types: .info, delays: delayTime,enable:false).show()
     }
     
     
-    /**  警告信息提示展示
+    /**  6.警告信息提示展示
      *   text:   文字
      *   delay:  持续时间
      *   enable: 是否全屏遮罩
      */
+    @discardableResult
     @objc public static func showInfo(text: String?, delay: TimeInterval, enable: Bool = true)-> WisdomHUD {
         return WisdomHUD(texts: text, types: .info, delays: delay,enable:enable).show()
     }
     
     
-    /**  无图片信息提示展示，纯文字
+    /**  7.耗时加载
+     *   无文字Loading
+     *   默认不可交互(全屏遮罩)
+     */
+    @objc public static func showLoading() {
+        WisdomHUD(texts: nil,types:.loading,delays: 0,enable:false).show()
+    }
+    
+    
+    /**  8.耗时加载
+     *   text:   Loading文字
+     *   enable: 是否全屏遮罩
+     */
+    @objc public static func showLoading(text: String?, enable: Bool = false) {
+        WisdomHUD(texts: text,types:.loading,delays: 0,enable:enable).show()
+    }
+    
+    
+    /**  9.无图片信息提示展示，纯文字
      *   text:   文字
      *   默认时间，默认不可交互(全屏遮罩)
      */
+    @discardableResult
     @objc public static func showText(text: String?)-> WisdomHUD {
         return WisdomHUD(texts: text,types:.text,delays: delayTime,enable:false).show()
     }
     
     
-    /**  无图片信息提示展示，纯文字
+    /**  10.无图片信息提示展示，纯文字
      *   text:   文字
      *   delay:  持续时间
      *   enable: 是否全屏遮罩
      */
-    @objc public static func showText(text: String?, delay: TimeInterval, enable: Bool = true)-> WisdomHUD {
+    @discardableResult
+    @objc public static func showText(text: String?, delay: TimeInterval, enable: Bool = false)-> WisdomHUD {
         return WisdomHUD(texts: text,types:.text,delays: delay,enable:enable).show()
     }
     
-    
-    @objc fileprivate func show() -> WisdomHUD {
+    /** 11.自定义展示 */
+    @discardableResult
+    @objc public func show() -> WisdomHUD {
         self.animate(hide: false) {
             if self.delay > 0 {
                 WisdomHUD.asyncAfter(duration: self.delay, completion: {
@@ -342,7 +333,7 @@ extension WisdomHUD {
         return self
     }
     
-    /** Hide func */
+    /** 12.Hide func 移除屏幕展示 */
     @objc public func hide() {
         self.animate(hide: true, completion: {
             self.removeFromSuperview()
@@ -350,12 +341,16 @@ extension WisdomHUD {
         })
     }
     
+    /** 13.Hide func 延迟移除屏幕展示 */
     @objc public func hide(delay: TimeInterval = delayTime) {
         WisdomHUD.asyncAfter(duration: delay) {
             self.hide()
         }
     }
     
+    /** 14.类方法
+     *  Hide func 移除屏幕展示
+     */
     @objc public static func hide() {
         for view in keyWindow.subviews {
             if view.isKind(of:self) {
@@ -369,6 +364,9 @@ extension WisdomHUD {
         }
     }
     
+    /** 15.类方法
+     *  Hide func 延迟移除屏幕展示
+     */
     @objc public static func hide(delay:TimeInterval = delayTime) {
         asyncAfter(duration: delay) {
             hide()
