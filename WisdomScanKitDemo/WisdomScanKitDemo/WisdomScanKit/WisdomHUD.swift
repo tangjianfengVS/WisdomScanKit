@@ -8,28 +8,28 @@
 
 import UIKit
 
-public let delayTime : TimeInterval = 1.5
+/** HUD展示类型 */
+@objc public enum WisdomHUDType: NSInteger {
+    case success=0 // image + text
+    case error=1   // image + text
+    case info=2    // image + text
+    case loading=3 // image
+    case text=4    // text
+}
 
-public let padding : CGFloat = 12
+public let delayTime: TimeInterval = 1.5
 
-public let cornerRadius : CGFloat = 13.0
+public let padding: CGFloat = 12
 
-public let imageWidth_Height : CGFloat = 36
+public let cornerRadius: CGFloat = 13.0
+
+public let imageWidth_Height: CGFloat = 36
 
 public let textFont = UIFont.systemFont(ofSize: 14)
 
 public let keyWindow = UIApplication.shared.keyWindow!
 
 public let WisdomHUDIdentifier = "WisdomTypeIdentifier"
-
-
-public enum WisdomHUDType {
-    case success // image + text
-    case error   // image + text
-    case info    // image + text
-    case loading // image
-    case text    // text
-}
 
 
 public class WisdomHUD: UIView {
@@ -40,13 +40,15 @@ public class WisdomHUD: UIView {
     
     fileprivate var activityView: UIActivityIndicatorView?
     
-    fileprivate var type: WisdomHUDType?
+    fileprivate let type: WisdomHUDType!
     
     fileprivate var text: String?
     
     fileprivate var selfWidth: CGFloat = 90
     
     fileprivate var selfHeight: CGFloat = 90
+    
+    fileprivate var delayHander: ((TimeInterval, WisdomHUDType)->())?
     
     /** enable ：是否允许用户交互，默认允许 */
     init(texts: String?,
@@ -69,15 +71,18 @@ public class WisdomHUD: UIView {
     }
     
     private func setupUI() {
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
-        self.layer.cornerRadius = cornerRadius
+        translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
+        layer.cornerRadius = cornerRadius
         
         if text != nil {
             selfWidth = 110
         }
         
-        guard let type = type else { return }
+        guard let type = type else {
+            return
+        }
+        
         switch type {
         case .success:
             addImageView(image: WisdomHUDImage.imageOfSuccess)
@@ -102,8 +107,7 @@ public class WisdomHUD: UIView {
     }
     
     private func addLabel() {
-        
-        var labelY:CGFloat = 0.0
+        var labelY: CGFloat = 0.0
         if type == .text {
             labelY = padding
         } else {
@@ -113,24 +117,20 @@ public class WisdomHUD: UIView {
             textLabel.text = text
             addSubview(textLabel)
             
-            addConstraint(to: textLabel,
-                          edageInset: UIEdgeInsets(top: labelY,
-                                                   left: padding/2,
-                                                   bottom: -padding,
-                                                   right: -padding/2))
+            addConstraint(to: textLabel, edageInset: UIEdgeInsets(top: labelY,
+                                                                 left: padding/2,
+                                                               bottom: -padding,
+                                                                right: -padding/2))
             let textSize:CGSize = size(from: text)
             selfHeight = textSize.height + labelY + padding + 8
         }
     }
     
     private func size(from text:String) -> CGSize {
-        return text.textSizeWithFont(font: textFont,
-                                     constrainedToSize:
-            CGSize(width:selfWidth - padding, height:CGFloat(MAXFLOAT)))
+        return text.textSizeWithFont(font: textFont, constrainedToSize: CGSize(width:selfWidth - padding, height:CGFloat(MAXFLOAT)))
     }
     
     private func addImageView(image:UIImage) {
-        
         imageView = UIImageView(image: image)
         imageView?.translatesAutoresizingMaskIntoConstraints = false
         addSubview(imageView!)
@@ -164,117 +164,182 @@ public class WisdomHUD: UIView {
         }
     }
     
+    /** 延迟 hide() */
+    fileprivate class func asyncAfter(duration: TimeInterval, completion:(() -> Void)?) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration, execute: {
+            completion?()
+        })
+    }
+    
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /**  成功提示
-     *   text:   文字
-     *   默认时间，默认不可交互(全屏遮罩)
-     */
-    @objc public static func showSuccess(text:String?) {
-        WisdomHUD(texts: text, types: .success, delays: delayTime, enable: false).show()
+    private lazy var screenView: UIView = {
+        $0.frame = UIScreen.main.bounds
+        $0.backgroundColor = UIColor.black.withAlphaComponent(0.1)
+        $0.restorationIdentifier = WisdomHUDIdentifier
+        $0.isUserInteractionEnabled = true
+        return $0
+    }(UIView())
+    
+    private lazy var textLabel: UILabel = {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textColor = UIColor.white
+        $0.font = textFont
+        $0.numberOfLines = 0
+        $0.textAlignment = .center
+        return $0
+    }(UILabel())
+}
+
+
+extension WisdomHUD {
+    
+    /** 定义任务结束时间回调 */
+    @objc public func delayHanders(delayHanders: @escaping (TimeInterval, WisdomHUDType)->() ){
+        delayHander = delayHanders
     }
     
-    /**  成功提示
+    
+    /**  1.成功提示
+     *   text:   文字
+     *   默认时间，默认不可交互(全屏遮罩)-----
+     */
+    @discardableResult
+    @objc public static func showSuccess(text: String?)-> WisdomHUD{
+        var successStr = text
+        if text == nil || text?.count == 0 {
+            successStr = "Success"
+        }
+        return WisdomHUD(texts: successStr, types: .success, delays: delayTime, enable: false).show()
+    }
+    
+    
+    /**  2.成功提示
      *   text:   文字
      *   delay:  持续时间
      *   enable: 是否全屏遮罩
      */
-    @objc public static func showSuccess(text:String?, delay:TimeInterval, enable:Bool = true) {
-        WisdomHUD(texts: text, types: .success, delays: delay,enable: enable).show()
+    @discardableResult
+    @objc public static func showSuccess(text: String?, delay: TimeInterval, enable: Bool = true)-> WisdomHUD {
+        var successStr = text
+        if text == nil || text?.count == 0 {
+            successStr = "Success"
+        }
+        return WisdomHUD(texts: successStr, types: .success, delays: delay,enable: enable).show()
     }
+    
     
     /**  失败提示
      *   text:   文字
      *   默认时间，默认不可交互(全屏遮罩)
      */
-    @objc public static func showError(text:String?) {
-        WisdomHUD(texts: text, types: .error, delays: delayTime,enable:false).show()
+    @objc public static func showError(text: String?)-> WisdomHUD {
+        var errorStr = text
+        if text == nil || text?.count == 0 {
+            errorStr = "Error"
+        }
+        return WisdomHUD(texts: errorStr, types: .error, delays: delayTime,enable:false).show()
     }
+    
     
     /**  失败提示
      *   text:   文字
      *   delay:  持续时间
      *   enable: 是否全屏遮罩
      */
-    @objc public static func showError(text:String?, delay:TimeInterval, enable:Bool = true) {
-        WisdomHUD(texts: text, types: .error, delays: delay,enable:enable).show()
+    @objc public static func showError(text: String?, delay: TimeInterval, enable: Bool = true)-> WisdomHUD {
+        var errorStr = text
+        if text == nil || text?.count == 0 {
+            errorStr = "Error"
+        }
+        return WisdomHUD(texts: errorStr, types: .error, delays: delay,enable:enable).show()
     }
+    
     
     /**  耗时加载
      *   无文字Loading，默认不可交互(全屏遮罩)
      */
-    @objc public static func showLoading() {
-        WisdomHUD(texts: nil,types:.loading,delays: 0,enable:false).show()
+    @objc public static func showLoading()-> WisdomHUD {
+        return WisdomHUD(texts: nil,types:.loading,delays: 0,enable:false).show()
     }
+    
     
     /**  耗时加载
      *   text:   Loading文字，默认不可交互(全屏遮罩)
      */
-    @objc public static func showLoading(text:String?) {
-        WisdomHUD(texts: text,types:.loading,delays: 0,enable:false).show()
+    @objc public static func showLoading(text: String?)-> WisdomHUD {
+        return WisdomHUD(texts: text,types:.loading,delays: 0,enable:false).show()
     }
+    
     
     /**  耗时加载
      *   无文字Loading
      *   enable: 是否全屏遮罩
      */
-    @objc public static func showLoading(enable:Bool = false) {
-        WisdomHUD(texts: nil,types:.loading,delays: 0,enable:enable).show()
+    @objc public static func showLoading(enable: Bool = false)-> WisdomHUD {
+        return WisdomHUD(texts: nil,types:.loading,delays: 0,enable:enable).show()
     }
+    
     
     /**  耗时加载
      *   text:   Loading文字
      *   enable: 是否全屏遮罩
      */
-    @objc public static func showLoading(text:String?, enable:Bool = true) {
-        WisdomHUD(texts: text,types:.loading,delays: 0,enable:enable).show()
+    @objc public static func showLoading(text: String?, enable: Bool = true)-> WisdomHUD {
+        return WisdomHUD(texts: text,types:.loading,delays: 0,enable:enable).show()
     }
+    
     
     /**  警告信息提示展示
      *   text:   文字
      *   默认时间，默认不可交互(全屏遮罩)
      */
-    @objc public static func showInfo(text:String?) {
-        WisdomHUD(texts: text, types: .info, delays: delayTime,enable:false).show()
+    @objc public static func showInfo(text: String?)-> WisdomHUD {
+        return WisdomHUD(texts: text, types: .info, delays: delayTime,enable:false).show()
     }
+    
     
     /**  警告信息提示展示
      *   text:   文字
      *   delay:  持续时间
      *   enable: 是否全屏遮罩
      */
-    @objc public static func showInfo(text:String?, delay:TimeInterval, enable:Bool = true) {
-        WisdomHUD(texts: text, types: .info, delays: delay,enable:enable).show()
+    @objc public static func showInfo(text: String?, delay: TimeInterval, enable: Bool = true)-> WisdomHUD {
+        return WisdomHUD(texts: text, types: .info, delays: delay,enable:enable).show()
     }
+    
     
     /**  无图片信息提示展示，纯文字
      *   text:   文字
      *   默认时间，默认不可交互(全屏遮罩)
      */
-    @objc public static func showText(text:String?) {
-        WisdomHUD(texts: text,types:.text,delays: delayTime,enable:false).show()
+    @objc public static func showText(text: String?)-> WisdomHUD {
+        return WisdomHUD(texts: text,types:.text,delays: delayTime,enable:false).show()
     }
+    
     
     /**  无图片信息提示展示，纯文字
      *   text:   文字
      *   delay:  持续时间
      *   enable: 是否全屏遮罩
      */
-    @objc public static func showText(text:String?, delay:TimeInterval, enable:Bool = true) {
-        WisdomHUD(texts: text,types:.text,delays: delay,enable:enable).show()
+    @objc public static func showText(text: String?, delay: TimeInterval, enable: Bool = true)-> WisdomHUD {
+        return WisdomHUD(texts: text,types:.text,delays: delay,enable:enable).show()
     }
     
-
-    @objc public func show() {
+    
+    @objc fileprivate func show() -> WisdomHUD {
         self.animate(hide: false) {
             if self.delay > 0 {
                 WisdomHUD.asyncAfter(duration: self.delay, completion: {
                     self.hide()
+                    self.delayHander?(self.delay, self.type)
                 })
             }
         }
+        return self
     }
     
     /** Hide func */
@@ -285,7 +350,7 @@ public class WisdomHUD: UIView {
         })
     }
     
-    @objc public func hide(delay:TimeInterval = delayTime) {
+    @objc public func hide(delay: TimeInterval = delayTime) {
         WisdomHUD.asyncAfter(duration: delay) {
             self.hide()
         }
@@ -309,30 +374,15 @@ public class WisdomHUD: UIView {
             hide()
         }
     }
-    
-    private lazy var screenView: UIView = {
-        $0.frame = UIScreen.main.bounds
-        $0.backgroundColor = UIColor.black.withAlphaComponent(0.1)
-        $0.restorationIdentifier = WisdomHUDIdentifier
-        $0.isUserInteractionEnabled = true
-        return $0
-    }(UIView())
-    
-    private lazy var textLabel: UILabel = {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.textColor = UIColor.white
-        $0.font = textFont
-        $0.numberOfLines = 0
-        $0.textAlignment = .center
-        return $0
-    }(UILabel())
-    
 }
 
-//TODO: Extension String
 extension String {
     
-    fileprivate func textSizeWithFont(font: UIFont, constrainedToSize size:CGSize) -> CGSize {
+    /** 计算String内容的大小
+     *  font： 文字字号大小
+     *  size： 内容大小限定
+     */
+    fileprivate func textSizeWithFont(font: UIFont, constrainedToSize size: CGSize) -> CGSize {
         var textSize:CGSize!
         if size.equalTo(CGSize.zero) {
             let attributes = NSDictionary(object: font, forKey: NSAttributedString.Key.font as NSCopying)
@@ -352,34 +402,22 @@ extension String {
     }
 }
 
-//TODO: Extension WisdomHUD
-extension WisdomHUD {
-    
-    fileprivate class func asyncAfter(duration:TimeInterval, completion:(() -> Void)?) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + duration, execute: {
-            completion?()
-        })
-    }
-}
-
-//TODO: Extension UIView
 extension UIView {
-    fileprivate func animate(hide:Bool,
-                             completion:(() -> Void)? = nil) {
-        UIView.animate(withDuration: 0.3,
-                       animations: {
-                        if hide {
-                            self.alpha = 0
-                        }else {
-                            self.alpha = 1
-                        }
+    
+    fileprivate func animate(hide:Bool, completion:(() -> Void)? = nil) {
+        UIView.animate(withDuration: 0.3, animations: {
+            if hide {
+                self.alpha = 0
+            }else {
+                self.alpha = 1
+            }
         }) { _ in
             completion?()
         }
     }
 }
 
-//MARK: Class WisdomHUDImage
+
 private class WisdomHUDImage {
     
     fileprivate struct HUD {
@@ -442,16 +480,16 @@ private class WisdomHUDImage {
         checkmarkShapePath.stroke()
     }
     
-    fileprivate static var imageOfSuccess :UIImage {
+    fileprivate static var imageOfSuccess: UIImage {
         
-        guard HUD.imageOfSuccess == nil else { return HUD.imageOfSuccess! }
-        UIGraphicsBeginImageContextWithOptions(CGSize(width: imageWidth_Height,
-                                                      height: imageWidth_Height),
-                                               false, 0)
+        guard HUD.imageOfSuccess == nil else {
+            return HUD.imageOfSuccess!
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: imageWidth_Height, height: imageWidth_Height), false, 0)
         WisdomHUDImage.draw(.success)
         HUD.imageOfSuccess = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
         return HUD.imageOfSuccess!
     }
     
