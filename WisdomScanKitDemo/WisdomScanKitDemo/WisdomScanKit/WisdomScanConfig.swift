@@ -10,6 +10,21 @@ import UIKit
 import AVFoundation
 import Photos
 
+/** 带缓存的图片管理对象 */
+let imageManager = PHCachingImageManager()
+
+/** 缩略图大小 */
+var assetGridThumbnailSize: CGSize = .zero
+
+/** 高清图片配置参数 */
+let options = { () -> PHImageRequestOptions in 
+    let options = PHImageRequestOptions()
+    options.isSynchronous = false
+    options.deliveryMode = PHImageRequestOptionsDeliveryMode.highQualityFormat
+    options.isNetworkAccessAllowed = true
+    return options
+}()
+
 /** 图片浏览器Item的大小 */
 let ItemSize: CGFloat = UIScreen.main.bounds.width > 330 ? (UIScreen.main.bounds.width-5*5)/4 :(UIScreen.main.bounds.width-4*5)/3
 

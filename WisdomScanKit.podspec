@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.description  = "Powerful scanner frame, support to scan qr code, full screen camera shooting, support to scan the bank card number. Swift version, fully compatible with OC project calls."
 
   s.homepage     = "https://github.com/tangjianfengVS/WisdomScanKitDemo"
-  s.license      = { :type => "MIT", :file => "FILE_LICENSE" }
+  s.license      = { :type => "MIT", :file => "LICENSE" }
 
   s.author             = { "tangjianfeng" => "497609288@qq.com" }
   s.platform     = :ios, "8.0"

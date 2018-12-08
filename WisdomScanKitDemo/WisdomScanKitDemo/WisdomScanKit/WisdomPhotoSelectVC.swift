@@ -9,7 +9,8 @@
 import UIKit
 import Photos
 
-class WisdomPhotoSelectVC: UIViewController {
+public class WisdomPhotoSelectVC: UIViewController {
+    
     fileprivate let WisdomPhotoSelectCellID = "WisdomPhotoSelectCellID"
     
     fileprivate let spacing: CGFloat = 4
@@ -40,6 +41,7 @@ class WisdomPhotoSelectVC: UIViewController {
         view.dataSource = self
         layout.itemSize = CGSize(width: (self.view.bounds.width-(self.lineCount+1)*spacing)/self.lineCount,
                                  height: (self.view.bounds.width-(self.lineCount+1)*spacing)/self.lineCount)
+        
         layout.minimumInteritemSpacing = spacing
         layout.minimumLineSpacing = spacing
         layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
@@ -70,31 +72,40 @@ class WisdomPhotoSelectVC: UIViewController {
         return btn
     }()
     
+    /** 浏览，完成Action */
     fileprivate lazy var selectBar: WisdomPhotoSelectBar = {
         let bar = WisdomPhotoSelectBar(frame: CGRect(x: 0, y: self.view.bounds.height - barHeght,
                                                      width: self.view.bounds.width, height: barHeght),
                                                      handers: { [weak self] (res) in
             if res{
                 if self?.imageResults.count == 0{
+                    WisdomHUD.showText(text: "请选择图片",delay: TimeInterval(0.5))
                     return
                 }
                 self?.photoTask((self?.imageResults)!)
                 self?.clickBackBtn()
+                
             }else{
+                if self?.beginImage == nil{
+                    WisdomHUD.showText(text: "无浏览图片",delay: TimeInterval(0.5))
+                    return
+                }
+                
                 self?.coverView.isHidden = false
                 let indexPath = IndexPath(item: 0, section: 0)
                 self?.listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.bottom, animated: false)
+                
                 self?.currentShowImagerRect = CGRect(x: (self?.spacing)!,
                                                      y: (self?.navBarHeght)! + (self?.spacing)!,
-                                                     width: ItemSize, height: ItemSize)
+                                                     width: ItemSize,
+                                                     height: ItemSize)
                 
-                self?.coverView.frame = CGRect(x: (self?.spacing)!,y: (self?.spacing)!,
-                                               width: ItemSize, height: ItemSize)
+                self?.coverView.frame = CGRect(x: (self?.spacing)!,y: (self?.spacing)!, width: ItemSize, height: ItemSize)
                 
-                WisdomScanKit.startPhotoChrome(beginImage: nil,
-                                               beginIndex: 0,
-                                               imageList: (self?.imageList)!,
-                                               beginRect: (self?.currentShowImagerRect)!)
+//                WisdomScanKit.startPhotoChrome(beginImage: (self?.beginImage)!,
+//                                               beginIndex: 0,
+//                                               fetchResult: ((self?.assetsFetchResults)!),
+//                                               beginRect: ((self?.currentShowImagerRect)!))
             }
         })
         return bar
@@ -104,26 +115,14 @@ class WisdomPhotoSelectVC: UIViewController {
     
     fileprivate let startType: WisdomScanStartType!
     
-    //fileprivate let electType: WisdomShowElectPhotoType!
-    
-    //fileprivate var delegate: WisdomScanNavbarDelegate?
-    
     fileprivate let countType: WisdomPhotoCountType!
     
     fileprivate let photoTask: WisdomPhotoTask!
     
     fileprivate let errorTask: WisdomErrorTask!
     
-    var isCreatNav: Bool=false
-    
-    /** 缩略图大小 */
-    fileprivate var assetGridThumbnailSize: CGSize!
-    
     /** 取得的资源集合，用了存放的PHAsset */
     fileprivate var assetsFetchResults: PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
-    
-    /** 取得的屏幕比例资源集合 */
-    fileprivate var imageList: [UIImage] = []
     
     /** 选择的结果资源 */
     fileprivate var imageResults: [UIImage] = []
@@ -133,23 +132,23 @@ class WisdomPhotoSelectVC: UIViewController {
     /** 浏览页正在展示的图片 */
     fileprivate var currentShowImagerRect: CGRect = .zero
     
-    /** 带缓存的图片管理对象 */
-    fileprivate let imageManager = PHCachingImageManager()
+    fileprivate var beginImage: UIImage?
+    
+    var isCreatNav: Bool=false
     
     init(startTypes: WisdomScanStartType,
-         //electTypes: WisdomShowElectPhotoType,
          countTypes: WisdomPhotoCountType,
          photoTasks: @escaping WisdomPhotoTask,
          errorTasks: @escaping WisdomErrorTask) {
+        
         startType = startTypes
-        //electType = electTypes
         countType = countTypes
         photoTask = photoTasks
         errorTask = errorTasks
         super.init(nibName: nil, bundle: nil)
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(white: 0.95, alpha: 1)
         view.addSubview(listView)
@@ -173,7 +172,7 @@ class WisdomPhotoSelectVC: UIViewController {
      */
     @objc private func updateIndex(notif: Notification){
         if let index = notif.object as? Int {
-            if index >= imageList.count{
+            if index >= assetsFetchResults.count{
                 return
             }
             let indexPath = IndexPath(item: index, section: 0)
@@ -225,7 +224,7 @@ class WisdomPhotoSelectVC: UIViewController {
         })
     }
     
-    override func viewSafeAreaInsetsDidChange() {
+    override public func viewSafeAreaInsetsDidChange() {
         if #available(iOS 11.0, *) {
             if view.safeAreaInsets.bottom > 0{
                 barHeght = 64
@@ -259,37 +258,16 @@ class WisdomPhotoSelectVC: UIViewController {
         }
         
         // 新建一个PHImageRequestOptions对象
-        let imageRequestOption = PHImageRequestOptions()
+        //let imageRequestOption = PHImageRequestOptions()
         // PHImageRequestOptions是否有效
-        imageRequestOption.isSynchronous = true
+        //imageRequestOption.isSynchronous = true
         // 缩略图的压缩模式设置为无
-        imageRequestOption.resizeMode = .none
+        //imageRequestOption.resizeMode = .none
         // 缩略图的质量为高质量，不管加载时间花多少
-        imageRequestOption.deliveryMode = .highQualityFormat
-        
-        assetsFetchResults.enumerateObjects({ ( asset : PHAsset, index : Int, ss : UnsafeMutablePointer<ObjCBool>) in
-            
-            self.imageManager.requestImage(for: asset,
-                                      targetSize: UIScreen.main.bounds.size,
-                                      contentMode: PHImageContentMode.aspectFit,
-                                      options: imageRequestOption,
-                                      resultHandler: { (image, _) -> Void in
-                if image != nil{
-                    self.imageList.append(image!)
-                }
-            })
-        })
+        //imageRequestOption.deliveryMode = .highQualityFormat
     }
     
     fileprivate func setNavbarUI(){
-        //if delegate != nil {
-        //    navbarBackBtn = delegate!.wisdomNavbarBackBtnItme(navigationVC: navigationController)
-        //    headerTitle = delegate!.wisdomNavbarThemeTitle(navigationVC: navigationController)
-        //    let btn = delegate!.wisdomNavbarRightBtnItme(navigationVC: navigationController)
-        //    if btn != nil{
-        //       rightBtn = btn!
-        //    }
-        //}
         rightBtn.frame = CGRect(x: 0, y: 0, width: 56, height: 30)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navbarBackBtn)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn)
@@ -356,6 +334,7 @@ class WisdomPhotoSelectVC: UIViewController {
         case .four:
             if !res{
                 if imageResults.count >= 4 {
+                    WisdomHUD.showText(text: "最多选择4张",delay: TimeInterval(0.5))
                     return false
                 }
                 imageResults.append(image)
@@ -376,6 +355,7 @@ class WisdomPhotoSelectVC: UIViewController {
         case .nine:
             if !res{
                 if imageResults.count >= 9 {
+                    WisdomHUD.showText(text: "最多选择9张",delay: TimeInterval(0.5))
                     return false
                 }
                 imageResults.append(image)
@@ -430,22 +410,26 @@ class WisdomPhotoSelectVC: UIViewController {
 }
 
 extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSource{
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return assetsFetchResults.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WisdomPhotoSelectCellID, for: indexPath) as! WisdomPhotoSelectCell
         
         imageManager.requestImage(for: assetsFetchResults[indexPath.item],
-                                              targetSize: assetGridThumbnailSize,
-                                              contentMode: PHImageContentMode.aspectFit,
-                                              options: nil,
+                                  targetSize: assetGridThumbnailSize,
+                                  contentMode: PHImageContentMode.aspectFit,
+                                  options: nil,
                                               resultHandler: { (image, _) -> Void in
-                cell.image = image
+            cell.image = image
+            if indexPath.item == 0{
+                self.beginImage = image
+            }
         })
         
-        if self.indexPathResults.contains(indexPath){
+        if indexPathResults.contains(indexPath){
             cell.selectBtn.isSelected = true
         }else{
             cell.selectBtn.isSelected = false
@@ -458,27 +442,31 @@ extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSou
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! WisdomPhotoSelectCell
         let window = UIApplication.shared.delegate?.window!
         let rect = cell.convert(cell.bounds, to: window)
-        coverView.isHidden = false
-        coverView.frame = cell.frame
         currentShowImagerRect = rect
         
-        if assetsFetchResults.count == imageList.count {
-            WisdomScanKit.startPhotoChrome(beginImage: cell.image,
-                                           beginIndex: indexPath.item,
-                                           imageList: imageList,
-                                           beginRect: currentShowImagerRect)
-        }else{
-//            let time: Double = Double(assetsFetchResults.count - imageList.count)
-//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + time * 0.08) {
-//                WisdomScanKit.startPhotoChrome(beginImage: cell.image,
-//                                               beginIndex: indexPath.item,
-//                                               imageList: self.imageList,
-//                                               beginRect: self.currentShowImagerRect)
-//            }
-        }
+        beginShow(index: indexPath.item, coverViewFrame: cell.frame)
+    }
+    
+    /** begin show HUDImageList*/
+    fileprivate func beginShow(index: Int, coverViewFrame: CGRect){
+        
+        imageManager.requestImage(for: assetsFetchResults[index],
+                                  targetSize: UIScreen.main.bounds.size,
+                                  contentMode: PHImageContentMode.aspectFit,
+                                  options: options,
+                                  resultHandler: { (image, _) -> Void in
+           if image != nil {
+               self.coverView.isHidden = false
+               self.coverView.frame = coverViewFrame
+                                        
+               WisdomScanKit.startPhotoChrome(beginImage: image!, beginIndex: index, fetchResult: self.assetsFetchResults, beginRect: self.currentShowImagerRect)
+           }else{
+               WisdomHUD.showInfo(text: "高清图加载失败")
+           }
+        })
     }
 }

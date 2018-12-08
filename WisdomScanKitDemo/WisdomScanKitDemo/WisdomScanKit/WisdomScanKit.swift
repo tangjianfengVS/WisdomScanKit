@@ -18,10 +18,11 @@ class WisdomScanKit: NSObject {
      *     imageList   :  展示图片集合
      *     beginRect   :  开始展示动画的Frame
      */
+    @discardableResult
     @objc public class func startPhotoChrome(beginImage: UIImage?,
                                              beginIndex: Int,
                                              imageList: [UIImage],
-                                             beginRect: CGRect) {
+                                             beginRect: CGRect)-> WisdomPhotoChromeHUD {
         let window = UIApplication.shared.keyWindow
         var imageListNew = imageList
         var imageRect = beginRect
@@ -36,6 +37,31 @@ class WisdomScanKit: NSObject {
     
         let hud = WisdomPhotoChromeHUD(beginIndex: beginIndex, imageList: imageListNew, beginRect: imageRect)
         window?.addSubview(hud)
+        return hud
+    }
+    
+    /**
+     *     图片浏览器:
+     *     beginImage  :  当前展示的图片
+     *     beginIndex  :  beginImage 在 imageList集合的下标
+     *     fetchResult :  展示图片缓存集合
+     *     beginRect   :  开始展示动画的Frame
+     */
+    @discardableResult
+    class func startPhotoChrome(beginImage: UIImage,
+                                beginIndex: Int,
+                                fetchResult: PHFetchResult<PHAsset>,
+                                beginRect: CGRect)-> WisdomPhotoChromeHUD {
+        let window = UIApplication.shared.keyWindow
+        var imageRect = beginRect
+
+        if imageRect == .zero{
+            imageRect = CGRect(x: 5,y: 70,width: ItemSize, height: ItemSize)
+        }
+
+        let hud = WisdomPhotoChromeHUD(beginImage: beginImage, beginIndex: beginIndex, fetchResult: fetchResult, beginRect: imageRect)
+        window?.addSubview(hud)
+        return hud
     }
     
     /**

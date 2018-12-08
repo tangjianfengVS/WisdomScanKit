@@ -10,7 +10,7 @@ import UIKit
 
 class WisdomPhotoChromeCell: UICollectionViewCell {
     
-    private lazy var imageView: UIImageView = {
+    private(set) lazy var imageView: UIImageView = {
         let view = UIImageView(frame: self.contentView.frame)
         return view
     }()

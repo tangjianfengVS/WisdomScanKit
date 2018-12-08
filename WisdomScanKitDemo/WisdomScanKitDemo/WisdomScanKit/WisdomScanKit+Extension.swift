@@ -87,20 +87,17 @@ extension UIViewController {
      *     WisdomPhotoTask         :  完成回调
      *     WisdomErrorTask         :  失败回调
      */
+    @discardableResult
     @objc public func startElectSystemPhoto(startType: WisdomScanStartType,
-                                            //electType: WisdomShowElectPhotoType,
                                             countType: WisdomPhotoCountType,
                                             photoTask: @escaping WisdomPhotoTask,
-                                            errorTask: @escaping WisdomErrorTask) {
+                                            errorTask: @escaping WisdomErrorTask)-> WisdomPhotoSelectVC{
         
         let selectVC = WisdomPhotoSelectVC(startTypes: startType,
-                                           //electTypes: electType,
                                            countTypes: countType,
                                            photoTasks: photoTask,
                                            errorTasks: errorTask)
-        //if electType == .allElect {
-        //}else if electType == .systemElect {
-        //}
+
         switch startType {
         case .push:
             if isKind(of: UINavigationController.self){
@@ -121,6 +118,7 @@ extension UIViewController {
             selectVC.isCreatNav = true
             present(nav, animated: true, completion: nil)
         }
+        return selectVC
     }
     
     /** 系统界面提示 */
