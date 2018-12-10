@@ -48,11 +48,12 @@ extension UIViewController {
      *     WisdomRQCodeFinishTask  :   ScanRQCode 完成回调
      *     WisdomRQCodeErrorTask   :   ScanRQCode 失败回调
      */
+    @discardableResult
     @objc public func startScanRQCode(startType: WisdomScanStartType,
                                       themeType: WisdomRQCodeThemeType,
                                       navDelegate: WisdomScanNavbarDelegate?,
                                       answerTask: @escaping WisdomRQCodeFinishTask,
-                                      errorTask: @escaping WisdomRQCodeErrorTask) {
+                                      errorTask: @escaping WisdomRQCodeErrorTask)-> WisdomRQCodeVC {
         
         let rqCodeVC = WisdomRQCodeVC(startTypes: startType,
                                       themeTypes: themeType,
@@ -77,6 +78,7 @@ extension UIViewController {
             }
             present(rootVC, animated: true, completion: nil)
         }
+        return rqCodeVC
     }
     
     /**

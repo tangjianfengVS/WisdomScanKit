@@ -9,7 +9,8 @@
 import UIKit
 import AVFoundation
 
-class WisdomRQCodeVC: UIViewController {
+public class WisdomRQCodeVC: UIViewController {
+    
     fileprivate let answerTask: WisdomRQCodeFinishTask!
     
     fileprivate let errorTask: WisdomRQCodeErrorTask!
@@ -112,7 +113,7 @@ class WisdomRQCodeVC: UIViewController {
         return btn
     }()
     
-    override func viewWillAppear(_ animated: Bool){
+    override public func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
         if navbarDelegate == nil {
             navigationController?.setNavigationBarHidden(true, animated: true)
@@ -120,7 +121,7 @@ class WisdomRQCodeVC: UIViewController {
         isStartScan = true
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if navbarDelegate == nil {
             navigationController?.setNavigationBarHidden(false, animated: true)
@@ -144,11 +145,15 @@ class WisdomRQCodeVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setNavbarUI()
         setupScanSession()
+        
+        if scanPaneShowCover{
+            showCover()
+        }
     }
     
     private func setupUI() {
@@ -161,7 +166,7 @@ class WisdomRQCodeVC: UIViewController {
         
         backBtn.frame = CGRect(x: 15, y: 30, width: 34, height: 34)
         
-        scanPane.frame = CGRect(x: 0, y: 0, width: 240, height: 240)
+        scanPane.frame = CGRect(x: 0, y: 0, width: scanPaneWidth, height: scanPaneWidth)
         scanPane.center = view.center
         
         if themeType == .snowy {
@@ -250,17 +255,34 @@ class WisdomRQCodeVC: UIViewController {
             open()
             
         case .denied:
-            if errorTask(nil,WisdomScanErrorType.denied){
+            if errorTask(WisdomScanErrorType.denied, nil){
                 upgrades()
             }
         case .notDetermined:
             open()
             
         case .restricted:
-            if errorTask(nil,WisdomScanErrorType.restricted){
+            if errorTask(WisdomScanErrorType.restricted, nil){
                 upgrades()
             }
         }
+    }
+    
+    fileprivate func showCover(){
+        let topView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: scanPane.frame.minY))
+        let bottomView = UIView(frame: CGRect(x: 0, y: scanPane.frame.maxY, width: view.bounds.width, height: view.frame.maxY - scanPane.frame.maxY))
+        let leftView = UIView(frame: CGRect(x: 0, y: scanPane.frame.minY, width: scanPane.frame.minX, height: scanPane.bounds.height))
+        let rightView = UIView(frame: CGRect(x: scanPane.frame.maxX, y: scanPane.frame.minY, width: view.bounds.width - scanPane.frame.maxX, height: scanPane.bounds.height))
+        
+        view.insertSubview(topView, belowSubview: backBtn)
+        view.insertSubview(bottomView, belowSubview: backBtn)
+        view.insertSubview(leftView, belowSubview: backBtn)
+        view.insertSubview(rightView, belowSubview: backBtn)
+ 
+        topView.backgroundColor = UIColor(white: 0, alpha: 0.4)
+        bottomView.backgroundColor = UIColor(white: 0, alpha: 0.4)
+        leftView.backgroundColor = UIColor(white: 0, alpha: 0.4)
+        rightView.backgroundColor = UIColor(white: 0, alpha: 0.4)
     }
     
     fileprivate func open() {
@@ -281,11 +303,30 @@ class WisdomRQCodeVC: UIViewController {
                 scanSession!.addOutput(output)
                 output.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
                 output.metadataObjectTypes = supportedCodeTypes
+                
                 //扫描区域
-                let rect = CGRect(x: scanPane.frame.origin.y/UIScreen.main.bounds.height,
-                                  y: scanPane.frame.origin.x/UIScreen.main.bounds.width,
-                              width: scanPane.frame.height/UIScreen.main.bounds.height,
-                             height: scanPane.frame.width/UIScreen.main.bounds.width)
+                if rectOfInterestSize.width < scanPaneWidth {
+                    rectOfInterestSize = CGSize(width: scanPaneWidth,height: rectOfInterestSize.height)
+                }
+                
+                if rectOfInterestSize.height < scanPaneWidth {
+                    rectOfInterestSize = CGSize(width: rectOfInterestSize.width,height: scanPaneWidth)
+                }
+                
+                var offsetX = scanPane.frame.origin.y
+                var offsetY = scanPane.frame.origin.x
+                if rectOfInterestSize.width > scanPaneWidth{
+                    offsetY = offsetY - (rectOfInterestSize.width - scanPaneWidth)/2
+                }
+                
+                if rectOfInterestSize.height > scanPaneWidth{
+                    offsetX = offsetX - (rectOfInterestSize.height - scanPaneWidth)/2
+                }
+                
+                let rect = CGRect(x: offsetX/UIScreen.main.bounds.height,
+                                  y: offsetY/UIScreen.main.bounds.width,
+                              width: rectOfInterestSize.height/UIScreen.main.bounds.height,
+                             height: rectOfInterestSize.width/UIScreen.main.bounds.width)
                 output.rectOfInterest = rect
             }
             
@@ -317,8 +358,8 @@ class WisdomRQCodeVC: UIViewController {
     }
     
     fileprivate func scanAnimation() -> CABasicAnimation{
-        let startPoint = CGPoint(x: 240/2 , y: 10)
-        let endPoint = CGPoint(x: 240/2, y: 240-20)
+        let startPoint = CGPoint(x: scanPaneWidth/2 , y: 10)
+        let endPoint = CGPoint(x: scanPaneWidth/2, y: scanPaneWidth-20)
         let translation = CABasicAnimation(keyPath: "position")
         translation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         translation.fromValue = NSValue(cgPoint: startPoint)
@@ -330,10 +371,10 @@ class WisdomRQCodeVC: UIViewController {
     }
     
     deinit{
-        print("扫码释放")
+        print("扫码控制器释放")
     }
     
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 }
@@ -349,7 +390,7 @@ extension WisdomRQCodeVC : AVCaptureMetadataOutputObjectsDelegate{
         AudioServicesPlaySystemSound(soundID)
     }
     
-    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+    public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate));
         isStartScan = false
         
@@ -359,11 +400,11 @@ extension WisdomRQCodeVC : AVCaptureMetadataOutputObjectsDelegate{
                 if strvalue != nil {
                     answerTask(strvalue!,scanSession!)
                 }else{
-                    let _: Bool = errorTask(scanSession, WisdomScanErrorType.codeError)
+                    let _: Bool = errorTask(WisdomScanErrorType.codeError,scanSession)
                 }
             }
         }else{
-            let _: Bool = errorTask(scanSession, WisdomScanErrorType.codeError)
+            let _: Bool = errorTask(WisdomScanErrorType.codeError,scanSession)
         }
     }
 }

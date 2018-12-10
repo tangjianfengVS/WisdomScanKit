@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class WisdomViewController: UIViewController {
     override func viewDidLoad() {
@@ -15,9 +16,20 @@ class WisdomViewController: UIViewController {
 
     @IBAction func clickScanRQCode(_ sender: UIButton) {
         
-        startScanRQCode(startType: .push, themeType: .green, navDelegate: nil, answerTask: { (str, session) in
+        
+        scanPaneShowCover = true
+        
+        
+        rectOfInterestSize = CGSize(width: 300, height: 300)
+        
+        
+        startScanRQCode(startType: .push,
+                        themeType: .green,
+                        navDelegate: nil,
+                        answerTask: { (str, session: AVCaptureSession) in
+            WisdomHUD.showText(text: str)
             
-        }) { (session, type) -> (Bool) in
+        }) { (type: WisdomScanErrorType, session: AVCaptureSession?) -> (Bool) in
             
             return true
         }
@@ -47,7 +59,7 @@ class WisdomViewController: UIViewController {
 extension WisdomViewController: WisdomScanNavbarDelegate{
     func wisdomNavbarBackBtnItme(navigationVC: UINavigationController?) -> UIButton {
         let btn = UIButton()
-        btn.setTitle("返回", for: .normal)
+        btn.setTitle("自定义返回", for: .normal)
         return btn
     }
     
@@ -56,6 +68,8 @@ extension WisdomViewController: WisdomScanNavbarDelegate{
     }
     
     func wisdomNavbarRightBtnItme(navigationVC: UINavigationController?) -> UIButton? {
-        return nil
+        let btn = UIButton()
+        btn.setTitle("自定义事件", for: .normal)
+        return btn
     }
 }
