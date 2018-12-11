@@ -23,13 +23,13 @@ let scanPaneWidth: CGFloat = 240.0
 
 
 /** 全局非扫描区域是否显示覆盖效果,可赋值
- *  在调用 @objc public func startScanRQCode(........) 之前调用！！！
+ *  在调用 @objc public func startScanRQCode(........) 之前调用！
  */
 public var scanPaneShowCover: Bool = false
 
 
 /** 全局掩藏的扫描区域大小,可赋值
- *  在调用 @objc public func startScanRQCode(........) 之前调用！！！
+ *  在调用 @objc public func startScanRQCode(........) 之前调用！
  */
 public var rectOfInterestSize: CGSize = {
     let size = CGSize(width: scanPaneWidth,height: scanPaneWidth)

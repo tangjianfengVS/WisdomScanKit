@@ -16,12 +16,9 @@ class WisdomViewController: UIViewController {
 
     @IBAction func clickScanRQCode(_ sender: UIButton) {
         
-        
         scanPaneShowCover = true
         
-        
         rectOfInterestSize = CGSize(width: 300, height: 300)
-        
         
         startScanRQCode(startType: .push,
                         themeType: .green,

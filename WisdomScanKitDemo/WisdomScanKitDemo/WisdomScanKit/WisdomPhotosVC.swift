@@ -239,16 +239,20 @@ class WisdomPhotosVC: UIViewController {
             
         case .restricted:
             if errorTask(WisdomScanErrorType.restricted){
-                
+                upgrades()
             }
         }
     }
     
     fileprivate func createSession(){
+        WisdomHUD.showLoading(text: nil, enable: true)
+        
         DispatchQueue.global().async {
             self.captureSession.sessionPreset = AVCaptureSession.Preset.hd1280x720
             let devices = AVCaptureDevice.devices(for: AVMediaType.video)
             if devices.count == 0{
+                
+                WisdomHUD.showInfo(text: "无可用设备")
                 return;
             }
             
@@ -269,8 +273,10 @@ class WisdomPhotosVC: UIViewController {
                 self.captureSession.addInput(captureDeviceInput)
                 self.captureSession.addOutput(self.stillImageOutput!)
             }catch {
+                WisdomHUD.showInfo(text: "无可用设备")
                 return
             }
+            
             /** 创建预览图层 */
             self.cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
             self.cameraPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
@@ -282,6 +288,8 @@ class WisdomPhotosVC: UIViewController {
                 self.captureSession.commitConfiguration()
                 self.captureSession.startRunning()
                 self.createPhotoBtn()
+                
+                WisdomHUD.dismiss(delay: TimeInterval(0.2))
             }
         }
     }
