@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WisdomPhotoEditVC: UIViewController {
+public class WisdomPhotoEditVC: UIViewController {
     fileprivate var imageArray: [UIImage] = []
     
     fileprivate let beginCenter: CGPoint!
@@ -73,7 +73,7 @@ class WisdomPhotoEditVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.black
         view.addSubview(listView)
@@ -110,12 +110,13 @@ class WisdomPhotoEditVC: UIViewController {
 }
 
 extension WisdomPhotoEditVC: UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         emptyView.isHidden = imageArray.count > 0 ? true:false
         return imageArray.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoEditCellKey, for: indexPath) as! WisdomPhotoEditCell
         cell.image = imageArray[indexPath.item]
         cell.callBack = {[weak self] in
@@ -125,7 +126,7 @@ extension WisdomPhotoEditVC: UICollectionViewDelegate,UICollectionViewDataSource
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = CGSize(width: (view.bounds.width - 2*spacing - 2*BSpacing)/3,
                           height: view.bounds.height*(view.bounds.width - 2*spacing - 2*BSpacing)/3/view.bounds.width)
         return size

@@ -72,11 +72,13 @@ class WisdomScanKit: NSObject {
      *     beginSize   :  开始展示的动画大小
      *     endTask     :  完成回调task
      */
+    @discardableResult
     @objc public class func startPhotoEdit(rootVC: UIViewController,
                                            imageList: [UIImage],
                                            beginCenter: CGPoint,
                                            beginSize: CGSize,
-                                           endTask: @escaping ((Bool,[UIImage])->())) {
+                                           endTask: @escaping ((Bool,[UIImage])->()))-> WisdomPhotoEditVC {
+        
         let editVC = WisdomPhotoEditVC(imageList: imageList,
                                        beginCenters:beginCenter,
                                        beginSizse: beginSize,
@@ -95,6 +97,7 @@ class WisdomScanKit: NSObject {
         UIView.animate(withDuration: 0.35, animations: {
             editVC.view.transform = .identity
         })
+        return editVC
     }
     
     /**

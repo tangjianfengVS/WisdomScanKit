@@ -46,9 +46,9 @@ class WisdomViewController: UIViewController {
     
     @IBAction func clickScanBackCard(_ sender: UIButton) {
         
-        startElectSystemPhoto(startType: .push, countType: .nine, photoTask: { (list) in
+        startElectSystemPhoto(startType: .push, countType: .four, photoTask: { (list: [UIImage]) in
             
-        }) { (error) -> (Bool) in
+        }) { (error: WisdomScanErrorType) -> (Bool) in
             
             return true
         }
