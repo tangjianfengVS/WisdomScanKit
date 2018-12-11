@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import WisdomHUD
 
 public class WisdomPhotosVC: UIViewController {
     /** 上限 */

@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import WisdomHUD
 
 class WisdomViewController: UIViewController {
     override func viewDidLoad() {

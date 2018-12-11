@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import WisdomHUD
 
 public class WisdomPhotoSelectVC: UIViewController {
     

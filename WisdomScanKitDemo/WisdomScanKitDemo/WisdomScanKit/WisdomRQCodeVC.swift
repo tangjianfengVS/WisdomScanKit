@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import WisdomHUD
 
 public class WisdomRQCodeVC: UIViewController {
     
