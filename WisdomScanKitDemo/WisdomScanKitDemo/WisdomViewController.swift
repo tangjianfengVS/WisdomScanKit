@@ -34,7 +34,7 @@ class WisdomViewController: UIViewController {
     
     @IBAction func clickScanPhoto(_ sender: UIButton) {
         
-        startScanPhoto(startType: .push, countType: .four, photosTask: { (list: [UIImage]) in
+        startScanPhoto(startType: .push, countType: .nine, photosTask: { (list: [UIImage]) in
             
             
         }) { (type: WisdomScanErrorType) -> (Bool) in

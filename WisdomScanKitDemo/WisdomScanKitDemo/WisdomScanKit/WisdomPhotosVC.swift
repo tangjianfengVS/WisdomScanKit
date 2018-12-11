@@ -46,7 +46,7 @@ public class WisdomPhotosVC: UIViewController {
     fileprivate lazy var animationBgBtn: UIButton = {
         let btn = UIButton(frame: CGRect(origin: .zero, size: animationViewSize))
         btn.center = center
-        btn.layer.borderWidth = 1.5
+        btn.layer.borderWidth = 1.25
         btn.layer.borderColor = UIColor.white.cgColor
         btn.isHidden = true
         btn.layer.shadowOpacity = 0.9
@@ -107,9 +107,8 @@ public class WisdomPhotosVC: UIViewController {
         btn.setBackgroundImage(image, for: .normal)
         image = WisdomScanKit.bundleImage(name: "share_coupon_btn_bg")
         btn.setBackgroundImage(image, for: .disabled)
-        btn.setTitle("上限9张", for: .disabled)
         btn.setTitleColor(UIColor(white: 0.3, alpha: 1), for: .disabled)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         btn.addTarget(self, action: #selector(photoAction), for: .touchUpInside)
         return btn
     }()
@@ -359,6 +358,8 @@ public class WisdomPhotosVC: UIViewController {
     }
     
     fileprivate func photoAnimation(image: UIImage){
+        editView.isHidden = false
+        
         currentCount -= 1
         let num = Int(titleLab.text!)
         titleLab.text = String(num! + 1)
@@ -368,6 +369,7 @@ public class WisdomPhotosVC: UIViewController {
         view.insertSubview(imageView, belowSubview: backBtn)
         
         if currentCount <= 0{
+            cameraBtn.setTitle("上限"+String(maxCount)+"张", for: .disabled)
             cameraBtn.isEnabled = false
             captureSession.stopRunning()
         }
@@ -416,6 +418,7 @@ public class WisdomPhotosVC: UIViewController {
     
     @objc fileprivate func nineCancelAction(){
         currentCount = maxCount
+        editView.isHidden = true
         cameraBtn.isEnabled = true
         animationBgBtn.isHidden = true
         titleLab.text = "0"
@@ -472,6 +475,7 @@ public class WisdomPhotosVC: UIViewController {
 extension WisdomPhotosVC {
     /** 切换摄像头 */
     @objc fileprivate func toggleCamera() {
+        
         let res : Bool = (currentDevice?.torchMode == .on) ? true : false
         if res && currentDevice == backFacingCamera{
             photoLightBtn.isSelected = false
@@ -507,17 +511,22 @@ extension WisdomPhotosVC {
                                      beginSize: animationViewSize, endTask: {[weak self](res, list) in
            if res{
                 self?.currentImageList = list
+            
                 if (self?.currentImageList.count)! > 0{
-                    self?.currentCount = 9 - (self?.currentImageList.count)!
+                    
+                    self?.currentCount = (self?.maxCount)! - (self?.currentImageList.count)!
                     let numbStr = String((self?.currentImageList.count)!)
                     self?.titleLab.text = numbStr
                     self?.animationBgBtn.setBackgroundImage(self?.currentImageList.last, for: .normal)
+                    
                 }else{
                     self?.nineCancelAction()
                 }
            }
-           self?.cameraBtn.isEnabled = (self?.currentImageList.count)! == 9 ? false:true
-           if (self?.currentImageList.count)! < 9 {
+                                        
+           self?.cameraBtn.isEnabled = (self?.currentImageList.count)! == (self?.maxCount)! ? false:true
+                                        
+           if (self?.currentImageList.count)! < (self?.maxCount)! {
                self?.captureSession.startRunning()
            }
         })
