@@ -9,19 +9,17 @@
 import UIKit
 import AVFoundation
 
-class WisdomPhotosVC: UIViewController {
+public class WisdomPhotosVC: UIViewController {
+    /** 上限 */
+    fileprivate let maxCount: Int!
+    
+    fileprivate lazy var currentCount: Int =  {
+        return maxCount
+    }()
+    
     fileprivate let animationViewSize = CGSize(width: 65, height: UIScreen.main.bounds.height*65/UIScreen.main.bounds.width)
     
-    fileprivate var maxCount: Int = 9 {
-        didSet{
-            if maxCount == 9 {
-                editView.isHidden = true
-            }else{
-                editView.isHidden = false
-            }
-        }
-    }
-    
+    /** 删选编辑 */
     fileprivate lazy var editView: WisdomPhotoEditView = {
         let frame = CGRect(x: self.view.center.x - 100,
                            y: self.cameraBtn.center.y - 95 - 15, width: 200, height: 30)
@@ -71,6 +69,7 @@ class WisdomPhotosVC: UIViewController {
         return lab
     }()
     
+    /** 单张编辑 */
     fileprivate lazy var bgView: UIView = {
         let view = UIView(frame: CGRect(x: 0,y: cameraBtn.frame.minY - bottomSizeHight,
                                     width: self.view.bounds.width,
@@ -163,10 +162,13 @@ class WisdomPhotosVC: UIViewController {
     fileprivate var backFacingCamera: AVCaptureDevice?
     
     fileprivate var frontFacingCamera: AVCaptureDevice?
+    
     /** 当前正在使用的设备 */
     fileprivate var currentDevice: AVCaptureDevice?
+    
     /** 静止图像输出端 */
     fileprivate var stillImageOutput: AVCaptureStillImageOutput?
+    
     /** 相机预览图层 */
     fileprivate var cameraPreviewLayer:AVCaptureVideoPreviewLayer?
     
@@ -192,6 +194,17 @@ class WisdomPhotosVC: UIViewController {
         errorTask = errorTasks
         startType = startTypes
         countType = countTypes
+        
+        switch countType! {
+        case .once:
+            maxCount = 1
+        case .four:
+            maxCount = 4
+        case .nine:
+            maxCount = 9
+        default:
+            maxCount = 1
+        }
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -199,31 +212,30 @@ class WisdomPhotosVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewWillAppear(_ animated: Bool){
+    override public func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
         if navigationController != nil {
             navigationController?.setNavigationBarHidden(true, animated: true)
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if navigationController != nil {
             navigationController?.setNavigationBarHidden(false, animated: true)
         }
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        view.backgroundColor = UIColor.black
+        
+        view.addSubview(backBtn)
+        
         setupScanSession()
     }
-    
-    fileprivate func setupUI() {
-        view.backgroundColor = UIColor.black
-        view.addSubview(backBtn)
-    }
-    
+
+    /** 权限 */
     fileprivate func setupScanSession(){
         let authStatus = WisdomScanKit.authorizationStatus()
         switch authStatus {
@@ -284,6 +296,7 @@ class WisdomPhotosVC: UIViewController {
             DispatchQueue.main.async {
                 self.view.layer.insertSublayer(self.cameraPreviewLayer!, at: 0)
                 self.cameraPreviewLayer?.frame = self.view.layer.frame
+                
                 /** 启动音视频采集的会话 */
                 self.captureSession.commitConfiguration()
                 self.captureSession.startRunning()
@@ -307,7 +320,7 @@ class WisdomPhotosVC: UIViewController {
             view.addSubview(bgView)
             bgView.addSubview(save)
             bgView.addSubview(cancel)
-        case .nine:
+        case .four, .nine:
             view.addSubview(animationBgBtn)
             view.addSubview(editView)
             animationBgBtn.addSubview(titleLab)
@@ -317,6 +330,7 @@ class WisdomPhotosVC: UIViewController {
     
     @objc fileprivate func photoAction(){
         let videoConnection = stillImageOutput?.connection(with: AVMediaType.video)
+        
         /** 输出端以异步方式采集静态图像 */
         stillImageOutput?.captureStillImageAsynchronously(from: videoConnection!, completionHandler: { (imageDataSampleBuffer, error) -> Void in
             /** 获得采样缓冲区中的数据 */
@@ -326,7 +340,7 @@ class WisdomPhotosVC: UIViewController {
                 
                 if self.countType == .once{
                     self.stopRunning()
-                }else if self.countType == .nine {
+                } else {
                     self.photoAnimation(image: stillImage)
                 }
             }
@@ -345,7 +359,7 @@ class WisdomPhotosVC: UIViewController {
     }
     
     fileprivate func photoAnimation(image: UIImage){
-        maxCount -= 1
+        currentCount -= 1
         let num = Int(titleLab.text!)
         titleLab.text = String(num! + 1)
         
@@ -353,7 +367,7 @@ class WisdomPhotosVC: UIViewController {
         imageView.frame = view.frame
         view.insertSubview(imageView, belowSubview: backBtn)
         
-        if maxCount <= 0{
+        if currentCount <= 0{
             cameraBtn.isEnabled = false
             captureSession.stopRunning()
         }
@@ -389,7 +403,7 @@ class WisdomPhotosVC: UIViewController {
     }
     
     @objc fileprivate func onceCancelAction(){
-        maxCount = 9
+        currentCount = maxCount
         cameraBtn.isHidden = false
         bgView.isHidden = true
         captureSession.startRunning()
@@ -401,7 +415,7 @@ class WisdomPhotosVC: UIViewController {
     }
     
     @objc fileprivate func nineCancelAction(){
-        maxCount = 9
+        currentCount = maxCount
         cameraBtn.isEnabled = true
         animationBgBtn.isHidden = true
         titleLab.text = "0"
@@ -446,7 +460,7 @@ class WisdomPhotosVC: UIViewController {
         }
     }
     
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
@@ -494,7 +508,7 @@ extension WisdomPhotosVC {
            if res{
                 self?.currentImageList = list
                 if (self?.currentImageList.count)! > 0{
-                    self?.maxCount = 9 - (self?.currentImageList.count)!
+                    self?.currentCount = 9 - (self?.currentImageList.count)!
                     let numbStr = String((self?.currentImageList.count)!)
                     self?.titleLab.text = numbStr
                     self?.animationBgBtn.setBackgroundImage(self?.currentImageList.last, for: .normal)

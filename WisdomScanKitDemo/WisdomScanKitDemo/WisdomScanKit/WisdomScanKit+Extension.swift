@@ -17,10 +17,11 @@ extension UIViewController {
      *     WisdomPhotosTask  :   ScannPhotos完成回调
      *     WisdomErrorTask   :   ScannPhotos失败错误回调
      */
+    @discardableResult
     @objc public func startScanPhoto(startType: WisdomScanStartType,
                                      countType: WisdomPhotoCountType,
                                      photosTask: @escaping WisdomPhotoTask,
-                                     errorTask: @escaping WisdomErrorTask) {
+                                     errorTask: @escaping WisdomErrorTask)-> WisdomPhotosVC{
         
         let photosVC = WisdomPhotosVC(startTypes: startType,
                                       countTypes: countType,
@@ -38,6 +39,7 @@ extension UIViewController {
         case .present:
             present(photosVC, animated: true, completion: nil)
         }
+        return photosVC
     }
     
     /**
