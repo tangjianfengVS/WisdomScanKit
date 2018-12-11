@@ -18,4 +18,5 @@ Pod::Spec.new do |s|
 
   s.source_files  = "WisdomScanKitDemo/WisdomScanKitDemo/WisdomScanKit/*.swift"
   s.resources = "WisdomScanKitDemo/WisdomScanKitDemo/WisdomScanKit/WisdomScanKit.bundle"
+  s.dependency "WisdomHUD"
 end
