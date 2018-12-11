@@ -287,6 +287,7 @@ public class WisdomRQCodeVC: UIViewController {
     
     fileprivate func open() {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else {
+            WisdomHUD.showInfo(text: "无可用设备")
             return
         }
         
@@ -341,7 +342,7 @@ public class WisdomRQCodeVC: UIViewController {
                 input.device.unlockForConfiguration()
             }
         } catch  {
-            
+            WisdomHUD.showInfo(text: "无可用设备")
         }
     }
     
