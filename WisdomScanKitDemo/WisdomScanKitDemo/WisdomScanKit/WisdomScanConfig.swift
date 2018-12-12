@@ -58,6 +58,7 @@ public typealias WisdomErrorTask = ((WisdomScanErrorType)->(Bool))
 
 public typealias WisdomPhotoTask = (([UIImage])->())
 
+
 /** 浏览页面下标更新通知 */
 public let WisdomPhotoChromeUpdateIndex_Key = "WisdomPhotoChromeUpdateIndex_Key"
 
@@ -66,6 +67,7 @@ public let WisdomPhotoChromeUpdateCover_Key = "WisdomPhotoChromeUpdateCover_Key"
 
 /** 浏览页面Rect更新跟踪通知 */
 public let WisdomPhotoChromeUpdateFrame_Key = "WisdomPhotoChromeUpdateFrame_Key"
+
 
 /** 调用摄像控制器动画样式 */
 @objc public enum WisdomScanStartType: NSInteger {

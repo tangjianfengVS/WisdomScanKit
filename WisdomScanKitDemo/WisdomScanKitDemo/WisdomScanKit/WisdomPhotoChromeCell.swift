@@ -105,11 +105,13 @@ extension WisdomPhotoChromeCell {
         let size = WisdomScanKit.getImageChromeRect(image: image!).size
         let needResetSize = imageView.bounds.size.width < size.width || imageView.bounds.size.height < size.height
         
-        UIView.animate(withDuration: 0.25) {
+        UIView.animate(withDuration: 0.25, animations: {
             self.imageView.center = self.contentView.center
             if needResetSize {
                 self.imageView.bounds.size = size
             }
+        }) { (_) in
+            self.panChangedCallback?(1)
         }
     }
 }
