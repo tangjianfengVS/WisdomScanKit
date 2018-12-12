@@ -100,16 +100,11 @@ extension WisdomPhotoChromeCell {
 //    }
 
     /** 复位ImageView */
-    fileprivate func resetImageView() {
-        // 如果图片当前显示的size小于原size，则重置为原size
-        let size = WisdomScanKit.getImageChromeRect(image: image!).size
-        let needResetSize = imageView.bounds.size.width < size.width || imageView.bounds.size.height < size.height
+    fileprivate func resetImageView(size: CGSize) {
         
         UIView.animate(withDuration: 0.25, animations: {
             self.imageView.center = self.contentView.center
-            if needResetSize {
-                self.imageView.bounds.size = size
-            }
+            self.imageView.bounds.size = size
         }) { (_) in
             self.panChangedCallback?(1)
         }
@@ -132,15 +127,17 @@ extension WisdomPhotoChromeCell: UIScrollViewDelegate {
             panChangedCallback?(result.1)
         case .ended, .cancelled:
             imageView.frame = panResult(pan).0
-            let isDown = pan.velocity(in: self).y > 0
+            //let isDown = pan.velocity(in: self).y > 0
+            let size = WisdomScanKit.getImageChromeRect(image: image!).size
             
-            if !isDown {
+            if  imageView.frame.height <= size.height/3*2.2 {
                 panReleasedCallback?(imageView.image!, imageView.frame)
             }else{
-                resetImageView()
+                resetImageView(size: size)
             }
         default:
-            resetImageView()
+            break
+            //resetImageView()
         }
     }
 

@@ -48,10 +48,10 @@ class WisdomScanKit: NSObject {
      *     beginRect   :  开始展示动画的Frame
      */
     @discardableResult
-    class func startPhotoChrome(beginImage: UIImage,
-                                beginIndex: Int,
-                                fetchResult: PHFetchResult<PHAsset>,
-                                beginRect: CGRect)-> WisdomPhotoChromeHUD {
+    @objc class func startPhotoChrome(beginImage: UIImage,
+                                      beginIndex: Int,
+                                      fetchResult: PHFetchResult<PHAsset>,
+                                      beginRect: CGRect)-> WisdomPhotoChromeHUD {
         let window = UIApplication.shared.keyWindow
         var imageRect = beginRect
 
