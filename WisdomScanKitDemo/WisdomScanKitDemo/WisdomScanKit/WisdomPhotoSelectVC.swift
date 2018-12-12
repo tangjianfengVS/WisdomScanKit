@@ -85,28 +85,22 @@ public class WisdomPhotoSelectVC: UIViewController {
                 }
                 self?.photoTask((self?.imageResults)!)
                 self?.clickBackBtn()
-                
             }else{
                 if self?.beginImage == nil{
                     WisdomHUD.showText(text: "无浏览图片",delay: TimeInterval(0.5))
                     return
                 }
                 
+                self?.coverView.frame = CGRect(x: (self?.spacing)!,y: (self?.spacing)!, width: ItemSize, height: ItemSize)
                 self?.coverView.isHidden = false
                 let indexPath = IndexPath(item: 0, section: 0)
                 self?.listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.bottom, animated: false)
-                
                 self?.currentShowImagerRect = CGRect(x: (self?.spacing)!,
                                                      y: (self?.navBarHeght)! + (self?.spacing)!,
                                                      width: ItemSize,
                                                      height: ItemSize)
                 
-                self?.coverView.frame = CGRect(x: (self?.spacing)!,y: (self?.spacing)!, width: ItemSize, height: ItemSize)
-                
-//                WisdomScanKit.startPhotoChrome(beginImage: (self?.beginImage)!,
-//                                               beginIndex: 0,
-//                                               fetchResult: ((self?.assetsFetchResults)!),
-//                                               beginRect: ((self?.currentShowImagerRect)!))
+                self?.beginShow(index: 0, coverViewFrame: (self?.currentShowImagerRect)!)
             }
         })
         return bar
