@@ -137,7 +137,7 @@ class WisdomPhotoChromeHUD: UIView {
         }
     }
     
-    @objc fileprivate func tapTouch(tap: UITapGestureRecognizer){
+    @objc fileprivate func tapTouch(tap: UITapGestureRecognizer?){
         backgroundColor = UIColor.clear
         listView.isHidden = true
         imageView.isHidden = false
@@ -189,6 +189,26 @@ extension WisdomPhotoChromeHUD: UICollectionViewDataSource,UICollectionViewDeleg
                                       resultHandler: { (image, _) -> Void in
                 cell.image = image
             })
+        }
+        
+        cell.panChangedCallback = { [weak self] (scale: CGFloat) in
+            self?.backgroundColor = UIColor(white: 0, alpha: scale)
+        }
+        
+        cell.panReleasedCallback = { [weak self] (image: UIImage, rect: CGRect) in
+            self?.backgroundColor = UIColor.clear
+            self?.listView.isHidden = true
+            self?.imageView.isHidden = false
+            
+            self?.imageView.image = image
+            self?.imageView.frame = rect
+            
+            UIView.animate(withDuration: 0.35, animations: {
+                self?.imageView.frame = (self?.imageRect)!
+            }) { (_) in
+                NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateCover_Key), object:nil)
+                self?.removeFromSuperview()
+            }
         }
         return cell
     }

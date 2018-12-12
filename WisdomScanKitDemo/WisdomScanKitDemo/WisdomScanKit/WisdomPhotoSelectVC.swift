@@ -91,16 +91,13 @@ public class WisdomPhotoSelectVC: UIViewController {
                     return
                 }
                 
-                self?.coverView.frame = CGRect(x: (self?.spacing)!,y: (self?.spacing)!, width: ItemSize, height: ItemSize)
-                self?.coverView.isHidden = false
                 let indexPath = IndexPath(item: 0, section: 0)
                 self?.listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.bottom, animated: false)
                 self?.currentShowImagerRect = CGRect(x: (self?.spacing)!,
                                                      y: (self?.navBarHeght)! + (self?.spacing)!,
-                                                     width: ItemSize,
-                                                     height: ItemSize)
-                
-                self?.beginShow(index: 0, coverViewFrame: (self?.currentShowImagerRect)!)
+                                                     width: ItemSize, height: ItemSize)
+                let coverViewFrame = CGRect(x: (self?.spacing)!,y: (self?.spacing)!, width: ItemSize+1, height: ItemSize+1)
+                self?.beginShow(index: 0, coverViewFrame: coverViewFrame)
             }
         })
         return bar
@@ -181,14 +178,6 @@ public class WisdomPhotoSelectVC: UIViewController {
                 rect = cell!.convert(cell!.bounds, to: window)
                 self.coverView.frame = cell!.frame
                 self.currentShowImagerRect = rect
-            }else{
-            //var newPoint: CGPoint = .zero
-            //if self.currentShowImagerRect.maxX + self.spacing >= self.listView.bounds.width{
-            //    newPoint = CGPoint(x: self.spacing, y: self.listView.frame.height - self.currentShowImagerRect.size.height - self.listView.contentInset.bottom)
-            //}else{
-                //newPoint = CGPoint(x: currentShowImagerRect.maxX + currentShowImagerRect.size.width + spacing, y: currentShowImagerRect.maxY)
-            //}
-            //self.currentShowImagerRect = CGRect(origin: newPoint, size: self.currentShowImagerRect.size)
             }
             
             DispatchQueue.global().async {
