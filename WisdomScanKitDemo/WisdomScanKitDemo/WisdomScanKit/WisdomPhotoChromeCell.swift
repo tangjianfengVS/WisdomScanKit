@@ -18,7 +18,7 @@ class WisdomPhotoChromeCell: UICollectionViewCell {
     /** 图片拖动时回调 */
     public var panChangedCallback: ((_ scale: CGFloat)-> ())?
     
-    /** 图片拖动松手回调。isDown: 是否向下 */
+    /** 图片拖动松手回调 */
     public var panReleasedCallback: ((_ image: UIImage,_ endRect: CGRect)->())?
     
     /** 记录pan手势开始时imageView的位置 */
