@@ -126,7 +126,6 @@ class WisdomPhotoChromeHUD: UIView {
     }
     
     fileprivate func showAnimation(image: UIImage) {
-        
         let rect = WisdomScanKit.getImageChromeRect(image: image)
         
         UIView.animate(withDuration: 0.30, animations: {
@@ -152,7 +151,7 @@ class WisdomPhotoChromeHUD: UIView {
         
         imageView.frame = WisdomScanKit.getImageChromeRect(image: imageView.image!)
         
-        UIView.animate(withDuration: 0.30, animations: {
+        UIView.animate(withDuration: 0.35, animations: {
             self.imageView.frame = self.imageRect
         }) { (_) in
             NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateCover_Key), object:nil)
@@ -169,7 +168,8 @@ class WisdomPhotoChromeHUD: UIView {
     }
 }
 
-extension WisdomPhotoChromeHUD: UICollectionViewDataSource,UICollectionViewDelegate{
+extension WisdomPhotoChromeHUD: UICollectionViewDataSource,UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if currentType {
             return imageArray.count
