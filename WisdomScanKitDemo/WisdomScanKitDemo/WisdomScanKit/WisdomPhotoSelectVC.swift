@@ -190,18 +190,25 @@ public class WisdomPhotoSelectVC: UIViewController {
         PHPhotoLibrary.requestAuthorization({ (status) in
             switch status {
             case .authorized:
-                self.loadSystemImages()
+                DispatchQueue.global().async {
+                    self.loadSystemImages()
+                }
                 
             case .denied:
                 if self.errorTask(WisdomScanErrorType.denied){
                     self.upgrades()
                 }
+                
             case .restricted:
                 if self.errorTask(WisdomScanErrorType.restricted){
-                    
+                    self.upgrades()
                 }
+                
             case .notDetermined:
-                self.loadSystemImages()
+                DispatchQueue.global().async {
+                    self.loadSystemImages()
+                }
+                
             default:
                 break
             }
