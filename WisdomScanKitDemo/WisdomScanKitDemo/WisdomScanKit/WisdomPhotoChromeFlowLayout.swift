@@ -9,7 +9,7 @@
 import UIKit
 
 class WisdomPhotoChromeFlowLayout: UICollectionViewFlowLayout {
-    fileprivate let space: CGFloat=18.0
+    fileprivate let space: CGFloat=20.0
     
     fileprivate var currentOffsetX: CGFloat = 0.0
     
