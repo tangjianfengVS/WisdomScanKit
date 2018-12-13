@@ -50,11 +50,17 @@ let options = { () -> PHImageRequestOptions in
 /** 图片浏览器Item的大小 */
 let ItemSize: CGFloat = UIScreen.main.bounds.width > 330 ? (UIScreen.main.bounds.width-5*5)/4 :(UIScreen.main.bounds.width-4*5)/3
 
-public typealias WisdomRQCodeFinishTask = ((String, AVCaptureSession)->())
 
+/** 返回值是否继续停留扫描页面 true:停留  false: 释放扫描页面 */
+public typealias WisdomRQCodeFinishTask = ((String, AVCaptureSession)->(Bool))
+
+
+/** 返回值是否继续扫描 true:继续 */
 public typealias WisdomRQCodeErrorTask = ((WisdomScanErrorType, AVCaptureSession?)->(Bool))
 
-public typealias WisdomErrorTask = ((WisdomScanErrorType)->(Bool)) 
+
+public typealias WisdomErrorTask = ((WisdomScanErrorType)->(Bool))
+
 
 public typealias WisdomPhotoTask = (([UIImage])->())
 
@@ -62,8 +68,10 @@ public typealias WisdomPhotoTask = (([UIImage])->())
 /** 浏览页面下标更新通知 */
 public let WisdomPhotoChromeUpdateIndex_Key = "WisdomPhotoChromeUpdateIndex_Key"
 
+
 /** 浏览页面结束动画更新通知 */
 public let WisdomPhotoChromeUpdateCover_Key = "WisdomPhotoChromeUpdateCover_Key"
+
 
 /** 浏览页面Rect更新跟踪通知 */
 public let WisdomPhotoChromeUpdateFrame_Key = "WisdomPhotoChromeUpdateFrame_Key"
@@ -75,11 +83,13 @@ public let WisdomPhotoChromeUpdateFrame_Key = "WisdomPhotoChromeUpdateFrame_Key"
     case present=1
 }
 
+
 /** 二维码扫描样式 */
 @objc public enum WisdomRQCodeThemeType: NSInteger {
     case green=0
     case snowy=1
 }
+
 
 /** 照片张数样式 */
 @objc public enum WisdomPhotoCountType: NSInteger {
@@ -88,12 +98,14 @@ public let WisdomPhotoChromeUpdateFrame_Key = "WisdomPhotoChromeUpdateFrame_Key"
     case nine=3  // 9张
 }
 
+
 /** 点击事件类型 */
 @objc public enum WisdomActionType: NSInteger {
     case cancel=0
     case edit=1
     case real=2
 }
+
 
 /** 摄像错误类型 */
 @objc public enum WisdomScanErrorType: NSInteger {
@@ -104,11 +116,13 @@ public let WisdomPhotoChromeUpdateFrame_Key = "WisdomPhotoChromeUpdateFrame_Key"
     case photosError=4  // 打开相册失败
 }
 
+
 /** 系统相册图片展示样式 */
 //@objc public enum WisdomShowElectPhotoType: NSInteger {
 //    case systemElect=0  // 系统类型，有分类Controller(暂未实现)
 //    case allElect=1     // 总包括类型，无分类Controller
 //}
+
 
 @objc public protocol WisdomScanNavbarDelegate  {
     /** 返回按钮 */

@@ -383,6 +383,7 @@ public class WisdomPhotoSelectVC: UIViewController {
     }
     
     @objc fileprivate func reset(btn: UIButton){
+        selectBar.display(res: false)
         btn.isEnabled = false
         btn.setTitle("   重置", for: .normal)
         imageResults.removeAll()

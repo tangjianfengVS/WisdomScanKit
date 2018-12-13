@@ -400,13 +400,22 @@ extension WisdomRQCodeVC : AVCaptureMetadataOutputObjectsDelegate{
             if let resultObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject{
                 let strvalue = resultObj.stringValue
                 if strvalue != nil {
-                    answerTask(strvalue!,scanSession!)
+                    let res = answerTask(strvalue!,scanSession!)
+                    if !res{
+                        clickBackBtn()
+                    }
                 }else{
-                    let _: Bool = errorTask(WisdomScanErrorType.codeError,scanSession)
+                    let res: Bool = errorTask(WisdomScanErrorType.codeError,scanSession)
+                    if res{
+                        isStartScan = true
+                    }
                 }
             }
         }else{
-            let _: Bool = errorTask(WisdomScanErrorType.codeError,scanSession)
+            let res: Bool = errorTask(WisdomScanErrorType.codeError,scanSession)
+            if res{
+                isStartScan = true
+            }
         }
     }
 }

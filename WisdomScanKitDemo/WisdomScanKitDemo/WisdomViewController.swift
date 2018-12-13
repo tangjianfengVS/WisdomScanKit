@@ -24,9 +24,11 @@ class WisdomViewController: UIViewController {
         startScanRQCode(startType: .push,
                         themeType: .green,
                         navDelegate: nil,
-                        answerTask: { (str, session: AVCaptureSession) in
+                        answerTask: { (str, session: AVCaptureSession)-> (Bool) in
             WisdomHUD.showText(text: str)
+                            
             
+            return true
         }) { (type: WisdomScanErrorType, session: AVCaptureSession?) -> (Bool) in
             
             return true
