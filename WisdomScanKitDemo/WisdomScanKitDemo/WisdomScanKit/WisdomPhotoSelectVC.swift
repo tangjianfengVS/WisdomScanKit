@@ -391,8 +391,11 @@ public class WisdomPhotoSelectVC: UIViewController {
     }
     
     deinit {
-        imageManager.stopCachingImagesForAllAssets()
         NotificationCenter.default.removeObserver(self)
+        
+        if assetsFetchResults.count > 0 {
+            imageManager.stopCachingImagesForAllAssets()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

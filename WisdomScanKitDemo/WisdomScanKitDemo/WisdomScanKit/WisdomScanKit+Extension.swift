@@ -111,7 +111,7 @@ extension UIViewController {
             }else{
                 let nav = UINavigationController(rootViewController: selectVC)
                 nav.view.layer.borderWidth = 1
-                nav.view.layer.borderColor = UIColor(white: 0.5, alpha: 1).cgColor
+                nav.view.layer.borderColor = UIColor(white: 1, alpha: 1).cgColor
                 nav.view.layer.shadowColor = UIColor.gray.cgColor
                 nav.view.layer.shadowOpacity = 1
                 selectVC.isCreatNav = true
