@@ -9,9 +9,11 @@
 import UIKit
 import Photos
 
+fileprivate let AMCGSize: CGSize = CGSize(width: 25, height: 25)
+
 class WisdomPhotoChromeHUD: UIView {
     
-    fileprivate let currentType: Bool!//True Image集合
+    fileprivate let currentType: Bool!///True Image集合
     
     fileprivate let WisdomPhotoChromeHUDCellID = "WisdomPhotoChromeHUDCellID"
     
@@ -25,6 +27,7 @@ class WisdomPhotoChromeHUD: UIView {
     /** 当前结束目标图片归位Rect */
     fileprivate var imageRect: CGRect!
     
+    
     fileprivate lazy var layout = WisdomPhotoChromeFlowLayout {[weak self] (index) in
         let count = (self?.currentType)! ? (self?.imageArray.count)!:(self?.fetchResult.count)!
         if index < count {
@@ -33,18 +36,21 @@ class WisdomPhotoChromeHUD: UIView {
         }
     }
     
+    
     fileprivate lazy var emptyView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 28*100/48))
-        let image = WisdomScanKit.bundleImage(name: "empty_icon")
+        let image = WisdomScanManager.bundleImage(name: "empty_icon")
         imageView.image = image
         imageView.center = self.center
         return imageView
     }()
     
+    
     fileprivate lazy var tap: UITapGestureRecognizer = {
         let touch = UITapGestureRecognizer(target: self, action: #selector(tapTouch(tap:)))
         return touch
     }()
+    
     
     fileprivate(set) lazy var imageView: UIImageView = {
         let iamgeVI = UIImageView()
@@ -52,6 +58,7 @@ class WisdomPhotoChromeHUD: UIView {
         iamgeVI.contentMode = .scaleAspectFill
         return iamgeVI
     }()
+    
     
     fileprivate lazy var listView: UICollectionView = {
         let view = UICollectionView(frame: self.frame, collectionViewLayout: layout)
@@ -63,6 +70,7 @@ class WisdomPhotoChromeHUD: UIView {
         view.isHidden = true
         return view
     }()
+    
     
     /** [UIImage]集合的init */
     init(beginIndex: Int, imageList: [UIImage], beginRect: CGRect) {
@@ -79,9 +87,9 @@ class WisdomPhotoChromeHUD: UIView {
         if imageArray.count > 0 {
             insertSubview(listView, at: 0)
             addSubview(imageView)
+            
             imageView.image = imageArray[currentIndex]
-            imageView.frame = beginRect
-            showAnimation(image: imageArray[currentIndex])
+            showAnimation(image: imageArray[currentIndex], beginRect: beginRect)
             
             if currentIndex != 0 && currentIndex < imageArray.count {
                 layout.updateCurrentOffsetX(index: currentIndex)
@@ -94,11 +102,13 @@ class WisdomPhotoChromeHUD: UIView {
         }
     }
     
-    init(beginImage: UIImage, beginIndex: Int, fetchResult: PHFetchResult<PHAsset>, beginRect: CGRect) {
+    
+    /// beginImage: UIImage,
+    init(beginIndex: Int, fetchResults: PHFetchResult<PHAsset>, beginRect: CGRect) {
         currentIndex = beginIndex
         imageArray = []
         imageRect = beginRect
-        self.fetchResult = fetchResult
+        fetchResult = fetchResults
         currentType = false
         
         super.init(frame: UIScreen.main.bounds)
@@ -107,9 +117,17 @@ class WisdomPhotoChromeHUD: UIView {
         
         insertSubview(listView, at: 0)
         addSubview(imageView)
-        imageView.image = beginImage
-        imageView.frame = beginRect
-        showAnimation(image: beginImage)
+        
+        if beginIndex < fetchResult.count {
+            imageManager.requestImage(for: fetchResult[beginIndex],
+                                      targetSize: UIScreen.main.bounds.size,
+                                      contentMode: PHImageContentMode.aspectFit,
+                                      options: options,
+                                      resultHandler: { (image, _) -> Void in
+                self.imageView.image = image
+                self.showAnimation(image: image!, beginRect: beginRect)
+            })
+        }
         
         if currentIndex != 0 && currentIndex < fetchResult.count {
             layout.updateCurrentOffsetX(index: currentIndex)
@@ -119,16 +137,25 @@ class WisdomPhotoChromeHUD: UIView {
         NotificationCenter.default.addObserver(self, selector: #selector(updateIndex(notif:)), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateFrame_Key), object: nil)
     }
     
+    
     @objc private func updateIndex(notif: Notification) {
         if let rect = notif.object as? CGRect {
             imageRect = rect
         }
     }
     
-    fileprivate func showAnimation(image: UIImage) {
-        let rect = WisdomScanKit.getImageChromeRect(image: image)
+    
+    fileprivate func showAnimation(image: UIImage, beginRect: CGRect) {
+        if beginRect == CGRect.zero{
+            imageView.frame = CGRect(origin: CGPoint.zero, size: AMCGSize)
+            imageView.center = self.center
+        } else {
+            imageView.frame = beginRect
+        }
         
-        UIView.animate(withDuration: 0.30, animations: {
+        let rect = image.getImageChromeRect()
+
+        UIView.animate(withDuration: 0.28, animations: {
             self.imageView.frame = rect
         }) { (_) in
             self.backgroundColor = UIColor.black
@@ -136,6 +163,7 @@ class WisdomPhotoChromeHUD: UIView {
             self.listView.isHidden = false
         }
     }
+    
     
     @objc fileprivate func tapTouch(tap: UITapGestureRecognizer?){
         backgroundColor = UIColor.clear
@@ -149,10 +177,17 @@ class WisdomPhotoChromeHUD: UIView {
             imageView.image = cell.imageView.image!
         }
         
-        imageView.frame = WisdomScanKit.getImageChromeRect(image: imageView.image!)
+        imageView.frame = imageView.image!.getImageChromeRect()
         
-        UIView.animate(withDuration: 0.35, animations: {
-            self.imageView.frame = self.imageRect
+        UIView.animate(withDuration: 0.32, animations: {
+            
+            if self.imageRect == CGRect.zero{
+                self.imageView.frame = CGRect(origin: CGPoint.zero, size: AMCGSize)
+                self.imageView.center = self.center
+            } else {
+                self.imageView.frame = self.imageRect
+            }
+            
         }) { (_) in
             NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateCover_Key), object:nil)
             self.removeFromSuperview()
@@ -168,6 +203,7 @@ class WisdomPhotoChromeHUD: UIView {
     }
 }
 
+
 extension WisdomPhotoChromeHUD: UICollectionViewDataSource,UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -176,6 +212,7 @@ extension WisdomPhotoChromeHUD: UICollectionViewDataSource,UICollectionViewDeleg
         }
         return fetchResult.count
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WisdomPhotoChromeHUDCellID, for: indexPath) as! WisdomPhotoChromeCell
@@ -203,8 +240,15 @@ extension WisdomPhotoChromeHUD: UICollectionViewDataSource,UICollectionViewDeleg
             self?.imageView.image = image
             self?.imageView.frame = rect
             
-            UIView.animate(withDuration: 0.35, animations: {
-                self?.imageView.frame = (self?.imageRect)!
+            UIView.animate(withDuration: 0.32, animations: {
+                
+                if self?.imageRect == CGRect.zero{
+                    self?.imageView.frame = CGRect(origin: CGPoint.zero, size: AMCGSize)
+                    self?.imageView.center = (self?.center)!
+                } else {
+                    self?.imageView.frame = (self?.imageRect)!
+                }
+                
             }) { (_) in
                 NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateCover_Key), object:nil)
                 self?.removeFromSuperview()

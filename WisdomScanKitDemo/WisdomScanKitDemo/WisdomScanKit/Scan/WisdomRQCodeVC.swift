@@ -16,7 +16,7 @@ public class WisdomRQCodeVC: UIViewController {
     
     fileprivate let errorTask: WisdomRQCodeErrorTask!
     
-    fileprivate let startType: WisdomScanStartType!
+    fileprivate let startType: StartTransformType!
     
     /** 主题风格 */
     fileprivate let themeType: WisdomRQCodeThemeType!
@@ -78,10 +78,10 @@ public class WisdomRQCodeVC: UIViewController {
         let btn = UIButton()
     
         if startType == .push{
-            let image = WisdomScanKit.bundleImage(name: "black_backIcon")
+            let image = WisdomScanManager.bundleImage(name: "black_backIcon")
             btn.setImage(image, for: .normal)
         }else if startType == .present{
-            let image = WisdomScanKit.bundleImage(name: "black_backIcon")
+            let image = WisdomScanManager.bundleImage(name: "black_backIcon")
             btn.setImage(image, for: .normal)
         }
         
@@ -93,22 +93,22 @@ public class WisdomRQCodeVC: UIViewController {
     }()
     
     fileprivate lazy var scanPane: UIImageView = {
-        let image = WisdomScanKit.bundleImage(name: "QRCode_ScanBox")
+        let image = WisdomScanManager.bundleImage(name: "QRCode_ScanBox")
         let scan = UIImageView(image: image)
         return scan
     }()
     
     fileprivate lazy var scanLine: UIImageView = {
-        let image = WisdomScanKit.bundleImage(name: "QRCode_ScanLine")
+        let image = WisdomScanManager.bundleImage(name: "QRCode_ScanLine")
         let scanLine = UIImageView(image: image)
         return scanLine
     }()
     
     fileprivate lazy var lightBtn: UIButton = {
         let btn = UIButton()
-        var image = WisdomScanKit.bundleImage(name: "light_scan_on")
+        var image = WisdomScanManager.bundleImage(name: "light_scan_on")
         btn.setBackgroundImage(image, for: .selected)
-        image = WisdomScanKit.bundleImage(name: "light_scan_off")
+        image = WisdomScanManager.bundleImage(name: "light_scan_off")
         btn.setBackgroundImage(image, for: .normal)
         btn.addTarget(self, action: #selector(light(sender:)), for: .touchUpInside)
         return btn
@@ -129,7 +129,7 @@ public class WisdomRQCodeVC: UIViewController {
         }
     }
     
-    init(startTypes: WisdomScanStartType,
+    init(startTypes: StartTransformType,
          themeTypes: WisdomRQCodeThemeType,
          navDelegate: WisdomScanNavbarDelegate?,
          answerTasks: @escaping WisdomRQCodeFinishTask,
@@ -356,7 +356,7 @@ public class WisdomRQCodeVC: UIViewController {
     @objc fileprivate func light(sender: UIButton){
         lightOn = !lightOn
         sender.isSelected = lightOn
-        WisdomScanKit.turnTorchOn(light: lightOn)
+        WisdomScanManager.turnTorchOn(light: lightOn)
     }
     
     fileprivate func scanAnimation() -> CABasicAnimation{

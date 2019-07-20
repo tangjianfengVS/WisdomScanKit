@@ -9,6 +9,8 @@
 import UIKit
 
 public class WisdomPhotoEditVC: UIViewController {
+    fileprivate let theme: ElectPhotoTheme
+    
     fileprivate var imageArray: [UIImage] = []
     
     fileprivate let beginCenter: CGPoint!
@@ -19,13 +21,15 @@ public class WisdomPhotoEditVC: UIViewController {
     
     fileprivate let PhotoEditCellKey = "WisdomPhotoEditCellkey"
     
-    fileprivate let spacing: CGFloat = 0
+    fileprivate let spacing: CGFloat = 8
     
-    fileprivate let BSpacing: CGFloat = 16
+    fileprivate let BSpacing: CGFloat = 25
+    
+    fileprivate let ASpacing: CGFloat = 50
     
     fileprivate lazy var emptyView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 28*100/48))
-        let image = WisdomScanKit.bundleImage(name: "empty_icon")
+        let image = WisdomScanManager.bundleImage(name: "empty_icon")
         imageView.image = image
         imageView.center = self.view.center
         return imageView
@@ -33,13 +37,14 @@ public class WisdomPhotoEditVC: UIViewController {
     
     fileprivate lazy var listView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let rect = CGRect(x: BSpacing, y: ASpacing, width: self.view.bounds.width-BSpacing*2, height: self.view.bounds.height-ASpacing*2)
+        let view = UICollectionView(frame: rect, collectionViewLayout: layout)
         view.register(WisdomPhotoEditCell.self, forCellWithReuseIdentifier: PhotoEditCellKey)
         view.delegate = self
         view.dataSource = self
+        view.backgroundColor = UIColor.clear
         layout.minimumInteritemSpacing = spacing
         layout.minimumLineSpacing = spacing
-        layout.sectionInset = UIEdgeInsets(top: 0, left: BSpacing, bottom: 0, right: BSpacing)
         return view
     }()
     
@@ -47,6 +52,7 @@ public class WisdomPhotoEditVC: UIViewController {
         let btn = UIButton(frame: CGRect(x: 30, y: self.view.bounds.height - 40, width: 50, height: 30))
         btn.addTarget(self, action: #selector(clickBack(btn:)), for: .touchUpInside)
         btn.setTitle("取消", for: .normal)
+        btn.setTitleColor(self.theme == .whiteLight ?UIColor.black:UIColor.white, for: .normal)
         return btn
     }()
     
@@ -55,17 +61,34 @@ public class WisdomPhotoEditVC: UIViewController {
                                          y: self.view.bounds.height - 40, width: 50, height: 30))
         btn.addTarget(self, action: #selector(clickBack(btn:)), for: .touchUpInside)
         btn.setTitle("完成", for: .normal)
+        btn.setTitleColor(self.theme == .whiteLight ?UIColor.black:UIColor.white, for: .normal)
         return btn
     }()
     
+    
+    private lazy var toolImgv: UIImageView = {
+        let imgv = UIImageView(image: WisdomScanManager.bundleImage(name: "wisdom_timg"))
+        imgv.frame = self.view.frame
+        return imgv
+    }()
+    
+    
     init(imageList: [UIImage],
-         beginCenters: CGPoint,
-         beginSizse: CGSize,
-         endTask: @escaping ((Bool,[UIImage])->())) {
-        beginCenter = beginCenters
-        beginSize = beginSizse
+         startIconAnimatRect: CGRect,
+         colorTheme: ElectPhotoTheme,
+         endTask: @escaping (Bool,[UIImage])->()) {
+        
+        if startIconAnimatRect == CGRect.zero {
+            beginCenter = CGPoint.zero
+            beginSize = CGSize.zero
+        }else{
+            beginSize = startIconAnimatRect.size
+            beginCenter = CGPoint(x: startIconAnimatRect.minX + beginSize.width/2, y: startIconAnimatRect.minY + beginSize.height/2)
+        }
+        
         callBack = endTask
         imageArray = imageList
+        theme = colorTheme
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -75,11 +98,19 @@ public class WisdomPhotoEditVC: UIViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.black
+        view.addSubview(toolImgv)
+        
+        let start: UIBarStyle = self.theme == .whiteLight ? UIBarStyle.default : UIBarStyle.black
+        let bar = UIToolbar(frame: self.view.frame)
+        bar.barStyle = start
+        if self.theme == .whiteLight {
+            bar.alpha = 0.92
+        }
+        
+        toolImgv.addSubview(bar)
         view.addSubview(listView)
         view.addSubview(backBtn)
         view.addSubview(realBtn)
-        listView.frame = view.bounds
         
         view.insertSubview(emptyView, aboveSubview: listView)
     }
@@ -127,8 +158,10 @@ extension WisdomPhotoEditVC: UICollectionViewDelegate,UICollectionViewDataSource
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = CGSize(width: (view.bounds.width - 2*spacing - 2*BSpacing)/3,
-                          height: view.bounds.height*(view.bounds.width - 2*spacing - 2*BSpacing)/3/view.bounds.width)
+
+        let height = (view.bounds.width - BSpacing*2 - spacing*2)/3/view.bounds.width
+        let size = CGSize(width: (view.bounds.width - BSpacing*2 - spacing*2)/3,
+                          height: view.bounds.height*height)
         return size
     }
 }

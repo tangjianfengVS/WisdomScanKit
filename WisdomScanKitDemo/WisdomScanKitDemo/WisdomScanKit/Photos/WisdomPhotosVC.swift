@@ -44,15 +44,9 @@ public class WisdomPhotosVC: UIViewController {
                        y: self.view.frame.maxY - animationViewSize.height/2 - 15)
     }()
     
-    fileprivate lazy var animationBgBtn: UIButton = {
-        let btn = UIButton(frame: CGRect(origin: .zero, size: animationViewSize))
+    fileprivate lazy var animationBgBtn: WisdomAnimationBgBtn = {
+        let btn = WisdomAnimationBgBtn(frame: CGRect(origin: .zero, size: animationViewSize))
         btn.center = center
-        btn.layer.borderWidth = 1.25
-        btn.layer.borderColor = UIColor.white.cgColor
-        btn.isHidden = true
-        btn.layer.shadowOpacity = 0.9
-        btn.layer.shadowColor = UIColor.white.cgColor
-        btn.layer.shadowOffset = CGSize(width: 0, height: 0)
         btn.addTarget(self, action: #selector(showEidtView), for: .touchUpInside)
         return btn
     }()
@@ -66,7 +60,7 @@ public class WisdomPhotosVC: UIViewController {
         lab.textAlignment = .center
         lab.textColor = UIColor.white
         lab.text = "0"
-        lab.font = UIFont.boldSystemFont(ofSize: 16)
+        lab.font = UIFont.boldSystemFont(ofSize: 15)
         return lab
     }()
     
@@ -83,7 +77,7 @@ public class WisdomPhotosVC: UIViewController {
 
     fileprivate lazy var photoBtn: UIButton = {
         let btn = UIButton()
-        let image = WisdomScanKit.bundleImage(name: "ic_waterprint_revolve")
+        let image = WisdomScanManager.bundleImage(name: "ic_waterprint_revolve")
         btn.setBackgroundImage(image, for: .normal)
         btn.addTarget(self, action: #selector(toggleCamera), for: .touchUpInside)
         return btn
@@ -91,9 +85,9 @@ public class WisdomPhotosVC: UIViewController {
 
     fileprivate lazy var photoLightBtn: UIButton = {
         let btn = UIButton()
-        var image = WisdomScanKit.bundleImage(name: "qrcode_light_normal")
+        var image = WisdomScanManager.bundleImage(name: "qrcode_light_normal")
         btn.setBackgroundImage(image, for: .normal)
-        image = WisdomScanKit.bundleImage(name: "qrcode_light_pressed")
+        image = WisdomScanManager.bundleImage(name: "qrcode_light_pressed")
         btn.setBackgroundImage(image, for: .selected)
         btn.addTarget(self, action: #selector(clickPhotoLightBtn), for: .touchUpInside)
         return btn
@@ -104,9 +98,9 @@ public class WisdomPhotosVC: UIViewController {
                                      width: 74, height: 74))
         btn.center.x = self.view.center.x
         btn.setTitleColor(UIColor.white, for: .normal)
-        var image = WisdomScanKit.bundleImage(name: "share_coupon_btn_bg_normal")
+        var image = WisdomScanManager.bundleImage(name: "share_coupon_btn_bg_normal")
         btn.setBackgroundImage(image, for: .normal)
-        image = WisdomScanKit.bundleImage(name: "share_coupon_btn_bg")
+        image = WisdomScanManager.bundleImage(name: "share_coupon_btn_bg")
         btn.setBackgroundImage(image, for: .disabled)
         btn.setTitleColor(UIColor(white: 0.3, alpha: 1), for: .disabled)
         btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
@@ -118,7 +112,7 @@ public class WisdomPhotosVC: UIViewController {
         let btn = UIButton(frame: CGRect(x: (self.bgView.bounds.width - 55)/2,
                                          y: (self.bgView.bounds.height - 55)/2,
                                          width: 60, height: 60))
-        let image = WisdomScanKit.bundleImage(name: "scan_icon_cancel")
+        let image = WisdomScanManager.bundleImage(name: "scan_icon_cancel")
         btn.setBackgroundImage(image, for: .normal)
         btn.addTarget(self, action: #selector(onceCancelAction), for: .touchUpInside)
         return btn
@@ -128,7 +122,7 @@ public class WisdomPhotosVC: UIViewController {
         let btn = UIButton(frame: CGRect(x: (self.bgView.bounds.width - 55)/2,
                                          y: (self.bgView.bounds.height - 55)/2,
                                          width: 52, height: 52))
-        let image = WisdomScanKit.bundleImage(name: "list_icon_choose")
+        let image = WisdomScanManager.bundleImage(name: "list_icon_choose")
         btn.setBackgroundImage(image, for: .normal)
         btn.addTarget(self, action: #selector(saveAction), for: .touchUpInside)
         return btn
@@ -138,15 +132,15 @@ public class WisdomPhotosVC: UIViewController {
         let btn = UIButton(frame: CGRect(x: 15, y: 30, width: 34, height: 34))
         
         if startType == .push{
-            let image = WisdomScanKit.bundleImage(name: "black_backIcon")
+            let image = WisdomScanManager.bundleImage(name: "black_backIcon")
             btn.setImage(image, for: .normal)
         }else if startType == .present{
-            let image = WisdomScanKit.bundleImage(name: "black_backIcon")
+            let image = WisdomScanManager.bundleImage(name: "black_backIcon")
             btn.setImage(image, for: .normal)
         }
         
         btn.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
-        btn.backgroundColor = UIColor(white: 0.8, alpha: 0.4)
+        btn.backgroundColor = UIColor(white: 0.85, alpha: 0.5)
         btn.layer.cornerRadius = 17
         btn.layer.masksToBounds = true
         return btn
@@ -172,9 +166,9 @@ public class WisdomPhotosVC: UIViewController {
     /** 相机预览图层 */
     fileprivate var cameraPreviewLayer:AVCaptureVideoPreviewLayer?
     
-    fileprivate let startType: WisdomScanStartType!
+    fileprivate let startType: StartTransformType!
     
-    fileprivate let countType: WisdomPhotoCountType!
+    fileprivate let countType: ElectPhotoCountType!
     
     fileprivate let photoTask: WisdomPhotoTask!
     
@@ -186,8 +180,8 @@ public class WisdomPhotosVC: UIViewController {
     
     fileprivate var currentImageList: [UIImage] = []
     
-    init(startTypes: WisdomScanStartType,
-         countTypes: WisdomPhotoCountType,
+    init(startTypes: StartTransformType,
+         countTypes: ElectPhotoCountType,
          photoTasks: @escaping WisdomPhotoTask,
          errorTasks: @escaping WisdomErrorTask) {
         photoTask = photoTasks
@@ -434,7 +428,7 @@ public class WisdomPhotosVC: UIViewController {
     
     @objc fileprivate func clickPhotoLightBtn(btn: UIButton){
         btn.isSelected = !btn.isSelected
-        WisdomScanKit.turnTorchOn(light: btn.isSelected)
+        WisdomScanManager.turnTorchOn(light: btn.isSelected)
     }
     
     @objc fileprivate func clickBackBtn(){
@@ -480,7 +474,7 @@ extension WisdomPhotosVC {
         let res : Bool = (currentDevice?.torchMode == .on) ? true : false
         if res && currentDevice == backFacingCamera{
             photoLightBtn.isSelected = false
-            WisdomScanKit.turnTorchOn(light: false)
+            WisdomScanManager.turnTorchOn(light: false)
         }
                 
         captureSession.beginConfiguration()
@@ -505,28 +499,32 @@ extension WisdomPhotosVC {
     
     /** 打开图片选择编辑器 */
     @objc fileprivate func showEidtView(){
+        
         captureSession.stopRunning()
-        WisdomScanKit.startPhotoEdit(rootVC: self,
-                                     imageList: currentImageList,
-                                     beginCenter: center,
-                                     beginSize: animationViewSize, endTask: {[weak self](res, list) in
+        
+        startPhotoEdit(imageList: currentImageList,
+                       startIconAnimatRect: CGRect(x: center.x - animationViewSize.width/2,
+                                                   y: center.y - animationViewSize.height/2,
+                                                   width: animationViewSize.width,
+                                                   height: animationViewSize.height),
+                       finishTask: { [weak self] (res, list) in
            if res{
                 self?.currentImageList = list
-            
+
                 if (self?.currentImageList.count)! > 0{
-                    
+
                     self?.currentCount = (self?.maxCount)! - (self?.currentImageList.count)!
                     let numbStr = String((self?.currentImageList.count)!)
                     self?.titleLab.text = numbStr
                     self?.animationBgBtn.setBackgroundImage(self?.currentImageList.last, for: .normal)
-                    
+
                 }else{
                     self?.nineCancelAction()
                 }
            }
-                                        
+
            self?.cameraBtn.isEnabled = (self?.currentImageList.count)! == (self?.maxCount)! ? false:true
-                                        
+                        
            if (self?.currentImageList.count)! < (self?.maxCount)! {
                self?.captureSession.startRunning()
            }

@@ -21,9 +21,9 @@ class WisdomPhotoSelectCell: UICollectionViewCell {
     
     private(set) lazy var selectBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: self.contentView.bounds.width - 23, y: 2, width: 21, height: 21))
-        var image = WisdomScanKit.bundleImage(name: "shan_element_book")
+        var image = WisdomScanManager.bundleImage(name: "shan_element_book")
         btn.setBackgroundImage(image, for: .normal)
-        image = WisdomScanKit.bundleImage(name: "selectedbackgroud_icon")
+        image = WisdomScanManager.bundleImage(name: "selectedbackgroud_iconNew")
         btn.setBackgroundImage(image, for: .selected)
         btn.addTarget(self, action: #selector(clickSelectedBtn), for: .touchUpInside)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 13)

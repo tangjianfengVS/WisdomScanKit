@@ -34,7 +34,7 @@ class WisdomPhotoChromeCell: UICollectionViewCell {
     
     var image: UIImage? {
         didSet{
-            let rect = WisdomScanKit.getImageChromeRect(image: image!)
+            let rect = image!.getImageChromeRect()
             imageView.image = image
             imageView.frame = rect
         }
@@ -128,7 +128,7 @@ extension WisdomPhotoChromeCell: UIScrollViewDelegate {
         case .ended, .cancelled:
             imageView.frame = panResult(pan).0
             //let isDown = pan.velocity(in: self).y > 0
-            let size = WisdomScanKit.getImageChromeRect(image: image!).size
+            let size = image!.getImageChromeRect().size
             
             if  imageView.frame.height <= size.height/3*2.2 {
                 panReleasedCallback?(imageView.image!, imageView.frame)

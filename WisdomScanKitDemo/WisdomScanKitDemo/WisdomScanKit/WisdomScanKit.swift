@@ -11,146 +11,53 @@ import Photos
 
 class WisdomScanKit: NSObject {
     
-    /**
-     *     图片浏览器:
-     *     beginImage  :  当前展示的图片
-     *     beginIndex  :  beginImage 在 imageList集合的下标
-     *     imageList   :  展示图片集合
-     *     beginRect   :  开始展示动画的Frame
-     */
-    @discardableResult
-    @objc public class func startPhotoChrome(beginImage: UIImage?,
-                                             beginIndex: Int,
-                                             imageList: [UIImage],
-                                             beginRect: CGRect)-> WisdomPhotoChromeHUD {
-        let window = UIApplication.shared.keyWindow
-        var imageListNew = imageList
-        var imageRect = beginRect
-        
-        if imageList.count == 0 && beginImage != nil {
-            imageListNew.append(beginImage!)
-        }
-        
-        if imageRect == .zero{
-            imageRect = CGRect(x: 5,y: 70,width: ItemSize, height: ItemSize)
-        }
+    // MARK: - WisdomPhotoChromeHUD
     
-        let hud = WisdomPhotoChromeHUD(beginIndex: beginIndex, imageList: imageListNew, beginRect: imageRect)
-        window?.addSubview(hud)
-        return hud
+    /// 动画图片浏览器:（浏览自定义图片）
+    ///
+    /// - Parameters:
+    ///   - startIconIndex:      show begin image index frame array.  (当前展示图片在数组中的下标)
+    ///   - startIconAnimatRect: show begin image animation the frame.(开始展示动画的Frame)
+    ///   - iconList:            show images.                         (图片集合)
+    ///
+    /// - Returns: The created `WisdomPhotoChromeHUD`.
+    @discardableResult
+    @objc public class func startPhotoChrome(startIconIndex: Int=0,
+                                             startIconAnimatRect: CGRect,
+                                             iconList: [UIImage]) -> WisdomPhotoChromeHUD {
+        return WisdomScanManager.startPhotoChrome(startIconIndex: startIconIndex, startIconAnimatRect: startIconAnimatRect, iconList: iconList)
     }
     
-    /**
-     *     图片浏览器:
-     *     beginImage  :  当前展示的图片
-     *     beginIndex  :  beginImage 在 imageList集合的下标
-     *     fetchResult :  展示图片缓存集合
-     *     beginRect   :  开始展示动画的Frame
-     */
-    @discardableResult
-    @objc class func startPhotoChrome(beginImage: UIImage,
-                                      beginIndex: Int,
-                                      fetchResult: PHFetchResult<PHAsset>,
-                                      beginRect: CGRect)-> WisdomPhotoChromeHUD {
-        let window = UIApplication.shared.keyWindow
-        var imageRect = beginRect
 
-        if imageRect == .zero{
-            imageRect = CGRect(x: 5,y: 70,width: ItemSize, height: ItemSize)
-        }
-
-        let hud = WisdomPhotoChromeHUD(beginImage: beginImage, beginIndex: beginIndex, fetchResult: fetchResult, beginRect: imageRect)
-        window?.addSubview(hud)
-        return hud
-    }
+    // MARK: - WisdomPhotoChromeHUD
     
-    /**
-     *     图片选择编辑器:
-     *     rootVC      :  父类调用控制器
-     *     imageList   :  图片集合
-     *     beginCenter :  开始展示的动画中心点
-     *     beginSize   :  开始展示的动画大小
-     *     endTask     :  完成回调task
-     */
+    /// 动画图片浏览器:（浏览系统相册图片）
+    ///
+    /// - Parameters:
+    ///   - startIconIndex:      show begin image index frame array.  (当前展示图片在数组中的下标)
+    ///   - startIconAnimatRect: show begin image animation the frame.(开始展示动画的Frame)
+    ///   - fetchResult:         show images.                         (展示缓存图片集合)
+    ///
+    /// - Returns: The created `WisdomPhotoChromeHUD`.
     @discardableResult
-    @objc public class func startPhotoEdit(rootVC: UIViewController,
-                                           imageList: [UIImage],
-                                           beginCenter: CGPoint,
-                                           beginSize: CGSize,
-                                           endTask: @escaping ((Bool,[UIImage])->()))-> WisdomPhotoEditVC {
-        
-        let editVC = WisdomPhotoEditVC(imageList: imageList,
-                                       beginCenters:beginCenter,
-                                       beginSizse: beginSize,
-                                       endTask: endTask)
-        editVC.view.frame = rootVC.view.frame
-        rootVC.addChild(editVC)
-        rootVC.view.addSubview(editVC.view)
-        
-        let scbl = beginSize.width/rootVC.view.bounds.width
-        let ydblW = rootVC.view.center.x-beginCenter.x
-        let ydblY = -rootVC.view.center.y+beginCenter.y
-        
-        editVC.view.transform = CGAffineTransform(translationX: -ydblW, y: ydblY)
-        editVC.view.transform = editVC.view.transform.scaledBy(x: scbl, y: scbl)
-        
-        UIView.animate(withDuration: 0.35, animations: {
-            editVC.view.transform = .identity
-        })
-        return editVC
+    @objc public class func startPhotoChrome(startIconIndex: Int=0,
+                                             startIconAnimatRect: CGRect,
+                                             fetchResult: PHFetchResult<PHAsset>) -> WisdomPhotoChromeHUD {
+        return WisdomScanManager.startPhotoChrome(startIconIndex: startIconIndex, startIconAnimatRect: startIconAnimatRect, fetchResult: fetchResult)
     }
     
-    /**
-     *   计算填充屏幕尺寸:
-     *   说明：以填充屏幕尺寸为目标， 计算原声图片在屏幕上的Rect
-     */
-    @objc class func getImageChromeRect(image: UIImage) -> CGRect {
-        let bounds = UIScreen.main.bounds
-        if image.size.width == image.size.height {
-            return CGRect(x: 0,
-                          y: (bounds.height - bounds.width)/2,
-                          width: bounds.size.width,
-                          height: bounds.size.width)
-        }else if image.size.width < bounds.width && image.size.height < bounds.height{
-            
-            if (bounds.size.height - image.size.height) > (bounds.size.width - image.size.width){
-                let height = image.size.height/image.size.width * bounds.width
-                return CGRect(x: 0,y: (bounds.height - height)/2, width: bounds.size.width,height: height)
-            }else{
-                let width = image.size.width/image.size.height * bounds.height
-                return CGRect(x: (bounds.size.width - width)/2,y: 0, width: width,height: bounds.size.height)
-            }
-        }else if image.size.width > bounds.width && image.size.height > bounds.height {
-            let wB = image.size.width/bounds.width
-            let hB = image.size.height/bounds.height
-            if wB > hB{
-                let height = image.size.height/image.size.width * bounds.width
-                return CGRect(x: 0,y: (bounds.height - height)/2,width: bounds.width,height: height)
-            }else{
-                let width = image.size.width/image.size.height * bounds.height
-                return CGRect(x: (bounds.width - width)/2, y: 0, width: width, height: bounds.height)
-            }
-        }else if image.size.width > bounds.width && image.size.height <= bounds.height {
-            
-            let height = image.size.height/image.size.width * bounds.width
-            return CGRect(x: 0,y: (bounds.height - height)/2,width: bounds.width,height: height)
-        }else if image.size.width < bounds.width && image.size.height >= bounds.height {
-            
-            let width = image.size.width/image.size.height * bounds.height
-            return CGRect(x: (bounds.width - width)/2, y: 0,width: width,height: bounds.height)
-        }
-        return CGRect(x: (bounds.size.width - image.size.width)/2,
-                      y: (bounds.size.height - image.size.height)/2,
-                      width: image.size.width,
-                      height: image.size.height)
-    }
     
-    /** 获取摄像状态权限 */
+    // MARK: - Get camera status permissions status
+    
+    /// 获取摄像状态权限
     @objc class func authorizationStatus() -> AVAuthorizationStatus {
         return AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
     }
     
-    /** 内部跳转系统设置 */
+    
+    // MARK: - Internal jump system Settings
+    
+    /// 内部跳转系统设置
     @objc class func authorizationScan() {
         let url = URL(string: UIApplication.openSettingsURLString)
         
@@ -159,40 +66,121 @@ class WisdomScanKit: NSObject {
         }
     }
     
-    /** 相册权限 */
-    @objc class func authorizationPhoto()->PHAuthorizationStatus {
+    
+    // MARK: - Get album permission status
+    
+    /// 相册权限
+    @objc class func authorizationPhoto() -> PHAuthorizationStatus {
         return PHPhotoLibrary.authorizationStatus()
     }
+}
+
+
+extension UIViewController {
     
-    /** Flashlight operation */
-    class func turnTorchOn(light: Bool){
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else{
-            if light{
-                //ZHInvestScanManager.confirm(title: "温馨提示", message: "闪光灯不可用", controller: self)
-            }
-            return
-        }
-        if device.hasTorch{
-            do{
-                try device.lockForConfiguration()
-                if light && device.torchMode == .off{
-                    device.torchMode = .on
-                }
-                if !light && device.torchMode == .on{
-                    device.torchMode = .off
-                }
-                device.unlockForConfiguration()
-            }catch{
-                
-            }
-        }
+    // MARK: - startElectSystemPhoto
+    
+    /// 跳转加载系统相册图片浏览器，并选择图片
+    ///
+    /// - Parameters:
+    ///   - startType:    The `StartTransformType` value.                (系统相册跳转动画类型)
+    ///   - countType:    The `ElectPhotoCountType`, `once` by default.  (选取数量类型)
+    ///   - theme:        The `ElectPhotoTheme`, `whiteLight` by default.(UI主题风格)
+    ///   - delegate:     The `ElectPhotoDelegate`, custom navbar item.
+    ///   - photoTask:    The `WisdomPhotoTask`, back images array.      (完成回调)
+    ///   - errorTask:    The `WisdomErrorTask`, next?.                  (失败回调)
+    ///
+    /// - Returns: The created `WisdomPhotoSelectVC`.
+    @discardableResult
+    @objc public func startElectSystemPhoto(startType: StartTransformType = .present,
+                                            countType: ElectPhotoCountType = .nine,
+                                            theme:     ElectPhotoTheme = .darkDim,
+                                            delegate:  ElectPhotoDelegate? = nil,
+                                            photoTask: @escaping WisdomPhotoTask,
+                                            errorTask: @escaping WisdomErrorTask) -> WisdomPhotoSelectVC {
+        return WisdomScanManager.startElectSystemPhoto(rootVC: self,
+                                                       startType: startType,
+                                                       countType: countType,
+                                                       theme:     theme,
+                                                       delegate:  delegate,
+                                                       photoTask: photoTask,
+                                                       errorTask: errorTask)
     }
     
-    /** bundle图片 */
-    class func bundleImage(name: String)-> UIImage {
-        let bundle = Bundle.init(path:Bundle.init(for: WisdomScanKit.self).path(forResource: "WisdomScanKit", ofType: "bundle")!)!
-        let url = bundle.path(forResource: name, ofType: "png")! 
-        let image = UIImage(contentsOfFile: url)!
-        return image
+    
+    // MARK: - startScanRQCode
+    
+    /// 二维码扫描 ScanRQCode
+    ///
+    /// - Parameters:
+    ///   - startType:    The `StartTransformType` value.                  (系统相册跳转动画类型)
+    ///   - themeType:    The `WisdomRQCodeThemeType`, `green` by default. (扫描页面主题风格)
+    ///   - answerTask:   The `WisdomRQCodeFinishTask`, back code string.  (完成回调)
+    ///   - errorTask:    The `WisdomRQCodeErrorTask`, next?.              (失败回调)
+    ///
+    /// - Returns: The created `WisdomRQCodeVC`.
+    //WisdomScanNavbarDelegate:   ScanRQCode导航栏代理，不需要显示导航栏传nil
+    @discardableResult
+    @objc public func startScanRQCode(startType: StartTransformType = .push,
+                                      themeType: WisdomRQCodeThemeType = .green,
+                                      navDelegate: WisdomScanNavbarDelegate? = nil,
+                                      answerTask: @escaping WisdomRQCodeFinishTask,
+                                      errorTask: @escaping WisdomRQCodeErrorTask) -> WisdomRQCodeVC {
+        return WisdomScanManager.startScanRQCode(rootVC: self,
+                                                 startType: startType,
+                                                 themeType: themeType,
+                                                 navDelegate: navDelegate,
+                                                 answerTask: answerTask,
+                                                 errorTask: errorTask)
+    }
+    
+
+    // MARK: - startScanPhoto
+    
+    /// 全屏拍摄图片（支持设置张数）:
+    ///
+    /// - Parameters:
+    ///   - startType:    The `StartTransformType` value.                  (系统相册跳转动画类型)
+    ///   - countType:    The `ElectPhotoCountType`, `once` by default.    (选取数量类型)
+    ///   - photosTask:   The `WisdomPhotoTask`, back photos array.        (完成回调)
+    ///   - errorTask:    The `WisdomRQCodeErrorTask`, next?.              (失败回调)
+    ///
+    /// - Returns: The created `WisdomPhotosVC`.
+    @discardableResult
+    @objc public func startScanPhoto(startType: StartTransformType = .push,
+                                     countType: ElectPhotoCountType = .nine,
+                                     photosTask: @escaping WisdomPhotoTask,
+                                     errorTask: @escaping WisdomErrorTask) -> WisdomPhotosVC {
+        return WisdomScanManager.startScanPhoto(rootVC: self,
+                                                startType: startType,
+                                                countType: countType,
+                                                photosTask: photosTask,
+                                                errorTask: errorTask)
+    }
+    
+    
+    // MARK: - startPhotoEdit
+    
+    /// 图片选择编辑器:
+    ///
+    /// - Parameters:
+    ///   - imageList:    The `StartTransformType` value.                  (图片集合)
+    ///   - startIconAnimatRect: The `CGRect`,  .                          (开始展示的动画rect)
+    ///   - colorTheme:   The `WisdomRQCodeFinishTask`, back code string.  (完成回调)
+    ///   - finishTask:    The `WisdomRQCodeErrorTask`, next?.             (失败回调)
+    ///
+    /// - Returns: The created `WisdomPhotoEditVC`.
+    @discardableResult
+    @objc public func startPhotoEdit(imageList:            [UIImage],
+                                     startIconAnimatRect:  CGRect = CGRect.zero,
+                                     colorTheme:           ElectPhotoTheme = .whiteLight,
+                                     finishTask: @escaping (Bool, [UIImage])->()) -> WisdomPhotoEditVC {
+        return WisdomScanManager.startPhotoEdit(rootVC: self,
+                                                imageList: imageList,
+                                                startIconAnimatRect: startIconAnimatRect,
+                                                colorTheme: colorTheme,
+                                                finishTask: finishTask)
     }
 }
+
+

@@ -27,12 +27,14 @@ public class WisdomPhotoSelectVC: UIViewController {
         return self.view.bounds.width > 330 ? 4:3
     }()
     
+    
     fileprivate lazy var coverView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.init(white: 0.90, alpha: 1)
         view.isHidden = true
         return view
     }()
+    
     
     fileprivate lazy var listView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -49,23 +51,23 @@ public class WisdomPhotoSelectVC: UIViewController {
         let scale = UIScreen.main.scale
         let cellSize = layout.itemSize
         assetGridThumbnailSize = CGSize(width:cellSize.width*scale, height:cellSize.height*scale)
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.init(white: 0.90, alpha: 1)
         return view
     }()
     
+    
     fileprivate var navbarBackBtn: UIButton = {
-        let btn = UIButton()
-        let image = WisdomScanKit.bundleImage(name: "black_backIcon")
+        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 45, height: 30))
+        let image = WisdomScanManager.bundleImage(name: "black_backIcon")
         btn.setImage(image, for: .normal)
-        btn.setTitle("返回", for: .normal)
-        btn.setTitleColor(UIColor.black, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        btn.imageEdgeInsets = UIEdgeInsets(top: 0, left: -25, bottom: 0, right: 0)
         return btn
     }()
     
+    
     fileprivate lazy var rightBtn: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("   重置", for: .normal)
+        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 56, height: 30))
+        btn.setTitle("   重选", for: .normal)
         btn.setTitleColor(UIColor.gray, for: .disabled)
         btn.setTitleColor(UIColor.black, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
@@ -73,10 +75,12 @@ public class WisdomPhotoSelectVC: UIViewController {
         return btn
     }()
     
+    
     /** 浏览，完成Action */
     fileprivate lazy var selectBar: WisdomPhotoSelectBar = {
         let bar = WisdomPhotoSelectBar(frame: CGRect(x: 0, y: self.view.bounds.height - barHeght,
                                                      width: self.view.bounds.width, height: barHeght),
+                                                     themes: self.theme,
                                                      handers: { [weak self] (res) in
             if res{
                 if self?.imageResults.count == 0{
@@ -103,11 +107,16 @@ public class WisdomPhotoSelectVC: UIViewController {
         return bar
     }()
     
-    fileprivate var headerTitle: String="我的相册"
     
-    fileprivate let startType: WisdomScanStartType!
+    fileprivate var headerTitle: String="所有照片"
     
-    fileprivate let countType: WisdomPhotoCountType!
+    fileprivate let startType: StartTransformType!
+    
+    fileprivate let countType: ElectPhotoCountType!
+    
+    fileprivate let theme:     ElectPhotoTheme!
+    
+    fileprivate let delegate:  ElectPhotoDelegate?
     
     fileprivate let photoTask: WisdomPhotoTask!
     
@@ -128,21 +137,26 @@ public class WisdomPhotoSelectVC: UIViewController {
     
     var isCreatNav: Bool=false
     
-    init(startTypes: WisdomScanStartType,
-         countTypes: WisdomPhotoCountType,
+    init(startTypes: StartTransformType,
+         countTypes: ElectPhotoCountType,
+         colorTheme: ElectPhotoTheme,
+         delegates:  ElectPhotoDelegate?,
          photoTasks: @escaping WisdomPhotoTask,
          errorTasks: @escaping WisdomErrorTask) {
         
         startType = startTypes
         countType = countTypes
+        theme = colorTheme
+        delegate = delegates
         photoTask = photoTasks
         errorTask = errorTasks
         super.init(nibName: nil, bundle: nil)
     }
     
+    
     override public func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(white: 0.95, alpha: 1)
+        view.backgroundColor = UIColor.init(white: 0.90, alpha: 1)
         view.addSubview(listView)
         listView.addSubview(coverView)
         view.addSubview(selectBar)
@@ -154,9 +168,30 @@ public class WisdomPhotoSelectVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateCover), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateCover_Key), object: nil)
     }
     
+    
+    override public func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if theme == .darkDim {
+            self.navigationController?.navigationBar.isTranslucent = true///设置导航栏半透明
+            let image: UIImage = UIColor.init(white: 0.8, alpha: 0.75).asImage(CGSize(width: view.bounds.width, height: 88)) ?? UIImage()///设置导航栏背景图片
+            self.navigationController?.navigationBar.setBackgroundImage(image, for: UIBarMetrics.default)
+        }
+    }
+    
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if theme == .darkDim {
+            self.navigationController?.navigationBar.isTranslucent = false///设置导航栏半透明
+            self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+        }
+    }
+    
+    
     @objc private func updateCover(){
         coverView.isHidden = true
     }
+
     
     /**
      *  处理浏览页面图片在本页面滚动跟踪的Rect
@@ -185,6 +220,7 @@ public class WisdomPhotoSelectVC: UIViewController {
             }
         }
     }
+    
     
     fileprivate func authoriza() {
         PHPhotoLibrary.requestAuthorization({ (status) in
@@ -215,12 +251,12 @@ public class WisdomPhotoSelectVC: UIViewController {
         })
     }
     
+    
     override public func viewSafeAreaInsetsDidChange() {
         if #available(iOS 11.0, *) {
-            if view.safeAreaInsets.bottom > 0{
+            if view.safeAreaInsets.bottom > 10{
                 barHeght = 64
-                selectBar.frame = CGRect(x: 0, y: self.view.bounds.height - barHeght,
-                                         width: self.view.bounds.width, height: barHeght)
+                selectBar.updateHeight(height: barHeght)
             }
             navBarHeght = view.safeAreaInsets.top
         }
@@ -232,6 +268,7 @@ public class WisdomPhotoSelectVC: UIViewController {
             WisdomScanKit.authorizationScan()
         }
     }
+    
     
     /** 加载系统所有图片 */
     fileprivate func loadSystemImages() {
@@ -259,13 +296,26 @@ public class WisdomPhotoSelectVC: UIViewController {
     }
     
     fileprivate func setNavbarUI(){
-        rightBtn.frame = CGRect(x: 0, y: 0, width: 56, height: 30)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navbarBackBtn)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn)
-        navbarBackBtn.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
-        title = headerTitle
+        if (delegate != nil) {
+            let backBtn = delegate!.electPhotoNavbarBackItme(navigationVC: navigationController!)
+            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBtn)
+            backBtn.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
+            
+            let customView = delegate!.electPhotoNavbarCustomTitleItme(navigationVC: navigationController!)
+            navigationItem.titleView = customView
+        }else{
+            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navbarBackBtn)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn)
+            navbarBackBtn.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
+            title = headerTitle
+        }
+        
         rightBtn.isEnabled = false
         rightBtn.titleLabel?.textAlignment = .right
+        
+        if countType == .once {
+            rightBtn.isHidden = true
+        }
     }
     
     @objc fileprivate func clickBackBtn(){
@@ -295,6 +345,7 @@ public class WisdomPhotoSelectVC: UIViewController {
             }
         }
     }
+    
     
     /** 处理不同类型模式下的图片选择 */
     fileprivate func updatePhotoSelect(res: Bool, image: UIImage,index: IndexPath) -> Bool{
@@ -370,26 +421,29 @@ public class WisdomPhotoSelectVC: UIViewController {
         return true
     }
     
+    
     private func updateCount(){
         if imageResults.count > 0 {
             rightBtn.isEnabled = true
-            rightBtn.setTitle("(" + String(imageResults.count) + ") 重置", for: .normal)
+            rightBtn.setTitle("(" + String(imageResults.count) + ") 重选", for: .normal)
             selectBar.display(res: true)
         }else{
             rightBtn.isEnabled = false
-            rightBtn.setTitle("   重置", for: .normal)
+            rightBtn.setTitle("   重选", for: .normal)
             selectBar.display(res: false)
         }
     }
     
+    
     @objc fileprivate func reset(btn: UIButton){
         selectBar.display(res: false)
         btn.isEnabled = false
-        btn.setTitle("   重置", for: .normal)
+        btn.setTitle("   重选", for: .normal)
         imageResults.removeAll()
         indexPathResults.removeAll()
         listView.reloadData()
     }
+    
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -399,16 +453,20 @@ public class WisdomPhotoSelectVC: UIViewController {
         }
     }
     
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+
 
 extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSource{
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return assetsFetchResults.count
     }
+    
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WisdomPhotoSelectCellID, for: indexPath) as! WisdomPhotoSelectCell
@@ -437,6 +495,7 @@ extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSou
         return cell
     }
     
+    
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! WisdomPhotoSelectCell
         let window = UIApplication.shared.delegate?.window!
@@ -445,6 +504,7 @@ extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSou
         
         beginShow(index: indexPath.item, coverViewFrame: cell.frame)
     }
+    
     
     /** begin show HUDImageList*/
     fileprivate func beginShow(index: Int, coverViewFrame: CGRect){
@@ -457,8 +517,8 @@ extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSou
            if image != nil {
                self.coverView.isHidden = false
                self.coverView.frame = coverViewFrame
-                                        
-               WisdomScanKit.startPhotoChrome(beginImage: image!, beginIndex: index, fetchResult: self.assetsFetchResults, beginRect: self.currentShowImagerRect)
+            
+               WisdomScanKit.startPhotoChrome(startIconIndex: index, startIconAnimatRect: self.currentShowImagerRect, fetchResult: self.assetsFetchResults)
            }else{
                WisdomHUD.showInfo(text: "高清图加载失败")
            }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,10 +20,9 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nsk-vD-mcD">
-                    <rect key="frame" x="152.5" y="316" width="70" height="35"/>
-                    <color key="backgroundColor" red="0.095423765480000006" green="0.52257841829999996" blue="0.12904423479999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <rect key="frame" x="50" y="316" width="275" height="35"/>
+                    <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="0LH-wy-9P5"/>
                         <constraint firstAttribute="height" constant="35" id="E5x-WN-5HV"/>
                     </constraints>
                     <state key="normal" title="扫二维码">
@@ -34,10 +33,9 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y8Q-K9-ykB">
-                    <rect key="frame" x="152.5" y="391" width="70" height="35"/>
-                    <color key="backgroundColor" red="1" green="0.57810515169999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <rect key="frame" x="50" y="391" width="275" height="35"/>
+                    <color key="backgroundColor" red="1" green="0.2527923882" blue="1" alpha="0.91346272145669294" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="OQC-5q-GRu"/>
                         <constraint firstAttribute="height" constant="35" id="TM9-7l-ZeY"/>
                     </constraints>
                     <state key="normal" title="拍照">
@@ -48,8 +46,9 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0zS-mp-O8b">
-                    <rect key="frame" x="152.5" y="241" width="70" height="35"/>
-                    <color key="backgroundColor" red="0.46202266219999999" green="0.83828371759999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <rect key="frame" x="50" y="241" width="275" height="35"/>
+                    <color key="backgroundColor" red="0.46202266219999999" green="0.83828371759999998" blue="1" alpha="0.91486220472440949" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" title="系统相册">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
@@ -62,12 +61,14 @@
             <constraints>
                 <constraint firstItem="y8Q-K9-ykB" firstAttribute="top" secondItem="nsk-vD-mcD" secondAttribute="bottom" constant="40" id="FhV-tv-j9I"/>
                 <constraint firstItem="nsk-vD-mcD" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Hlq-iG-0K4"/>
+                <constraint firstItem="nsk-vD-mcD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="50" id="I5j-pN-Ngh"/>
+                <constraint firstAttribute="trailing" secondItem="nsk-vD-mcD" secondAttribute="trailing" constant="50" id="QnN-Tl-oAw"/>
+                <constraint firstItem="y8Q-K9-ykB" firstAttribute="width" secondItem="nsk-vD-mcD" secondAttribute="width" id="XyM-Vh-2au"/>
                 <constraint firstItem="y8Q-K9-ykB" firstAttribute="leading" secondItem="0zS-mp-O8b" secondAttribute="leading" id="ibB-PL-1p5"/>
                 <constraint firstItem="0zS-mp-O8b" firstAttribute="height" secondItem="nsk-vD-mcD" secondAttribute="height" id="n1E-er-0rk"/>
                 <constraint firstItem="nsk-vD-mcD" firstAttribute="top" secondItem="0zS-mp-O8b" secondAttribute="bottom" constant="40" id="qva-fu-IhM"/>
                 <constraint firstItem="nsk-vD-mcD" firstAttribute="leading" secondItem="0zS-mp-O8b" secondAttribute="leading" id="tF8-lN-qW5"/>
                 <constraint firstItem="0zS-mp-O8b" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="voc-QJ-Fk6"/>
-                <constraint firstItem="0zS-mp-O8b" firstAttribute="width" secondItem="nsk-vD-mcD" secondAttribute="width" id="zUl-Rn-E2J"/>
             </constraints>
             <point key="canvasLocation" x="53.600000000000001" y="48.125937031484263"/>
         </view>
