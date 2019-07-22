@@ -63,8 +63,6 @@ public struct TransformAnimation: WisdomScanTransform {
                 return (presentSys,rootVC)
             case .alpha:
                 return (lucency,rootVC)
-            case .zoomLoc:
-                return (zoomLocation,rootVC)
             }
         }
     }
@@ -76,6 +74,13 @@ public struct TransformAnimation: WisdomScanTransform {
         let result = Animation.transformBy(rootVC: rootVC, transformType: startType)
         self.animation = result.0
         self.rootVC = result.1
+    }
+    
+    public init(rootVC: UIViewController,
+                transformVC: UIViewController) {
+        self.transformVC = transformVC
+        self.animation = Animation.zoomLocation
+        self.rootVC = rootVC
     }
     
     public mutating func startTransform(needNav: Bool) -> Bool {
@@ -156,12 +161,38 @@ public struct TransformAnimation: WisdomScanTransform {
         }
     }
     
+    
     public func lucency() -> Bool {
-        return false
+        if needNav {
+            let navVC = UINavigationController(rootViewController: transformVC)
+            rootVC.addChild(navVC)
+            rootVC.view.addSubview(navVC.view)
+            navVC.view.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+            UIView.animate(withDuration: 0.35) {
+                navVC.view.transform = .identity
+            }
+            return true
+        }else{
+            rootVC.addChild(transformVC)
+            rootVC.view.addSubview(transformVC.view)
+            transformVC.view.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+            UIView.animate(withDuration: 0.35) {
+                self.transformVC.view.transform = .identity
+            }
+            return false
+        }
     }
     
     
     public func zoomLocation() -> Bool {
+
+        if startIconAnimatRect == CGRect.zero{
+            rootVC.addChild(transformVC)
+            rootVC.view.addSubview(transformVC.view)
+            
+            rootVC.present(transformVC, animated: true, completion: nil)
+            return false
+        }
         rootVC.view.frame = transformVC.view.frame
         rootVC.addChild(transformVC)
         rootVC.view.addSubview(transformVC.view)
@@ -181,6 +212,7 @@ public struct TransformAnimation: WisdomScanTransform {
             self.transformVC.view.transform = .identity
         })
         return false
+
     }
 }
 

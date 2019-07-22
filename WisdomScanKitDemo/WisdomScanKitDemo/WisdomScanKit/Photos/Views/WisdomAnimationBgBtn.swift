@@ -12,9 +12,10 @@ class WisdomAnimationBgBtn: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        layer.borderWidth = 1.25
+        layer.borderWidth = 1.0
         layer.borderColor = UIColor.white.cgColor
         isHidden = true
+        layer.shadowRadius = 5.0
         layer.shadowOpacity = 0.9
         layer.shadowColor = UIColor.white.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 0)

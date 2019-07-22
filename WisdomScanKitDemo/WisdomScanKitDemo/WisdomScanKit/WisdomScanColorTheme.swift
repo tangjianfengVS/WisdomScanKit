@@ -21,7 +21,6 @@ import Foundation
     case push=0
     case present
     case alpha
-    case zoomLoc       /// 定位缩放
 }
 
 

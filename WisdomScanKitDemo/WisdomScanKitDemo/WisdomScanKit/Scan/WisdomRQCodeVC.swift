@@ -36,11 +36,11 @@ public class WisdomRQCodeVC: UIViewController {
                                           AVMetadataObject.ObjectType.aztec,
                                           AVMetadataObject.ObjectType.qr]
     
-    fileprivate(set) var navbarDelegate: WisdomScanNavbarDelegate?
+    fileprivate(set) var navbarDelegate: ScanRQCodeDelegate?
     
     fileprivate var navbarBackBtn: UIButton?
     
-    fileprivate var headerTitle: String=" "
+    fileprivate var headerTitle: String="WisdomScanKit"
     
     fileprivate var rightBtn: UIButton?
     
@@ -77,13 +77,8 @@ public class WisdomRQCodeVC: UIViewController {
     fileprivate lazy var backBtn: UIButton = {
         let btn = UIButton()
     
-        if startType == .push{
-            let image = WisdomScanManager.bundleImage(name: "black_backIcon")
-            btn.setImage(image, for: .normal)
-        }else if startType == .present{
-            let image = WisdomScanManager.bundleImage(name: "black_backIcon")
-            btn.setImage(image, for: .normal)
-        }
+        let image = WisdomScanManager.bundleImage(name: "black_backIcon")
+        btn.setImage(image, for: .normal)
         
         btn.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
         btn.backgroundColor = UIColor(white: 0.8, alpha: 0.4)
@@ -131,7 +126,7 @@ public class WisdomRQCodeVC: UIViewController {
     
     init(startTypes: StartTransformType,
          themeTypes: WisdomRQCodeThemeType,
-         navDelegate: WisdomScanNavbarDelegate?,
+         navDelegate: ScanRQCodeDelegate?,
          answerTasks: @escaping WisdomRQCodeFinishTask,
          errorTasks: @escaping WisdomRQCodeErrorTask) {
         startType = startTypes
@@ -158,6 +153,7 @@ public class WisdomRQCodeVC: UIViewController {
     }
     
     private func setupUI() {
+        title = headerTitle
         view.backgroundColor = UIColor.black
         view.addSubview(backBtn)
         view.addSubview(scanPane)
@@ -204,9 +200,11 @@ public class WisdomRQCodeVC: UIViewController {
     
     fileprivate func setNavbarUI(){
         if navbarDelegate != nil {
-            navbarBackBtn = navbarDelegate?.wisdomNavbarBackBtnItme(navigationVC: navigationController)
-            headerTitle = navbarDelegate?.wisdomNavbarThemeTitle(navigationVC: navigationController) ?? "Wisdom Scan"
-            rightBtn = navbarDelegate?.wisdomNavbarRightBtnItme(navigationVC: navigationController)
+            navbarBackBtn = navbarDelegate?.scanRQCodeNavbarBackItme(navigationVC: navigationController!)
+            rightBtn = navbarDelegate?.scanRQCodeNavbarRightItme(navigationVC: navigationController!)
+            let customView = navbarDelegate?.scanRQCodeNavbarCustomTitleItme(navigationVC: navigationController!)
+            
+            navigationItem.titleView = customView
             
             navbarBackBtn!.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
         }
@@ -218,8 +216,8 @@ public class WisdomRQCodeVC: UIViewController {
         if rightBtn != nil {
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn!)
         }
-        title = headerTitle
     }
+    
     
     @objc fileprivate func clickBackBtn(){
         if startType == .push {
@@ -240,14 +238,31 @@ public class WisdomRQCodeVC: UIViewController {
                     self.removeFromParent()
                 }
             }
-        }else if startType == .present{
+        }else if startType == .present {
             if navigationController != nil {
                 navigationController!.dismiss(animated: true, completion: nil)
             }else{
                 dismiss(animated: true, completion: nil)
             }
+        }else if startType == .alpha {
+            if navigationController != nil {
+                UIView.animate(withDuration: 0.35, animations: {
+                    self.navigationController!.view.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+                }) { (_) in
+                    self.navigationController!.view.removeFromSuperview()
+                    self.navigationController!.removeFromParent()
+                }
+            }else{
+                UIView.animate(withDuration: 0.35, animations: {
+                    self.view.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+                }) { (_) in
+                    self.view.removeFromSuperview()
+                    self.removeFromParent()
+                }
+            }
         }
     }
+    
     
     fileprivate func setupScanSession(){
         let authStatus = WisdomScanKit.authorizationStatus()

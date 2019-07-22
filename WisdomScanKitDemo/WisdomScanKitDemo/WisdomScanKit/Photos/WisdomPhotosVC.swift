@@ -18,12 +18,14 @@ public class WisdomPhotosVC: UIViewController {
         return maxCount
     }()
     
+    
     fileprivate let animationViewSize = CGSize(width: 65, height: UIScreen.main.bounds.height*65/UIScreen.main.bounds.width)
+    
     
     /** 删选编辑 */
     fileprivate lazy var editView: WisdomPhotoEditView = {
         let frame = CGRect(x: self.view.center.x - 100,
-                           y: self.cameraBtn.center.y - 95 - 15, width: 200, height: 30)
+                           y: self.cameraBtn.center.y - 95 - 15, width: 200, height: 28)
         let view = WisdomPhotoEditView(frame: frame, callBacks: {[weak self] (actionType) in
             if actionType == .cancel{
                 self!.nineCancelAction()
@@ -39,10 +41,12 @@ public class WisdomPhotosVC: UIViewController {
         return view
     }()
     
+    
     fileprivate lazy var center: CGPoint = {
         return CGPoint(x: animationViewSize.width/2 + 15,
                        y: self.view.frame.maxY - animationViewSize.height/2 - 15)
     }()
+    
     
     fileprivate lazy var animationBgBtn: WisdomAnimationBgBtn = {
         let btn = WisdomAnimationBgBtn(frame: CGRect(origin: .zero, size: animationViewSize))
@@ -51,18 +55,20 @@ public class WisdomPhotosVC: UIViewController {
         return btn
     }()
     
+    
     fileprivate lazy var titleLab: UILabel = {
-        let lab = UILabel(frame: CGRect(x: 0, y: -25, width: 30, height: 20))
-        lab.layer.cornerRadius = 10
+        let lab = UILabel(frame: CGRect(x: 0, y: -23, width: 28, height: 18))
+        lab.layer.cornerRadius = 9
         lab.layer.masksToBounds = true
-        lab.layer.borderWidth = 0.7
+        lab.layer.borderWidth = 0.6
         lab.layer.borderColor = UIColor.white.cgColor
         lab.textAlignment = .center
         lab.textColor = UIColor.white
         lab.text = "0"
-        lab.font = UIFont.boldSystemFont(ofSize: 15)
+        lab.font = UIFont.boldSystemFont(ofSize: 14)
         return lab
     }()
+    
     
     /** 单张编辑 */
     fileprivate lazy var bgView: UIView = {
@@ -74,6 +80,7 @@ public class WisdomPhotosVC: UIViewController {
         view.layoutIfNeeded()
         return view
     }()
+    
 
     fileprivate lazy var photoBtn: UIButton = {
         let btn = UIButton()
@@ -82,6 +89,7 @@ public class WisdomPhotosVC: UIViewController {
         btn.addTarget(self, action: #selector(toggleCamera), for: .touchUpInside)
         return btn
     }()
+    
 
     fileprivate lazy var photoLightBtn: UIButton = {
         let btn = UIButton()
@@ -92,6 +100,7 @@ public class WisdomPhotosVC: UIViewController {
         btn.addTarget(self, action: #selector(clickPhotoLightBtn), for: .touchUpInside)
         return btn
     }()
+    
 
     fileprivate lazy var cameraBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: 0, y: kScreenHeight - bottomSizeHight - 74,
@@ -108,6 +117,7 @@ public class WisdomPhotosVC: UIViewController {
         return btn
     }()
     
+    
     fileprivate lazy var cancel: UIButton = {
         let btn = UIButton(frame: CGRect(x: (self.bgView.bounds.width - 55)/2,
                                          y: (self.bgView.bounds.height - 55)/2,
@@ -117,6 +127,7 @@ public class WisdomPhotosVC: UIViewController {
         btn.addTarget(self, action: #selector(onceCancelAction), for: .touchUpInside)
         return btn
     }()
+    
     
     fileprivate lazy var save: UIButton = {
         let btn = UIButton(frame: CGRect(x: (self.bgView.bounds.width - 55)/2,
@@ -128,23 +139,20 @@ public class WisdomPhotosVC: UIViewController {
         return btn
     }()
     
+    
     fileprivate lazy var backBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: 15, y: 30, width: 34, height: 34))
         
-        if startType == .push{
-            let image = WisdomScanManager.bundleImage(name: "black_backIcon")
-            btn.setImage(image, for: .normal)
-        }else if startType == .present{
-            let image = WisdomScanManager.bundleImage(name: "black_backIcon")
-            btn.setImage(image, for: .normal)
-        }
+        let image = WisdomScanManager.bundleImage(name: "black_backIcon")
+        btn.setImage(image, for: .normal)
         
         btn.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
-        btn.backgroundColor = UIColor(white: 0.85, alpha: 0.5)
+        btn.backgroundColor = UIColor(white: 1, alpha: 0.5)
         btn.layer.cornerRadius = 17
         btn.layer.masksToBounds = true
         return btn
     }()
+    
 
     /** 音视频采集会话 */
     fileprivate lazy var captureSession: AVCaptureSession={
@@ -152,6 +160,7 @@ public class WisdomPhotosVC: UIViewController {
         session.beginConfiguration()
         return session
     }()
+    
     
     fileprivate var backFacingCamera: AVCaptureDevice?
     
@@ -170,6 +179,8 @@ public class WisdomPhotosVC: UIViewController {
     
     fileprivate let countType: ElectPhotoCountType!
     
+    fileprivate let electTheme: ElectPhotoTheme
+    
     fileprivate let photoTask: WisdomPhotoTask!
     
     fileprivate let errorTask: WisdomErrorTask!
@@ -180,14 +191,17 @@ public class WisdomPhotosVC: UIViewController {
     
     fileprivate var currentImageList: [UIImage] = []
     
+    
     init(startTypes: StartTransformType,
          countTypes: ElectPhotoCountType,
+         electTheme: ElectPhotoTheme,
          photoTasks: @escaping WisdomPhotoTask,
          errorTasks: @escaping WisdomErrorTask) {
         photoTask = photoTasks
         errorTask = errorTasks
         startType = startTypes
         countType = countTypes
+        self.electTheme = electTheme
         
         switch countType! {
         case .once:
@@ -202,9 +216,11 @@ public class WisdomPhotosVC: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     override public func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
@@ -213,12 +229,14 @@ public class WisdomPhotosVC: UIViewController {
         }
     }
     
+    
     override public func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if navigationController != nil {
             navigationController?.setNavigationBarHidden(false, animated: true)
         }
     }
+    
     
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -228,6 +246,7 @@ public class WisdomPhotosVC: UIViewController {
         
         setupScanSession()
     }
+    
 
     /** 权限 */
     fileprivate func setupScanSession(){
@@ -249,6 +268,7 @@ public class WisdomPhotosVC: UIViewController {
             }
         }
     }
+    
     
     fileprivate func createSession(){
         WisdomHUD.showLoading(text: nil, enable: true)
@@ -301,6 +321,7 @@ public class WisdomPhotosVC: UIViewController {
         }
     }
     
+    
     fileprivate func createPhotoBtn(){
         view.addSubview(cameraBtn)
         view.addSubview(photoBtn)
@@ -322,7 +343,13 @@ public class WisdomPhotosVC: UIViewController {
         }
     }
     
+    
     @objc fileprivate func photoAction(){
+        if currentCount <= 0 {
+            WisdomHUD.showText(text: "拍摄张数已上限")
+            return
+        }
+        
         let videoConnection = stillImageOutput?.connection(with: AVMediaType.video)
         
         /** 输出端以异步方式采集静态图像 */
@@ -341,6 +368,7 @@ public class WisdomPhotosVC: UIViewController {
         })
     }
     
+    
     fileprivate func stopRunning(){
         captureSession.stopRunning()
         bgView.isHidden = false
@@ -352,6 +380,7 @@ public class WisdomPhotosVC: UIViewController {
         }
     }
     
+    
     fileprivate func photoAnimation(image: UIImage){
         editView.isHidden = false
         
@@ -362,12 +391,6 @@ public class WisdomPhotosVC: UIViewController {
         let imageView = UIImageView(image: image)
         imageView.frame = view.frame
         view.insertSubview(imageView, belowSubview: backBtn)
-        
-        if currentCount <= 0{
-            cameraBtn.setTitle("上限"+String(maxCount)+"张", for: .disabled)
-            cameraBtn.isEnabled = false
-            captureSession.stopRunning()
-        }
         //let groupAnimation = CAAnimationGroup()
         //groupAnimation.duration = 0.3
         //groupAnimation.isRemovedOnCompletion = false
@@ -399,6 +422,7 @@ public class WisdomPhotosVC: UIViewController {
         }
     }
     
+    
     @objc fileprivate func onceCancelAction(){
         currentCount = maxCount
         cameraBtn.isHidden = false
@@ -411,6 +435,7 @@ public class WisdomPhotosVC: UIViewController {
         }
     }
     
+    
     @objc fileprivate func nineCancelAction(){
         currentCount = maxCount
         editView.isHidden = true
@@ -421,15 +446,18 @@ public class WisdomPhotosVC: UIViewController {
         captureSession.startRunning()
     }
     
+    
     @objc fileprivate func saveAction(){
         photoTask!(currentImageList)
         clickBackBtn()
     }
     
+    
     @objc fileprivate func clickPhotoLightBtn(btn: UIButton){
         btn.isSelected = !btn.isSelected
         WisdomScanManager.turnTorchOn(light: btn.isSelected)
     }
+    
     
     @objc fileprivate func clickBackBtn(){
         if startType == .push {
@@ -448,6 +476,22 @@ public class WisdomPhotosVC: UIViewController {
                 navigationController!.dismiss(animated: true, completion: nil)
             }else{
                 dismiss(animated: true, completion: nil)
+            }
+        }else if startType == .alpha {
+            if navigationController != nil {
+                UIView.animate(withDuration: 0.35, animations: {
+                    self.navigationController!.view.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+                }) { (_) in
+                    self.navigationController!.view.removeFromSuperview()
+                    self.navigationController!.removeFromParent()
+                }
+            }else{
+                UIView.animate(withDuration: 0.35, animations: {
+                    self.view.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+                }) { (_) in
+                    self.view.removeFromSuperview()
+                    self.removeFromParent()
+                }
             }
         }
     }
@@ -497,6 +541,7 @@ extension WisdomPhotosVC {
         captureSession.commitConfiguration()
     }
     
+    
     /** 打开图片选择编辑器 */
     @objc fileprivate func showEidtView(){
         
@@ -507,6 +552,7 @@ extension WisdomPhotosVC {
                                                    y: center.y - animationViewSize.height/2,
                                                    width: animationViewSize.width,
                                                    height: animationViewSize.height),
+                       colorTheme: electTheme,
                        finishTask: { [weak self] (res, list) in
            if res{
                 self?.currentImageList = list

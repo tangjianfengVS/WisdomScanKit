@@ -8,18 +8,20 @@
 
 import UIKit
 
-@objc public protocol WisdomScanNavbarDelegate  {
+/// 二维码扫描导航栏代理
+@objc public protocol ScanRQCodeDelegate  {
     /** 返回按钮 */
-    func wisdomNavbarBackBtnItme(navigationVC: UINavigationController?)->UIButton
+    @objc func scanRQCodeNavbarBackItme(navigationVC: UINavigationController) -> UIButton
     
-    /** 标题 */
-    func wisdomNavbarThemeTitle(navigationVC: UINavigationController?)->String
+    /** 自定义标题 */
+    @objc func scanRQCodeNavbarCustomTitleItme(navigationVC: UINavigationController) -> UIView
     
     /** 右边操作按钮 */
-    func wisdomNavbarRightBtnItme(navigationVC: UINavigationController?)->UIButton?
+    func scanRQCodeNavbarRightItme(navigationVC: UINavigationController) -> UIButton?
 }
 
 
+/// 相册选择图片导航栏代理
 @objc public protocol ElectPhotoDelegate {
     /** 返回按钮 */
     @objc func electPhotoNavbarBackItme(navigationVC: UINavigationController) -> UIButton

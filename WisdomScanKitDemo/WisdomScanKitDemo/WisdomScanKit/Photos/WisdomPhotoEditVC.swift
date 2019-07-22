@@ -9,6 +9,9 @@
 import UIKit
 
 public class WisdomPhotoEditVC: UIViewController {
+    /** 浏览页正在展示的图片 */
+    fileprivate var currentShowImagerRect: CGRect = .zero
+    
     fileprivate let theme: ElectPhotoTheme
     
     fileprivate var imageArray: [UIImage] = []
@@ -21,7 +24,7 @@ public class WisdomPhotoEditVC: UIViewController {
     
     fileprivate let PhotoEditCellKey = "WisdomPhotoEditCellkey"
     
-    fileprivate let spacing: CGFloat = 8
+    fileprivate let spacing: CGFloat = 10
     
     fileprivate let BSpacing: CGFloat = 25
     
@@ -34,6 +37,13 @@ public class WisdomPhotoEditVC: UIViewController {
         imageView.center = self.view.center
         return imageView
     }()
+    
+//    fileprivate lazy var coverView: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = UIColor.init(white: 0.90, alpha: 1)
+//        view.isHidden = true
+//        return view
+//    }()
     
     fileprivate lazy var listView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -100,19 +110,55 @@ public class WisdomPhotoEditVC: UIViewController {
         super.viewDidLoad()
         view.addSubview(toolImgv)
         
-        let start: UIBarStyle = self.theme == .whiteLight ? UIBarStyle.default : UIBarStyle.black
+        let start: UIBarStyle = self.theme == .whiteLight ? UIBarStyle.default : UIBarStyle.blackTranslucent
         let bar = UIToolbar(frame: self.view.frame)
         bar.barStyle = start
-        if self.theme == .whiteLight {
-            bar.alpha = 0.92
-        }
         
         toolImgv.addSubview(bar)
         view.addSubview(listView)
+        //listView.addSubview(coverView)
         view.addSubview(backBtn)
         view.addSubview(realBtn)
         
         view.insertSubview(emptyView, aboveSubview: listView)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateIndex(notif:)), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateIndex_Key), object: nil)
+        
+        //NotificationCenter.default.addObserver(self, selector: #selector(updateCover), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateCover_Key), object: nil)
+    }
+    
+    
+    //@objc private func updateCover(){
+    //    coverView.isHidden = true
+    //}
+    
+    
+    /**
+     *  处理浏览页面图片在本页面滚动跟踪的Rect
+     *  作用：用于浏览结束动画的Rect锁定
+     */
+    @objc private func updateIndex(notif: Notification){
+        if let index = notif.object as? Int {
+            if index >= imageArray.count{
+                return
+            }
+            let indexPath = IndexPath(item: index, section: 0)
+            listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.top, animated: false)
+            
+            let window = UIApplication.shared.delegate?.window!
+            let cell = listView.cellForItem(at: indexPath)
+            var rect: CGRect = .zero
+            
+            if cell != nil{
+                rect = cell!.convert(cell!.bounds, to: window)
+                //self.coverView.frame = cell!.frame
+                self.currentShowImagerRect = rect
+            }
+            
+            DispatchQueue.global().async {
+                NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateFrame_Key), object: self.currentShowImagerRect)
+            }
+        }
     }
     
     @objc fileprivate func clickBack(btn: UIButton){
@@ -136,7 +182,7 @@ public class WisdomPhotoEditVC: UIViewController {
     }
     
     deinit {
-        print("编辑器释放")
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -150,6 +196,7 @@ extension WisdomPhotoEditVC: UICollectionViewDelegate,UICollectionViewDataSource
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoEditCellKey, for: indexPath) as! WisdomPhotoEditCell
         cell.image = imageArray[indexPath.item]
+        cell.electTheme = theme
         cell.callBack = {[weak self] in
             self?.imageArray.remove(at: indexPath.item)
             self?.listView.reloadData()
@@ -163,5 +210,15 @@ extension WisdomPhotoEditVC: UICollectionViewDelegate,UICollectionViewDataSource
         let size = CGSize(width: (view.bounds.width - BSpacing*2 - spacing*2)/3,
                           height: view.bounds.height*height)
         return size
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! WisdomPhotoEditCell
+    
+        let window = UIApplication.shared.delegate?.window!
+        let rect = cell.convert(cell.bounds, to: window)
+        currentShowImagerRect = rect
+        
+        WisdomScanKit.startPhotoChrome(startIconIndex: indexPath.item, startIconAnimatRect: rect, iconList: imageArray)
     }
 }

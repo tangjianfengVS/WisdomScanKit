@@ -155,7 +155,7 @@ class WisdomPhotoChromeHUD: UIView {
         
         let rect = image.getImageChromeRect()
 
-        UIView.animate(withDuration: 0.28, animations: {
+        UIView.animate(withDuration: 0.25, animations: {
             self.imageView.frame = rect
         }) { (_) in
             self.backgroundColor = UIColor.black

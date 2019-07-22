@@ -115,21 +115,21 @@ extension UIViewController {
     /// - Parameters:
     ///   - startType:    The `StartTransformType` value.                  (系统相册跳转动画类型)
     ///   - themeType:    The `WisdomRQCodeThemeType`, `green` by default. (扫描页面主题风格)
+    ///   - delegate:     The `ScanRQCodeDelegate`, custom navbar item.
     ///   - answerTask:   The `WisdomRQCodeFinishTask`, back code string.  (完成回调)
     ///   - errorTask:    The `WisdomRQCodeErrorTask`, next?.              (失败回调)
     ///
     /// - Returns: The created `WisdomRQCodeVC`.
-    //WisdomScanNavbarDelegate:   ScanRQCode导航栏代理，不需要显示导航栏传nil
     @discardableResult
-    @objc public func startScanRQCode(startType: StartTransformType = .push,
-                                      themeType: WisdomRQCodeThemeType = .green,
-                                      navDelegate: WisdomScanNavbarDelegate? = nil,
+    @objc public func startScanRQCode(startType:  StartTransformType = .push,
+                                      themeType:  WisdomRQCodeThemeType = .green,
+                                      delegate:   ScanRQCodeDelegate? = nil,
                                       answerTask: @escaping WisdomRQCodeFinishTask,
-                                      errorTask: @escaping WisdomRQCodeErrorTask) -> WisdomRQCodeVC {
+                                      errorTask:  @escaping WisdomRQCodeErrorTask) -> WisdomRQCodeVC {
         return WisdomScanManager.startScanRQCode(rootVC: self,
                                                  startType: startType,
                                                  themeType: themeType,
-                                                 navDelegate: navDelegate,
+                                                 delegate: delegate,
                                                  answerTask: answerTask,
                                                  errorTask: errorTask)
     }
@@ -142,18 +142,21 @@ extension UIViewController {
     /// - Parameters:
     ///   - startType:    The `StartTransformType` value.                  (系统相册跳转动画类型)
     ///   - countType:    The `ElectPhotoCountType`, `once` by default.    (选取数量类型)
+    ///   - electTheme:   The `ElectPhotoTheme`, `whiteLight` by default.  (删选UI主题风格)
     ///   - photosTask:   The `WisdomPhotoTask`, back photos array.        (完成回调)
     ///   - errorTask:    The `WisdomRQCodeErrorTask`, next?.              (失败回调)
     ///
     /// - Returns: The created `WisdomPhotosVC`.
     @discardableResult
-    @objc public func startScanPhoto(startType: StartTransformType = .push,
-                                     countType: ElectPhotoCountType = .nine,
+    @objc public func startScanPhoto(startType:  StartTransformType = .push,
+                                     countType:  ElectPhotoCountType = .nine,
+                                     electTheme: ElectPhotoTheme = .whiteLight,
                                      photosTask: @escaping WisdomPhotoTask,
-                                     errorTask: @escaping WisdomErrorTask) -> WisdomPhotosVC {
+                                     errorTask:  @escaping WisdomErrorTask) -> WisdomPhotosVC {
         return WisdomScanManager.startScanPhoto(rootVC: self,
                                                 startType: startType,
                                                 countType: countType,
+                                                electTheme: electTheme,
                                                 photosTask: photosTask,
                                                 errorTask: errorTask)
     }

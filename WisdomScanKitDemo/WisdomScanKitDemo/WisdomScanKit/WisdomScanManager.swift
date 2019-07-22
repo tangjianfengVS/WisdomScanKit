@@ -28,13 +28,13 @@ public enum WisdomScanManager {
 
     
     /// Scan RQCode
-    static func startScanRQCode(rootVC:      UIViewController,
-                                startType:   StartTransformType,
-                                themeType:   WisdomRQCodeThemeType,
-                                navDelegate: WisdomScanNavbarDelegate?,
-                                answerTask:  @escaping WisdomRQCodeFinishTask,
-                                errorTask:   @escaping WisdomRQCodeErrorTask) -> WisdomRQCodeVC {
-        let rqCodeVC = WisdomRQCodeVC(startTypes: startType, themeTypes: themeType, navDelegate: navDelegate, answerTasks: answerTask, errorTasks: errorTask)
+    static func startScanRQCode(rootVC:     UIViewController,
+                                startType:  StartTransformType,
+                                themeType:  WisdomRQCodeThemeType,
+                                delegate:   ScanRQCodeDelegate?,
+                                answerTask: @escaping WisdomRQCodeFinishTask,
+                                errorTask:  @escaping WisdomRQCodeErrorTask) -> WisdomRQCodeVC {
+        let rqCodeVC = WisdomRQCodeVC(startTypes: startType, themeTypes: themeType, navDelegate: delegate, answerTasks: answerTask, errorTasks: errorTask)
         
         var transform = TransformAnimation(rootVC: rootVC, transformVC: rqCodeVC, startType: startType)
         rqCodeVC.isCreatNav = transform.startTransform(needNav: true)
@@ -46,9 +46,10 @@ public enum WisdomScanManager {
     static func startScanPhoto(rootVC:     UIViewController,
                                startType:  StartTransformType,
                                countType:  ElectPhotoCountType,
+                               electTheme: ElectPhotoTheme,
                                photosTask: @escaping WisdomPhotoTask,
                                errorTask:  @escaping WisdomErrorTask) -> WisdomPhotosVC {
-        let photosVC = WisdomPhotosVC(startTypes: startType, countTypes: countType,photoTasks: photosTask,errorTasks: errorTask)
+        let photosVC = WisdomPhotosVC(startTypes: startType, countTypes: countType, electTheme:electTheme, photoTasks: photosTask,errorTasks: errorTask)
         
         var transform = TransformAnimation(rootVC: rootVC, transformVC: photosVC, startType: startType)
         let _ = transform.startTransform(needNav: false)
@@ -88,8 +89,7 @@ public enum WisdomScanManager {
                                finishTask: @escaping (Bool, [UIImage])->()) -> WisdomPhotoEditVC {
         let editVC = WisdomPhotoEditVC(imageList: imageList, startIconAnimatRect: startIconAnimatRect, colorTheme: colorTheme, endTask: finishTask)
         
-        let transformType: StartTransformType = (startIconAnimatRect != CGRect.zero) ? .zoomLoc : .push
-        var transform = TransformAnimation(rootVC: rootVC, transformVC: editVC, startType: transformType)
+        var transform = TransformAnimation(rootVC: rootVC, transformVC: editVC)
         transform.startIconAnimatRect = startIconAnimatRect
         let _ = transform.startTransform(needNav: false)
         return editVC

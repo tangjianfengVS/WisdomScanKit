@@ -343,7 +343,48 @@ public class WisdomPhotoSelectVC: UIViewController {
             }else{
                 dismiss(animated: true, completion: nil)
             }
+        }else if startType == .alpha{
+            if navigationController != nil {
+                UIView.animate(withDuration: 0.35, animations: {
+                    self.navigationController!.view.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+                }) { (_) in
+                    self.navigationController!.view.removeFromSuperview()
+                    self.navigationController!.removeFromParent()
+                }
+            }else{
+                UIView.animate(withDuration: 0.35, animations: {
+                    self.view.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+                }) { (_) in
+                    self.view.removeFromSuperview()
+                    self.removeFromParent()
+                }
+            }
         }
+//        else if startType == .zoomLoc{
+//            if startAnimatRect == CGRect.zero{
+//                if navigationController != nil {
+//                    UIView.animate(withDuration: 0.35, animations: {
+//                        self.navigationController!.view.frame = self.startAnimatRect
+//                    }) { (_) in
+//                        self.navigationController!.view.removeFromSuperview()
+//                        self.navigationController!.removeFromParent()
+//                    }
+//                }else{
+//                    UIView.animate(withDuration: 0.35, animations: {
+//                        self.view.frame = self.startAnimatRect
+//                    }) { (_) in
+//                        self.view.removeFromSuperview()
+//                        self.removeFromParent()
+//                    }
+//                }
+//            }else{
+//                if navigationController != nil {
+//                    navigationController!.dismiss(animated: true, completion: nil)
+//                }else{
+//                    dismiss(animated: true, completion: nil)
+//                }
+//            }
+//        }
     }
     
     
