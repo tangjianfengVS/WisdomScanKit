@@ -68,7 +68,7 @@ public class WisdomPhotoSelectVC: UIViewController {
     fileprivate lazy var rightBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 56, height: 30))
         btn.setTitle("   重选", for: .normal)
-        btn.setTitleColor(UIColor.gray, for: .disabled)
+        btn.isHidden = true
         btn.setTitleColor(UIColor.black, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         btn.addTarget(self, action: #selector(reset(btn:)), for: .touchUpInside)
@@ -310,7 +310,6 @@ public class WisdomPhotoSelectVC: UIViewController {
             title = headerTitle
         }
         
-        rightBtn.isEnabled = false
         rightBtn.titleLabel?.textAlignment = .right
         
         if countType == .once {
@@ -465,11 +464,11 @@ public class WisdomPhotoSelectVC: UIViewController {
     
     private func updateCount(){
         if imageResults.count > 0 {
-            rightBtn.isEnabled = true
+            rightBtn.isHidden = false
             rightBtn.setTitle("(" + String(imageResults.count) + ") 重选", for: .normal)
             selectBar.display(res: true)
         }else{
-            rightBtn.isEnabled = false
+            rightBtn.isHidden = true
             rightBtn.setTitle("   重选", for: .normal)
             selectBar.display(res: false)
         }
@@ -478,7 +477,7 @@ public class WisdomPhotoSelectVC: UIViewController {
     
     @objc fileprivate func reset(btn: UIButton){
         selectBar.display(res: false)
-        btn.isEnabled = false
+        btn.isHidden = true
         btn.setTitle("   重选", for: .normal)
         imageResults.removeAll()
         indexPathResults.removeAll()
