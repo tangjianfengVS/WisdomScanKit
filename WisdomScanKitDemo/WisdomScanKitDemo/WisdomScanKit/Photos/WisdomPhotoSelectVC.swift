@@ -28,14 +28,6 @@ public class WisdomPhotoSelectVC: UIViewController {
     }()
     
     
-    fileprivate lazy var coverView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.init(white: 0.90, alpha: 1)
-        view.isHidden = true
-        return view
-    }()
-    
-    
     fileprivate lazy var listView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let view = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
@@ -158,14 +150,9 @@ public class WisdomPhotoSelectVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.init(white: 0.90, alpha: 1)
         view.addSubview(listView)
-        listView.addSubview(coverView)
         view.addSubview(selectBar)
         setNavbarUI()
         authoriza()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(updateIndex(notif:)), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateIndex_Key), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(updateCover), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateCover_Key), object: nil)
     }
     
     
@@ -173,7 +160,7 @@ public class WisdomPhotoSelectVC: UIViewController {
         super.viewWillAppear(animated)
         if theme == .darkDim {
             self.navigationController?.navigationBar.isTranslucent = true///设置导航栏半透明
-            let image: UIImage = UIColor.init(white: 0.8, alpha: 0.75).asImage(CGSize(width: view.bounds.width, height: 88)) ?? UIImage()///设置导航栏背景图片
+            let image: UIImage = UIColor.init(white: 0.8, alpha: 0.70).asImage(CGSize(width: view.bounds.width, height: 88)) ?? UIImage()///设置导航栏背景图片
             self.navigationController?.navigationBar.setBackgroundImage(image, for: UIBarMetrics.default)
         }
     }
@@ -184,40 +171,6 @@ public class WisdomPhotoSelectVC: UIViewController {
         if theme == .darkDim {
             self.navigationController?.navigationBar.isTranslucent = false///设置导航栏半透明
             self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
-        }
-    }
-    
-    
-    @objc private func updateCover(){
-        coverView.isHidden = true
-    }
-
-    
-    /**
-     *  处理浏览页面图片在本页面滚动跟踪的Rect
-     *  作用：用于浏览结束动画的Rect锁定
-     */
-    @objc private func updateIndex(notif: Notification){
-        if let index = notif.object as? Int {
-            if index >= assetsFetchResults.count{
-                return
-            }
-            let indexPath = IndexPath(item: index, section: 0)
-            listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.top, animated: false)
-            
-            let window = UIApplication.shared.delegate?.window!
-            let cell = listView.cellForItem(at: indexPath)
-            var rect: CGRect = .zero
-            
-            if cell != nil{
-                rect = cell!.convert(cell!.bounds, to: window)
-                self.coverView.frame = cell!.frame
-                self.currentShowImagerRect = rect
-            }
-            
-            DispatchQueue.global().async {
-                NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateFrame_Key), object: self.currentShowImagerRect)
-            }
         }
     }
     
@@ -263,6 +216,7 @@ public class WisdomPhotoSelectVC: UIViewController {
         listView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: barHeght, right: 0)
     }
     
+    
     fileprivate func upgrades(){
         showAlert(title: "允许访问相册提示", message: "App需要您同意，才能访问相册读取图片", cancelActionTitle: "取消", rightActionTitle: "去开启") { (action) in
             WisdomScanKit.authorizationScan()
@@ -295,6 +249,7 @@ public class WisdomPhotoSelectVC: UIViewController {
         //imageRequestOption.deliveryMode = .highQualityFormat
     }
     
+    
     fileprivate func setNavbarUI(){
         if (delegate != nil) {
             let backBtn = delegate!.electPhotoNavbarBackItme(navigationVC: navigationController!)
@@ -316,6 +271,7 @@ public class WisdomPhotoSelectVC: UIViewController {
             rightBtn.isHidden = true
         }
     }
+    
     
     @objc fileprivate func clickBackBtn(){
         if startType == .push {
@@ -359,31 +315,6 @@ public class WisdomPhotoSelectVC: UIViewController {
                 }
             }
         }
-//        else if startType == .zoomLoc{
-//            if startAnimatRect == CGRect.zero{
-//                if navigationController != nil {
-//                    UIView.animate(withDuration: 0.35, animations: {
-//                        self.navigationController!.view.frame = self.startAnimatRect
-//                    }) { (_) in
-//                        self.navigationController!.view.removeFromSuperview()
-//                        self.navigationController!.removeFromParent()
-//                    }
-//                }else{
-//                    UIView.animate(withDuration: 0.35, animations: {
-//                        self.view.frame = self.startAnimatRect
-//                    }) { (_) in
-//                        self.view.removeFromSuperview()
-//                        self.removeFromParent()
-//                    }
-//                }
-//            }else{
-//                if navigationController != nil {
-//                    navigationController!.dismiss(animated: true, completion: nil)
-//                }else{
-//                    dismiss(animated: true, completion: nil)
-//                }
-//            }
-//        }
     }
     
     
@@ -555,12 +486,32 @@ extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSou
                                   options: options,
                                   resultHandler: { (image, _) -> Void in
            if image != nil {
-               self.coverView.isHidden = false
-               self.coverView.frame = coverViewFrame
-            
-               WisdomScanKit.startPhotoChrome(startIconIndex: index, startIconAnimatRect: self.currentShowImagerRect, fetchResult: self.assetsFetchResults)
+
+               WisdomScanKit.startPhotoChrome(startIconIndex: index,
+                                              startIconAnimatRect: self.currentShowImagerRect,
+                                              fetchResult: self.assetsFetchResults,
+                                              didScrollTask: {[weak self] (currentIndex: Int) -> CGRect in
+                                                
+                   if currentIndex >= (self?.assetsFetchResults)!.count{
+                       return .zero
+                   }
+                                                
+                   let indexPath = IndexPath(item: currentIndex, section: 0)
+                   self?.listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.top, animated: false)
+                                                
+                   let window = UIApplication.shared.delegate?.window!
+                   let cell = self?.listView.cellForItem(at: indexPath)
+                   var rect: CGRect = .zero
+                                                
+                   if cell != nil{
+                       rect = cell!.convert(cell!.bounds, to: window)
+                       self?.currentShowImagerRect = rect
+                   }
+                                                
+                   return rect
+               })
            }else{
-               WisdomHUD.showInfo(text: "高清图加载失败")
+               WisdomHUD.showInfo(text: "图加载失败")
            }
         })
     }

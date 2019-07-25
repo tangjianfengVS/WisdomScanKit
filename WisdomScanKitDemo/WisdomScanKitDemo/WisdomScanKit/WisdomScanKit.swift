@@ -17,15 +17,17 @@ class WisdomScanKit: NSObject {
     ///
     /// - Parameters:
     ///   - startIconIndex:      show begin image index frame array.  (当前展示图片在数组中的下标)
-    ///   - startIconAnimatRect: show begin image animation the frame.(开始展示动画的Frame)
+    ///   - startIconAnimatRect: show begin image animation the frame.(开始展示动画的屏幕Frame)
     ///   - iconList:            show images.                         (图片集合)
+    ///   - didScrollTask:       The "WisdomDidScrollTask".           (滑动回调)
     ///
     /// - Returns: The created `WisdomPhotoChromeHUD`.
     @discardableResult
-    @objc public class func startPhotoChrome(startIconIndex: Int=0,
+    @objc public class func startPhotoChrome(startIconIndex:      Int=0,
                                              startIconAnimatRect: CGRect,
-                                             iconList: [UIImage]) -> WisdomPhotoChromeHUD {
-        return WisdomScanManager.startPhotoChrome(startIconIndex: startIconIndex, startIconAnimatRect: startIconAnimatRect, iconList: iconList)
+                                             iconList:            [UIImage],
+                                             didScrollTask:       WisdomDidScrollTask?) -> WisdomPhotoChromeHUD {
+        return WisdomScanManager.startPhotoChrome(startIconIndex: startIconIndex, startIconAnimatRect: startIconAnimatRect, iconList: iconList, didScrollTask: didScrollTask)
     }
     
 
@@ -35,16 +37,19 @@ class WisdomScanKit: NSObject {
     ///
     /// - Parameters:
     ///   - startIconIndex:      show begin image index frame array.  (当前展示图片在数组中的下标)
-    ///   - startIconAnimatRect: show begin image animation the frame.(开始展示动画的Frame)
-    ///   - fetchResult:         show images.                         (展示缓存图片集合)
+    ///   - startIconAnimatRect: show begin image animation the frame.(开始展示动画的屏幕Frame)
+    ///   - fetchResult:         show images.                         (相册缓存图片集合)
+    ///   - didScrollTask:       The "WisdomDidScrollTask".           (滑动回调)
     ///
     /// - Returns: The created `WisdomPhotoChromeHUD`.
     @discardableResult
-    @objc public class func startPhotoChrome(startIconIndex: Int=0,
+    @objc public class func startPhotoChrome(startIconIndex:      Int=0,
                                              startIconAnimatRect: CGRect,
-                                             fetchResult: PHFetchResult<PHAsset>) -> WisdomPhotoChromeHUD {
-        return WisdomScanManager.startPhotoChrome(startIconIndex: startIconIndex, startIconAnimatRect: startIconAnimatRect, fetchResult: fetchResult)
+                                             fetchResult:         PHFetchResult<PHAsset>,
+                                             didScrollTask:       WisdomDidScrollTask?) -> WisdomPhotoChromeHUD {
+        return WisdomScanManager.startPhotoChrome(startIconIndex: startIconIndex, startIconAnimatRect: startIconAnimatRect, fetchResult: fetchResult, didScrollTask: didScrollTask)
     }
+    
     
     
     // MARK: - Get camera status permissions status

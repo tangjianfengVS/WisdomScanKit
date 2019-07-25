@@ -12,6 +12,16 @@ import WisdomHUD
 
 class WisdomViewController: UIViewController {
     
+    lazy var imageList: [UIImage] = {
+        var rray: [UIImage] = []
+        for i in 0...18{
+            let image = UIImage(named: "test_icon_" + String(i))
+            rray.append(image!)
+        }
+        return rray
+    }()
+    
+    
     /// 系统相册
     /** 调用摄像控制器动画样式 */
     var xtTransformType: StartTransformType = .push
@@ -41,6 +51,15 @@ class WisdomViewController: UIViewController {
     var rqCodeThemeType: WisdomRQCodeThemeType = .green
     @IBOutlet weak var rqPushBtn: UIButton!
     @IBOutlet weak var rqGreenBtn: UIButton!
+    
+    
+    /// 图片浏览
+    /** 调用摄像控制器动画样式 */
+    var hudType: Bool = true
+    /** 二维码扫描样式 */
+    var hudElectPhotoTheme: ElectPhotoTheme = .whiteLight
+    @IBOutlet weak var hudTypeBtn: UIButton!
+    @IBOutlet weak var hudWhiteLightBtn: UIButton!
     
     
     override func viewDidLoad() {
@@ -93,6 +112,45 @@ class WisdomViewController: UIViewController {
         }) { (type: WisdomScanErrorType, session: AVCaptureSession?) -> (Bool) in
             
             return true
+        }
+    }
+    
+    
+    @IBAction func showHUDClick(_ sender: UIButton) {
+        if !hudType {
+            /// 无动画浏览
+            WisdomScanKit.startPhotoChrome(startIconIndex: 4,
+                                           startIconAnimatRect: .zero,
+                                           iconList: imageList,
+                                           didScrollTask: nil )
+        }else{
+            
+            let testVC = ViewController(images: imageList)
+            let nav = UINavigationController(rootViewController: testVC)
+            present(nav, animated: true, completion: nil)
+            
+            testVC.handler = { [weak self] (startIconIndex: Int, startIconAnimatRect: CGRect) in
+                
+                
+                /// 动画浏览-------------------------------
+                WisdomScanKit.startPhotoChrome(startIconIndex: startIconIndex,
+                                               startIconAnimatRect: startIconAnimatRect,
+                                               iconList: (self?.imageList)!,
+                                               didScrollTask: { (currentIndex: Int) -> CGRect in
+                    /// 更新结束动画 Rect----------------------------
+                    let indexPath = IndexPath(item: currentIndex, section: 0)
+                    let window = UIApplication.shared.delegate?.window!
+                    let cell = testVC.listView.cellForItem(at: indexPath)
+                    var rect: CGRect = .zero
+                                                
+                    if cell != nil{
+                          rect = cell!.convert(cell!.bounds, to: window)
+                          return rect
+                    }
+                                                
+                    return CGRect.zero
+                })
+            }
         }
     }
 }
@@ -258,6 +316,11 @@ extension WisdomViewController {
             btn.isSelected = true
             rqGreenBtn = btn
             rqCodeThemeType = .green
+        }else if btn.tag == 4 {
+            hudWhiteLightBtn.isSelected = false
+            btn.isSelected = true
+            hudWhiteLightBtn = btn
+            hudElectPhotoTheme = .whiteLight
         }
     }
     
@@ -278,7 +341,22 @@ extension WisdomViewController {
             btn.isSelected = true
             rqGreenBtn = btn
             rqCodeThemeType = .snowy
+        }else if btn.tag == 4 {
+            hudWhiteLightBtn.isSelected = false
+            btn.isSelected = true
+            hudWhiteLightBtn = btn
+            hudElectPhotoTheme = .darkDim
         }
     }
     
+    
+    @IBAction func clickHUDBtn(btn: UIButton) {
+        if btn.isSelected {
+            return
+        }
+        hudTypeBtn.isSelected = false
+        btn.isSelected = true
+        hudTypeBtn = btn
+        hudType = !hudType
+    }
 }

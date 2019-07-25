@@ -58,25 +58,35 @@ public enum WisdomScanManager {
     
     
     /// Image browser ‘[UIImage]’
-    static func startPhotoChrome(startIconIndex: Int,
+    static func startPhotoChrome(startIconIndex:      Int,
                                  startIconAnimatRect: CGRect,
-                                 iconList: [UIImage]) -> WisdomPhotoChromeHUD {
+                                 iconList:            [UIImage],
+                                 didScrollTask:       WisdomDidScrollTask?) -> WisdomPhotoChromeHUD {        
         let window = UIApplication.shared.keyWindow
-        let hud = WisdomPhotoChromeHUD(beginIndex: startIconIndex, imageList: iconList, beginRect: startIconAnimatRect)
+        let coverView = UIView(frame: window!.bounds)
+        window?.addSubview(coverView)
+        coverView.backgroundColor = UIColor.clear
         
-        window?.addSubview(hud)
+        let hud = WisdomPhotoChromeHUD(beginIndex: startIconIndex, imageList: iconList, beginRect: startIconAnimatRect, didScrollTasks: didScrollTask)
+        
+        coverView.addSubview(hud)
         return hud
     }
     
     
     /// Image browser ‘PHFetchResult<PHAsset>’
-    static func startPhotoChrome(startIconIndex: Int,
+    static func startPhotoChrome(startIconIndex:      Int,
                                  startIconAnimatRect: CGRect,
-                                 fetchResult: PHFetchResult<PHAsset>) -> WisdomPhotoChromeHUD {
+                                 fetchResult:         PHFetchResult<PHAsset>,
+                                 didScrollTask:       WisdomDidScrollTask?) -> WisdomPhotoChromeHUD {
         let window = UIApplication.shared.keyWindow
-        let hud = WisdomPhotoChromeHUD(beginIndex: startIconIndex, fetchResults: fetchResult, beginRect: startIconAnimatRect)
+        let coverView = UIView(frame: window!.bounds)
+        window?.addSubview(coverView)
+        coverView.backgroundColor = UIColor.clear
         
-        window?.addSubview(hud)
+        let hud = WisdomPhotoChromeHUD(beginIndex: startIconIndex, fetchResults: fetchResult, beginRect: startIconAnimatRect, didScrollTasks: didScrollTask)
+        
+        coverView.addSubview(hud)
         return hud
     }
     

@@ -12,6 +12,7 @@ import Photos
 fileprivate let AMCGSize: CGSize = CGSize(width: 25, height: 25)
 
 class WisdomPhotoChromeHUD: UIView {
+    fileprivate var finish: Bool = true
     
     fileprivate let currentType: Bool!///True Image集合
     
@@ -20,6 +21,8 @@ class WisdomPhotoChromeHUD: UIView {
     fileprivate let imageArray: [UIImage]!
     
     fileprivate let fetchResult: PHFetchResult<PHAsset>!
+    
+    fileprivate var didScrollTask: WisdomDidScrollTask?
     
     /** 当前浏览标示 */
     fileprivate var currentIndex: Int!
@@ -32,7 +35,12 @@ class WisdomPhotoChromeHUD: UIView {
         let count = (self?.currentType)! ? (self?.imageArray.count)!:(self?.fetchResult.count)!
         if index < count {
             self?.currentIndex = index
-            NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateIndex_Key), object: self?.currentIndex)
+            
+            if self?.didScrollTask != nil{
+                let endRect = self?.didScrollTask!(index)
+                self?.imageRect = endRect
+                self?.coverView.frame = endRect!
+            }
         }
     }
     
@@ -60,6 +68,13 @@ class WisdomPhotoChromeHUD: UIView {
     }()
     
     
+    fileprivate lazy var coverView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.init(white: 0.90, alpha: 1)
+        return view
+    }()
+
+    
     fileprivate lazy var listView: UICollectionView = {
         let view = UICollectionView(frame: self.frame, collectionViewLayout: layout)
         view.register(WisdomPhotoChromeCell.self, forCellWithReuseIdentifier: WisdomPhotoChromeHUDCellID)
@@ -73,19 +88,21 @@ class WisdomPhotoChromeHUD: UIView {
     
     
     /** [UIImage]集合的init */
-    init(beginIndex: Int, imageList: [UIImage], beginRect: CGRect) {
+    init(beginIndex: Int, imageList: [UIImage], beginRect: CGRect, didScrollTasks: WisdomDidScrollTask?) {
         currentIndex = beginIndex
         imageArray = imageList
         imageRect = beginRect
         fetchResult = PHFetchResult<PHAsset>()
+        didScrollTask = didScrollTasks
         currentType = true
         
         super.init(frame: UIScreen.main.bounds)
         backgroundColor = UIColor.clear
         addGestureRecognizer(tap)
+        insertSubview(coverView, at: 0)
         
         if imageArray.count > 0 {
-            insertSubview(listView, at: 0)
+            insertSubview(listView, aboveSubview: coverView)
             addSubview(imageView)
             
             imageView.image = imageArray[currentIndex]
@@ -95,8 +112,6 @@ class WisdomPhotoChromeHUD: UIView {
                 layout.updateCurrentOffsetX(index: currentIndex)
                 listView.scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .left, animated: false)
             }
-
-            NotificationCenter.default.addObserver(self, selector: #selector(updateIndex(notif:)), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateFrame_Key), object: nil)
         }else{
             addSubview(emptyView)
         }
@@ -104,18 +119,20 @@ class WisdomPhotoChromeHUD: UIView {
     
     
     /// beginImage: UIImage,
-    init(beginIndex: Int, fetchResults: PHFetchResult<PHAsset>, beginRect: CGRect) {
+    init(beginIndex: Int, fetchResults: PHFetchResult<PHAsset>, beginRect: CGRect, didScrollTasks: WisdomDidScrollTask?) {
         currentIndex = beginIndex
         imageArray = []
         imageRect = beginRect
         fetchResult = fetchResults
         currentType = false
+        didScrollTask = didScrollTasks
         
         super.init(frame: UIScreen.main.bounds)
         backgroundColor = UIColor.clear
         addGestureRecognizer(tap)
+        insertSubview(coverView, at: 0)
         
-        insertSubview(listView, at: 0)
+        insertSubview(listView, aboveSubview: coverView)
         addSubview(imageView)
         
         if beginIndex < fetchResult.count {
@@ -133,8 +150,6 @@ class WisdomPhotoChromeHUD: UIView {
             layout.updateCurrentOffsetX(index: currentIndex)
             listView.scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .left, animated: false)
         }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(updateIndex(notif:)), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateFrame_Key), object: nil)
     }
     
     
@@ -146,30 +161,45 @@ class WisdomPhotoChromeHUD: UIView {
     
     
     fileprivate func showAnimation(image: UIImage, beginRect: CGRect) {
-        if beginRect == CGRect.zero{
-            imageView.frame = CGRect(origin: CGPoint.zero, size: AMCGSize)
-            imageView.center = self.center
-        } else {
-            imageView.frame = beginRect
-        }
         
         let rect = image.getImageChromeRect()
+        
+        if beginRect == CGRect.zero{
+            self.imageView.frame = rect
+            self.listView.isHidden = false
+            self.listView.alpha = 0
+            self.listView.backgroundColor = UIColor.black
+        } else {
+            coverView.frame = beginRect
+            imageView.frame = beginRect
+        }
 
         UIView.animate(withDuration: 0.25, animations: {
-            self.imageView.frame = rect
+            
+            if beginRect == CGRect.zero{
+                self.listView.alpha = 1
+            }else{
+                self.imageView.frame = rect
+            }
+            
         }) { (_) in
             self.backgroundColor = UIColor.black
+            self.listView.backgroundColor = UIColor.black
             self.imageView.isHidden = true
             self.listView.isHidden = false
+            self.finish = false
         }
     }
     
     
     @objc fileprivate func tapTouch(tap: UITapGestureRecognizer?){
+        if finish { return }
+        
+        finish = true
         backgroundColor = UIColor.clear
         listView.isHidden = true
         imageView.isHidden = false
-
+        
         if currentType {
             imageView.image = imageArray[currentIndex]
         }else{
@@ -179,18 +209,17 @@ class WisdomPhotoChromeHUD: UIView {
         
         imageView.frame = imageView.image!.getImageChromeRect()
         
-        UIView.animate(withDuration: 0.32, animations: {
+        UIView.animate(withDuration: 0.30, animations: {
             
             if self.imageRect == CGRect.zero{
-                self.imageView.frame = CGRect(origin: CGPoint.zero, size: AMCGSize)
-                self.imageView.center = self.center
+                self.imageView.alpha = 0
             } else {
                 self.imageView.frame = self.imageRect
             }
             
         }) { (_) in
-            NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateCover_Key), object:nil)
-            self.removeFromSuperview()
+            self.finish = false
+            self.superview?.removeFromSuperview()
         }
     }
     
@@ -233,6 +262,9 @@ extension WisdomPhotoChromeHUD: UICollectionViewDataSource,UICollectionViewDeleg
         }
         
         cell.panReleasedCallback = { [weak self] (image: UIImage, rect: CGRect) in
+            if (self?.finish)! { return }
+            
+            self?.finish = true
             self?.backgroundColor = UIColor.clear
             self?.listView.isHidden = true
             self?.imageView.isHidden = false
@@ -240,7 +272,7 @@ extension WisdomPhotoChromeHUD: UICollectionViewDataSource,UICollectionViewDeleg
             self?.imageView.image = image
             self?.imageView.frame = rect
             
-            UIView.animate(withDuration: 0.32, animations: {
+            UIView.animate(withDuration: 0.30, animations: {
                 
                 if self?.imageRect == CGRect.zero{
                     self?.imageView.frame = CGRect(origin: CGPoint.zero, size: AMCGSize)
@@ -250,8 +282,9 @@ extension WisdomPhotoChromeHUD: UICollectionViewDataSource,UICollectionViewDeleg
                 }
                 
             }) { (_) in
-                NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateCover_Key), object:nil)
-                self?.removeFromSuperview()
+                self?.finish = false
+                self?.coverView.isHidden = false
+                self?.superview?.removeFromSuperview()
             }
         }
         return cell

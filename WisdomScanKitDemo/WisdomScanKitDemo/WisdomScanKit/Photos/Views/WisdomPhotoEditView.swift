@@ -9,6 +9,7 @@
 import UIKit
 
 class WisdomPhotoEditView: UIView {
+    
     fileprivate lazy var cancelBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: self.bounds.height))
         btn.center = CGPoint(x: self.editBtn.center.x - 50 - 25, y: self.bounds.height/2)

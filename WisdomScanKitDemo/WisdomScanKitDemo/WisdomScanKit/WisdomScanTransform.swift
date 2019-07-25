@@ -24,6 +24,7 @@ public protocol WisdomScanTransform {
     func zoomLocation() -> Bool
 }
 
+
 public struct TransformAnimation: WisdomScanTransform {
     var startIconAnimatRect:  CGRect = CGRect.zero
     
@@ -76,12 +77,14 @@ public struct TransformAnimation: WisdomScanTransform {
         self.rootVC = result.1
     }
     
+    
     public init(rootVC: UIViewController,
                 transformVC: UIViewController) {
         self.transformVC = transformVC
         self.animation = Animation.zoomLocation
         self.rootVC = rootVC
     }
+    
     
     public mutating func startTransform(needNav: Bool) -> Bool {
         self.needNav = needNav
@@ -100,6 +103,7 @@ public struct TransformAnimation: WisdomScanTransform {
             return zoomLocation()
         }
     }
+    
     
     public func pushSys() -> Bool {
         
@@ -120,6 +124,7 @@ public struct TransformAnimation: WisdomScanTransform {
         }
     }
     
+    
     public func presentSys() -> Bool {
         if needNav && !transformVC.isKind(of: UINavigationController.self){
             let navVC = UINavigationController(rootViewController: transformVC)
@@ -131,9 +136,11 @@ public struct TransformAnimation: WisdomScanTransform {
         }
     }
     
+    
     public func pullup() -> Bool {
         return false
     }
+    
     
     public func translation() -> Bool {
         if needNav {
@@ -146,7 +153,7 @@ public struct TransformAnimation: WisdomScanTransform {
             rootVC.addChild(navVC)
             rootVC.view.addSubview(navVC.view)
             navVC.view.transform = CGAffineTransform(translationX: rootVC.view.bounds.width, y: 0)
-            UIView.animate(withDuration: 0.35) {
+            UIView.animate(withDuration: 0.32) {
                 navVC.view.transform = .identity
             }
             return true
@@ -154,7 +161,7 @@ public struct TransformAnimation: WisdomScanTransform {
             rootVC.addChild(transformVC)
             rootVC.view.addSubview(transformVC.view)
             transformVC.view.transform = CGAffineTransform(translationX: rootVC.view.bounds.width, y: 0)
-            UIView.animate(withDuration: 0.35) {
+            UIView.animate(withDuration: 0.32) {
                 self.transformVC.view.transform = .identity
             }
             return false
@@ -168,7 +175,7 @@ public struct TransformAnimation: WisdomScanTransform {
             rootVC.addChild(navVC)
             rootVC.view.addSubview(navVC.view)
             navVC.view.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-            UIView.animate(withDuration: 0.35) {
+            UIView.animate(withDuration: 0.32) {
                 navVC.view.transform = .identity
             }
             return true
@@ -176,7 +183,7 @@ public struct TransformAnimation: WisdomScanTransform {
             rootVC.addChild(transformVC)
             rootVC.view.addSubview(transformVC.view)
             transformVC.view.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-            UIView.animate(withDuration: 0.35) {
+            UIView.animate(withDuration: 0.32) {
                 self.transformVC.view.transform = .identity
             }
             return false

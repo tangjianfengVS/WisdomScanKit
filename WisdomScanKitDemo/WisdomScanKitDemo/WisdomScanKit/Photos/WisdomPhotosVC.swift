@@ -83,20 +83,22 @@ public class WisdomPhotosVC: UIViewController {
     
 
     fileprivate lazy var photoBtn: UIButton = {
-        let btn = UIButton()
+        let btn = UIButton(frame: CGRect(x: view.bounds.width - 60, y: view.bounds.height - 100, width: 35, height: 30))
+        btn.center.y = cameraBtn.center.y
         let image = WisdomScanManager.bundleImage(name: "ic_waterprint_revolve")
-        btn.setBackgroundImage(image, for: .normal)
+        btn.setImage(image, for: .normal)
         btn.addTarget(self, action: #selector(toggleCamera), for: .touchUpInside)
         return btn
     }()
     
 
     fileprivate lazy var photoLightBtn: UIButton = {
-        let btn = UIButton()
+        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        btn.center = CGPoint(x: photoBtn.center.x, y: backBtn.center.y)
         var image = WisdomScanManager.bundleImage(name: "qrcode_light_normal")
-        btn.setBackgroundImage(image, for: .normal)
+        btn.setImage(image, for: .normal)
         image = WisdomScanManager.bundleImage(name: "qrcode_light_pressed")
-        btn.setBackgroundImage(image, for: .selected)
+        btn.setImage(image, for: .selected)
         btn.addTarget(self, action: #selector(clickPhotoLightBtn), for: .touchUpInside)
         return btn
     }()
@@ -143,13 +145,12 @@ public class WisdomPhotosVC: UIViewController {
     fileprivate lazy var backBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: 15, y: 30, width: 34, height: 34))
         
-        let image = WisdomScanManager.bundleImage(name: "black_backIcon")
+        let image = WisdomScanManager.bundleImage(name: "white_backIcon")
         btn.setImage(image, for: .normal)
-        
         btn.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
-        btn.backgroundColor = UIColor(white: 1, alpha: 0.5)
-        btn.layer.cornerRadius = 17
-        btn.layer.masksToBounds = true
+        //btn.backgroundColor = UIColor(white: 1, alpha: 0.1)
+        //btn.layer.cornerRadius = 17
+        //btn.layer.masksToBounds = true
         return btn
     }()
     
@@ -326,9 +327,6 @@ public class WisdomPhotosVC: UIViewController {
         view.addSubview(cameraBtn)
         view.addSubview(photoBtn)
         view.addSubview(photoLightBtn)
-        
-        photoBtn.frame = CGRect(x: view.bounds.width - 40, y: 60, width: 26, height: 22)
-        photoLightBtn.frame = CGRect(x: view.bounds.width - 40, y: 100, width: 26, height: 26)
         
         switch countType! {
         case .once:

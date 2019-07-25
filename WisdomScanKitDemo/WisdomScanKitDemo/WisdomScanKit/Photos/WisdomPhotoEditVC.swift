@@ -9,6 +9,7 @@
 import UIKit
 
 public class WisdomPhotoEditVC: UIViewController {
+    
     /** 浏览页正在展示的图片 */
     fileprivate var currentShowImagerRect: CGRect = .zero
     
@@ -116,50 +117,12 @@ public class WisdomPhotoEditVC: UIViewController {
         
         toolImgv.addSubview(bar)
         view.addSubview(listView)
-        //listView.addSubview(coverView)
         view.addSubview(backBtn)
         view.addSubview(realBtn)
-        
+
         view.insertSubview(emptyView, aboveSubview: listView)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(updateIndex(notif:)), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateIndex_Key), object: nil)
-        
-        //NotificationCenter.default.addObserver(self, selector: #selector(updateCover), name: NSNotification.Name(rawValue: WisdomPhotoChromeUpdateCover_Key), object: nil)
     }
     
-    
-    //@objc private func updateCover(){
-    //    coverView.isHidden = true
-    //}
-    
-    
-    /**
-     *  处理浏览页面图片在本页面滚动跟踪的Rect
-     *  作用：用于浏览结束动画的Rect锁定
-     */
-    @objc private func updateIndex(notif: Notification){
-        if let index = notif.object as? Int {
-            if index >= imageArray.count{
-                return
-            }
-            let indexPath = IndexPath(item: index, section: 0)
-            listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.top, animated: false)
-            
-            let window = UIApplication.shared.delegate?.window!
-            let cell = listView.cellForItem(at: indexPath)
-            var rect: CGRect = .zero
-            
-            if cell != nil{
-                rect = cell!.convert(cell!.bounds, to: window)
-                //self.coverView.frame = cell!.frame
-                self.currentShowImagerRect = rect
-            }
-            
-            DispatchQueue.global().async {
-                NotificationCenter.default.post(name: NSNotification.Name(WisdomPhotoChromeUpdateFrame_Key), object: self.currentShowImagerRect)
-            }
-        }
-    }
     
     @objc fileprivate func clickBack(btn: UIButton){
         let scbl = beginSize.width/view.bounds.width
@@ -219,6 +182,25 @@ extension WisdomPhotoEditVC: UICollectionViewDelegate,UICollectionViewDataSource
         let rect = cell.convert(cell.bounds, to: window)
         currentShowImagerRect = rect
         
-        WisdomScanKit.startPhotoChrome(startIconIndex: indexPath.item, startIconAnimatRect: rect, iconList: imageArray)
+        WisdomScanKit.startPhotoChrome(startIconIndex: indexPath.item, startIconAnimatRect: rect, iconList: imageArray, didScrollTask: {[weak self] (currentIndex: Int) -> CGRect in
+            
+            if currentIndex >= (self?.imageArray)!.count{
+                return CGRect.zero
+            }
+            
+            let indexPath = IndexPath(item: currentIndex, section: 0)
+            self?.listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.top, animated: false)
+            
+            let window = UIApplication.shared.delegate?.window!
+            let cell = self?.listView.cellForItem(at: indexPath)
+            var rect: CGRect = .zero
+            
+            if cell != nil{
+                rect = cell!.convert(cell!.bounds, to: window)
+                self?.currentShowImagerRect = rect
+            }
+            
+            return rect
+        })
     }
 }

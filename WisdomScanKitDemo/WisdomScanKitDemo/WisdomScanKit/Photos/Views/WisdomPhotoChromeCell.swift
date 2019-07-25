@@ -9,6 +9,7 @@
 import UIKit
 
 class WisdomPhotoChromeCell: UICollectionViewCell {
+    
     /** 图片允许的最大放大倍率 */
     fileprivate var imageMaximumZoomScale: CGFloat = 2.0
     
@@ -66,38 +67,6 @@ class WisdomPhotoChromeCell: UICollectionViewCell {
 
 
 extension WisdomPhotoChromeCell {
-    /** 计算图片复位坐标 */
-//    fileprivate var resettingCenter: CGPoint {
-//        let deltaWidth = bounds.width - imageContainer.contentSize.width
-//        let offsetX = deltaWidth > 0 ? deltaWidth * 0.5 : 0
-//        let deltaHeight = bounds.height - imageContainer.contentSize.height
-//        let offsetY = deltaHeight > 0 ? deltaHeight * 0.5 : 0
-//        return CGPoint(x: imageContainer.contentSize.width * 0.5 + offsetX,
-//                       y: imageContainer.contentSize.height * 0.5 + offsetY)
-//    }
-
-    /** 计算图片适合的size */
-//    fileprivate var fitSize: CGSize {
-//        guard let image = imageView.image else {
-//            return CGSize.zero
-//        }
-//        var width: CGFloat
-//        var height: CGFloat
-//        if imageContainer.bounds.width < imageContainer.bounds.height {
-//            // 竖屏
-//            width = imageContainer.bounds.width
-//            height = (image.size.height / image.size.width) * width
-//        } else {
-//            // 横屏
-//            height = imageContainer.bounds.height
-//            width = (image.size.width / image.size.height) * height
-//            if width > imageContainer.bounds.width {
-//                width = imageContainer.bounds.width
-//                height = (image.size.height / image.size.width) * width
-//            }
-//        }
-//        return CGSize(width: width, height: height)
-//    }
 
     /** 复位ImageView */
     fileprivate func resetImageView(size: CGSize) {
@@ -110,6 +79,7 @@ extension WisdomPhotoChromeCell {
         }
     }
 }
+
 
 extension WisdomPhotoChromeCell: UIScrollViewDelegate {
     /** 响应拖动 */

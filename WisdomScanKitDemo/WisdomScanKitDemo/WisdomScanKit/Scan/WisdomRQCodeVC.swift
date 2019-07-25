@@ -76,14 +76,13 @@ public class WisdomRQCodeVC: UIViewController {
     
     fileprivate lazy var backBtn: UIButton = {
         let btn = UIButton()
-    
-        let image = WisdomScanManager.bundleImage(name: "black_backIcon")
+        let image = WisdomScanManager.bundleImage(name: "white_backIcon")
         btn.setImage(image, for: .normal)
         
         btn.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
-        btn.backgroundColor = UIColor(white: 0.8, alpha: 0.4)
-        btn.layer.cornerRadius = 17
-        btn.layer.masksToBounds = true
+        //btn.backgroundColor = UIColor(white: 1, alpha: 0.15)
+        //btn.layer.cornerRadius = 17
+        //btn.layer.masksToBounds = true
         return btn
     }()
     
@@ -161,7 +160,7 @@ public class WisdomRQCodeVC: UIViewController {
         view.addSubview(lightBtn)
         view.addSubview(titleLab)
         
-        backBtn.frame = CGRect(x: 15, y: 30, width: 34, height: 34)
+        backBtn.frame = CGRect(x: 15, y: 30, width: 35, height: 35)
         
         scanPane.frame = CGRect(x: 0, y: 0, width: scanPaneWidth, height: scanPaneWidth)
         scanPane.center = view.center

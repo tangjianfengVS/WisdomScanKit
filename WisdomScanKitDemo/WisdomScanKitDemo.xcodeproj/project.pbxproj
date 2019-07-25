@@ -104,7 +104,6 @@
 		A56D39F422E08656008E7785 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A5E9489021A97D5F0071EC7F /* WisdomPhotoChromeHUD.swift */,
 				A5CF5E7E21AE825E0054875C /* WisdomPhotoChromeCell.swift */,
 				A5E9486021A7979C0071EC7F /* WisdomPhotoSelectCell.swift */,
 				A5585A4221A2D1C50005AAE4 /* WisdomPhotoEditCell.swift */,
@@ -130,6 +129,7 @@
 				A568409D21A697A0004B8437 /* WisdomPhotoSelectVC.swift */,
 				A5585A4521A2D1C50005AAE4 /* WisdomPhotosVC.swift */,
 				A5585A4321A2D1C50005AAE4 /* WisdomPhotoEditVC.swift */,
+				A5E9489021A97D5F0071EC7F /* WisdomPhotoChromeHUD.swift */,
 				A56D39F422E08656008E7785 /* Views */,
 			);
 			path = Photos;
