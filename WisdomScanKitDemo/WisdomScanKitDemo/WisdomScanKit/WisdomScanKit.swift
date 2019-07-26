@@ -30,6 +30,7 @@ class WisdomScanKit: NSObject {
         return WisdomScanManager.startPhotoChrome(startIconIndex: startIconIndex, startIconAnimatRect: startIconAnimatRect, iconList: iconList, didScrollTask: didScrollTask)
     }
     
+    
 
     // MARK: - WisdomPhotoChromeHUD
     
@@ -52,12 +53,14 @@ class WisdomScanKit: NSObject {
     
     
     
+    
     // MARK: - Get camera status permissions status
     
     /// 获取摄像状态权限
     @objc class func authorizationStatus() -> AVAuthorizationStatus {
         return AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
     }
+    
     
     
     // MARK: - Internal jump system Settings
@@ -70,6 +73,7 @@ class WisdomScanKit: NSObject {
             UIApplication.shared.openURL(url!)
         }
     }
+    
     
     
     // MARK: - Get album permission status
@@ -113,6 +117,7 @@ extension UIViewController {
     }
     
     
+    
     // MARK: - startScanRQCode
     
     /// 二维码扫描 ScanRQCode
@@ -138,6 +143,7 @@ extension UIViewController {
                                                  answerTask: answerTask,
                                                  errorTask: errorTask)
     }
+    
     
 
     // MARK: - startScanPhoto
@@ -167,6 +173,7 @@ extension UIViewController {
     }
     
     
+    
     // MARK: - startPhotoEdit
     
     /// 图片选择编辑器:
@@ -189,6 +196,7 @@ extension UIViewController {
                                                 colorTheme: colorTheme,
                                                 finishTask: finishTask)
     }
+    
 }
 
 
