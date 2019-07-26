@@ -12,6 +12,7 @@ import Photos
 fileprivate let AMCGSize: CGSize = CGSize(width: 25, height: 25)
 
 class WisdomPhotoChromeHUD: UIView {
+    
     fileprivate var finish: Bool = true
     
     fileprivate let currentType: Bool!///True Image集合
@@ -30,6 +31,8 @@ class WisdomPhotoChromeHUD: UIView {
     /** 当前结束目标图片归位Rect */
     fileprivate var imageRect: CGRect!
     
+    fileprivate var imageCount: Int = 0
+    
     
     fileprivate lazy var layout = WisdomPhotoChromeFlowLayout {[weak self] (index) in
         let count = (self?.currentType)! ? (self?.imageArray.count)!:(self?.fetchResult.count)!
@@ -40,6 +43,8 @@ class WisdomPhotoChromeHUD: UIView {
                 let endRect = self?.didScrollTask!(index)
                 self?.imageRect = endRect
                 self?.coverView.frame = endRect!
+                
+                self?.label.text = String(index + 1) + "/" + String((self?.imageCount)!)
             }
         }
     }
@@ -87,6 +92,20 @@ class WisdomPhotoChromeHUD: UIView {
     }()
     
     
+    fileprivate lazy var label: UILabel = {
+        let view = UILabel(frame: CGRect(x: 0, y: UIScreen.main.bounds.height-52, width: 70, height: 30))
+        view.center.x = self.center.x
+        view.textAlignment = NSTextAlignment.center
+        view.backgroundColor = UIColor.clear
+        view.textColor = UIColor.white
+        //view.backgroundColor = UIColor(white: 1, alpha: 0.1)
+        //view.layer.cornerRadius = 3
+        //view.layer.masksToBounds = true
+        view.isHidden = true
+        return view
+    }()
+    
+    
     /** [UIImage]集合的init */
     init(beginIndex: Int, imageList: [UIImage], beginRect: CGRect, didScrollTasks: WisdomDidScrollTask?) {
         currentIndex = beginIndex
@@ -104,6 +123,10 @@ class WisdomPhotoChromeHUD: UIView {
         if imageArray.count > 0 {
             insertSubview(listView, aboveSubview: coverView)
             addSubview(imageView)
+            addSubview(label)
+            
+            imageCount = imageArray.count
+            label.text = String(beginIndex + 1) + "/" + String(imageCount)
             
             imageView.image = imageArray[currentIndex]
             showAnimation(image: imageArray[currentIndex], beginRect: beginRect)
@@ -134,6 +157,10 @@ class WisdomPhotoChromeHUD: UIView {
         
         insertSubview(listView, aboveSubview: coverView)
         addSubview(imageView)
+        addSubview(label)
+        
+        imageCount = fetchResult.count
+        label.text = String(beginIndex + 1) + "/" + String(imageCount)
         
         if beginIndex < fetchResult.count {
             imageManager.requestImage(for: fetchResult[beginIndex],
@@ -165,10 +192,10 @@ class WisdomPhotoChromeHUD: UIView {
         let rect = image.getImageChromeRect()
         
         if beginRect == CGRect.zero{
-            self.imageView.frame = rect
-            self.listView.isHidden = false
-            self.listView.alpha = 0
-            self.listView.backgroundColor = UIColor.black
+            imageView.frame = rect
+            listView.backgroundColor = UIColor.black
+            listView.isHidden = false
+            listView.alpha = 0
         } else {
             coverView.frame = beginRect
             imageView.frame = beginRect
@@ -183,10 +210,10 @@ class WisdomPhotoChromeHUD: UIView {
             }
             
         }) { (_) in
-            self.backgroundColor = UIColor.black
             self.listView.backgroundColor = UIColor.black
             self.imageView.isHidden = true
             self.listView.isHidden = false
+            self.label.isHidden = false
             self.finish = false
         }
     }
@@ -196,9 +223,9 @@ class WisdomPhotoChromeHUD: UIView {
         if finish { return }
         
         finish = true
-        backgroundColor = UIColor.clear
         listView.isHidden = true
         imageView.isHidden = false
+        label.isHidden = true
         
         if currentType {
             imageView.image = imageArray[currentIndex]
@@ -265,9 +292,9 @@ extension WisdomPhotoChromeHUD: UICollectionViewDataSource,UICollectionViewDeleg
             if (self?.finish)! { return }
             
             self?.finish = true
-            self?.backgroundColor = UIColor.clear
             self?.listView.isHidden = true
             self?.imageView.isHidden = false
+            self?.label.isHidden = true
             
             self?.imageView.image = image
             self?.imageView.frame = rect
