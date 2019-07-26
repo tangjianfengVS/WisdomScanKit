@@ -71,13 +71,6 @@ class WisdomPhotoChromeHUD: UIView {
         iamgeVI.contentMode = .scaleAspectFill
         return iamgeVI
     }()
-    
-    
-    fileprivate lazy var coverView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.init(white: 0.90, alpha: 1)
-        return view
-    }()
 
     
     fileprivate lazy var listView: UICollectionView = {
@@ -106,22 +99,30 @@ class WisdomPhotoChromeHUD: UIView {
     }()
     
     
+    fileprivate let coverView: UIView
+    
+    
     /** [UIImage]集合的init */
-    init(beginIndex: Int, imageList: [UIImage], beginRect: CGRect, didScrollTasks: WisdomDidScrollTask?) {
+    init(beginIndex: Int,
+         imageList: [UIImage],
+         beginRect: CGRect,
+         transformView: UIView,
+         didScrollTasks: WisdomDidScrollTask?) {
+        
         currentIndex = beginIndex
         imageArray = imageList
         imageRect = beginRect
         fetchResult = PHFetchResult<PHAsset>()
         didScrollTask = didScrollTasks
         currentType = true
+        coverView = transformView
         
         super.init(frame: UIScreen.main.bounds)
         backgroundColor = UIColor.clear
         addGestureRecognizer(tap)
-        insertSubview(coverView, at: 0)
         
         if imageArray.count > 0 {
-            insertSubview(listView, aboveSubview: coverView)
+            insertSubview(listView, at: 0)
             addSubview(imageView)
             addSubview(label)
             
@@ -142,20 +143,25 @@ class WisdomPhotoChromeHUD: UIView {
     
     
     /// beginImage: UIImage,
-    init(beginIndex: Int, fetchResults: PHFetchResult<PHAsset>, beginRect: CGRect, didScrollTasks: WisdomDidScrollTask?) {
+    init(beginIndex: Int,
+         fetchResults: PHFetchResult<PHAsset>,
+         beginRect: CGRect,
+         transformView: UIView,
+         didScrollTasks: WisdomDidScrollTask?) {
+        
         currentIndex = beginIndex
         imageArray = []
         imageRect = beginRect
         fetchResult = fetchResults
         currentType = false
         didScrollTask = didScrollTasks
+        coverView = transformView
         
         super.init(frame: UIScreen.main.bounds)
         backgroundColor = UIColor.clear
         addGestureRecognizer(tap)
-        insertSubview(coverView, at: 0)
         
-        insertSubview(listView, aboveSubview: coverView)
+        insertSubview(listView, at: 0)
         addSubview(imageView)
         addSubview(label)
         
@@ -193,9 +199,8 @@ class WisdomPhotoChromeHUD: UIView {
         
         if beginRect == CGRect.zero{
             imageView.frame = rect
-            listView.backgroundColor = UIColor.black
-            listView.isHidden = false
-            listView.alpha = 0
+            backgroundColor = UIColor.black
+            alpha = 0
         } else {
             coverView.frame = beginRect
             imageView.frame = beginRect
@@ -204,13 +209,13 @@ class WisdomPhotoChromeHUD: UIView {
         UIView.animate(withDuration: 0.25, animations: {
             
             if beginRect == CGRect.zero{
-                self.listView.alpha = 1
+                self.alpha = 1
             }else{
                 self.imageView.frame = rect
             }
             
         }) { (_) in
-            self.listView.backgroundColor = UIColor.black
+            self.backgroundColor = UIColor.black
             self.imageView.isHidden = true
             self.listView.isHidden = false
             self.label.isHidden = false
@@ -226,6 +231,7 @@ class WisdomPhotoChromeHUD: UIView {
         listView.isHidden = true
         imageView.isHidden = false
         label.isHidden = true
+        backgroundColor = UIColor.clear
         
         if currentType {
             imageView.image = imageArray[currentIndex]
@@ -239,7 +245,7 @@ class WisdomPhotoChromeHUD: UIView {
         UIView.animate(withDuration: 0.30, animations: {
             
             if self.imageRect == CGRect.zero{
-                self.imageView.alpha = 0
+                self.alpha = 0
             } else {
                 self.imageView.frame = self.imageRect
             }
@@ -295,6 +301,7 @@ extension WisdomPhotoChromeHUD: UICollectionViewDataSource,UICollectionViewDeleg
             self?.listView.isHidden = true
             self?.imageView.isHidden = false
             self?.label.isHidden = true
+            self?.backgroundColor = UIColor.clear
             
             self?.imageView.image = image
             self?.imageView.frame = rect

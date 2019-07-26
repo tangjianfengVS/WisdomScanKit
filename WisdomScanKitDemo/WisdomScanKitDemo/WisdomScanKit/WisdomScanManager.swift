@@ -62,14 +62,11 @@ public enum WisdomScanManager {
                                  startIconAnimatRect: CGRect,
                                  iconList:            [UIImage],
                                  didScrollTask:       WisdomDidScrollTask?) -> WisdomPhotoChromeHUD {        
-        let window = UIApplication.shared.keyWindow
-        let coverView = UIView(frame: window!.bounds)
-        window?.addSubview(coverView)
-        coverView.backgroundColor = UIColor.clear
+        let viewList = WisdomScanManager.setTransformView()
         
-        let hud = WisdomPhotoChromeHUD(beginIndex: startIconIndex, imageList: iconList, beginRect: startIconAnimatRect, didScrollTasks: didScrollTask)
+        let hud = WisdomPhotoChromeHUD(beginIndex: startIconIndex, imageList: iconList, beginRect: startIconAnimatRect, transformView: viewList.1, didScrollTasks: didScrollTask)
         
-        coverView.addSubview(hud)
+        viewList.0.addSubview(hud)
         return hud
     }
     
@@ -79,14 +76,11 @@ public enum WisdomScanManager {
                                  startIconAnimatRect: CGRect,
                                  fetchResult:         PHFetchResult<PHAsset>,
                                  didScrollTask:       WisdomDidScrollTask?) -> WisdomPhotoChromeHUD {
-        let window = UIApplication.shared.keyWindow
-        let coverView = UIView(frame: window!.bounds)
-        window?.addSubview(coverView)
-        coverView.backgroundColor = UIColor.clear
+        let viewList = WisdomScanManager.setTransformView()
         
-        let hud = WisdomPhotoChromeHUD(beginIndex: startIconIndex, fetchResults: fetchResult, beginRect: startIconAnimatRect, didScrollTasks: didScrollTask)
+        let hud = WisdomPhotoChromeHUD(beginIndex: startIconIndex, fetchResults: fetchResult, beginRect: startIconAnimatRect, transformView: viewList.1, didScrollTasks: didScrollTask)
         
-        coverView.addSubview(hud)
+        viewList.0.addSubview(hud)
         return hud
     }
     
@@ -138,3 +132,24 @@ public enum WisdomScanManager {
     }
 }
 
+
+extension WisdomScanManager {
+    
+    static func setTransformView() -> (UIView,UIView) {
+        let window = UIApplication.shared.keyWindow
+        
+        let rootView = UIView(frame: UIScreen.main.bounds)
+        rootView.backgroundColor = UIColor.clear
+        
+        let coverView: UIView = {
+            let view = UIView()
+            view.backgroundColor = UIColor.init(white: 0.90, alpha: 1)
+            return view
+        }()
+        
+        window?.addSubview(rootView)
+        rootView.addSubview(coverView)
+        
+        return (rootView, coverView)
+    }
+}
