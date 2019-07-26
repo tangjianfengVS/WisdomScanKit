@@ -39,12 +39,6 @@ public class WisdomPhotoEditVC: UIViewController {
         return imageView
     }()
     
-//    fileprivate lazy var coverView: UIView = {
-//        let view = UIView()
-//        view.backgroundColor = UIColor.init(white: 0.90, alpha: 1)
-//        view.isHidden = true
-//        return view
-//    }()
     
     fileprivate lazy var listView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -58,6 +52,7 @@ public class WisdomPhotoEditVC: UIViewController {
         layout.minimumLineSpacing = spacing
         return view
     }()
+    
     
     fileprivate lazy var backBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: 30, y: self.view.bounds.height - 40, width: 50, height: 30))

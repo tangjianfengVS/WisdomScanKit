@@ -45,6 +45,12 @@ class WisdomPhotoChromeHUD: UIView {
                 self?.coverView.frame = endRect!
                 
                 self?.label.text = String(index + 1) + "/" + String((self?.imageCount)!)
+                self?.label.sizeToFit()
+                self?.label.frame = CGRect(x: 0,
+                                           y: (self?.bounds.height)! - 50,
+                                           width: (self?.label.bounds.width)! + 5,
+                                           height: (self?.label.bounds.height)!)
+                self?.label.center.x = (self?.center.x)!
             }
         }
     }
@@ -86,15 +92,15 @@ class WisdomPhotoChromeHUD: UIView {
     
     
     fileprivate lazy var label: UILabel = {
-        let view = UILabel(frame: CGRect(x: 0, y: UIScreen.main.bounds.height-52, width: 70, height: 30))
+        let view = UILabel(frame: CGRect(x: 0, y: self.bounds.height - 50, width: 70, height: 30))
         view.center.x = self.center.x
+        view.font = UIFont.systemFont(ofSize: 14)
         view.textAlignment = NSTextAlignment.center
         view.backgroundColor = UIColor.clear
         view.textColor = UIColor.white
-        //view.backgroundColor = UIColor(white: 1, alpha: 0.1)
-        //view.layer.cornerRadius = 3
-        //view.layer.masksToBounds = true
-        view.isHidden = true
+        view.layer.cornerRadius = 2
+        view.layer.masksToBounds = true
+        view.backgroundColor = UIColor(white: 0.3, alpha: 1)
         return view
     }()
     
@@ -128,6 +134,10 @@ class WisdomPhotoChromeHUD: UIView {
             
             imageCount = imageArray.count
             label.text = String(beginIndex + 1) + "/" + String(imageCount)
+            label.sizeToFit()
+            label.frame = CGRect(x: 0, y: bounds.height - 50,
+                                 width: label.bounds.width + 5, height: label.bounds.height)
+            label.center.x = center.x
             
             imageView.image = imageArray[currentIndex]
             showAnimation(image: imageArray[currentIndex], beginRect: beginRect)
@@ -167,6 +177,10 @@ class WisdomPhotoChromeHUD: UIView {
         
         imageCount = fetchResult.count
         label.text = String(beginIndex + 1) + "/" + String(imageCount)
+        label.sizeToFit()
+        label.frame = CGRect(x: 0, y: bounds.height - 50,
+                             width: label.bounds.width + 5, height: label.bounds.height)
+        label.center.x = center.x
         
         if beginIndex < fetchResult.count {
             imageManager.requestImage(for: fetchResult[beginIndex],
