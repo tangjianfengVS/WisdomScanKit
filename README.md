@@ -34,5 +34,30 @@
        `ElectPhotoTheme`      支持UI的主题风格：       【.whiteLight    .darkDim】
        `ElectPhotoDelegate`   自定义导航栏代理：       【导航栏返回按钮，导航栏主题文字】
        `WisdomPhotoTask`      图片选择完成回调
- 
+       
+   二：全屏摄像 功能
+   
+     1:API：
+     - MARK: - startScanPhoto
+
+     - Parameters:
+       - startType:    The `StartTransformType` value.                  
+       - countType:    The `ElectPhotoCountType`, `once` by default.    
+       - electTheme:   The `ElectPhotoTheme`, `whiteLight` by default.  
+       - photosTask:   The `WisdomPhotoTask`, back photos array.        
+     - Returns:        The created `WisdomPhotosVC`.
+    @discardableResult
+    @objc public func startScanPhoto(startType:  StartTransformType = .push,
+                                     countType:  ElectPhotoCountType = .nine,
+                                     electTheme: ElectPhotoTheme = .whiteLight,
+                                     photosTask: @escaping WisdomPhotoTask) -> WisdomPhotosVC {
+        return WisdomPhotosVC()
+    }
+
+    2:入参：
+      `StartTransformType`   支持转场动画样式:      【.push   .present   .alpha】
+      `ElectPhotoCountType`  支持图片选择的数量：   【.once   .four         .nine   】
+      `ElectPhotoTheme`      支持删选UI主题风格：   【.whiteLight      .darkDim】
+      `WisdomPhotoTask`      图片选择完成回调
+
        
