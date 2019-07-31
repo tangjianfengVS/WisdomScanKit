@@ -17,8 +17,7 @@
       //   - countType:    The `ElectPhotoCountType`, `once` by default.  
       //   - theme:        The `ElectPhotoTheme`, `whiteLight` by default.
       //   - delegate:     The `ElectPhotoDelegate`, custom navbar item.
-      //   - photoTask:    The `WisdomPhotoTask`, back images array.      
-      //   - errorTask:    The `WisdomErrorTask`, next?.                  
+      //   - photoTask:    The `WisdomPhotoTask`, back images array.                     
       //
       // - Returns: The created `WisdomPhotoSelectVC`.
       @discardableResult
@@ -26,8 +25,7 @@
                                               countType: ElectPhotoCountType = .nine,
                                               theme:     ElectPhotoTheme = .darkDim,
                                               delegate:  ElectPhotoDelegate? = nil,
-                                              photoTask: @escaping WisdomPhotoTask,
-                                              errorTask: @escaping WisdomErrorTask) -> WisdomPhotoSelectVC {
+                                              photoTask: @escaping WisdomPhotoTask ) -> WisdomPhotoSelectVC {
           return WisdomPhotoSelectVC()
       }
 
@@ -37,7 +35,6 @@
        `ElectPhotoTheme`      支持UI的主题风格：       【.whiteLight    .darkDim】
        `ElectPhotoDelegate`   自定义导航栏代理：       【导航栏返回按钮，导航栏主题文字】
        `WisdomPhotoTask`      图片选择完成回调
-       `WisdomErrorTask`      系统相册权限方面的错误回调
        
     4:属性：
        
