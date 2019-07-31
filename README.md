@@ -10,17 +10,17 @@
   
     1:API：
     // MARK: - startElectSystemPhoto (UIViewController extension method) 
-    /// 跳转加载系统相册图片浏览器，并选择图片
-    ///
-    /// - Parameters:
-    ///   - startType:    The `StartTransformType` value.                (系统相册跳转动画类型)
-    ///   - countType:    The `ElectPhotoCountType`, `once` by default.  (选取数量类型)
-    ///   - theme:        The `ElectPhotoTheme`, `whiteLight` by default.(UI主题风格)
-    ///   - delegate:     The `ElectPhotoDelegate`, custom navbar item.
-    ///   - photoTask:    The `WisdomPhotoTask`, back images array.      (完成回调)
-    ///   - errorTask:    The `WisdomErrorTask`, next?.                  (失败回调)
-    ///
-    /// - Returns: The created `WisdomPhotoSelectVC`.
+    // 跳转加载系统相册图片浏览器，并选择图片
+    //
+    // - Parameters:
+    //   - startType:    The `StartTransformType` value.                (系统相册跳转动画类型)
+    //   - countType:    The `ElectPhotoCountType`, `once` by default.  (选取数量类型)
+    //   - theme:        The `ElectPhotoTheme`, `whiteLight` by default.(UI主题风格)
+    //   - delegate:     The `ElectPhotoDelegate`, custom navbar item.
+    //   - photoTask:    The `WisdomPhotoTask`, back images array.      (完成回调)
+    //   - errorTask:    The `WisdomErrorTask`, next?.                  (失败回调)
+    //
+    // - Returns: The created `WisdomPhotoSelectVC`.
     @discardableResult
     @objc public func startElectSystemPhoto(startType: StartTransformType = .present,
                                             countType: ElectPhotoCountType = .nine,
