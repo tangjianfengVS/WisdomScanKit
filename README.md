@@ -60,4 +60,32 @@
       `ElectPhotoTheme`      支持删选UI主题风格：    【.whiteLight     .darkDim】
       `WisdomPhotoTask`      图片选择完成回调
 
+  三：扫二维码功能
+    
+    1:API:
+    - MARK: - startScanRQCode
+    
+    - Parameters:
+       - startType:      The `StartTransformType` value.               
+       - themeType:      The `WisdomRQCodeThemeType`, `green` by default.
+       - delegate:       The `ScanRQCodeDelegate`, custom navbar item.
+       - answerTask:     The `WisdomRQCodeFinishTask`, back code string.  
+       - errorTask:      The `WisdomRQCodeErrorTask`,  Returns Bool Value, to next?.             
+    - Returns:           The created `WisdomRQCodeVC`.
+    @discardableResult
+    @objc public func startScanRQCode(startType:  StartTransformType = .push,
+                                      themeType:  WisdomRQCodeThemeType = .green,
+                                      delegate:   ScanRQCodeDelegate? = nil,
+                                      answerTask: @escaping WisdomRQCodeFinishTask,
+                                      errorTask:  @escaping WisdomRQCodeErrorTask) -> WisdomRQCodeVC {
+        return WisdomRQCodeVC()
+    }
+
+    2:入参：
+      `StartTransformType`     支持转场动画样式:      【.push   .present   .alpha】
+      `WisdomRQCodeThemeType`  支持扫描页面主题风格：  【.green   .snowy】
+      `ScanRQCodeDelegate`     自定义导航栏代理：     【导航栏返回按钮，导航栏主题文字，导航栏右边操作按钮】
+      `WisdomPhotoTask`        扫描成功回调
+      `WisdomRQCodeErrorTask`  扫描失败回调           返回值决定是否继续扫描
+  
        
