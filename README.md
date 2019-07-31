@@ -38,7 +38,7 @@
    二：全屏摄像 功能
    
      1:API：
-     - MARK: - startScanPhoto
+     - MARK: - startScanPhoto (UIViewController extension method) 
 
      - Parameters:
        - startType:    The `StartTransformType` value.                  
