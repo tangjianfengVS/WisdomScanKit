@@ -9,30 +9,35 @@
   二：系统相册图片选择器 功能
   
     1:API：
-    // MARK: - startElectSystemPhoto (UIViewController extension method) 
-    // 跳转加载系统相册图片浏览器，并选择图片
-    //
-    // - Parameters:
-    //   - startType:    The `StartTransformType` value.                (系统相册跳转动画类型)
-    //   - countType:    The `ElectPhotoCountType`, `once` by default.  (选取数量类型)
-    //   - theme:        The `ElectPhotoTheme`, `whiteLight` by default.(UI主题风格)
-    //   - delegate:     The `ElectPhotoDelegate`, custom navbar item.
-    //   - photoTask:    The `WisdomPhotoTask`, back images array.      (完成回调)
-    //   - errorTask:    The `WisdomErrorTask`, next?.                  (失败回调)
-    //
-    // - Returns: The created `WisdomPhotoSelectVC`.
-    @discardableResult
-    @objc public func startElectSystemPhoto(startType: StartTransformType = .present,
-                                            countType: ElectPhotoCountType = .nine,
-                                            theme:     ElectPhotoTheme = .darkDim,
-                                            delegate:  ElectPhotoDelegate? = nil,
-                                            photoTask: @escaping WisdomPhotoTask,
-                                            errorTask: @escaping WisdomErrorTask) -> WisdomPhotoSelectVC {
-        return WisdomPhotoSelectVC()
-    }
+      // MARK: - startElectSystemPhoto (UIViewController extension method) 
+      // 跳转加载系统相册图片浏览器，并选择图片
+
+      // - Parameters:
+      //   - startType:    The `StartTransformType` value.                
+      //   - countType:    The `ElectPhotoCountType`, `once` by default.  
+      //   - theme:        The `ElectPhotoTheme`, `whiteLight` by default.
+      //   - delegate:     The `ElectPhotoDelegate`, custom navbar item.
+      //   - photoTask:    The `WisdomPhotoTask`, back images array.      
+      //   - errorTask:    The `WisdomErrorTask`, next?.                  
+      //
+      // - Returns: The created `WisdomPhotoSelectVC`.
+      @discardableResult
+      @objc public func startElectSystemPhoto(startType: StartTransformType = .present,
+                                              countType: ElectPhotoCountType = .nine,
+                                              theme:     ElectPhotoTheme = .darkDim,
+                                              delegate:  ElectPhotoDelegate? = nil,
+                                              photoTask: @escaping WisdomPhotoTask,
+                                              errorTask: @escaping WisdomErrorTask) -> WisdomPhotoSelectVC {
+          return WisdomPhotoSelectVC()
+      }
 
     3:入参：
-       
+       `StartTransformType`   支持转场动画样式:       【.push   .present   .alpha】
+       `ElectPhotoCountType`  支持图片选择的数量：     【.once   .four      .nine】
+       `ElectPhotoTheme`      支持UI的主题风格：       【.whiteLight    .darkDim】
+       `ElectPhotoDelegate`   自定义导航栏代理：       【导航栏返回按钮，导航栏主题文字】
+       `WisdomPhotoTask`      图片选择完成回调
+       `WisdomErrorTask`      系统相册权限方面的错误回调
        
     4:属性：
        
