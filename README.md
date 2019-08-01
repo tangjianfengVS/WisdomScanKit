@@ -88,7 +88,20 @@
       `WisdomRQCodeFinishTask` 扫描成功回调         value: String  return: [.closeScan .pauseScan  .continueScan .hudFailScan]
       `WisdomRQCodeErrorTask`  扫描失败回调         return: [.closeScan .pauseScan  .continueScan  .hudFailScan]
   
-  3: 属性设置
-    case continueScan     /// 继续  
+    3: 属性设置
+      【1】：public var scanPaneShowCover: Bool = false
+            说明： 全局非扫码区域是否显示覆盖效果,可赋值，
+                  在调用 开启扫描页面 之前调用。
+      
+      【2】：public var rectOfInterestSize: CGSize = {
+                let size = CGSize(width: scanPaneWidth,height: scanPaneWidth)
+                return size
+            }()
+
+            说明：全局掩藏的扫描区域大小,可赋值
+                 在调用 开启扫描页面 之前调用。
+                 
+                 默认掩藏的扫描区域大小是：  let scanPaneWidth: CGFloat = 240.0
+
   
        
