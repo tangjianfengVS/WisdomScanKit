@@ -11,7 +11,7 @@ import AVFoundation
 import Photos
 
 /** 带缓存的图片管理对象 */
-let imageManager = PHCachingImageManager()
+public let imageManager = PHCachingImageManager()
 
 
 /** 缩略图大小 */

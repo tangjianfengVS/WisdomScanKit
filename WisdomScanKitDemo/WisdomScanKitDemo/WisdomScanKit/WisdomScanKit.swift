@@ -53,7 +53,6 @@ class WisdomScanKit: NSObject {
     
     
     
-    
     // MARK: - Get camera status permissions status
     
     /// 获取摄像状态权限
@@ -152,9 +151,8 @@ extension UIViewController {
     ///   - countType:    The `ElectPhotoCountType`, `once` by default.    (选取数量类型)
     ///   - electTheme:   The `ElectPhotoTheme`, `whiteLight` by default.  (删选UI主题风格)
     ///   - photosTask:   The `WisdomPhotoTask`, back photos array.        (完成回调)
-    ///   - errorTask:    The `WisdomRQCodeErrorTask`, next?.              (失败回调)
     ///
-    /// - Returns: The created `WisdomPhotosVC`.
+    /// - Returns:        The created `WisdomPhotosVC`.
     @discardableResult
     @objc public func startScanPhoto(startType:  StartTransformType = .push,
                                      countType:  ElectPhotoCountType = .nine,
@@ -174,12 +172,12 @@ extension UIViewController {
     /// 图片选择编辑器:
     ///
     /// - Parameters:
-    ///   - imageList:    The `StartTransformType` value.                  (图片集合)
-    ///   - startIconAnimatRect: The `CGRect`,  .                          (开始展示的动画rect)
-    ///   - colorTheme:   The `WisdomRQCodeFinishTask`, back code string.  (完成回调)
-    ///   - finishTask:    The `WisdomRQCodeErrorTask`, next?.             (失败回调)
+    ///   - imageList:           The `StartTransformType` value.                   (图片集合)
+    ///   - startIconAnimatRect: The `CGRect`,  .                                  (开始展示的动画rect)
+    ///   - colorTheme:          The `ElectPhotoTheme`, default Value 'whiteLight'.(UI主题)
+    ///   - finishTask:          the '(Bool, [UIImage])->()'
     ///
-    /// - Returns: The created `WisdomPhotoEditVC`.
+    /// - Returns:               The created `WisdomPhotoEditVC`.
     @discardableResult
     @objc public func startPhotoEdit(imageList:            [UIImage],
                                      startIconAnimatRect:  CGRect = CGRect.zero,
