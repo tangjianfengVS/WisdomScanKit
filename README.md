@@ -102,6 +102,31 @@
                  在调用 开启扫描页面 之前调用。
                  
                  默认掩藏的扫描区域大小是：  let scanPaneWidth: CGFloat = 240.0
+                 
 
+  四：酷炫图片浏览器
   
+     1:API:
+     - MARK: - WisdomPhotoChromeHUD
+     - Parameters:
+       - startIconIndex:         show begin image index frame array.  (当前展示图片在数组中的下标)
+       - startIconAnimatRect:    show begin image animation the frame.(开始展示动画的屏幕Frame)
+       - iconList:               show images.                         (图片集合)
+       - didScrollTask:          The "WisdomDidScrollTask".           (滑动回调)
+     - Returns:                  The created `WisdomPhotoChromeHUD`.
+     @discardableResult
+     @objc public class func startPhotoChrome(startIconIndex:      Int=0,
+                                              startIconAnimatRect: CGRect,
+                                              iconList:            [UIImage],
+                                              didScrollTask:       WisdomDidScrollTask?) -> WisdomPhotoChromeHUD {
+        return WisdomPhotoChromeHUD()
+     }
+     
+     2:入参：
+      `startIconIndex`         当前展示图片在数组中的下标
+      `startIconAnimatRect`    开始展示动画的屏幕Frame
+      `iconList`               图片集合
+      `WisdomDidScrollTask`    滑动回调， ((Int) -> (CGRect))： 参数 int 是当前展示图片下标，返回 CGRect：结束动画Frame
+ 
+    
        
