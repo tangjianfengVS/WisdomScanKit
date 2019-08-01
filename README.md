@@ -127,6 +127,23 @@
       `startIconAnimatRect`    开始展示动画的屏幕Frame
       `iconList`               图片集合
       `WisdomDidScrollTask`    滑动回调， ((Int) -> (CGRect))： 参数 int 是当前展示图片下标，返回 CGRect：结束动画Frame
+      
+      
+    3:高效能浏览系统相册图片 
+      
+      -【说明：为了解决浏览系统相册图片产生的性能问题，WisdomsScanKit 有提供高效能浏览系统相册图片API】
+      -
+      @objc public class func startPhotoChrome(startIconIndex:      Int=0,
+                                               startIconAnimatRect: CGRect,
+                                               fetchResult:         PHFetchResult<PHAsset>,
+                                               didScrollTask:       WisdomDidScrollTask?) -> WisdomPhotoChromeHUD {
+          return WisdomPhotoChromeHUD()
+      }
  
-    
+      说明：与上面的自定义图片浏览API参数一样，只是 [UIImage] 换成了 PHFetchResult<PHAsset> 加载，
+           PHFetchResult<PHAsset> 的数据缓存比较小。
+            
+      -【WisdomsScanKit 也提供了获取相册 PHFetchResult<PHAsset> 带缓存的图片管理对象】
+      -    
+      public let imageManager = PHCachingImageManager()
        
