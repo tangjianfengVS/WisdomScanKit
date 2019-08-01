@@ -82,10 +82,13 @@
     }
 
     2:入参：
-      `StartTransformType`     支持转场动画样式:      【.push   .present   .alpha】
-      `WisdomRQCodeThemeType`  支持扫描页面主题风格：  【.green   .snowy】
-      `ScanRQCodeDelegate`     自定义导航栏代理：     【导航栏返回按钮，导航栏主题文字，导航栏右边操作按钮】
-      `WisdomRQCodeFinishTask` 扫描成功回调           返回值决定是否关闭扫描界面
-      `WisdomRQCodeErrorTask`  扫描失败回调           返回值决定是否继续扫描
+      `StartTransformType`     支持转场动画样式:    【.push   .present   .alpha】
+      `WisdomRQCodeThemeType`  支持扫描页面主题风格：【.green   .snowy】
+      `ScanRQCodeDelegate`     自定义导航栏代理：   【导航栏返回按钮，导航栏主题文字，导航栏右边操作按钮】
+      `WisdomRQCodeFinishTask` 扫描成功回调         value: String  return: [.closeScan .pauseScan  .continueScan .hudFailScan]
+      `WisdomRQCodeErrorTask`  扫描失败回调         return: [.closeScan .pauseScan  .continueScan  .hudFailScan]
+  
+  3: 属性设置
+    case continueScan     /// 继续  
   
        
