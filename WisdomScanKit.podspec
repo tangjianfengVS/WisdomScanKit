@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "WisdomScanKit"
-  s.version      = "0.2.6"
+  s.version      = "0.2.7"
   s.summary      = "Powerful camera scanner frame"
   s.description  = "Powerful scanner frame, support to scan qr code, full screen camera shooting, support to scan the bank card number. Swift version, fully compatible with OC project calls."
 
@@ -17,6 +17,9 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/tangjianfengVS/WisdomScanKitDemo.git", :tag => s.version }
 
   s.source_files  = "WisdomScanKitDemo/WisdomScanKitDemo/WisdomScanKit/*.swift"
+  s.source_files  = 'WisdomScanKitDemo/WisdomScanKitDemo/WisdomScanKit/**/*.swift'
+
+
   s.resources = "WisdomScanKitDemo/WisdomScanKitDemo/WisdomScanKit/WisdomScanKit.bundle"
   s.dependency "WisdomHUD"
 end
