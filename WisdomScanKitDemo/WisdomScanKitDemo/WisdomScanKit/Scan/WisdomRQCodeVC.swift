@@ -268,18 +268,12 @@ public class WisdomRQCodeVC: UIViewController {
         switch authStatus {
         case .authorized:
             open()
-            
         case .denied:
-            if errorTask(WisdomScanErrorType.denied, nil){
-                upgrades()
-            }
+            upgrades()
         case .notDetermined:
             open()
-            
         case .restricted:
-            if errorTask(WisdomScanErrorType.restricted, nil){
-                upgrades()
-            }
+            upgrades()
         }
     }
     
@@ -320,7 +314,7 @@ public class WisdomRQCodeVC: UIViewController {
                 output.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
                 output.metadataObjectTypes = supportedCodeTypes
                 
-                //扫描区域
+                /// 扫描区域
                 if rectOfInterestSize.width < scanPaneWidth {
                     rectOfInterestSize = CGSize(width: scanPaneWidth,height: rectOfInterestSize.height)
                 }
@@ -362,8 +356,15 @@ public class WisdomRQCodeVC: UIViewController {
     }
     
     fileprivate func upgrades(){
-        showAlert(title: "开启照相机提示", message: "App需要您同意，才能访问相机扫码和摄像", cancelActionTitle: "取消", rightActionTitle: "去开启") { (action) in
-            WisdomScanKit.authorizationScan()
+        
+        showAlert(title: "摄像使用权限已关闭", message: "App需要您同意，才能使用相机扫码功能", cancelActionTitle: "取消", rightActionTitle: "立即开启") { (action) in
+            
+            if let title = action.title {
+                if title == "立即开启"{
+                    WisdomScanKit.authorizationScan()
+                }
+            }
+            //self?.clickBackBtn()
         }
     }
     
@@ -414,22 +415,43 @@ extension WisdomRQCodeVC : AVCaptureMetadataOutputObjectsDelegate{
             if let resultObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject{
                 let strvalue = resultObj.stringValue
                 if strvalue != nil {
-                    let res = answerTask(strvalue!,scanSession!)
-                    if !res{
-                        clickBackBtn()
-                    }
+                    let type = answerTask(strvalue!)
+                    returnRQCodeFinish(returnType: type, str: strvalue!)
                 }else{
-                    let res: Bool = errorTask(WisdomScanErrorType.codeError,scanSession)
-                    if res{
-                        isStartScan = true
-                    }
+                    let type = errorTask()
+                    returnRQCodeFinish(returnType: type, str: "")
                 }
             }
         }else{
-            let res: Bool = errorTask(WisdomScanErrorType.codeError,scanSession)
-            if res{
-                isStartScan = true
+            let type = errorTask()
+            returnRQCodeFinish(returnType: type, str: "")
+        }
+    }
+    
+    
+    fileprivate func returnRQCodeFinish(returnType: WisdomScanReturnType, str: String){
+        
+        switch returnType {
+        case .closeScan:
+            clickBackBtn()
+        case .pauseScan:
+            break;
+        case .continueScan:
+            isStartScan = true
+        case .hudFailScan:
+            if str.count > 0{
+                WisdomHUD.showText(text: str, delay: 2.5).delayHanders {[weak self] (timeInterval, type) in
+                    self?.isStartScan = true
+                }
+            }else{
+                WisdomHUD.showError(text: "识别失败").delayHanders {[weak self] (timeInterval, type) in
+                    self?.isStartScan = true
+                }
             }
+        default:
+            break
         }
     }
 }
+
+

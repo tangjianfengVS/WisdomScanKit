@@ -51,15 +51,12 @@ let options = { () -> PHImageRequestOptions in
 let ItemSize: CGFloat = UIScreen.main.bounds.width > 330 ? (UIScreen.main.bounds.width-5*5)/4 :(UIScreen.main.bounds.width-4*5)/3
 
 
-/** 返回值是否继续停留扫描页面 true:停留  false: 释放扫描页面 */
-public typealias WisdomRQCodeFinishTask = ((String, AVCaptureSession)->(Bool))
+/** 成功识别二维码回调，return： WisdomScanReturnType */
+public typealias WisdomRQCodeFinishTask = ((String)->(WisdomScanReturnType))
 
 
-/** 返回值是否继续扫描 true:继续 */
-public typealias WisdomRQCodeErrorTask = ((WisdomScanErrorType, AVCaptureSession?)->(Bool))
-
-
-public typealias WisdomErrorTask = ((WisdomScanErrorType)->(Bool))
+/** 二维码识别失败，return： WisdomScanReturnType */
+public typealias WisdomRQCodeErrorTask = (()->(WisdomScanReturnType))
 
 
 public typealias WisdomPhotoTask = (([UIImage])->())

@@ -19,7 +19,11 @@ extension UIViewController {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         if cancelActionTitle != nil {
-            let cancelAction = UIAlertAction(title: cancelActionTitle, style: .cancel, handler: nil)
+            let cancelAction = UIAlertAction(title: cancelActionTitle, style: .default, handler: { action in
+                alert.dismiss(animated: true, completion: nil)
+                handler(action)
+            })
+            //cancelAction.setValue(UIColor(named: "#F5F5F5"), forKey:"titleTextColor")
             alert.addAction(cancelAction)
         }
         

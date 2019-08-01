@@ -47,17 +47,25 @@ import Foundation
 }
 
 
-/** 摄像错误类型 */
-@objc public enum WisdomScanErrorType: NSInteger {
-    case denied=0       /// 摄像关闭
-    case restricted     /// 无摄像
-    case codeError      /// 扫二维码失败
-    case lightError     /// 打开灯失败
-    case photosError    /// 打开相册失败
-    
-    case photosClosePower /// 相册权限关闭
-    case cameraClosePower /// 摄像权限关闭
-    case scanCodeError    /// 扫二维码失败
-    case lightUpError     /// 开闪光灯失败
-    
+///** 摄像错误类型 */
+//@objc public enum WisdomScanErrorType: NSInteger {
+////    case denied=0       /// 摄像关闭
+////    case restricted     /// 无摄像
+////    case codeError      /// 扫二维码失败
+////    case lightError     /// 打开灯失败
+////    case photosError    /// 打开相册失败
+//
+//    case photosClosePower /// 相册权限关闭
+//    case cameraClosePower /// 摄像权限关闭
+//    case scanCodeError    /// 扫二维码失败
+//    case lightUpError     /// 开闪光灯失败
+//
+//}
+
+
+@objc public enum WisdomScanReturnType: NSInteger {
+    case closeScan        /// 关闭
+    case pauseScan        /// 暂停
+    case continueScan     /// 继续
+    case hudFailScan      /// 失败提示，继续扫码
 }

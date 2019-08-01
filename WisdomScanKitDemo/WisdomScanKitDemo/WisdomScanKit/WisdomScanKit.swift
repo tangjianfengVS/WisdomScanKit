@@ -97,23 +97,20 @@ extension UIViewController {
     ///   - theme:        The `ElectPhotoTheme`, `whiteLight` by default.(UI主题风格)
     ///   - delegate:     The `ElectPhotoDelegate`, custom navbar item.
     ///   - photoTask:    The `WisdomPhotoTask`, back images array.      (完成回调)
-    ///   - errorTask:    The `WisdomErrorTask`, next?.                  (失败回调)
     ///
     /// - Returns: The created `WisdomPhotoSelectVC`.
     @discardableResult
     @objc public func startElectSystemPhoto(startType: StartTransformType = .present,
                                             countType: ElectPhotoCountType = .nine,
-                                            theme:     ElectPhotoTheme = .darkDim,
+                                            theme:     ElectPhotoTheme = .whiteLight,
                                             delegate:  ElectPhotoDelegate? = nil,
-                                            photoTask: @escaping WisdomPhotoTask,
-                                            errorTask: @escaping WisdomErrorTask) -> WisdomPhotoSelectVC {
+                                            photoTask: @escaping WisdomPhotoTask) -> WisdomPhotoSelectVC {
         return WisdomScanManager.startElectSystemPhoto(rootVC: self,
                                                        startType: startType,
                                                        countType: countType,
                                                        theme:     theme,
                                                        delegate:  delegate,
-                                                       photoTask: photoTask,
-                                                       errorTask: errorTask)
+                                                       photoTask: photoTask)
     }
     
     
@@ -162,14 +159,12 @@ extension UIViewController {
     @objc public func startScanPhoto(startType:  StartTransformType = .push,
                                      countType:  ElectPhotoCountType = .nine,
                                      electTheme: ElectPhotoTheme = .whiteLight,
-                                     photosTask: @escaping WisdomPhotoTask,
-                                     errorTask:  @escaping WisdomErrorTask) -> WisdomPhotosVC {
+                                     photosTask: @escaping WisdomPhotoTask ) -> WisdomPhotosVC {
         return WisdomScanManager.startScanPhoto(rootVC: self,
                                                 startType: startType,
                                                 countType: countType,
                                                 electTheme: electTheme,
-                                                photosTask: photosTask,
-                                                errorTask: errorTask)
+                                                photosTask: photosTask)
     }
     
     

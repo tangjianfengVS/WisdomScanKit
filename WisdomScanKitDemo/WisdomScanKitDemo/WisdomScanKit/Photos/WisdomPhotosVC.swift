@@ -184,8 +184,6 @@ public class WisdomPhotosVC: UIViewController {
     
     fileprivate let photoTask: WisdomPhotoTask!
     
-    fileprivate let errorTask: WisdomErrorTask!
-    
     fileprivate let kScreenHeight = UIScreen.main.bounds.height
     
     fileprivate var bottomSizeHight: CGFloat = 38
@@ -196,10 +194,8 @@ public class WisdomPhotosVC: UIViewController {
     init(startTypes: StartTransformType,
          countTypes: ElectPhotoCountType,
          electTheme: ElectPhotoTheme,
-         photoTasks: @escaping WisdomPhotoTask,
-         errorTasks: @escaping WisdomErrorTask) {
+         photoTasks: @escaping WisdomPhotoTask) {
         photoTask = photoTasks
-        errorTask = errorTasks
         startType = startTypes
         countType = countTypes
         self.electTheme = electTheme
@@ -255,18 +251,12 @@ public class WisdomPhotosVC: UIViewController {
         switch authStatus {
         case .authorized:
             createSession()
-            
         case .denied:
-            if errorTask(WisdomScanErrorType.denied){
-                upgrades()
-            }
+            upgrades()
         case .notDetermined:
             createSession()
-            
         case .restricted:
-            if errorTask(WisdomScanErrorType.restricted){
-                upgrades()
-            }
+            upgrades()
         }
     }
     
@@ -494,15 +484,25 @@ public class WisdomPhotosVC: UIViewController {
         }
     }
     
+    
     fileprivate func upgrades(){
-        showAlert(title: "开启照相机提示", message: "App需要您同意，才能访问相机扫码和摄像", cancelActionTitle: "取消", rightActionTitle: "去开启") { (action) in
-            WisdomScanKit.authorizationScan()
+        showAlert(title: "摄像使用权限已关闭", message: "App需要您同意，才能使用摄像拍照功能", cancelActionTitle: "取消", rightActionTitle: "立即开启") {[weak self] (action) in
+            
+            if let title = action.title {
+                if title == "立即开启"{
+                    WisdomScanKit.authorizationScan()
+                }
+            }
+            
+            self?.clickBackBtn()
         }
     }
+    
     
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
     
     deinit {
         print("摄像头释放")

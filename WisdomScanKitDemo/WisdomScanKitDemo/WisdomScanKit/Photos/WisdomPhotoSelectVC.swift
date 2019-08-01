@@ -112,8 +112,6 @@ public class WisdomPhotoSelectVC: UIViewController {
     
     fileprivate let photoTask: WisdomPhotoTask!
     
-    fileprivate let errorTask: WisdomErrorTask!
-    
     /** 取得的资源集合，用了存放的PHAsset */
     fileprivate var assetsFetchResults: PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
     
@@ -133,15 +131,13 @@ public class WisdomPhotoSelectVC: UIViewController {
          countTypes: ElectPhotoCountType,
          colorTheme: ElectPhotoTheme,
          delegates:  ElectPhotoDelegate?,
-         photoTasks: @escaping WisdomPhotoTask,
-         errorTasks: @escaping WisdomErrorTask) {
+         photoTasks: @escaping WisdomPhotoTask) {
         
         startType = startTypes
         countType = countTypes
         theme = colorTheme
         delegate = delegates
         photoTask = photoTasks
-        errorTask = errorTasks
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -182,17 +178,10 @@ public class WisdomPhotoSelectVC: UIViewController {
                 DispatchQueue.global().async {
                     self.loadSystemImages()
                 }
-                
             case .denied:
-                if self.errorTask(WisdomScanErrorType.denied){
-                    self.upgrades()
-                }
-                
+                self.upgrades()
             case .restricted:
-                if self.errorTask(WisdomScanErrorType.restricted){
-                    self.upgrades()
-                }
-                
+                self.upgrades()
             case .notDetermined:
                 DispatchQueue.global().async {
                     self.loadSystemImages()
@@ -218,8 +207,15 @@ public class WisdomPhotoSelectVC: UIViewController {
     
     
     fileprivate func upgrades(){
-        showAlert(title: "允许访问相册提示", message: "App需要您同意，才能访问相册读取图片", cancelActionTitle: "取消", rightActionTitle: "去开启") { (action) in
-            WisdomScanKit.authorizationScan()
+        showAlert(title: "相册访问权限已关闭", message: "App需要您同意，才能访问相册读取图片", cancelActionTitle: "取消", rightActionTitle: "立即开启") {[weak self] (action) in
+            
+            if let title = action.title {
+                if title == "立即开启"{
+                    WisdomScanKit.authorizationScan()
+                }
+            }
+            
+            self?.clickBackBtn()
         }
     }
     

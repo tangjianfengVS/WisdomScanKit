@@ -97,7 +97,7 @@ class WisdomPhotoChromeHUD: UIView {
         view.font = UIFont.systemFont(ofSize: 14)
         view.textAlignment = NSTextAlignment.center
         view.backgroundColor = UIColor.clear
-        view.textColor = UIColor.white
+        view.textColor = UIColor.gray
         view.layer.cornerRadius = 2
         view.layer.masksToBounds = true
         view.backgroundColor = UIColor(white: 0.3, alpha: 1)

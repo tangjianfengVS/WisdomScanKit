@@ -17,9 +17,8 @@ public enum WisdomScanManager {
                                       countType: ElectPhotoCountType,
                                       theme:     ElectPhotoTheme,
                                       delegate:  ElectPhotoDelegate?,
-                                      photoTask: @escaping WisdomPhotoTask,
-                                      errorTask: @escaping WisdomErrorTask) -> WisdomPhotoSelectVC{
-        let selectVC = WisdomPhotoSelectVC(startTypes: startType, countTypes: countType, colorTheme:theme, delegates:delegate, photoTasks: photoTask, errorTasks: errorTask)
+                                      photoTask: @escaping WisdomPhotoTask) -> WisdomPhotoSelectVC{
+        let selectVC = WisdomPhotoSelectVC(startTypes: startType, countTypes: countType, colorTheme:theme, delegates:delegate, photoTasks: photoTask)
         
         var transform = TransformAnimation(rootVC: rootVC, transformVC: selectVC, startType: startType)
         selectVC.isCreatNav = transform.startTransform(needNav: true)
@@ -47,9 +46,8 @@ public enum WisdomScanManager {
                                startType:  StartTransformType,
                                countType:  ElectPhotoCountType,
                                electTheme: ElectPhotoTheme,
-                               photosTask: @escaping WisdomPhotoTask,
-                               errorTask:  @escaping WisdomErrorTask) -> WisdomPhotosVC {
-        let photosVC = WisdomPhotosVC(startTypes: startType, countTypes: countType, electTheme:electTheme, photoTasks: photosTask,errorTasks: errorTask)
+                               photosTask: @escaping WisdomPhotoTask) -> WisdomPhotosVC {
+        let photosVC = WisdomPhotosVC(startTypes: startType, countTypes: countType, electTheme:electTheme, photoTasks: photosTask)
         
         var transform = TransformAnimation(rootVC: rootVC, transformVC: photosVC, startType: startType)
         let _ = transform.startTransform(needNav: false)

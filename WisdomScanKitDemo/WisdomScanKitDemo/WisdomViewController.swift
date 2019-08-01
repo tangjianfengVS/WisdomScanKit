@@ -75,11 +75,9 @@ class WisdomViewController: UIViewController {
                               theme: xtElectPhotoTheme,
                               delegate: nil,
                               photoTask: { (list: [UIImage]) in
+                                
             
-        }) { (error: WisdomScanErrorType) -> (Bool) in
-            
-            return true
-        }
+        })
     }
     
     
@@ -90,10 +88,7 @@ class WisdomViewController: UIViewController {
                        electTheme: pzElectPhotoTheme,
                        photosTask: { (list: [UIImage]) in
             
-        }) { (type: WisdomScanErrorType) -> (Bool) in
-            
-            return true
-        }
+        })
     }
     
     
@@ -104,14 +99,14 @@ class WisdomViewController: UIViewController {
         startScanRQCode(startType: rqTransformType,
                         themeType: rqCodeThemeType,
                         delegate: nil,
-                        answerTask: { (str, session: AVCaptureSession)-> (Bool) in
+                        answerTask: { ( str )-> (WisdomScanReturnType) in
                             
-            WisdomHUD.showText(text: str)
-            return true
+            //WisdomHUD.showText(text: str)
+            return .pauseScan
             
-        }) { (type: WisdomScanErrorType, session: AVCaptureSession?) -> (Bool) in
+        }) { () -> (WisdomScanReturnType) in
             
-            return true
+            return .hudFailScan
         }
     }
     
