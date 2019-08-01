@@ -140,10 +140,13 @@
           return WisdomPhotoChromeHUD()
       }
  
-      说明：与上面的自定义图片浏览API参数一样，只是 [UIImage] 换成了 PHFetchResult<PHAsset> 加载，
-           PHFetchResult<PHAsset> 的数据缓存比较小。
+      说明：与上面的自定义图片浏览API参数一样，只是 [UIImage] 换成了 PHFetchResult<PHAsset> 加载，PHFetchResult<PHAsset> 的数据缓存比较小。
             
       -【WisdomsScanKit 也提供了获取相册 PHFetchResult<PHAsset> 带缓存的图片管理对象】
       -    
       public let imageManager = PHCachingImageManager()
-       
+      
+  五：结语：
+
+      WisdomsScanKit，界面设计漂亮，开发中使用方便，性能高效，自动管理生命周期，非常推荐给大家使用！
+      如有问题欢迎来信讨论！
