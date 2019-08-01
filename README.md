@@ -102,6 +102,51 @@
                  在调用 开启扫描页面 之前调用。
                  
                  默认掩藏的扫描区域大小是：  let scanPaneWidth: CGFloat = 240.0
+                 
 
+  四：酷炫图片浏览器
   
-       
+     1:API:
+     - MARK: - WisdomPhotoChromeHUD
+     - Parameters:
+       - startIconIndex:         show begin image index frame array.  (当前展示图片在数组中的下标)
+       - startIconAnimatRect:    show begin image animation the frame.(开始展示动画的屏幕Frame)
+       - iconList:               show images.                         (图片集合)
+       - didScrollTask:          The "WisdomDidScrollTask".           (滑动回调)
+     - Returns:                  The created `WisdomPhotoChromeHUD`.
+     @discardableResult
+     @objc public class func startPhotoChrome(startIconIndex:      Int=0,
+                                              startIconAnimatRect: CGRect,
+                                              iconList:            [UIImage],
+                                              didScrollTask:       WisdomDidScrollTask?) -> WisdomPhotoChromeHUD {
+        return WisdomPhotoChromeHUD()
+     }
+     
+     2:入参：
+      `startIconIndex`         当前展示图片在数组中的下标
+      `startIconAnimatRect`    开始展示动画的屏幕Frame
+      `iconList`               图片集合
+      `WisdomDidScrollTask`    滑动回调， ((Int) -> (CGRect))： 参数 int 是当前展示图片下标，返回 CGRect：结束动画Frame
+      
+      
+    3:高效能浏览系统相册图片 
+      
+      -【说明：为了解决浏览系统相册图片产生的性能问题，WisdomsScanKit 有提供高效能浏览系统相册图片API】
+      -
+      @objc public class func startPhotoChrome(startIconIndex:      Int=0,
+                                               startIconAnimatRect: CGRect,
+                                               fetchResult:         PHFetchResult<PHAsset>,
+                                               didScrollTask:       WisdomDidScrollTask?) -> WisdomPhotoChromeHUD {
+          return WisdomPhotoChromeHUD()
+      }
+ 
+      说明：与上面的自定义图片浏览API参数一样，只是 [UIImage] 换成了 PHFetchResult<PHAsset> 加载，PHFetchResult<PHAsset> 的数据缓存比较小。
+            
+      -【WisdomsScanKit 也提供了获取相册 PHFetchResult<PHAsset> 带缓存的图片管理对象】
+      -    
+      public let imageManager = PHCachingImageManager()
+      
+  五：结语：
+
+      WisdomsScanKit，界面设计漂亮，开发中使用方便，性能高效，自动管理生命周期，非常推荐给大家使用！
+      如有问题欢迎来信讨论！
