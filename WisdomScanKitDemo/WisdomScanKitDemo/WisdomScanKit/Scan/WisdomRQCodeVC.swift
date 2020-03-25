@@ -274,6 +274,8 @@ public class WisdomRQCodeVC: UIViewController {
             open()
         case .restricted:
             upgrades()
+        default:
+            break
         }
     }
     

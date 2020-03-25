@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -228,6 +228,7 @@
 				TargetAttributes = {
 					A5EEF0652196F03500BDD24A = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1130;
 					};
 				};
 			};
@@ -288,17 +289,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/WisdomHUD/WisdomHUD.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WisdomHUD.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -486,7 +486,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = WisdomScanKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -506,7 +506,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = WisdomScanKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

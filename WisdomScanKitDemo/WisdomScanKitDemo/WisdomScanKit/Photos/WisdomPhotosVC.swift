@@ -257,6 +257,8 @@ public class WisdomPhotosVC: UIViewController {
             createSession()
         case .restricted:
             upgrades()
+        default:
+                break
         }
     }
     

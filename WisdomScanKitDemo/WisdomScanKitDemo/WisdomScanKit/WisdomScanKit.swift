@@ -8,8 +8,9 @@
 
 import AVFoundation
 import Photos
+import UIKit
 
-class WisdomScanKit: NSObject {
+class WisdomScanKit {
     
     // MARK: - WisdomPhotoChromeHUD
     
