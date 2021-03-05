@@ -1,16 +1,16 @@
 PODS:
-  - WisdomHUD (0.0.5)
+  - WisdomHUD (0.0.6)
 
 DEPENDENCIES:
   - WisdomHUD
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - WisdomHUD
 
 SPEC CHECKSUMS:
-  WisdomHUD: c453e920a7db4ed5d15a7bb6960ecbb2b37eb81e
+  WisdomHUD: 04ab67f77a49a52c06833214d9bad4729855ff98
 
 PODFILE CHECKSUM: b7089d2afb21af860a09a3f76fbe26f569b20224
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.10.1

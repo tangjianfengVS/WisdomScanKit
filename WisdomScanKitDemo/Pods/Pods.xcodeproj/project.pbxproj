@@ -3,26 +3,26 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		045E47893D80B95F91E9F3781DEFA778 /* WisdomHUD-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DFAC01FAA99823CF699C098AD6735ED4 /* WisdomHUD-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		234773D5189E667AFCB32592A5EAD33C /* WisdomLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C47CFB2F8FA26F35B1F089A9A3E75C /* WisdomLayerView.swift */; };
-		48D4D039A36C5A2A036C9B03FCAB806E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
-		4BB50FC7CBABB24DE877840E0626703F /* WisdomHUDConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F4063730DEB11113F2E7CF9EBD4B8A /* WisdomHUDConfig.swift */; };
-		4D32EFD1B589716E05F0533B9DDB241F /* Pods-WisdomScanKitDemo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 36039E1F51A273C659AB1C7010B7385F /* Pods-WisdomScanKitDemo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		95CD89CD6323B57AF8526DD71144EF46 /* WisdomHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5BE6DD96E4FBE764BB3935D3DC0A2555 /* WisdomHUD.bundle */; };
-		9A465A28372880A48F6DFD4C50848EF4 /* WisdomHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25557A3E0AEE0D1786CF46AF158B0520 /* WisdomHUD.swift */; };
-		A418B52EDEFDDB456A80106FAABC91BC /* Pods-WisdomScanKitDemo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E712B61F61C29F1BF2F56240B5E11458 /* Pods-WisdomScanKitDemo-dummy.m */; };
-		BD5FAA6D95343B90C45D8BD06D3C1855 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
-		D2EE7C6D84B49328CF7AC24EACB800C4 /* WisdomHUD-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A2BD917CB79D941CE09C63AED613095 /* WisdomHUD-dummy.m */; };
-		DB4EE6F2F6920C350EB938024CEB9B66 /* WisdomHUD+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76DF710A55629002F5B53ACCAD492F5 /* WisdomHUD+Extension.swift */; };
-		EE0CF1A9E5D55A2E8A2B2FDE6E198FF2 /* WisdomHUDImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1553BF55FBC67C8047D7C395868FF64 /* WisdomHUDImage.swift */; };
+		045E47893D80B95F91E9F3781DEFA778 /* WisdomHUD-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 58FA3920702D60E45B85BBFB0E593072 /* WisdomHUD-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		05A2DC2B5AB3B22547F1BAA2B9C113C4 /* Pods-WisdomScanKitDemo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E712B61F61C29F1BF2F56240B5E11458 /* Pods-WisdomScanKitDemo-dummy.m */; };
+		234773D5189E667AFCB32592A5EAD33C /* WisdomLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0256FB091AAA4E639C5B248E6A5AAC01 /* WisdomLayerView.swift */; };
+		4717CEF35406E4E5208CC59AA04E755C /* Pods-WisdomScanKitDemo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 36039E1F51A273C659AB1C7010B7385F /* Pods-WisdomScanKitDemo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4BB50FC7CBABB24DE877840E0626703F /* WisdomHUDConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BED4781D19D5DFFC2B6117B1638CA9 /* WisdomHUDConfig.swift */; };
+		4DE4EE32E3F958BFBB1386C037FAE0B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		95CD89CD6323B57AF8526DD71144EF46 /* WisdomHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6C203C5B77101386D308B362D3239A29 /* WisdomHUD.bundle */; };
+		9A465A28372880A48F6DFD4C50848EF4 /* WisdomHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0BC9996842C0216E45B7BBBD01A4BD /* WisdomHUD.swift */; };
+		D2EE7C6D84B49328CF7AC24EACB800C4 /* WisdomHUD-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A4CFFA511A2D9AB35E9007F88551FF /* WisdomHUD-dummy.m */; };
+		DB4EE6F2F6920C350EB938024CEB9B66 /* WisdomHUD+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A895C94C914E9BC291D40DFFF841F /* WisdomHUD+Extension.swift */; };
+		E739B13F9109D7099126EF76C243AD24 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		EE0CF1A9E5D55A2E8A2B2FDE6E198FF2 /* WisdomHUDImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ADEADFB7A1A002082EFB83E06B0EC2 /* WisdomHUDImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		31CDC28B0FA4F592F15DDAFCCC012AFA /* PBXContainerItemProxy */ = {
+		72156FB4E7AB943F5E41F2F0396666E8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -32,31 +32,32 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0256FB091AAA4E639C5B248E6A5AAC01 /* WisdomLayerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WisdomLayerView.swift; path = WisdomHUDDemo/WisdomHUDDemo/WisdomHUD/WisdomLayerView.swift; sourceTree = "<group>"; };
 		02CF3C2315EB705ED642EE02138A014C /* Pods-WisdomScanKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WisdomScanKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		14248D913AE482F4A2829899AB51D8B7 /* Pods-WisdomScanKitDemo-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WisdomScanKitDemo-Info.plist"; sourceTree = "<group>"; };
-		21A2C01FB3B35B668FD922C804124C9C /* WisdomHUD.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WisdomHUD.modulemap; sourceTree = "<group>"; };
-		25557A3E0AEE0D1786CF46AF158B0520 /* WisdomHUD.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WisdomHUD.swift; path = WisdomHUDDemo/WisdomHUDDemo/WisdomHUD/WisdomHUD.swift; sourceTree = "<group>"; };
-		3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		36039E1F51A273C659AB1C7010B7385F /* Pods-WisdomScanKitDemo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-WisdomScanKitDemo-umbrella.h"; sourceTree = "<group>"; };
-		46F4063730DEB11113F2E7CF9EBD4B8A /* WisdomHUDConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WisdomHUDConfig.swift; path = WisdomHUDDemo/WisdomHUDDemo/WisdomHUD/WisdomHUDConfig.swift; sourceTree = "<group>"; };
-		5BE6DD96E4FBE764BB3935D3DC0A2555 /* WisdomHUD.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = WisdomHUD.bundle; path = WisdomHUDDemo/WisdomHUDDemo/WisdomHUD/WisdomHUD.bundle; sourceTree = "<group>"; };
-		7A2BD917CB79D941CE09C63AED613095 /* WisdomHUD-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WisdomHUD-dummy.m"; sourceTree = "<group>"; };
-		7BE8CC5A9DC50CAA5796A186EC261218 /* WisdomHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WisdomHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		53BED4781D19D5DFFC2B6117B1638CA9 /* WisdomHUDConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WisdomHUDConfig.swift; path = WisdomHUDDemo/WisdomHUDDemo/WisdomHUD/WisdomHUDConfig.swift; sourceTree = "<group>"; };
+		58FA3920702D60E45B85BBFB0E593072 /* WisdomHUD-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WisdomHUD-umbrella.h"; sourceTree = "<group>"; };
+		6C203C5B77101386D308B362D3239A29 /* WisdomHUD.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = WisdomHUD.bundle; path = WisdomHUDDemo/WisdomHUDDemo/WisdomHUD/WisdomHUD.bundle; sourceTree = "<group>"; };
+		72009C83EB8792AA038E1B0425E0D045 /* WisdomHUD-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "WisdomHUD-Info.plist"; sourceTree = "<group>"; };
+		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		773A895C94C914E9BC291D40DFFF841F /* WisdomHUD+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "WisdomHUD+Extension.swift"; path = "WisdomHUDDemo/WisdomHUDDemo/WisdomHUD/WisdomHUD+Extension.swift"; sourceTree = "<group>"; };
+		7BE8CC5A9DC50CAA5796A186EC261218 /* WisdomHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = WisdomHUD.framework; path = WisdomHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8008D0B3BCDA213F9163E0C665962AA1 /* Pods-WisdomScanKitDemo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WisdomScanKitDemo-frameworks.sh"; sourceTree = "<group>"; };
 		982907C8A5F83B758346C43F86DFCCC1 /* Pods-WisdomScanKitDemo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WisdomScanKitDemo.modulemap"; sourceTree = "<group>"; };
 		996DF9D5BC14C3236D8C75393FBF56D8 /* Pods-WisdomScanKitDemo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WisdomScanKitDemo-acknowledgements.markdown"; sourceTree = "<group>"; };
-		9C9D2D1F27EFAE50AA7BEE4F74558062 /* WisdomHUD.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WisdomHUD.xcconfig; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A1AB76294FD21CACCF823E5709EE104B /* Pods-WisdomScanKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WisdomScanKitDemo.release.xcconfig"; sourceTree = "<group>"; };
-		AB2F8F9CE5D72B4F4129AA6A17A18373 /* Pods_WisdomScanKitDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WisdomScanKitDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B57692C86DCF0129A4FD1C04EC49A3F1 /* WisdomHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WisdomHUD-prefix.pch"; sourceTree = "<group>"; };
-		D1553BF55FBC67C8047D7C395868FF64 /* WisdomHUDImage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WisdomHUDImage.swift; path = WisdomHUDDemo/WisdomHUDDemo/WisdomHUD/WisdomHUDImage.swift; sourceTree = "<group>"; };
-		D76DF710A55629002F5B53ACCAD492F5 /* WisdomHUD+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "WisdomHUD+Extension.swift"; path = "WisdomHUDDemo/WisdomHUDDemo/WisdomHUD/WisdomHUD+Extension.swift"; sourceTree = "<group>"; };
-		DFAC01FAA99823CF699C098AD6735ED4 /* WisdomHUD-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WisdomHUD-umbrella.h"; sourceTree = "<group>"; };
+		A7D7276B31E8EF54AF1862B4567E4AF4 /* WisdomHUD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WisdomHUD.release.xcconfig; sourceTree = "<group>"; };
+		AB2F8F9CE5D72B4F4129AA6A17A18373 /* Pods_WisdomScanKitDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_WisdomScanKitDemo.framework; path = "Pods-WisdomScanKitDemo.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF0BC9996842C0216E45B7BBBD01A4BD /* WisdomHUD.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WisdomHUD.swift; path = WisdomHUDDemo/WisdomHUDDemo/WisdomHUD/WisdomHUD.swift; sourceTree = "<group>"; };
+		B5ADEADFB7A1A002082EFB83E06B0EC2 /* WisdomHUDImage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WisdomHUDImage.swift; path = WisdomHUDDemo/WisdomHUDDemo/WisdomHUD/WisdomHUDImage.swift; sourceTree = "<group>"; };
+		BE27DD015F9F8F3A94A635694414B26A /* WisdomHUD.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WisdomHUD.modulemap; sourceTree = "<group>"; };
+		BF3635D9A22E991C8061AF42CC590B26 /* WisdomHUD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WisdomHUD.debug.xcconfig; sourceTree = "<group>"; };
 		E358DD7B15BD0BD16BAE4EF7090B8028 /* Pods-WisdomScanKitDemo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WisdomScanKitDemo-acknowledgements.plist"; sourceTree = "<group>"; };
 		E712B61F61C29F1BF2F56240B5E11458 /* Pods-WisdomScanKitDemo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WisdomScanKitDemo-dummy.m"; sourceTree = "<group>"; };
-		F393808B9BF5E37E500C14276C2053D9 /* WisdomHUD-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "WisdomHUD-Info.plist"; sourceTree = "<group>"; };
-		F4C47CFB2F8FA26F35B1F089A9A3E75C /* WisdomLayerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WisdomLayerView.swift; path = WisdomHUDDemo/WisdomHUDDemo/WisdomHUD/WisdomLayerView.swift; sourceTree = "<group>"; };
+		E8A4CFFA511A2D9AB35E9007F88551FF /* WisdomHUD-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WisdomHUD-dummy.m"; sourceTree = "<group>"; };
+		F8580F4FACE21F3CB13D41596A961E28 /* WisdomHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WisdomHUD-prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,27 +65,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48D4D039A36C5A2A036C9B03FCAB806E /* Foundation.framework in Frameworks */,
+				E739B13F9109D7099126EF76C243AD24 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E656E21EB83A76E260AC523C40A50196 /* Frameworks */ = {
+		AB1CAEDA7BA7F05D45AD90201738C244 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD5FAA6D95343B90C45D8BD06D3C1855 /* Foundation.framework in Frameworks */,
+				4DE4EE32E3F958BFBB1386C037FAE0B9 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2544B2099CAC6A5AC980BDA188F390A1 /* Resources */ = {
+		578452D2E740E91742655AC8F1636D1F /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				5BE6DD96E4FBE764BB3935D3DC0A2555 /* WisdomHUD.bundle */,
+				73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */,
 			);
-			name = Resources;
+			name = iOS;
 			sourceTree = "<group>";
 		};
 		9E01517629C4BA1A257220EB1D0BB2D1 /* Targets Support Files */ = {
@@ -95,48 +96,35 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
+		A563F865E39B1FBDC68AE4193DF11BEC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6C203C5B77101386D308B362D3239A29 /* WisdomHUD.bundle */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		A9B9973CA70F247FBA13DEFA5334D575 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C6CD027FB739F4F26789AD9830D5A87C /* WisdomHUD */,
+				ECC740AD15A81C9DEA83BEFE91C4D01E /* WisdomHUD */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		B52C4A0B94E57DC8F13D7874573E181D /* Support Files */ = {
+		CE49B4FF37FD9038B16668B59FE96063 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				21A2C01FB3B35B668FD922C804124C9C /* WisdomHUD.modulemap */,
-				9C9D2D1F27EFAE50AA7BEE4F74558062 /* WisdomHUD.xcconfig */,
-				7A2BD917CB79D941CE09C63AED613095 /* WisdomHUD-dummy.m */,
-				F393808B9BF5E37E500C14276C2053D9 /* WisdomHUD-Info.plist */,
-				B57692C86DCF0129A4FD1C04EC49A3F1 /* WisdomHUD-prefix.pch */,
-				DFAC01FAA99823CF699C098AD6735ED4 /* WisdomHUD-umbrella.h */,
+				BE27DD015F9F8F3A94A635694414B26A /* WisdomHUD.modulemap */,
+				E8A4CFFA511A2D9AB35E9007F88551FF /* WisdomHUD-dummy.m */,
+				72009C83EB8792AA038E1B0425E0D045 /* WisdomHUD-Info.plist */,
+				F8580F4FACE21F3CB13D41596A961E28 /* WisdomHUD-prefix.pch */,
+				58FA3920702D60E45B85BBFB0E593072 /* WisdomHUD-umbrella.h */,
+				BF3635D9A22E991C8061AF42CC590B26 /* WisdomHUD.debug.xcconfig */,
+				A7D7276B31E8EF54AF1862B4567E4AF4 /* WisdomHUD.release.xcconfig */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/WisdomHUD";
-			sourceTree = "<group>";
-		};
-		C0834CEBB1379A84116EF29F93051C60 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
-		C6CD027FB739F4F26789AD9830D5A87C /* WisdomHUD */ = {
-			isa = PBXGroup;
-			children = (
-				25557A3E0AEE0D1786CF46AF158B0520 /* WisdomHUD.swift */,
-				D76DF710A55629002F5B53ACCAD492F5 /* WisdomHUD+Extension.swift */,
-				46F4063730DEB11113F2E7CF9EBD4B8A /* WisdomHUDConfig.swift */,
-				D1553BF55FBC67C8047D7C395868FF64 /* WisdomHUDImage.swift */,
-				F4C47CFB2F8FA26F35B1F089A9A3E75C /* WisdomLayerView.swift */,
-				2544B2099CAC6A5AC980BDA188F390A1 /* Resources */,
-				B52C4A0B94E57DC8F13D7874573E181D /* Support Files */,
-			);
-			path = WisdomHUD;
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
@@ -153,7 +141,7 @@
 		D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C0834CEBB1379A84116EF29F93051C60 /* iOS */,
+				578452D2E740E91742655AC8F1636D1F /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -173,6 +161,21 @@
 			);
 			name = "Pods-WisdomScanKitDemo";
 			path = "Target Support Files/Pods-WisdomScanKitDemo";
+			sourceTree = "<group>";
+		};
+		ECC740AD15A81C9DEA83BEFE91C4D01E /* WisdomHUD */ = {
+			isa = PBXGroup;
+			children = (
+				AF0BC9996842C0216E45B7BBBD01A4BD /* WisdomHUD.swift */,
+				773A895C94C914E9BC291D40DFFF841F /* WisdomHUD+Extension.swift */,
+				53BED4781D19D5DFFC2B6117B1638CA9 /* WisdomHUDConfig.swift */,
+				B5ADEADFB7A1A002082EFB83E06B0EC2 /* WisdomHUDImage.swift */,
+				0256FB091AAA4E639C5B248E6A5AAC01 /* WisdomLayerView.swift */,
+				A563F865E39B1FBDC68AE4193DF11BEC /* Resources */,
+				CE49B4FF37FD9038B16668B59FE96063 /* Support Files */,
+			);
+			name = WisdomHUD;
+			path = WisdomHUD;
 			sourceTree = "<group>";
 		};
 		FD9AE2A31E9AAC526C02D2462416621B /* Products */ = {
@@ -195,11 +198,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F3B8B23C879B500B49941F1829FC11FD /* Headers */ = {
+		916603C97537391F6F09A29C3C717CB2 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D32EFD1B589716E05F0533B9DDB241F /* Pods-WisdomScanKitDemo-umbrella.h in Headers */,
+				4717CEF35406E4E5208CC59AA04E755C /* Pods-WisdomScanKitDemo-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,17 +229,17 @@
 		};
 		45395350E4DB861124984749413697B8 /* Pods-WisdomScanKitDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CF8276C6F78FB8BB435351FED4B63D52 /* Build configuration list for PBXNativeTarget "Pods-WisdomScanKitDemo" */;
+			buildConfigurationList = 6B2DF13A3E9FC89ABA9AFA6F077B5B9D /* Build configuration list for PBXNativeTarget "Pods-WisdomScanKitDemo" */;
 			buildPhases = (
-				F3B8B23C879B500B49941F1829FC11FD /* Headers */,
-				0AD22A2AB083BC04A43A4E221FD8E0D5 /* Sources */,
-				E656E21EB83A76E260AC523C40A50196 /* Frameworks */,
-				FA8079C9812747A1925144DC30F0F829 /* Resources */,
+				916603C97537391F6F09A29C3C717CB2 /* Headers */,
+				9521390977C0ACE1717F8242D55A6887 /* Sources */,
+				AB1CAEDA7BA7F05D45AD90201738C244 /* Frameworks */,
+				A8BC4A34B828E49D5E65D357FF7BA560 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				916227950F5A2618936FC793E97AB97C /* PBXTargetDependency */,
+				82EE8B95B46A4482AAEFBB2ADCD67C29 /* PBXTargetDependency */,
 			);
 			name = "Pods-WisdomScanKitDemo";
 			productName = "Pods-WisdomScanKitDemo";
@@ -251,14 +254,9 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1100;
 				LastUpgradeCheck = 1100;
-				TargetAttributes = {
-					33D1990A21153A5B56DC33BBCB22F029 = {
-						LastSwiftMigration = 1130;
-					};
-				};
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -285,7 +283,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FA8079C9812747A1925144DC30F0F829 /* Resources */ = {
+		A8BC4A34B828E49D5E65D357FF7BA560 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -295,14 +293,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0AD22A2AB083BC04A43A4E221FD8E0D5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A418B52EDEFDDB456A80106FAABC91BC /* Pods-WisdomScanKitDemo-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		50BDD3EB63753CDFD8C0D6950C4EF5C1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -316,24 +306,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9521390977C0ACE1717F8242D55A6887 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05A2DC2B5AB3B22547F1BAA2B9C113C4 /* Pods-WisdomScanKitDemo-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		916227950F5A2618936FC793E97AB97C /* PBXTargetDependency */ = {
+		82EE8B95B46A4482AAEFBB2ADCD67C29 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = WisdomHUD;
 			target = 33D1990A21153A5B56DC33BBCB22F029 /* WisdomHUD */;
-			targetProxy = 31CDC28B0FA4F592F15DDAFCCC012AFA /* PBXContainerItemProxy */;
+			targetProxy = 72156FB4E7AB943F5E41F2F0396666E8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0B0ADFEA8369406BAC0EBBF76F77539C /* Debug */ = {
+		667558B4DBF48B9B8D81DDCAE88D539C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 02CF3C2315EB705ED642EE02138A014C /* Pods-WisdomScanKitDemo.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -365,10 +362,11 @@
 			};
 			name = Debug;
 		};
-		4BE66A09A74FD25164AAB3C2645B9B93 /* Release */ = {
+		6D42DC62C4F2E194221DF89C48496C98 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -391,6 +389,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -425,11 +424,10 @@
 			};
 			name = Release;
 		};
-		720FE3A47DABF914D40BD4A12CD9C54D /* Debug */ = {
+		74B2F721C5862581715D3FDCA316347E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9C9D2D1F27EFAE50AA7BEE4F74558062 /* WisdomHUD.xcconfig */;
+			baseConfigurationReference = BF3635D9A22E991C8061AF42CC590B26 /* WisdomHUD.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -453,17 +451,90 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		7EF7227D9B20A1D549000096ACCB23D7 /* Debug */ = {
+		A21746933EBC98AD2A0851E64F163277 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A7D7276B31E8EF54AF1862B4567E4AF4 /* WisdomHUD.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/WisdomHUD/WisdomHUD-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/WisdomHUD/WisdomHUD-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/WisdomHUD/WisdomHUD.modulemap";
+				PRODUCT_MODULE_NAME = WisdomHUD;
+				PRODUCT_NAME = WisdomHUD;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B58B6ADBDA78F3FA891AA62E2582CD82 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A1AB76294FD21CACCF823E5709EE104B /* Pods-WisdomScanKitDemo.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		E4D0D44B090D4284607EBBC4E71A96C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -486,6 +557,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -524,88 +596,14 @@
 			};
 			name = Debug;
 		};
-		C59986F15B406A6F5063EB453C81615A /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A1AB76294FD21CACCF823E5709EE104B /* Pods-WisdomScanKitDemo.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		E45D83814E5ACC719E81A963D8E19D99 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9C9D2D1F27EFAE50AA7BEE4F74558062 /* WisdomHUD.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/WisdomHUD/WisdomHUD-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/WisdomHUD/WisdomHUD-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/WisdomHUD/WisdomHUD.modulemap";
-				PRODUCT_MODULE_NAME = WisdomHUD;
-				PRODUCT_NAME = WisdomHUD;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7EF7227D9B20A1D549000096ACCB23D7 /* Debug */,
-				4BE66A09A74FD25164AAB3C2645B9B93 /* Release */,
+				E4D0D44B090D4284607EBBC4E71A96C1 /* Debug */,
+				6D42DC62C4F2E194221DF89C48496C98 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -613,17 +611,17 @@
 		6270E99158E17FA267A7CF5A6CD7B461 /* Build configuration list for PBXNativeTarget "WisdomHUD" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				720FE3A47DABF914D40BD4A12CD9C54D /* Debug */,
-				E45D83814E5ACC719E81A963D8E19D99 /* Release */,
+				74B2F721C5862581715D3FDCA316347E /* Debug */,
+				A21746933EBC98AD2A0851E64F163277 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CF8276C6F78FB8BB435351FED4B63D52 /* Build configuration list for PBXNativeTarget "Pods-WisdomScanKitDemo" */ = {
+		6B2DF13A3E9FC89ABA9AFA6F077B5B9D /* Build configuration list for PBXNativeTarget "Pods-WisdomScanKitDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0B0ADFEA8369406BAC0EBBF76F77539C /* Debug */,
-				C59986F15B406A6F5063EB453C81615A /* Release */,
+				667558B4DBF48B9B8D81DDCAE88D539C /* Debug */,
+				B58B6ADBDA78F3FA891AA62E2582CD82 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
