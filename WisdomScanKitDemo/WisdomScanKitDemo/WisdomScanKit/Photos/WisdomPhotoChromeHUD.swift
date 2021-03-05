@@ -96,11 +96,10 @@ class WisdomPhotoChromeHUD: UIView {
         view.center.x = self.center.x
         view.font = UIFont.systemFont(ofSize: 14)
         view.textAlignment = NSTextAlignment.center
-        view.backgroundColor = UIColor.clear
-        view.textColor = UIColor.gray
+        view.textColor = UIColor.white
         view.layer.cornerRadius = 2
         view.layer.masksToBounds = true
-        view.backgroundColor = UIColor(white: 0.3, alpha: 1)
+        view.backgroundColor = UIColor(white: 0, alpha: 0.7)
         return view
     }()
     
@@ -131,16 +130,17 @@ class WisdomPhotoChromeHUD: UIView {
             insertSubview(listView, at: 0)
             addSubview(imageView)
             addSubview(label)
-            
+        
             imageCount = imageArray.count
-            label.text = String(beginIndex + 1) + "/" + String(imageCount)
-            label.sizeToFit()
-            label.frame = CGRect(x: 0, y: bounds.height - 50,
-                                 width: label.bounds.width + 5, height: label.bounds.height)
-            label.center.x = center.x
+            
+            label.isHidden = true
             
             imageView.image = imageArray[currentIndex]
-            showAnimation(image: imageArray[currentIndex], beginRect: beginRect)
+            
+            showAnimation(image: imageArray[currentIndex],
+                          beginRect: beginRect,
+                          beginIndex: beginIndex,
+                          imageCount: imageCount)
             
             if currentIndex != 0 && currentIndex < imageArray.count {
                 layout.updateCurrentOffsetX(index: currentIndex)
@@ -176,20 +176,21 @@ class WisdomPhotoChromeHUD: UIView {
         addSubview(label)
         
         imageCount = fetchResult.count
-        label.text = String(beginIndex + 1) + "/" + String(imageCount)
-        label.sizeToFit()
-        label.frame = CGRect(x: 0, y: bounds.height - 50,
-                             width: label.bounds.width + 5, height: label.bounds.height)
-        label.center.x = center.x
+        
+        label.isHidden = true
         
         if beginIndex < fetchResult.count {
             imageManager.requestImage(for: fetchResult[beginIndex],
                                       targetSize: UIScreen.main.bounds.size,
                                       contentMode: PHImageContentMode.aspectFit,
                                       options: options,
-                                      resultHandler: { (image, _) -> Void in
-                self.imageView.image = image
-                self.showAnimation(image: image!, beginRect: beginRect)
+                                      resultHandler: { [weak self] (image, _) -> Void in
+                self?.imageView.image = image
+                                        
+                self?.showAnimation(image: image!,
+                                    beginRect: beginRect,
+                                    beginIndex: beginIndex,
+                                    imageCount: self?.imageCount ?? 0)
             })
         }
         
@@ -207,7 +208,10 @@ class WisdomPhotoChromeHUD: UIView {
     }
     
     
-    fileprivate func showAnimation(image: UIImage, beginRect: CGRect) {
+    fileprivate func showAnimation(image: UIImage,
+                                   beginRect: CGRect,
+                                   beginIndex: NSInteger,
+                                   imageCount: NSInteger) {
         
         let rect = image.getImageChromeRect()
         
@@ -219,21 +223,27 @@ class WisdomPhotoChromeHUD: UIView {
             coverView.frame = beginRect
             imageView.frame = beginRect
         }
-
-        UIView.animate(withDuration: 0.25, animations: {
-            
+        
+        UIView.animate(withDuration: 0.25) {
             if beginRect == CGRect.zero{
                 self.alpha = 1
             }else{
                 self.imageView.frame = rect
             }
-            
-        }) { (_) in
+        } completion: { (_) in
             self.backgroundColor = UIColor.black
             self.imageView.isHidden = true
             self.listView.isHidden = false
             self.label.isHidden = false
             self.finish = false
+            self.label.text = "\(beginIndex + 1)" + "/" + "\(imageCount)"
+            self.label.sizeToFit()
+            
+            self.label.frame = CGRect(x: 0,
+                                      y: self.bounds.height - 50,
+                                      width: self.label.bounds.width + 5,
+                                      height: self.label.bounds.height)
+            self.label.center.x = self.center.x
         }
     }
     

@@ -44,6 +44,8 @@ public class WisdomPhotoSelectVC: UIViewController {
         let cellSize = layout.itemSize
         assetGridThumbnailSize = CGSize(width:cellSize.width*scale, height:cellSize.height*scale)
         view.backgroundColor = UIColor.init(white: 0.90, alpha: 1)
+        
+        view.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: barHeght, right: 0)
         return view
     }()
     
@@ -392,7 +394,7 @@ public class WisdomPhotoSelectVC: UIViewController {
     private func updateCount(){
         if imageResults.count > 0 {
             rightBtn.isHidden = false
-            rightBtn.setTitle("(" + String(imageResults.count) + ") 重选", for: .normal)
+            rightBtn.setTitle("[" + String(imageResults.count) + "] 重选", for: .normal)
             selectBar.display(res: true)
         }else{
             rightBtn.isHidden = true
