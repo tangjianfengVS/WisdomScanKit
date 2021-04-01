@@ -213,6 +213,28 @@ extension UIImageView {
     }
     
     
+    /* downLoad */
+    public static func downLoadImage(imageUrl: URL, successClosure: @escaping (URL)->(), failedClosure: @escaping (URL)->()) {
+        let downloadTask: URLSessionDataTask = URLSession.shared.dataTask(with: imageUrl, completionHandler: { (data, response, error) in
+            if error != nil {
+                DispatchQueue.main.async {
+                    failedClosure(imageUrl)
+                }
+            }else if data != nil {
+                let img = UIImage(data: data!)
+                
+                UIImageView.save(data: data!, image: img!, imageUrl:imageUrl)
+                
+                DispatchQueue.main.async {
+                    successClosure(imageUrl)
+                }
+            }
+        })
+        
+        downloadTask.resume()
+    }
+    
+    
     private static func setMd5(imageUrl: String) -> String{
         return imageUrl.wisdom_md5() + ".png"
     }
