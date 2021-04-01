@@ -11,7 +11,7 @@ import Photos
 
 fileprivate let AMCGSize: CGSize = CGSize(width: 25, height: 25)
 
-class WisdomPhotoChromeHUD: UIView {
+public class WisdomPhotoChromeHUD: UIView {
     
     fileprivate var finish: Bool = true
     
@@ -292,7 +292,7 @@ class WisdomPhotoChromeHUD: UIView {
 
 extension WisdomPhotoChromeHUD: UICollectionViewDataSource,UICollectionViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if currentType {
             return imageArray.count
         }
@@ -300,7 +300,7 @@ extension WisdomPhotoChromeHUD: UICollectionViewDataSource,UICollectionViewDeleg
     }
     
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WisdomPhotoChromeHUDCellID, for: indexPath) as! WisdomPhotoChromeCell
         if currentType {
             cell.image = imageArray[indexPath.item]

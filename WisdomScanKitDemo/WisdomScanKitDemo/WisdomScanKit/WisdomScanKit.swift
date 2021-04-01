@@ -10,7 +10,7 @@ import AVFoundation
 import Photos
 import UIKit
 
-class WisdomScanKit {
+public class WisdomScanKit {
     
     // MARK: - WisdomPhotoChromeHUD
     
@@ -88,7 +88,7 @@ class WisdomScanKit {
     // MARK: - WisdomScanKit down load image with imageUrl
     
     /// down load image
-    public class func downLoadImage(imageUrl: URL, successClosure: @escaping (URL)->(), failedClosure: @escaping (URL)->()) {
+    @objc public class func downLoadImage(imageUrl: URL, successClosure: ((URL)->())?, failedClosure: ((URL)->())?) {
         UIImageView.downLoadImage(imageUrl: imageUrl, successClosure: successClosure, failedClosure: failedClosure)
     }
     

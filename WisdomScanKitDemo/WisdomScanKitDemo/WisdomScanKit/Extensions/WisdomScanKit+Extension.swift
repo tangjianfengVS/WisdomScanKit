@@ -214,11 +214,13 @@ extension UIImageView {
     
     
     /* downLoad */
-    public static func downLoadImage(imageUrl: URL, successClosure: @escaping (URL)->(), failedClosure: @escaping (URL)->()) {
+    public static func downLoadImage(imageUrl: URL, successClosure: ((URL)->())?, failedClosure: ((URL)->())?) {
         let downloadTask: URLSessionDataTask = URLSession.shared.dataTask(with: imageUrl, completionHandler: { (data, response, error) in
             if error != nil {
                 DispatchQueue.main.async {
-                    failedClosure(imageUrl)
+                    if failedClosure != nil {
+                        failedClosure!(imageUrl)
+                    }
                 }
             }else if data != nil {
                 let img = UIImage(data: data!)
@@ -226,7 +228,10 @@ extension UIImageView {
                 UIImageView.save(data: data!, image: img!, imageUrl:imageUrl)
                 
                 DispatchQueue.main.async {
-                    successClosure(imageUrl)
+                    
+                    if successClosure != nil {
+                        successClosure!(imageUrl)
+                    }
                 }
             }
         })
