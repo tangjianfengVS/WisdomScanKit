@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import CommonCrypto
+
 
 extension UIViewController {
     
-    /** 系统界面提示 */
+    /* 系统界面提示 */
     @objc public func showAlert(title: String,
                                 message: String,
                                 cancelActionTitle: String?,
@@ -23,7 +25,7 @@ extension UIViewController {
                 alert.dismiss(animated: true, completion: nil)
                 handler(action)
             })
-            //cancelAction.setValue(UIColor(named: "#F5F5F5"), forKey:"titleTextColor")
+   
             alert.addAction(cancelAction)
         }
         
@@ -105,4 +107,134 @@ extension UIImage {
                       width: size.width,
                       height: size.height)
     }
+    
+    
+    /* 图片中截取图片 */
+    public func getImageFromRect(newImageRect: CGRect) ->UIImage {
+        let imageRef = self.cgImage
+        let subImageRef = imageRef!.cropping(to: newImageRect)
+        return UIImage(cgImage: subImageRef!)
+    }
+    
+}
+
+
+
+
+// MARK: - 图片下载
+
+let WisdomAddDocPath = "/Library/Caches/"
+
+public let WisdomImageCache = NSCache<AnyObject, AnyObject>()
+
+extension UIImageView {
+    
+    public func wisdom_setImage(imageUrl: URL, placeholderImage: UIImage?) {
+        readWithFile(imageUrl: imageUrl, placeholderImage: placeholderImage)
+    }
+    
+    
+    /* read */
+    private func readWithFile(imageUrl: URL, placeholderImage: UIImage?){
+        let imageUrlStr = imageUrl.absoluteString
+        
+        let imageUrlStrMD5 = UIImageView.setMd5(imageUrl: imageUrlStr)
+        
+        let data = WisdomImageCache.object(forKey: imageUrlStrMD5 as AnyObject) as? Data
+        if  data != nil{
+            let image = UIImage(data: data!)
+            
+            self.image = image
+        }else{
+            image = nil
+            
+            DispatchQueue.global().async {
+                let docPath = NSHomeDirectory() + WisdomAddDocPath
+                
+                let filePath = docPath + imageUrlStrMD5
+                
+                let image = UIImage(contentsOfFile: filePath)
+                
+                if image != nil {
+                    let dataNew = image!.pngData()
+                    WisdomImageCache.setObject(dataNew as AnyObject, forKey: imageUrlStrMD5 as AnyObject)
+                    
+                    DispatchQueue.main.async {
+                        self.image = image
+                    }
+                }else{
+                    self.downLoadImage(imageUrl: imageUrl, placeholderImage: placeholderImage)
+                }
+            }
+        }
+    }
+    
+    
+    /* downLoad */
+    private func downLoadImage(imageUrl: URL, placeholderImage: UIImage?) {
+        let downloadTask: URLSessionDataTask = URLSession.shared.dataTask(with: imageUrl, completionHandler: { (data, response, error) in
+            if error != nil {
+                if placeholderImage != nil{
+                    DispatchQueue.main.async {
+                        self.image = placeholderImage
+                    }
+                }
+            }else if data != nil {
+                let img = UIImage(data: data!)
+                
+                UIImageView.save(data: data!, image: img!, imageUrl:imageUrl)
+                
+                DispatchQueue.main.async {
+                    self.image = img
+                }
+            }
+        })
+        
+        downloadTask.resume()
+    }
+    
+
+    /* save */
+    public static func save(data: Data, image: UIImage, imageUrl: URL){
+        let imageUrlStr = imageUrl.absoluteString
+        let imageUrlStrMD5 = self.setMd5(imageUrl: imageUrlStr)
+        
+        let docPath = NSHomeDirectory() + WisdomAddDocPath
+        let filePath = docPath + imageUrlStrMD5
+        let filePathUrl = URL(fileURLWithPath: filePath)
+        
+        WisdomImageCache.setObject(data as AnyObject, forKey: imageUrlStrMD5 as AnyObject)
+        
+        do {
+            try image.pngData()?.write(to: filePathUrl, options: Data.WritingOptions.atomicWrite)
+        }catch {
+            print(error)
+        }
+    }
+    
+    
+    private static func setMd5(imageUrl: String) -> String{
+        return imageUrl.wisdom_md5() + ".png"
+    }
+    
+}
+
+
+// MARK: MD5
+extension String {
+    
+    func wisdom_md5() -> String {
+        let str = self.cString(using: String.Encoding.utf8)
+        let strLen = CUnsignedInt(self.lengthOfBytes(using: String.Encoding.utf8))
+        let digestLen = Int(CC_MD5_DIGEST_LENGTH)
+        let result = UnsafeMutablePointer<UInt8>.allocate(capacity: 16)
+        CC_MD5(str!, strLen, result)
+        let hash = NSMutableString()
+        for i in 0 ..< digestLen {
+            hash.appendFormat("%02x", result[i])
+        }
+        free(result)
+        return String(format: hash as String)
+    }
+    
 }
