@@ -509,7 +509,7 @@ extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSou
                    return rect
                })
            }else{
-               WisdomHUD.showInfo(text: "图加载失败")
+               WisdomHUD.showText(text: "图加载失败")
            }
         })
     }

@@ -264,14 +264,14 @@ public class WisdomPhotosVC: UIViewController {
     
     
     fileprivate func createSession(){
-        WisdomHUD.showLoading(text: nil, enable: true)
+        WisdomHUD.showLoading()
         
         DispatchQueue.global().async {
             self.captureSession.sessionPreset = AVCaptureSession.Preset.hd1280x720
             let devices = AVCaptureDevice.devices(for: AVMediaType.video)
             if devices.count == 0{
                 
-                WisdomHUD.showInfo(text: "无可用设备")
+                WisdomHUD.showText(text: "无可用设备")
                 return;
             }
             
@@ -292,7 +292,7 @@ public class WisdomPhotosVC: UIViewController {
                 self.captureSession.addInput(captureDeviceInput)
                 self.captureSession.addOutput(self.stillImageOutput!)
             }catch {
-                WisdomHUD.showInfo(text: "无可用设备")
+                WisdomHUD.showText(text: "无可用设备")
                 return
             }
             
@@ -309,7 +309,7 @@ public class WisdomPhotosVC: UIViewController {
                 self.captureSession.startRunning()
                 self.createPhotoBtn()
                 
-                WisdomHUD.dismiss(delay: TimeInterval(0.2))
+                WisdomHUD.dismiss()
             }
         }
     }

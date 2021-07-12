@@ -298,7 +298,7 @@ public class WisdomRQCodeVC: UIViewController {
     
     fileprivate func open() {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else {
-            WisdomHUD.showInfo(text: "无可用设备")
+            WisdomHUD.showText(text: "无可用设备")
             return
         }
         
@@ -353,7 +353,7 @@ public class WisdomRQCodeVC: UIViewController {
                 input.device.unlockForConfiguration()
             }
         } catch  {
-            WisdomHUD.showInfo(text: "无可用设备")
+            WisdomHUD.showText(text: "无可用设备")
         }
     }
     
@@ -442,11 +442,11 @@ extension WisdomRQCodeVC : AVCaptureMetadataOutputObjectsDelegate{
             isStartScan = true
         case .hudFailScan:
             if str.count > 0{
-                WisdomHUD.showText(text: str, delay: 2.5).delayHanders {[weak self] (timeInterval, type) in
+                WisdomHUD.showText(text: str, delay: 2.5).setDelayHander {[weak self] (timeInterval, type) in
                     self?.isStartScan = true
                 }
-            }else{
-                WisdomHUD.showError(text: "识别失败").delayHanders {[weak self] (timeInterval, type) in
+            }else {
+                WisdomHUD.showError(text: "识别失败").setDelayHander {[weak self] (timeInterval, type) in
                     self?.isStartScan = true
                 }
             }
