@@ -7,31 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A512415021AF847D005217CE /* WisdomPhotoChromeFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A512414F21AF847D005217CE /* WisdomPhotoChromeFlowLayout.swift */; };
-		A5314EC121A1258E001A0BE6 /* WisdomScanKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5314EC021A1258E001A0BE6 /* WisdomScanKit.bundle */; };
-		A5585A4021A2D1B20005AAE4 /* WisdomRQCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5585A3F21A2D1B10005AAE4 /* WisdomRQCodeVC.swift */; };
-		A5585A4621A2D1C50005AAE4 /* WisdomPhotoEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5585A4121A2D1C50005AAE4 /* WisdomPhotoEditView.swift */; };
-		A5585A4721A2D1C50005AAE4 /* WisdomPhotoEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5585A4221A2D1C50005AAE4 /* WisdomPhotoEditCell.swift */; };
-		A5585A4821A2D1C50005AAE4 /* WisdomPhotoEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5585A4321A2D1C50005AAE4 /* WisdomPhotoEditVC.swift */; };
-		A5585A4A21A2D1C50005AAE4 /* WisdomPhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5585A4521A2D1C50005AAE4 /* WisdomPhotosVC.swift */; };
-		A568409E21A697A0004B8437 /* WisdomPhotoSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A568409D21A697A0004B8437 /* WisdomPhotoSelectVC.swift */; };
-		A56D39F322E04E0D008E7785 /* WisdomScanDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56D39F222E04E0D008E7785 /* WisdomScanDelegate.swift */; };
-		A5A2A88F22DF7280002EC49C /* WisdomScanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A2A88E22DF7280002EC49C /* WisdomScanManager.swift */; };
-		A5A2A89122DF753A002EC49C /* WisdomScanTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A2A89022DF753A002EC49C /* WisdomScanTransform.swift */; };
-		A5A44FFF22E2F6A200F10466 /* WisdomAnimationBgBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A44FFE22E2F6A200F10466 /* WisdomAnimationBgBtn.swift */; };
-		A5CF5E7F21AE825E0054875C /* WisdomPhotoChromeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CF5E7E21AE825E0054875C /* WisdomPhotoChromeCell.swift */; };
-		A5DCB49A22E0B9CA00F235C9 /* WisdomScanColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCB49922E0B9CA00F235C9 /* WisdomScanColorTheme.swift */; };
-		A5E9486121A7979C0071EC7F /* WisdomPhotoSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E9486021A7979C0071EC7F /* WisdomPhotoSelectCell.swift */; };
-		A5E9488D21A95CBC0071EC7F /* WisdomPhotoSelectBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E9488C21A95CBC0071EC7F /* WisdomPhotoSelectBar.swift */; };
-		A5E9488F21A9633E0071EC7F /* WisdomScanKit+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E9488E21A9633E0071EC7F /* WisdomScanKit+Extension.swift */; };
-		A5E9489121A97D5F0071EC7F /* WisdomPhotoChromeHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E9489021A97D5F0071EC7F /* WisdomPhotoChromeHUD.swift */; };
+		3EC12A5029076C8A001F19A2 /* WisdomScanTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A3829076C8A001F19A2 /* WisdomScanTransform.swift */; };
+		3EC12A5129076C8A001F19A2 /* WisdomScanColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A3929076C8A001F19A2 /* WisdomScanColorTheme.swift */; };
+		3EC12A5229076C8A001F19A2 /* WisdomScanConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A3A29076C8A001F19A2 /* WisdomScanConfig.swift */; };
+		3EC12A5329076C8A001F19A2 /* WisdomScanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A3B29076C8A001F19A2 /* WisdomScanManager.swift */; };
+		3EC12A5429076C8A001F19A2 /* WisdomRQCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A3D29076C8A001F19A2 /* WisdomRQCodeVC.swift */; };
+		3EC12A5529076C8A001F19A2 /* WisdomScanKit+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A3F29076C8A001F19A2 /* WisdomScanKit+Extension.swift */; };
+		3EC12A5629076C8A001F19A2 /* WisdomScanKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3EC12A4029076C8A001F19A2 /* WisdomScanKit.bundle */; };
+		3EC12A5729076C8A001F19A2 /* WisdomScanKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4129076C8A001F19A2 /* WisdomScanKit.swift */; };
+		3EC12A5829076C8A001F19A2 /* WisdomScanDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4229076C8A001F19A2 /* WisdomScanDelegate.swift */; };
+		3EC12A5929076C8A001F19A2 /* WisdomPhotoEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4429076C8A001F19A2 /* WisdomPhotoEditVC.swift */; };
+		3EC12A5A29076C8A001F19A2 /* WisdomPhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4529076C8A001F19A2 /* WisdomPhotosVC.swift */; };
+		3EC12A5B29076C8A001F19A2 /* WisdomPhotoSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4629076C8A001F19A2 /* WisdomPhotoSelectVC.swift */; };
+		3EC12A5C29076C8A001F19A2 /* WisdomPhotoChromeHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4729076C8A001F19A2 /* WisdomPhotoChromeHUD.swift */; };
+		3EC12A5D29076C8A001F19A2 /* WisdomPhotoChromeFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4929076C8A001F19A2 /* WisdomPhotoChromeFlowLayout.swift */; };
+		3EC12A5E29076C8A001F19A2 /* WisdomPhotoChromeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4A29076C8A001F19A2 /* WisdomPhotoChromeCell.swift */; };
+		3EC12A5F29076C8A001F19A2 /* WisdomPhotoSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4B29076C8A001F19A2 /* WisdomPhotoSelectCell.swift */; };
+		3EC12A6029076C8A001F19A2 /* WisdomPhotoEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4C29076C8A001F19A2 /* WisdomPhotoEditCell.swift */; };
+		3EC12A6129076C8A001F19A2 /* WisdomPhotoEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4D29076C8A001F19A2 /* WisdomPhotoEditView.swift */; };
+		3EC12A6229076C8A001F19A2 /* WisdomAnimationBgBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4E29076C8A001F19A2 /* WisdomAnimationBgBtn.swift */; };
+		3EC12A6329076C8A001F19A2 /* WisdomPhotoSelectBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4F29076C8A001F19A2 /* WisdomPhotoSelectBar.swift */; };
+		3EC12A6529076D12001F19A2 /* WisdomScanable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A6429076D12001F19A2 /* WisdomScanable.swift */; };
+		3EC12A6729077853001F19A2 /* WisdomScanKitRootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A6629077853001F19A2 /* WisdomScanKitRootVC.swift */; };
+		3EC12A6929078C4F001F19A2 /* WisdomScanKitRootVI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A6829078C4F001F19A2 /* WisdomScanKitRootVI.swift */; };
+		3EC12A722907FD18001F19A2 /* WisdomPhotoChromeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A712907FD18001F19A2 /* WisdomPhotoChromeVC.swift */; };
 		A5EEF06A2196F03500BDD24A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EEF0692196F03500BDD24A /* AppDelegate.swift */; };
 		A5EEF06C2196F03500BDD24A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EEF06B2196F03500BDD24A /* ViewController.swift */; };
 		A5EEF06F2196F03500BDD24A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5EEF06D2196F03500BDD24A /* Main.storyboard */; };
 		A5EEF0712196F03600BDD24A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5EEF0702196F03600BDD24A /* Assets.xcassets */; };
 		A5EEF0742196F03600BDD24A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5EEF0722196F03600BDD24A /* LaunchScreen.storyboard */; };
-		A5EEF0872196F0BB00BDD24A /* WisdomScanConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EEF07C2196F0BB00BDD24A /* WisdomScanConfig.swift */; };
-		A5EEF0882196F0BB00BDD24A /* WisdomScanKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EEF07D2196F0BB00BDD24A /* WisdomScanKit.swift */; };
 		A5EEF08E219702C300BDD24A /* WisdomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EEF08C219702C300BDD24A /* WisdomViewController.swift */; };
 		A5EEF08F219702C300BDD24A /* WisdomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5EEF08D219702C300BDD24A /* WisdomViewController.xib */; };
 		D1B0A3937FCC961F1268A691 /* Pods_WisdomScanKitDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2747FA3348ADAB098F6BAC6F /* Pods_WisdomScanKitDemo.framework */; };
@@ -40,25 +44,31 @@
 /* Begin PBXFileReference section */
 		1E9E2DEBB27C3D0204CA40DC /* Pods-WisdomScanKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WisdomScanKitDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		2747FA3348ADAB098F6BAC6F /* Pods_WisdomScanKitDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WisdomScanKitDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EC12A3829076C8A001F19A2 /* WisdomScanTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomScanTransform.swift; sourceTree = "<group>"; };
+		3EC12A3929076C8A001F19A2 /* WisdomScanColorTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomScanColorTheme.swift; sourceTree = "<group>"; };
+		3EC12A3A29076C8A001F19A2 /* WisdomScanConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomScanConfig.swift; sourceTree = "<group>"; };
+		3EC12A3B29076C8A001F19A2 /* WisdomScanManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomScanManager.swift; sourceTree = "<group>"; };
+		3EC12A3D29076C8A001F19A2 /* WisdomRQCodeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomRQCodeVC.swift; sourceTree = "<group>"; };
+		3EC12A3F29076C8A001F19A2 /* WisdomScanKit+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WisdomScanKit+Extension.swift"; sourceTree = "<group>"; };
+		3EC12A4029076C8A001F19A2 /* WisdomScanKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WisdomScanKit.bundle; sourceTree = "<group>"; };
+		3EC12A4129076C8A001F19A2 /* WisdomScanKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomScanKit.swift; sourceTree = "<group>"; };
+		3EC12A4229076C8A001F19A2 /* WisdomScanDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomScanDelegate.swift; sourceTree = "<group>"; };
+		3EC12A4429076C8A001F19A2 /* WisdomPhotoEditVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoEditVC.swift; sourceTree = "<group>"; };
+		3EC12A4529076C8A001F19A2 /* WisdomPhotosVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotosVC.swift; sourceTree = "<group>"; };
+		3EC12A4629076C8A001F19A2 /* WisdomPhotoSelectVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoSelectVC.swift; sourceTree = "<group>"; };
+		3EC12A4729076C8A001F19A2 /* WisdomPhotoChromeHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoChromeHUD.swift; sourceTree = "<group>"; };
+		3EC12A4929076C8A001F19A2 /* WisdomPhotoChromeFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoChromeFlowLayout.swift; sourceTree = "<group>"; };
+		3EC12A4A29076C8A001F19A2 /* WisdomPhotoChromeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoChromeCell.swift; sourceTree = "<group>"; };
+		3EC12A4B29076C8A001F19A2 /* WisdomPhotoSelectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoSelectCell.swift; sourceTree = "<group>"; };
+		3EC12A4C29076C8A001F19A2 /* WisdomPhotoEditCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoEditCell.swift; sourceTree = "<group>"; };
+		3EC12A4D29076C8A001F19A2 /* WisdomPhotoEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoEditView.swift; sourceTree = "<group>"; };
+		3EC12A4E29076C8A001F19A2 /* WisdomAnimationBgBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomAnimationBgBtn.swift; sourceTree = "<group>"; };
+		3EC12A4F29076C8A001F19A2 /* WisdomPhotoSelectBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoSelectBar.swift; sourceTree = "<group>"; };
+		3EC12A6429076D12001F19A2 /* WisdomScanable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomScanable.swift; sourceTree = "<group>"; };
+		3EC12A6629077853001F19A2 /* WisdomScanKitRootVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomScanKitRootVC.swift; sourceTree = "<group>"; };
+		3EC12A6829078C4F001F19A2 /* WisdomScanKitRootVI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomScanKitRootVI.swift; sourceTree = "<group>"; };
+		3EC12A712907FD18001F19A2 /* WisdomPhotoChromeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomPhotoChromeVC.swift; sourceTree = "<group>"; };
 		A040F9D902D0B7E6004CA124 /* Pods-WisdomScanKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WisdomScanKitDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo.release.xcconfig"; sourceTree = "<group>"; };
-		A512414F21AF847D005217CE /* WisdomPhotoChromeFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomPhotoChromeFlowLayout.swift; sourceTree = "<group>"; };
-		A5314EC021A1258E001A0BE6 /* WisdomScanKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WisdomScanKit.bundle; sourceTree = "<group>"; };
-		A5585A3F21A2D1B10005AAE4 /* WisdomRQCodeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomRQCodeVC.swift; sourceTree = "<group>"; };
-		A5585A4121A2D1C50005AAE4 /* WisdomPhotoEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoEditView.swift; sourceTree = "<group>"; };
-		A5585A4221A2D1C50005AAE4 /* WisdomPhotoEditCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoEditCell.swift; sourceTree = "<group>"; };
-		A5585A4321A2D1C50005AAE4 /* WisdomPhotoEditVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoEditVC.swift; sourceTree = "<group>"; };
-		A5585A4521A2D1C50005AAE4 /* WisdomPhotosVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotosVC.swift; sourceTree = "<group>"; };
-		A568409D21A697A0004B8437 /* WisdomPhotoSelectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomPhotoSelectVC.swift; sourceTree = "<group>"; };
-		A56D39F222E04E0D008E7785 /* WisdomScanDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomScanDelegate.swift; sourceTree = "<group>"; };
-		A5A2A88E22DF7280002EC49C /* WisdomScanManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomScanManager.swift; sourceTree = "<group>"; };
-		A5A2A89022DF753A002EC49C /* WisdomScanTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomScanTransform.swift; sourceTree = "<group>"; };
-		A5A44FFE22E2F6A200F10466 /* WisdomAnimationBgBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomAnimationBgBtn.swift; sourceTree = "<group>"; };
-		A5CF5E7E21AE825E0054875C /* WisdomPhotoChromeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomPhotoChromeCell.swift; sourceTree = "<group>"; };
-		A5DCB49922E0B9CA00F235C9 /* WisdomScanColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomScanColorTheme.swift; sourceTree = "<group>"; };
-		A5E9486021A7979C0071EC7F /* WisdomPhotoSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomPhotoSelectCell.swift; sourceTree = "<group>"; };
-		A5E9488C21A95CBC0071EC7F /* WisdomPhotoSelectBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomPhotoSelectBar.swift; sourceTree = "<group>"; };
-		A5E9488E21A9633E0071EC7F /* WisdomScanKit+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WisdomScanKit+Extension.swift"; sourceTree = "<group>"; };
-		A5E9489021A97D5F0071EC7F /* WisdomPhotoChromeHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomPhotoChromeHUD.swift; sourceTree = "<group>"; };
 		A5EEF0662196F03500BDD24A /* WisdomScanKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WisdomScanKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5EEF0692196F03500BDD24A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5EEF06B2196F03500BDD24A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -66,8 +76,6 @@
 		A5EEF0702196F03600BDD24A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A5EEF0732196F03600BDD24A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A5EEF0752196F03600BDD24A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A5EEF07C2196F0BB00BDD24A /* WisdomScanConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomScanConfig.swift; sourceTree = "<group>"; };
-		A5EEF07D2196F0BB00BDD24A /* WisdomScanKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomScanKit.swift; sourceTree = "<group>"; };
 		A5EEF08C219702C300BDD24A /* WisdomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomViewController.swift; sourceTree = "<group>"; };
 		A5EEF08D219702C300BDD24A /* WisdomViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WisdomViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -92,6 +100,60 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3EC12A3729076C8A001F19A2 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				3EC12A4129076C8A001F19A2 /* WisdomScanKit.swift */,
+				3EC12A6429076D12001F19A2 /* WisdomScanable.swift */,
+				3EC12A3B29076C8A001F19A2 /* WisdomScanManager.swift */,
+				3EC12A3829076C8A001F19A2 /* WisdomScanTransform.swift */,
+				3EC12A3929076C8A001F19A2 /* WisdomScanColorTheme.swift */,
+				3EC12A3A29076C8A001F19A2 /* WisdomScanConfig.swift */,
+				3EC12A3F29076C8A001F19A2 /* WisdomScanKit+Extension.swift */,
+				3EC12A3C29076C8A001F19A2 /* Scan */,
+				3EC12A4029076C8A001F19A2 /* WisdomScanKit.bundle */,
+				3EC12A4229076C8A001F19A2 /* WisdomScanDelegate.swift */,
+				3EC12A4329076C8A001F19A2 /* Photo */,
+			);
+			name = Source;
+			path = ../Source;
+			sourceTree = "<group>";
+		};
+		3EC12A3C29076C8A001F19A2 /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				3EC12A3D29076C8A001F19A2 /* WisdomRQCodeVC.swift */,
+			);
+			path = Scan;
+			sourceTree = "<group>";
+		};
+		3EC12A4329076C8A001F19A2 /* Photo */ = {
+			isa = PBXGroup;
+			children = (
+				3EC12A712907FD18001F19A2 /* WisdomPhotoChromeVC.swift */,
+				3EC12A4429076C8A001F19A2 /* WisdomPhotoEditVC.swift */,
+				3EC12A4529076C8A001F19A2 /* WisdomPhotosVC.swift */,
+				3EC12A4629076C8A001F19A2 /* WisdomPhotoSelectVC.swift */,
+				3EC12A4729076C8A001F19A2 /* WisdomPhotoChromeHUD.swift */,
+				3EC12A4829076C8A001F19A2 /* View */,
+			);
+			path = Photo;
+			sourceTree = "<group>";
+		};
+		3EC12A4829076C8A001F19A2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3EC12A4929076C8A001F19A2 /* WisdomPhotoChromeFlowLayout.swift */,
+				3EC12A4A29076C8A001F19A2 /* WisdomPhotoChromeCell.swift */,
+				3EC12A4B29076C8A001F19A2 /* WisdomPhotoSelectCell.swift */,
+				3EC12A4C29076C8A001F19A2 /* WisdomPhotoEditCell.swift */,
+				3EC12A4D29076C8A001F19A2 /* WisdomPhotoEditView.swift */,
+				3EC12A4E29076C8A001F19A2 /* WisdomAnimationBgBtn.swift */,
+				3EC12A4F29076C8A001F19A2 /* WisdomPhotoSelectBar.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		5B771121C623DE764A08C04D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -101,51 +163,10 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		A56D39F422E08656008E7785 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				A5CF5E7E21AE825E0054875C /* WisdomPhotoChromeCell.swift */,
-				A5E9486021A7979C0071EC7F /* WisdomPhotoSelectCell.swift */,
-				A5585A4221A2D1C50005AAE4 /* WisdomPhotoEditCell.swift */,
-				A5A44FFE22E2F6A200F10466 /* WisdomAnimationBgBtn.swift */,
-				A5E9488C21A95CBC0071EC7F /* WisdomPhotoSelectBar.swift */,
-				A5585A4121A2D1C50005AAE4 /* WisdomPhotoEditView.swift */,
-				A512414F21AF847D005217CE /* WisdomPhotoChromeFlowLayout.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		A5A2A88822DF69A6002EC49C /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				A5E9488E21A9633E0071EC7F /* WisdomScanKit+Extension.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		A5A2A88922DF6A5C002EC49C /* Photos */ = {
-			isa = PBXGroup;
-			children = (
-				A568409D21A697A0004B8437 /* WisdomPhotoSelectVC.swift */,
-				A5585A4521A2D1C50005AAE4 /* WisdomPhotosVC.swift */,
-				A5585A4321A2D1C50005AAE4 /* WisdomPhotoEditVC.swift */,
-				A5E9489021A97D5F0071EC7F /* WisdomPhotoChromeHUD.swift */,
-				A56D39F422E08656008E7785 /* Views */,
-			);
-			path = Photos;
-			sourceTree = "<group>";
-		};
-		A5A2A88A22DF6A88002EC49C /* Scan */ = {
-			isa = PBXGroup;
-			children = (
-				A5585A3F21A2D1B10005AAE4 /* WisdomRQCodeVC.swift */,
-			);
-			path = Scan;
-			sourceTree = "<group>";
-		};
 		A5EEF05D2196F03500BDD24A = {
 			isa = PBXGroup;
 			children = (
+				3EC12A3729076C8A001F19A2 /* Source */,
 				A5EEF0682196F03500BDD24A /* WisdomScanKitDemo */,
 				A5EEF0672196F03500BDD24A /* Products */,
 				5B771121C623DE764A08C04D /* Pods */,
@@ -164,7 +185,6 @@
 		A5EEF0682196F03500BDD24A /* WisdomScanKitDemo */ = {
 			isa = PBXGroup;
 			children = (
-				A5EEF07B2196F0BB00BDD24A /* WisdomScanKit */,
 				A5EEF0692196F03500BDD24A /* AppDelegate.swift */,
 				A5EEF08C219702C300BDD24A /* WisdomViewController.swift */,
 				A5EEF08D219702C300BDD24A /* WisdomViewController.xib */,
@@ -173,25 +193,10 @@
 				A5EEF0702196F03600BDD24A /* Assets.xcassets */,
 				A5EEF0722196F03600BDD24A /* LaunchScreen.storyboard */,
 				A5EEF0752196F03600BDD24A /* Info.plist */,
+				3EC12A6629077853001F19A2 /* WisdomScanKitRootVC.swift */,
+				3EC12A6829078C4F001F19A2 /* WisdomScanKitRootVI.swift */,
 			);
 			path = WisdomScanKitDemo;
-			sourceTree = "<group>";
-		};
-		A5EEF07B2196F0BB00BDD24A /* WisdomScanKit */ = {
-			isa = PBXGroup;
-			children = (
-				A5EEF07D2196F0BB00BDD24A /* WisdomScanKit.swift */,
-				A5A2A88E22DF7280002EC49C /* WisdomScanManager.swift */,
-				A5EEF07C2196F0BB00BDD24A /* WisdomScanConfig.swift */,
-				A56D39F222E04E0D008E7785 /* WisdomScanDelegate.swift */,
-				A5A2A89022DF753A002EC49C /* WisdomScanTransform.swift */,
-				A5DCB49922E0B9CA00F235C9 /* WisdomScanColorTheme.swift */,
-				A5A2A88A22DF6A88002EC49C /* Scan */,
-				A5A2A88922DF6A5C002EC49C /* Photos */,
-				A5A2A88822DF69A6002EC49C /* Extensions */,
-				A5314EC021A1258E001A0BE6 /* WisdomScanKit.bundle */,
-			);
-			path = WisdomScanKit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,7 +210,7 @@
 				A5EEF0622196F03500BDD24A /* Sources */,
 				A5EEF0632196F03500BDD24A /* Frameworks */,
 				A5EEF0642196F03500BDD24A /* Resources */,
-				6D7B06C74E0D2DBCF6136373 /* [CP] Embed Pods Frameworks */,
+				9B87D4D8030CA61E2FC79CA9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -256,9 +261,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5EEF0742196F03600BDD24A /* LaunchScreen.storyboard in Resources */,
+				3EC12A5629076C8A001F19A2 /* WisdomScanKit.bundle in Resources */,
 				A5EEF0712196F03600BDD24A /* Assets.xcassets in Resources */,
 				A5EEF06F2196F03500BDD24A /* Main.storyboard in Resources */,
-				A5314EC121A1258E001A0BE6 /* WisdomScanKit.bundle in Resources */,
 				A5EEF08F219702C300BDD24A /* WisdomViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,23 +271,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6D7B06C74E0D2DBCF6136373 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		90623128A86AD7E45FEF00CC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -301,6 +289,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9B87D4D8030CA61E2FC79CA9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -308,28 +313,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5E9488F21A9633E0071EC7F /* WisdomScanKit+Extension.swift in Sources */,
-				A5EEF0872196F0BB00BDD24A /* WisdomScanConfig.swift in Sources */,
-				A5A2A88F22DF7280002EC49C /* WisdomScanManager.swift in Sources */,
-				A5585A4021A2D1B20005AAE4 /* WisdomRQCodeVC.swift in Sources */,
-				A5A2A89122DF753A002EC49C /* WisdomScanTransform.swift in Sources */,
-				A512415021AF847D005217CE /* WisdomPhotoChromeFlowLayout.swift in Sources */,
-				A5EEF0882196F0BB00BDD24A /* WisdomScanKit.swift in Sources */,
+				3EC12A5B29076C8A001F19A2 /* WisdomPhotoSelectVC.swift in Sources */,
+				3EC12A6929078C4F001F19A2 /* WisdomScanKitRootVI.swift in Sources */,
+				3EC12A5829076C8A001F19A2 /* WisdomScanDelegate.swift in Sources */,
+				3EC12A6229076C8A001F19A2 /* WisdomAnimationBgBtn.swift in Sources */,
+				3EC12A6129076C8A001F19A2 /* WisdomPhotoEditView.swift in Sources */,
+				3EC12A6529076D12001F19A2 /* WisdomScanable.swift in Sources */,
+				3EC12A5729076C8A001F19A2 /* WisdomScanKit.swift in Sources */,
+				3EC12A5A29076C8A001F19A2 /* WisdomPhotosVC.swift in Sources */,
+				3EC12A5C29076C8A001F19A2 /* WisdomPhotoChromeHUD.swift in Sources */,
+				3EC12A5929076C8A001F19A2 /* WisdomPhotoEditVC.swift in Sources */,
+				3EC12A6729077853001F19A2 /* WisdomScanKitRootVC.swift in Sources */,
+				3EC12A6029076C8A001F19A2 /* WisdomPhotoEditCell.swift in Sources */,
+				3EC12A5329076C8A001F19A2 /* WisdomScanManager.swift in Sources */,
+				3EC12A5E29076C8A001F19A2 /* WisdomPhotoChromeCell.swift in Sources */,
+				3EC12A5D29076C8A001F19A2 /* WisdomPhotoChromeFlowLayout.swift in Sources */,
+				3EC12A5F29076C8A001F19A2 /* WisdomPhotoSelectCell.swift in Sources */,
+				3EC12A5429076C8A001F19A2 /* WisdomRQCodeVC.swift in Sources */,
+				3EC12A5029076C8A001F19A2 /* WisdomScanTransform.swift in Sources */,
+				3EC12A5529076C8A001F19A2 /* WisdomScanKit+Extension.swift in Sources */,
+				3EC12A5129076C8A001F19A2 /* WisdomScanColorTheme.swift in Sources */,
 				A5EEF08E219702C300BDD24A /* WisdomViewController.swift in Sources */,
+				3EC12A5229076C8A001F19A2 /* WisdomScanConfig.swift in Sources */,
 				A5EEF06C2196F03500BDD24A /* ViewController.swift in Sources */,
-				A5E9488D21A95CBC0071EC7F /* WisdomPhotoSelectBar.swift in Sources */,
-				A5CF5E7F21AE825E0054875C /* WisdomPhotoChromeCell.swift in Sources */,
-				A5DCB49A22E0B9CA00F235C9 /* WisdomScanColorTheme.swift in Sources */,
-				A56D39F322E04E0D008E7785 /* WisdomScanDelegate.swift in Sources */,
-				A5E9486121A7979C0071EC7F /* WisdomPhotoSelectCell.swift in Sources */,
-				A5E9489121A97D5F0071EC7F /* WisdomPhotoChromeHUD.swift in Sources */,
-				A5585A4821A2D1C50005AAE4 /* WisdomPhotoEditVC.swift in Sources */,
 				A5EEF06A2196F03500BDD24A /* AppDelegate.swift in Sources */,
-				A5A44FFF22E2F6A200F10466 /* WisdomAnimationBgBtn.swift in Sources */,
-				A5585A4621A2D1C50005AAE4 /* WisdomPhotoEditView.swift in Sources */,
-				A568409E21A697A0004B8437 /* WisdomPhotoSelectVC.swift in Sources */,
-				A5585A4A21A2D1C50005AAE4 /* WisdomPhotosVC.swift in Sources */,
-				A5585A4721A2D1C50005AAE4 /* WisdomPhotoEditCell.swift in Sources */,
+				3EC12A722907FD18001F19A2 /* WisdomPhotoChromeVC.swift in Sources */,
+				3EC12A6329076C8A001F19A2 /* WisdomPhotoSelectBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,7 +415,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -461,7 +470,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -479,12 +488,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HFM99A4RBU;
 				INFOPLIST_FILE = WisdomScanKitDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = WisdomScanKitT;
+				PRODUCT_BUNDLE_IDENTIFIER = WisdomScanKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -499,12 +508,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HFM99A4RBU;
 				INFOPLIST_FILE = WisdomScanKitDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = WisdomScanKitT;
+				PRODUCT_BUNDLE_IDENTIFIER = WisdomScanKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

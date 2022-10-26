@@ -8,7 +8,7 @@
 
 import UIKit
 import AVFoundation
-import WisdomHUD
+//import WisdomHUD
 
 class WisdomViewController: UIViewController {
     
@@ -64,31 +64,33 @@ class WisdomViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "WisdomScanKit"
+        
     }
     
     
     /// 从系统相册多选图片
     @IBAction func clickScanBackCard(_ sender: UIButton) {
         
-        startElectSystemPhoto(startType: xtTransformType,
-                              countType: xtElectPhotoCountType,
-                              theme: xtElectPhotoTheme,
-                              delegate: nil,
-                              photoTask: { (list: [UIImage]) in
-                                
-            
-        })
+//        startElectSystemPhoto(startType: xtTransformType,
+//                              countType: xtElectPhotoCountType,
+//                              theme: xtElectPhotoTheme,
+//                              delegate: nil,
+//                              photoTask: { (list: [UIImage]) in
+//
+//
+//        })
     }
     
     
     @IBAction func clickScanPhoto(_ sender: UIButton) {
         
-        startScanPhoto(startType: pzTransformType,
-                       countType: pzElectPhotoCountType,
-                       electTheme: pzElectPhotoTheme,
-                       photosTask: { (list: [UIImage]) in
-            
-        })
+//        startScanPhoto(startType: pzTransformType,
+//                       countType: pzElectPhotoCountType,
+//                       electTheme: pzElectPhotoTheme,
+//                       photosTask: { (list: [UIImage]) in
+//
+//        })
     }
     
     
@@ -96,28 +98,28 @@ class WisdomViewController: UIViewController {
         scanPaneShowCover = true
         rectOfInterestSize = CGSize(width: 300, height: 300)
         
-        startScanRQCode(startType: rqTransformType,
-                        themeType: rqCodeThemeType,
-                        delegate: nil,
-                        answerTask: { ( str )-> (WisdomScanReturnType) in
-                            
-            //WisdomHUD.showText(text: str)
-            return .pauseScan
-            
-        }) { () -> (WisdomScanReturnType) in
-            
-            return .hudFailScan
-        }
+//        startScanRQCode(startType: rqTransformType,
+//                        themeType: rqCodeThemeType,
+//                        delegate: nil,
+//                        answerTask: { ( str )-> (WisdomScanReturnType) in
+//
+//            //WisdomHUD.showText(text: str)
+//            return .pauseScan
+//
+//        }) { () -> (WisdomScanReturnType) in
+//
+//            return .hudFailScan
+//        }
     }
     
     
     @IBAction func showHUDClick(_ sender: UIButton) {
         if !hudType {
             /// 无动画浏览
-            WisdomScanKit.startPhotoChrome(startIconIndex: 4,
-                                           startIconAnimatRect: .zero,
-                                           iconList: imageList,
-                                           didScrollTask: nil )
+//            WisdomScanKit.startPhotoChrome(startIconIndex: 4,
+//                                           startIconAnimatRect: .zero,
+//                                           iconList: imageList,
+//                                           didScrollTask: nil )
         }else{
             
             let testVC = ViewController(images: imageList)
@@ -128,53 +130,53 @@ class WisdomViewController: UIViewController {
                 
                 
                 /// 动画浏览-------------------------------
-                WisdomScanKit.startPhotoChrome(startIconIndex: startIconIndex,
-                                               startIconAnimatRect: startIconAnimatRect,
-                                               iconList: (self?.imageList)!,
-                                               didScrollTask: { (currentIndex: Int) -> CGRect in
-                    /// 更新结束动画 Rect----------------------------
-                    let indexPath = IndexPath(item: currentIndex, section: 0)
-                    let window = UIApplication.shared.delegate?.window!
-                    let cell = testVC.listView.cellForItem(at: indexPath)
-                    var rect: CGRect = .zero
-                                                
-                    if cell != nil{
-                          rect = cell!.convert(cell!.bounds, to: window)
-                          return rect
-                    }
-                                                
-                    return CGRect.zero
-                })
+//                WisdomScanKit.startPhotoChrome(startIconIndex: startIconIndex,
+//                                               startIconAnimatRect: startIconAnimatRect,
+//                                               iconList: (self?.imageList)!,
+//                                               didScrollTask: { (currentIndex: Int) -> CGRect in
+//                    /// 更新结束动画 Rect----------------------------
+//                    let indexPath = IndexPath(item: currentIndex, section: 0)
+//                    let window = UIApplication.shared.delegate?.window!
+//                    let cell = testVC.listView.cellForItem(at: indexPath)
+//                    var rect: CGRect = .zero
+//
+//                    if cell != nil{
+//                          rect = cell!.convert(cell!.bounds, to: window)
+//                          return rect
+//                    }
+//
+//                    return CGRect.zero
+//                })
             }
         }
     }
 }
 
 
-extension WisdomViewController: ElectPhotoDelegate{
-    func electPhotoNavbarBackItme(navigationVC: UINavigationController) -> UIButton {
-        let navbarBackBtn: UIButton = {
-            let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 45, height: 30))
-            let image = WisdomScanManager.bundleImage(name: "black_backIcon")
-            btn.setImage(image, for: .normal)
-            btn.imageEdgeInsets = UIEdgeInsets(top: 0, left: -25, bottom: 0, right: 0)
-            btn.backgroundColor = UIColor.gray
-            return btn
-        }()
-        
-        return navbarBackBtn
-    }
-    
-    func electPhotoNavbarCustomTitleItme(navigationVC: UINavigationController) -> UIView {
-        let label: UILabel = {
-            let btn = UILabel(frame: CGRect(x: 0, y: 0, width: 45, height: 30))
-            btn.text = "我的相册"
-            btn.backgroundColor = UIColor.gray
-            return btn
-        }()
-        return label
-    }
-}
+//extension WisdomViewController: ElectPhotoDelegate{
+//    func electPhotoNavbarBackItme(navigationVC: UINavigationController) -> UIButton {
+//        let navbarBackBtn: UIButton = {
+//            let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 45, height: 30))
+//            let image = WisdomScanManager.bundleImage(name: "black_backIcon")
+//            btn.setImage(image, for: .normal)
+//            btn.imageEdgeInsets = UIEdgeInsets(top: 0, left: -25, bottom: 0, right: 0)
+//            btn.backgroundColor = UIColor.gray
+//            return btn
+//        }()
+//        
+//        return navbarBackBtn
+//    }
+//    
+//    func electPhotoNavbarCustomTitleItme(navigationVC: UINavigationController) -> UIView {
+//        let label: UILabel = {
+//            let btn = UILabel(frame: CGRect(x: 0, y: 0, width: 45, height: 30))
+//            btn.text = "我的相册"
+//            btn.backgroundColor = UIColor.gray
+//            return btn
+//        }()
+//        return label
+//    }
+//}
 
 
 
