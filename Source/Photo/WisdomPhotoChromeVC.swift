@@ -16,9 +16,7 @@ class WisdomPhotoChromeVC: UIViewController {
     
     private let isCustomChrome: Bool
     
-    private lazy var lineCount: CGFloat = {
-        return self.view.bounds.width > 330 ? 4:3
-    }()
+    private lazy var lineCount: CGFloat = { return view.bounds.width > 330 ? 4:3 }()
     
     private lazy var listView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
