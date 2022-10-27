@@ -16,6 +16,7 @@ import UIKit
     override init() {}
 }
 
+
 extension WisdomScanKit: WisdomScanPhotoChromeable {
     
     // MARK: Custom Photo Chrome: WisdomPhotoChromeHUD
@@ -42,7 +43,7 @@ extension WisdomScanKit: WisdomScanPhotoChromeable {
     /*
      * title     : navbar title
      * images    : custom '[UIImage]' data
-     * rootVC    : vc transform root vc 'UIViewController'
+     * rootVC    : vc transform rootVC 'UIViewController'
      * transform : vc transform style 'WisdomScanTransformStyle'
      * theme     : vc transform theme style 'WisdomScanThemeStyle'
      */
@@ -53,7 +54,7 @@ extension WisdomScanKit: WisdomScanPhotoChromeable {
     // MARK: Transform Systom Photo Library Chrome: UIViewController - WisdomPhotoChromeHUD
     /*
      * title     : navbar title
-     * rootVC    : vc transform root vc 'UIViewController'
+     * rootVC    : vc transform rootVC 'UIViewController'
      * transform : vc transform style 'WisdomScanTransformStyle'
      * theme     : vc transform theme style 'WisdomScanThemeStyle'
      */
@@ -64,52 +65,6 @@ extension WisdomScanKit: WisdomScanPhotoChromeable {
 
 
 
-
-
-
-    
-//    // MARK: - WisdomPhotoChromeHUD
-//
-//    /// 动画图片浏览器:（浏览自定义图片）
-//    ///
-//    /// - Parameters:
-//    ///   - startIconIndex:      show begin image index frame array.  (当前展示图片在数组中的下标)
-//    ///   - startIconAnimatRect: show begin image animation the frame.(开始展示动画的屏幕Frame)
-//    ///   - iconList:            show images.                         (图片集合)
-//    ///   - didScrollTask:       The "WisdomDidScrollTask".           (滑动回调)
-//    ///
-//    /// - Returns: The created `WisdomPhotoChromeHUD`.
-//    @discardableResult
-//    @objc public class func startPhotoChrome(startIconIndex:      Int=0,
-//                                             startIconAnimatRect: CGRect,
-//                                             iconList:            [UIImage],
-//                                             didScrollTask:       WisdomDidScrollTask?) -> WisdomPhotoChromeHUD {
-//        return WisdomScanManager.startPhotoChrome(startIconIndex: startIconIndex, startIconAnimatRect: startIconAnimatRect, iconList: iconList, didScrollTask: didScrollTask)
-//    }
-//
-//
-//
-//    // MARK: - WisdomPhotoChromeHUD
-//
-//    /// 动画图片浏览器:（浏览系统相册图片）
-//    ///
-//    /// - Parameters:
-//    ///   - startIconIndex:      show begin image index frame array.  (当前展示图片在数组中的下标)
-//    ///   - startIconAnimatRect: show begin image animation the frame.(开始展示动画的屏幕Frame)
-//    ///   - fetchResult:         show images.                         (相册缓存图片集合)
-//    ///   - didScrollTask:       The "WisdomDidScrollTask".           (滑动回调)
-//    ///
-//    /// - Returns: The created `WisdomPhotoChromeHUD`.
-//    @discardableResult
-//    @objc public class func startPhotoChrome(startIconIndex:      Int=0,
-//                                             startIconAnimatRect: CGRect,
-//                                             fetchResult:         PHFetchResult<PHAsset>,
-//                                             didScrollTask:       WisdomDidScrollTask?) -> WisdomPhotoChromeHUD {
-//        return WisdomScanManager.startPhotoChrome(startIconIndex: startIconIndex, startIconAnimatRect: startIconAnimatRect, fetchResult: fetchResult, didScrollTask: didScrollTask)
-//    }
-//
-//
-//
 //    // MARK: - Get camera status permissions status
 //
 //    /// 获取摄像状态权限
