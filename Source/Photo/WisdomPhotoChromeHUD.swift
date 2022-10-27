@@ -127,10 +127,7 @@ fileprivate let AMCGSize: CGSize = CGSize(width: 25, height: 25)
                 imageView.image = images[currentIndex]
             }
             
-            showAnimation(image: images[currentIndex],
-                          beginRect: beginRect,
-                          beginIndex: beginIndex,
-                          imageCount: imageCount)
+            showAnimation(image: images[currentIndex], beginIndex: beginIndex, beginRect: beginRect)
             
             if currentIndex != 0 && currentIndex < images.count {
                 layout.updateCurrentOffsetX(index: currentIndex)
@@ -188,10 +185,7 @@ fileprivate let AMCGSize: CGSize = CGSize(width: 25, height: 25)
                                       resultHandler: { [weak self] (image, _) -> Void in
                 self?.imageView.image = image
 
-                self?.showAnimation(image: image!,
-                                    beginRect: beginRect,
-                                    beginIndex: beginIndex,
-                                    imageCount: self?.imageCount ?? 0)
+                self?.showAnimation(image: image!, beginIndex: beginIndex, beginRect: beginRect)
             })
             
             if currentIndex != 0 && currentIndex < assets.count {
@@ -227,7 +221,7 @@ fileprivate let AMCGSize: CGSize = CGSize(width: 25, height: 25)
 extension WisdomPhotoChromeHUD: WisdomPhotoChromeable {
     
     // show begin
-    func showAnimation(image: UIImage, beginRect: CGRect, beginIndex: NSInteger, imageCount: NSInteger) {
+    func showAnimation(image: UIImage, beginIndex: NSInteger, beginRect: CGRect) {
         let rect = image.getImageChromeRect()
         if beginRect == CGRect.zero{
             imageView.frame = rect
@@ -250,7 +244,7 @@ extension WisdomPhotoChromeHUD: WisdomPhotoChromeable {
             self?.listView.isHidden = false
             self?.label.isHidden = false
             self?.finishing = false
-            self?.label.text = "\(beginIndex + 1)"+"/"+"\(imageCount)"
+            self?.label.text = "\(beginIndex + 1)"+"/"+"\(self?.imageCount ?? 0)"
             self?.label.sizeToFit()
             
             if let my = self {

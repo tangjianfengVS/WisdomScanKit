@@ -113,7 +113,7 @@ protocol WisdomScanPhotoChromeable {
 
 protocol WisdomPhotoChromeable {
     
-    func showAnimation(image: UIImage, beginRect: CGRect, beginIndex: NSInteger, imageCount: NSInteger)
+    func showAnimation(image: UIImage, beginIndex: NSInteger, beginRect: CGRect)
     
     func tapTouch(tap: UITapGestureRecognizer)
     
