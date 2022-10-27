@@ -51,6 +51,7 @@ class WisdomPhotoChromeVC: UIViewController {
     
     private lazy var navBackBtn: WisdomNavBackBtn = {
         let btn = WisdomNavBackBtn(frame: CGRect(x: 0, y: 0, width: 45, height: 30), theme: theme)
+        btn.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
         return btn
     }()
     
@@ -237,10 +238,24 @@ extension WisdomPhotoChromeVC {
 //            let customView = delegate!.electPhotoNavbarCustomTitleItme(navigationVC: navigationController!)
 //            navigationItem.titleView = customView
 //        }else{
+        if let _ = navigationController {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navBackBtn)
+        }else {
+            navBackBtn.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(navBackBtn)
+            
+            navBackBtn.wisdom_addConstraint(width: 45, height: 30)
+            view.wisdom_addConstraint(with: navBackBtn,
+                                      topView: view,
+                                      leftView: view,
+                                      bottomView: nil,
+                                      rightView: nil,
+                                      edgeInset: UIEdgeInsets(top: 80, left: 20, bottom: 0, right: 0))
+        }
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navBackBtn)
+        
 //            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn)
-        navBackBtn.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
+        
         
 //        }
 //
@@ -330,23 +345,22 @@ extension WisdomPhotoChromeVC {
 //            }else{
 //                dismiss(animated: true, completion: nil)
 //            }
-//        }else if startType == .alpha{
-//            if navigationController != nil {
-//                UIView.animate(withDuration: 0.35, animations: {
-//                    self.navigationController!.view.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-//                }) { (_) in
-//                    self.navigationController!.view.removeFromSuperview()
-//                    self.navigationController!.removeFromParent()
-//                }
-//            }else{
-//                UIView.animate(withDuration: 0.35, animations: {
-//                    self.view.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-//                }) { (_) in
-//                    self.view.removeFromSuperview()
-//                    self.removeFromParent()
-//                }
-//            }
-//        }
+//        }else
+        if transform == .alpha {
+            if let nav = navigationController {
+                UIView.animate(withDuration: 0.35, animations: {
+                    nav.view.alpha = 0
+                }) { (_) in
+                    nav.dismiss(animated: false)
+                }
+            }else {
+                UIView.animate(withDuration: 0.35, animations: { [weak self] in
+                    self?.view.alpha = 0
+                }) { [weak self] (_) in
+                    self?.dismiss(animated: false)
+                }
+            }
+        }
     }
 }
 

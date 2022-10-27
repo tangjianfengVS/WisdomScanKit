@@ -143,7 +143,7 @@ extension WisdomScanKitRootVC: UITableViewDelegate {
                 WisdomScanKit.startPhotoChrome(title: "图片浏览",
                                                images: imageList,
                                                rootVC: self,
-                                               transform: .alpha,
+                                               transform: .push,
                                                theme: .dark)
             }
         case 1: // 系统图片浏览
