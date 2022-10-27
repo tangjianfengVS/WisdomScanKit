@@ -13,17 +13,48 @@ protocol WisdomScanTransform {
     
     func pushSys(transformVC: UIViewController)
     
-    func presentSys()
+    func presentSys(transformVC: UIViewController)
     
-    func pullup()
+    func pullup(transformVC: UIViewController)
 
     func translation(transformVC: UIViewController)
     
     func lucency(transformVC: UIViewController)
     
-    func zoomLocation()
+    func zoomLocation(transformVC: UIViewController)
 }
 
+public enum Animation {
+    /// 平移
+    case translation
+    /// 上拉
+    case pullup
+    /// 透明变化
+    case lucency
+    /// 系统push
+    case pushSys
+    /// 系统present
+    case presentSys
+    ///
+    case zoomLocation
+    
+    static func transformBy(rootVC: UIViewController, transform: WisdomScanTransformStyle)->(Animation,UIViewController){
+        switch transform {
+        case .push:
+            if rootVC.isKind(of: UINavigationController.self) {
+                return (pushSys,rootVC)
+            }else if let navVC = rootVC.navigationController {
+                return (pushSys,navVC)
+            }else{
+                return (translation,rootVC)
+            }
+        case .present:
+            return (presentSys,rootVC)
+        case .alpha:
+            return (lucency,rootVC)
+        }
+    }
+}
 
 public struct WisdomScanTransformAnim {
     
@@ -31,43 +62,9 @@ public struct WisdomScanTransformAnim {
     
     private let animation: Animation
     
-    //private let transformVC: UIViewController
-    
     private weak var rootVC: UIViewController?
     
     private var needNav = false
-    
-    public enum Animation {
-        /// 平移
-        case translation
-        /// 上拉
-        case pullup
-        /// 透明变化
-        case lucency
-        /// 系统push
-        case pushSys
-        /// 系统present
-        case presentSys
-        ///
-        case zoomLocation
-        
-        static func transformBy(rootVC: UIViewController, transform: WisdomScanTransformStyle)->(Animation, UIViewController){
-            switch transform {
-            case .push:
-                if rootVC.isKind(of: UINavigationController.self) {
-                    return (pushSys, rootVC)
-                }else if let navVC = rootVC.navigationController {
-                    return (pushSys, navVC)
-                }else{
-                    return (translation,rootVC)
-                }
-            case .present:
-                return (presentSys, rootVC)
-            case .alpha:
-                return (lucency, rootVC)
-            }
-        }
-    }
     
     init(rootVC: UIViewController, transform: WisdomScanTransformStyle) {
         let result = Animation.transformBy(rootVC: rootVC, transform: transform)
@@ -75,28 +72,21 @@ public struct WisdomScanTransformAnim {
         self.rootVC = result.1
     }
     
-//    init(rootVC: UIViewController,
-//                transformVC: UIViewController) {
-//        self.transformVC = transformVC
-//        self.animation = Animation.zoomLocation
-//        self.rootVC = rootVC
-//    }
-    
     mutating func startTransform(transformVC: UIViewController, needNav: Bool) {
         self.needNav = needNav
         switch animation {
         case .translation:
             translation(transformVC: transformVC)
         case .pullup:
-            pullup()
+            pullup(transformVC: transformVC)
         case .lucency:
             lucency(transformVC: transformVC)
         case .pushSys:
             pushSys(transformVC: transformVC)
         case .presentSys:
-            presentSys()
+            presentSys(transformVC: transformVC)
         case .zoomLocation:
-            zoomLocation()
+            zoomLocation(transformVC: transformVC)
         }
     }
 }
@@ -125,42 +115,52 @@ extension WisdomScanTransformAnim: WisdomScanTransform {
         }
     }
     
-    func presentSys() {
-//        if needNav && !transformVC.isKind(of: UINavigationController.self){
-//            let navVC = UINavigationController(rootViewController: transformVC)
-//            rootVC.present(navVC, animated: true, completion: nil)
-//            return true
-//        }else{
-//            rootVC.present(transformVC, animated: true, completion: nil)
-//        }
+    func presentSys(transformVC: UIViewController) {
+        if needNav {
+            let navVC = UINavigationController(rootViewController: transformVC)
+            navVC.modalPresentationStyle = .fullScreen
+            navVC.view.alpha = 0
+            
+            rootVC?.present(navVC, animated: false) {
+                UIView.animate(withDuration: 1) {
+                    navVC.view.alpha = 1
+                }
+            }
+        }else {
+            transformVC.view.alpha = 0
+            transformVC.modalPresentationStyle = .fullScreen
+            rootVC?.present(transformVC, animated: false) {
+                UIView.animate(withDuration: 1) {
+                    transformVC.view.alpha = 1
+                }
+            }
+        }
     }
     
-    func pullup() {
+    func pullup(transformVC: UIViewController) {
+        
     }
     
     func translation(transformVC: UIViewController) {
-//        if needNav {
-//            let navVC = UINavigationController(rootViewController: transformVC)
-//            navVC.view.layer.shadowColor = UIColor.gray.cgColor
-//            navVC.view.layer.shadowRadius = 4
-//            navVC.view.layer.shadowOffset = CGSize(width: 0.0,height: 0.0)
-//            navVC.view.layer.shadowOpacity = 1
-//
-//            rootVC.addChild(navVC)
-//            rootVC.view.addSubview(navVC.view)
-//            navVC.view.transform = CGAffineTransform(translationX: rootVC.view.bounds.width, y: 0)
-//            UIView.animate(withDuration: 0.32) {
-//                navVC.view.transform = .identity
-//            }
-//            return true
-//        }else {
-//            rootVC.addChild(transformVC)
-//            rootVC.view.addSubview(transformVC.view)
-//            transformVC.view.transform = CGAffineTransform(translationX: rootVC.view.bounds.width, y: 0)
-//            UIView.animate(withDuration: 0.32) {
-//                self.transformVC.view.transform = .identity
-//            }
-//        }
+        if needNav {
+            let navVC = UINavigationController(rootViewController: transformVC)
+            navVC.modalPresentationStyle = .fullScreen
+            navVC.view.alpha = 0
+            
+            rootVC?.present(navVC, animated: false) {
+                UIView.animate(withDuration: 1) {
+                    navVC.view.alpha = 1
+                }
+            }
+        }else {
+            transformVC.view.alpha = 0
+            transformVC.modalPresentationStyle = .fullScreen
+            rootVC?.present(transformVC, animated: false) {
+                UIView.animate(withDuration: 1) {
+                    transformVC.view.alpha = 1
+                }
+            }
+        }
     }
     
     func lucency(transformVC: UIViewController) {
@@ -185,7 +185,26 @@ extension WisdomScanTransformAnim: WisdomScanTransform {
         }
     }
     
-    internal func zoomLocation() {
+    internal func zoomLocation(transformVC: UIViewController) {
+        if needNav {
+            let navVC = UINavigationController(rootViewController: transformVC)
+            navVC.modalPresentationStyle = .fullScreen
+            navVC.view.alpha = 0
+            
+            rootVC?.present(navVC, animated: false) {
+                UIView.animate(withDuration: 1) {
+                    navVC.view.alpha = 1
+                }
+            }
+        }else {
+            transformVC.view.alpha = 0
+            transformVC.modalPresentationStyle = .fullScreen
+            rootVC?.present(transformVC, animated: false) {
+                UIView.animate(withDuration: 1) {
+                    transformVC.view.alpha = 1
+                }
+            }
+        }
 //        if startIconAnimatRect == CGRect.zero{
 //            rootVC.addChild(transformVC)
 //            rootVC.view.addSubview(transformVC.view)
