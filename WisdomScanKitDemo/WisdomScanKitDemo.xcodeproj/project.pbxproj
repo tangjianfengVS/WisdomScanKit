@@ -128,9 +128,9 @@
 			isa = PBXGroup;
 			children = (
 				3EC12A712907FD18001F19A2 /* WisdomPhotoChromeVC.swift */,
+				3EC12A4629076C8A001F19A2 /* WisdomPhotoSelectVC.swift */,
 				3EC12A4429076C8A001F19A2 /* WisdomPhotoEditVC.swift */,
 				3EC12A4529076C8A001F19A2 /* WisdomPhotosVC.swift */,
-				3EC12A4629076C8A001F19A2 /* WisdomPhotoSelectVC.swift */,
 				3EC12A4729076C8A001F19A2 /* WisdomPhotoChromeHUD.swift */,
 				3EC12A4829076C8A001F19A2 /* View */,
 			);
