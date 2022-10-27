@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3EC12A5029076C8A001F19A2 /* WisdomScanTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A3829076C8A001F19A2 /* WisdomScanTransform.swift */; };
-		3EC12A5129076C8A001F19A2 /* WisdomScanColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A3929076C8A001F19A2 /* WisdomScanColorTheme.swift */; };
 		3EC12A5229076C8A001F19A2 /* WisdomScanConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A3A29076C8A001F19A2 /* WisdomScanConfig.swift */; };
 		3EC12A5329076C8A001F19A2 /* WisdomScanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A3B29076C8A001F19A2 /* WisdomScanManager.swift */; };
 		3EC12A5429076C8A001F19A2 /* WisdomRQCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A3D29076C8A001F19A2 /* WisdomRQCodeVC.swift */; };
@@ -45,7 +44,6 @@
 		1E9E2DEBB27C3D0204CA40DC /* Pods-WisdomScanKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WisdomScanKitDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WisdomScanKitDemo/Pods-WisdomScanKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		2747FA3348ADAB098F6BAC6F /* Pods_WisdomScanKitDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WisdomScanKitDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EC12A3829076C8A001F19A2 /* WisdomScanTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomScanTransform.swift; sourceTree = "<group>"; };
-		3EC12A3929076C8A001F19A2 /* WisdomScanColorTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomScanColorTheme.swift; sourceTree = "<group>"; };
 		3EC12A3A29076C8A001F19A2 /* WisdomScanConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomScanConfig.swift; sourceTree = "<group>"; };
 		3EC12A3B29076C8A001F19A2 /* WisdomScanManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomScanManager.swift; sourceTree = "<group>"; };
 		3EC12A3D29076C8A001F19A2 /* WisdomRQCodeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomRQCodeVC.swift; sourceTree = "<group>"; };
@@ -105,10 +103,9 @@
 			children = (
 				3EC12A4129076C8A001F19A2 /* WisdomScanKit.swift */,
 				3EC12A6429076D12001F19A2 /* WisdomScanable.swift */,
+				3EC12A3A29076C8A001F19A2 /* WisdomScanConfig.swift */,
 				3EC12A3B29076C8A001F19A2 /* WisdomScanManager.swift */,
 				3EC12A3829076C8A001F19A2 /* WisdomScanTransform.swift */,
-				3EC12A3929076C8A001F19A2 /* WisdomScanColorTheme.swift */,
-				3EC12A3A29076C8A001F19A2 /* WisdomScanConfig.swift */,
 				3EC12A3F29076C8A001F19A2 /* WisdomScanKit+Extension.swift */,
 				3EC12A3C29076C8A001F19A2 /* Scan */,
 				3EC12A4029076C8A001F19A2 /* WisdomScanKit.bundle */,
@@ -332,7 +329,6 @@
 				3EC12A5429076C8A001F19A2 /* WisdomRQCodeVC.swift in Sources */,
 				3EC12A5029076C8A001F19A2 /* WisdomScanTransform.swift in Sources */,
 				3EC12A5529076C8A001F19A2 /* WisdomScanKit+Extension.swift in Sources */,
-				3EC12A5129076C8A001F19A2 /* WisdomScanColorTheme.swift in Sources */,
 				A5EEF08E219702C300BDD24A /* WisdomViewController.swift in Sources */,
 				3EC12A5229076C8A001F19A2 /* WisdomScanConfig.swift in Sources */,
 				A5EEF06C2196F03500BDD24A /* ViewController.swift in Sources */,
