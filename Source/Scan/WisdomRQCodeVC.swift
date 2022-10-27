@@ -359,15 +359,15 @@ public class WisdomRQCodeVC: UIViewController {
     
     fileprivate func upgrades(){
         
-        showAlert(title: "摄像使用权限已关闭", message: "App需要您同意，才能使用相机扫码功能", cancelActionTitle: "取消", rightActionTitle: "立即开启") { (action) in
-            
-            if let title = action.title {
-                if title == "立即开启"{
-//                    WisdomScanKit.authorizationScan()
-                }
-            }
-            //self?.clickBackBtn()
-        }
+//        showAlert(title: "摄像使用权限已关闭", message: "App需要您同意，才能使用相机扫码功能", cancelActionTitle: "取消", rightActionTitle: "立即开启") { (action) in
+//            
+//            if let title = action.title {
+//                if title == "立即开启"{
+////                    WisdomScanKit.authorizationScan()
+//                }
+//            }
+//            //self?.clickBackBtn()
+//        }
     }
     
     @objc fileprivate func light(sender: UIButton){

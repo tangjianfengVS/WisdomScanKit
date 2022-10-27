@@ -8,18 +8,13 @@
 
 import UIKit
 import WisdomHUD
+import Photos
 
 class WisdomPhotoChromeVC: UIViewController {
     
     private let spacing: CGFloat = 3.5
     
     private let isCustomChrome: Bool
-    
-    /** 底部Bar高度 */
-//    fileprivate var barHeght: CGFloat = 45
-    
-    /** 导航栏高度 */
-//    fileprivate var navBarHeght: CGFloat = 64
     
     private lazy var lineCount: CGFloat = {
         return self.view.bounds.width > 330 ? 4:3
@@ -45,7 +40,7 @@ class WisdomPhotoChromeVC: UIViewController {
         assetGridThumbnailSize = CGSize(width:cellSize.width*scale, height:cellSize.height*scale)
         collectionVI.backgroundColor = .clear
         collectionVI.translatesAutoresizingMaskIntoConstraints = false
-//        view.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: barHeght, right: 0)
+        collectionVI.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 20, right: 0)
         return collectionVI
     }()
     
@@ -61,20 +56,15 @@ class WisdomPhotoChromeVC: UIViewController {
     
     private let theme: WisdomScanThemeStyle
     
-    /** 取得的资源集合，用了存放的PHAsset */
-//    fileprivate var assetsFetchResults: PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
-    
     /** 选择的结果资源 */
     private let images: [UIImage]
     
-//    fileprivate var indexPathResults: [IndexPath] = []
+    private var assets = PHFetchResult<PHAsset>()
     
     /** 浏览页正在展示的图片 */
-    private var currentShowImagerRect: CGRect = .zero
+    private var curShowImageRect: CGRect = .zero
     
-//    fileprivate var beginImage: UIImage?
-    
-    var isCreatNav: Bool=false
+    private var beginImage: UIImage?
     
     init(title: String,
          images: [UIImage],
@@ -87,19 +77,15 @@ class WisdomPhotoChromeVC: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-//    init(startTypes: StartTransformType,
-//         countTypes: ElectPhotoCountType,
-//         colorTheme: ElectPhotoTheme,
-//         delegates:  ElectPhotoDelegate?,
-//         photoTasks: @escaping WisdomPhotoTask) {
-//
-//        startType = startTypes
-//        countType = countTypes
-//        theme = colorTheme
-//        delegate = delegates
-//        photoTask = photoTasks
-//        super.init(nibName: nil, bundle: nil)
-//    }
+    init(title: String,
+         transform: WisdomScanTransformStyle,
+         theme: WisdomScanThemeStyle) {
+        self.images = []
+        self.theme = theme
+        self.transform = transform
+        self.isCustomChrome = false
+        super.init(nibName: nil, bundle: nil)
+    }
     
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -113,7 +99,9 @@ class WisdomPhotoChromeVC: UIViewController {
                                   edgeInset: UIEdgeInsets.zero)
         
         setNavbarUI()
-        authoriza()
+        if !isCustomChrome {
+            authoriza()
+        }
         
         var color = (UIColor.white, UIColor.black)
         switch theme {
@@ -130,7 +118,7 @@ class WisdomPhotoChromeVC: UIViewController {
         super.viewWillAppear(animated)
         if theme == .dark {
             navigationController?.navigationBar.isTranslucent = true///设置导航栏半透明
-            let image = UIColor.init(white: 0, alpha: 0.8).asImage(CGSize(width: view.bounds.width, height: 88)) ?? UIImage() ///设置导航栏背景图片
+            let image = UIColor.init(white: 0, alpha: 0.85).asImage(CGSize(width: view.bounds.width, height: 88)) ?? UIImage() ///设置导航栏背景图片
             navigationController?.navigationBar.setBackgroundImage(image, for: UIBarMetrics.default)
         }
     }
@@ -143,83 +131,12 @@ class WisdomPhotoChromeVC: UIViewController {
         }
     }
     
-    fileprivate func authoriza() {
-//        PHPhotoLibrary.requestAuthorization({ (status) in
-//            switch status {
-//            case .authorized:
-//                DispatchQueue.global().async {
-//                    self.loadSystemImages()
-//                }
-//            case .denied:
-//                self.upgrades()
-//            case .restricted:
-//                self.upgrades()
-//            case .notDetermined:
-//                DispatchQueue.global().async {
-//                    self.loadSystemImages()
-//                }
-//
-//            default:
-//                break
-//            }
-//        })
-    }
-    
-    override public func viewSafeAreaInsetsDidChange() {
-//        if #available(iOS 11.0, *) {
-//            if view.safeAreaInsets.bottom > 10{
-//                barHeght = 64
-////                selectBar.updateHeight(height: barHeght)
-//            }
-//            navBarHeght = view.safeAreaInsets.top
-//        }
-//        listView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: barHeght, right: 0)
-    }
-    
-    fileprivate func upgrades(){
-        showAlert(title: "相册访问权限已关闭", message: "App需要您同意，才能访问相册读取图片", cancelActionTitle: "取消", rightActionTitle: "立即开启") {[weak self] (action) in
-            
-            if let title = action.title {
-                if title == "立即开启"{
-//                    WisdomScanKit.authorizationScan()
-                }
-            }
-            
-            self?.clickBackBtn()
-        }
-    }
-    
-    /** 加载系统所有图片 */
-    fileprivate func loadSystemImages() {
-        /** 则获取所有资源 */
-//        let allPhotosOptions = PHFetchOptions()
-//        /** 按照创建时间倒序排列 */
-//        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate",
-//                                                             ascending: false)]
-//        /** 只获取图片 */
-//        allPhotosOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
-//        assetsFetchResults = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: allPhotosOptions)
-//
-//        DispatchQueue.main.async {
-//            self.listView.reloadData()
-//        }
-        
-        // 新建一个PHImageRequestOptions对象
-        //let imageRequestOption = PHImageRequestOptions()
-        // PHImageRequestOptions是否有效
-        //imageRequestOption.isSynchronous = true
-        // 缩略图的压缩模式设置为无
-        //imageRequestOption.resizeMode = .none
-        // 缩略图的质量为高质量，不管加载时间花多少
-        //imageRequestOption.deliveryMode = .highQualityFormat
-    }
-    
     deinit {
         NotificationCenter.default.removeObserver(self)
         
-//        if assetsFetchResults.count > 0 {
-//            imageManager.stopCachingImagesForAllAssets()
-//        }
+        if assets.count > 0 {
+            imageManager.stopCachingImagesForAllAssets()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -227,17 +144,9 @@ class WisdomPhotoChromeVC: UIViewController {
     }
 }
 
-extension WisdomPhotoChromeVC {
+extension WisdomPhotoChromeVC: WisdomPhotoChromeControllerable {
     
-    private func setNavbarUI(){
-//        if (delegate != nil) {
-//            let backBtn = delegate!.electPhotoNavbarBackItme(navigationVC: navigationController!)
-//            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBtn)
-//            backBtn.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
-//
-//            let customView = delegate!.electPhotoNavbarCustomTitleItme(navigationVC: navigationController!)
-//            navigationItem.titleView = customView
-//        }else{
+    internal func setNavbarUI(){
         if let _ = navigationController {
             navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navBackBtn)
         }else {
@@ -252,75 +161,102 @@ extension WisdomPhotoChromeVC {
                                       rightView: nil,
                                       edgeInset: UIEdgeInsets(top: 80, left: 20, bottom: 0, right: 0))
         }
-        
-        
-//            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn)
-        
-        
-//        }
-//
-//        rightBtn.titleLabel?.textAlignment = .right
-//
-//        if countType == .once {
-//            rightBtn.isHidden = true
-//        }
     }
     
-    private func beginShow(index: Int, coverViewFrame: CGRect){
+    internal func authoriza() {
+        PHPhotoLibrary.requestAuthorization({ (status) in
+            switch status {
+            case .authorized:
+                DispatchQueue.global().async { loadSystemImages() }
+            case .denied:
+                showAlert()
+            case .restricted:
+                showAlert()
+            case .notDetermined:
+                DispatchQueue.global().async { loadSystemImages() }
+            default: break
+            }
+        })
+        
+        func showAlert(){
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+0.5) { [weak self] in
+                self?.wisdom_showAlert(title: "相册访问权限已关闭",
+                                 message: "App需要您的同意，才能访问相册，读取本地图片，立即开启？",
+                                 cancelActionTitle: "取消",
+                                 rightActionTitle: "立即开启") { (action) in
+                    if let title = action.title {
+                        if title == "立即开启"{
+                            _=WisdomScanManager.openSystemSetting()
+                        }
+                    }
+                    self?.clickBackBtn()
+                }
+            }
+        }
+        
+        func loadSystemImages() {
+            /** 则获取所有资源 */
+            let allPhotosOptions = PHFetchOptions()
+            /** 按照创建时间倒序排列 */
+            allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+            /** 只获取图片 */
+            allPhotosOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+            assets = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: allPhotosOptions)
+    
+            DispatchQueue.main.async { [weak self] in
+                self?.listView.reloadData()
+            }
+            
+            // 新建一个PHImageRequestOptions对象
+            //let imageRequestOption = PHImageRequestOptions()
+            // PHImageRequestOptions是否有效
+            //imageRequestOption.isSynchronous = true
+            // 缩略图的压缩模式设置为无
+            //imageRequestOption.resizeMode = .none
+            // 缩略图的质量为高质量，不管加载时间花多少
+            //imageRequestOption.deliveryMode = .highQualityFormat
+        }
+    }
+    
+    internal func beginShow(index: Int, coverViewFrame: CGRect){
         if isCustomChrome {
             WisdomScanKit.startPhotoChrome(startIndex: index,
-                                           startAnimaRect: currentShowImagerRect,
+                                           startAnimaRect: curShowImageRect,
                                            images: images,
                                            didChromeClosure: { [weak self] (currentIndex: Int) -> CGRect in
-                // 更新结束动画 Rect
-                let indexPath = IndexPath(item: currentIndex, section: 0)
-                let window = UIApplication.shared.delegate?.window!
-                
-                if let cell = self?.listView.cellForItem(at: indexPath) {
-                    let rect = cell.convert(cell.bounds, to: window)
-                    return rect
+                if currentIndex >= self?.images.count ?? 0 {
+                    return .zero
                 }
-                return .zero
+                return didChrome(currentIndex: currentIndex)
+            })
+        }else {
+            WisdomScanKit.startPhotoChrome(startIndex: index,
+                                           startAnimaRect: curShowImageRect,
+                                           assets: assets,
+                                           didChromeClosure: { [weak self] (currentIndex: Int) -> CGRect in
+                if currentIndex >= self?.assets.count ?? 0 {
+                    return .zero
+                }
+                return didChrome(currentIndex: currentIndex)
             })
         }
         
-//        imageManager.requestImage(for: assetsFetchResults[index],
-//                                  targetSize: UIScreen.main.bounds.size,
-//                                  contentMode: PHImageContentMode.aspectFit,
-//                                  options: options,
-//                                  resultHandler: { (image, _) -> Void in
-//           if image != nil {
-//
-//               WisdomScanKit.startPhotoChrome(startIndex: index,
-//                                              startAnimatRect: self.currentShowImagerRect,
-//                                              fetchResult: self.assetsFetchResults,
-//                                              didChromeClosure: {[weak self] (currentIndex: Int) -> CGRect in
-//
-//                   if currentIndex >= (self?.assetsFetchResults)!.count{
-//                       return .zero
-//                   }
-//
-//                   let indexPath = IndexPath(item: currentIndex, section: 0)
-//                   self?.listView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.top, animated: false)
-//
-//                   let window = UIApplication.shared.delegate?.window!
-//                   let cell = self?.listView.cellForItem(at: indexPath)
-//                   var rect: CGRect = .zero
-//
-//                   if cell != nil{
-//                       rect = cell!.convert(cell!.bounds, to: window)
-//                       self?.currentShowImagerRect = rect
-//                   }
-//
-//                   return rect
-//               })
-//           }else{
-////               WisdomHUD.showText(text: "图加载失败")
-//           }
-//        })
+        func didChrome(currentIndex: Int)->CGRect{
+            let indexPath = IndexPath(item: currentIndex, section: 0)
+            listView.scrollToItem(at: indexPath, at: .top, animated: false)
+
+            let window = UIApplication.shared.delegate?.window!
+            var rect: CGRect = .zero
+
+            if let cell = listView.cellForItem(at: indexPath) {
+                rect = cell.convert(cell.bounds, to: window)
+                curShowImageRect = rect
+            }
+            return rect
+        }
     }
     
-    @objc private func clickBackBtn(){
+    @objc internal func clickBackBtn(){
 //        if startType == .push {
 //            if navigationController != nil && isCreatNav {
 //                UIView.animate(withDuration: 0.35, animations: {
@@ -346,7 +282,7 @@ extension WisdomPhotoChromeVC {
 //                dismiss(animated: true, completion: nil)
 //            }
 //        }else
-        if transform == .alpha {
+//        if transform == .alpha {
             if let nav = navigationController {
                 UIView.animate(withDuration: 0.35, animations: {
                     nav.view.alpha = 0
@@ -360,7 +296,7 @@ extension WisdomPhotoChromeVC {
                     self?.dismiss(animated: false)
                 }
             }
-        }
+//        }
     }
 }
 
@@ -370,60 +306,38 @@ extension WisdomPhotoChromeVC: UICollectionViewDelegate, UICollectionViewDataSou
         if isCustomChrome {
             return images.count
         }
-        return 0
+        return assets.count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(WisdomPhotoBaseCell.self)", for: indexPath) as! WisdomPhotoBaseCell
         
         if isCustomChrome {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(WisdomPhotoBaseCell.self)", for: indexPath) as! WisdomPhotoBaseCell
             cell.image = images[indexPath.item]
-            return cell
+        }else {
+            imageManager.requestImage(for: assets[indexPath.item],
+                                      targetSize: assetGridThumbnailSize,
+                                      contentMode: PHImageContentMode.aspectFit,
+                                      options: nil,
+                                      resultHandler: {[weak self] (image, _) -> Void in
+                cell.image = image
+                
+                if indexPath.item == 0 { self?.beginImage = image }
+            })
         }
-        
-//        imageManager.requestImage(for: assetsFetchResults[indexPath.item],
-//                                  targetSize: assetGridThumbnailSize,
-//                                  contentMode: PHImageContentMode.aspectFit,
-//                                  options: nil,
-//                                              resultHandler: { (image, _) -> Void in
-//            cell.image = image
-//            if indexPath.item == 0{
-//                self.beginImage = image
-//            }
-//        })
-//
-//        if indexPathResults.contains(indexPath){
-//            cell.selectBtn.isSelected = true
-//        }else{
-//            cell.selectBtn.isSelected = false
-//        }
-//
-//        cell.hander = {[weak self] (res, image) in
-//            let resCell = self?.updatePhotoSelect(res: res, image: image, index: indexPath)
-//            return resCell!
-//        }
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(WisdomPhotoSelectCell.self)", for: indexPath) as! WisdomPhotoSelectCell
         return cell
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if isCustomChrome {
-            let cell = collectionView.cellForItem(at: indexPath) as! WisdomPhotoBaseCell
-            setBeginShow(cell: cell)
-        }else {
-            let cell = collectionView.cellForItem(at: indexPath) as! WisdomPhotoSelectCell
-            setBeginShow(cell: cell)
-        }
+        let cell = collectionView.cellForItem(at: indexPath) as! WisdomPhotoBaseCell
         
-        func setBeginShow(cell: UICollectionViewCell){
-            let window = UIApplication.shared.delegate?.window!
-            let rect = cell.convert(cell.bounds, to: window)
-            currentShowImagerRect = rect
-            beginShow(index: indexPath.item, coverViewFrame: cell.frame)
-        }
+        let window = UIApplication.shared.delegate?.window!
+        let rect = cell.convert(cell.bounds, to: window)
+        curShowImageRect = rect
+        
+        beginShow(index: indexPath.item, coverViewFrame: cell.frame)
     }
 }
-
 
 
 class WisdomNavBackBtn: UIButton {

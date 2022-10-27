@@ -11,6 +11,29 @@ import Photos
 import WisdomHUD
 
 
+extension WisdomScanManager: WisdomScanAuthorizeable {
+    
+    static func getCameraAuthorize()->AVAuthorizationStatus{
+        .authorized
+    }
+    
+    static func getPhotoAuthorize()->PHAuthorizationStatus{
+        .authorized
+    }
+    
+    static func openSystemSetting()->Bool {
+        if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+            return true
+        }
+        return false
+    }
+}
+
 extension WisdomScanManager: WisdomScanPhotoChromeable {
     
     static func startPhotoChrome(startIndex: Int, startAnimaRect: CGRect, images: [UIImage], didChromeClosure: ((Int)->(CGRect))?) {
@@ -27,14 +50,16 @@ extension WisdomScanManager: WisdomScanPhotoChromeable {
         viewList.Root.addSubview(hud)
     }
     
-    static func startPhotoChrome(title: String, images: [UIImage], rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle) {
+    static func photoChrome(title: String, images: [UIImage], rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle) {
         let chromeVC = WisdomPhotoChromeVC(title: title, images: images, transform: transform, theme: theme)
         var transform = WisdomScanTransformAnim(rootVC: rootVC, transform: transform)
         transform.startTransform(transformVC: chromeVC, needNav: true)
     }
     
-    public static func startPhotoChromeLibrary(title: String, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle){
-        
+    public static func photoLibraryChrome(title: String, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle){
+        let chromeVC = WisdomPhotoChromeVC(title: title, transform: transform, theme: theme)
+        var transform = WisdomScanTransformAnim(rootVC: rootVC, transform: transform)
+        transform.startTransform(transformVC: chromeVC, needNav: true)
     }
 }
 

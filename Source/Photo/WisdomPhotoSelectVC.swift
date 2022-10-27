@@ -209,16 +209,16 @@ public class WisdomPhotoSelectVC: UIViewController {
     
     
     fileprivate func upgrades(){
-        showAlert(title: "相册访问权限已关闭", message: "App需要您同意，才能访问相册读取图片", cancelActionTitle: "取消", rightActionTitle: "立即开启") {[weak self] (action) in
-            
-            if let title = action.title {
-                if title == "立即开启"{
-//                    WisdomScanKit.authorizationScan()
-                }
-            }
-            
-            self?.clickBackBtn()
-        }
+//        showAlert(title: "相册访问权限已关闭", message: "App需要您同意，才能访问相册读取图片", cancelActionTitle: "取消", rightActionTitle: "立即开启") {[weak self] (action) in
+//            
+//            if let title = action.title {
+//                if title == "立即开启"{
+////                    WisdomScanKit.authorizationScan()
+//                }
+//            }
+//            
+//            self?.clickBackBtn()
+//        }
     }
     
     

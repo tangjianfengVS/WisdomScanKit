@@ -13,31 +13,29 @@ import CommonCrypto
 extension UIViewController {
     
     /* 系统界面提示 */
-    @objc public func showAlert(title: String,
-                                message: String,
-                                cancelActionTitle: String?,
-                                rightActionTitle: String?,
-                                handler: @escaping ((UIAlertAction) -> Void)) {
+    @objc public func wisdom_showAlert(title: String,
+                                       message: String,
+                                       cancelActionTitle: String?,
+                                       rightActionTitle: String?,
+                                       closure: @escaping ((UIAlertAction) -> Void)) {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         if cancelActionTitle != nil {
             let cancelAction = UIAlertAction(title: cancelActionTitle, style: .default, handler: { action in
+                closure(action)
                 alert.dismiss(animated: true, completion: nil)
-                handler(action)
             })
-   
             alert.addAction(cancelAction)
         }
         
         if rightActionTitle != nil {
             let rightAction = UIAlertAction(title: rightActionTitle, style: UIAlertAction.Style.default, handler: { action in
-                handler(action)
+                closure(action)
+                alert.dismiss(animated: true, completion: nil)
             })
             alert.addAction(rightAction)
         }
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-            self.present(alert, animated: true, completion: nil)
-        }
+        present(alert, animated: true, completion: nil)
     }
 }
 

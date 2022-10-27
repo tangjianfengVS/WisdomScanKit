@@ -29,9 +29,9 @@ protocol WisdomScanPhotoChromeable {
     
     static func startPhotoChrome(startIndex: Int, startAnimaRect: CGRect, assets: PHFetchResult<PHAsset>, didChromeClosure: ((Int)->(CGRect))?)
     
-    static func startPhotoChrome(title: String, images: [UIImage], rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle)
+    static func photoChrome(title: String, images: [UIImage], rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle)
     
-    static func startPhotoChromeLibrary(title: String, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle)
+    static func photoLibraryChrome(title: String, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle)
 }
 
 
@@ -120,4 +120,16 @@ protocol WisdomPhotoChromeable {
     func tapTouch(tap: UITapGestureRecognizer)
     
     func panReleased(image: UIImage, rect: CGRect)
+}
+
+
+protocol WisdomPhotoChromeControllerable {
+    
+    func setNavbarUI()
+    
+    func authoriza()
+    
+    func beginShow(index: Int, coverViewFrame: CGRect)
+    
+    func clickBackBtn()
 }

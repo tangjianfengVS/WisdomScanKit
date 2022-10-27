@@ -488,16 +488,16 @@ public class WisdomPhotosVC: UIViewController {
     
     
     fileprivate func upgrades(){
-        showAlert(title: "摄像使用权限已关闭", message: "App需要您同意，才能使用摄像拍照功能", cancelActionTitle: "取消", rightActionTitle: "立即开启") {[weak self] (action) in
-            
-            if let title = action.title {
-                if title == "立即开启"{
-//                    WisdomScanKit.authorizationScan()
-                }
-            }
-            
-            self?.clickBackBtn()
-        }
+//        showAlert(title: "摄像使用权限已关闭", message: "App需要您同意，才能使用摄像拍照功能", cancelActionTitle: "取消", rightActionTitle: "立即开启") {[weak self] (action) in
+//
+//            if let title = action.title {
+//                if title == "立即开启"{
+////                    WisdomScanKit.authorizationScan()
+//                }
+//            }
+//
+//            self?.clickBackBtn()
+//        }
     }
     
     

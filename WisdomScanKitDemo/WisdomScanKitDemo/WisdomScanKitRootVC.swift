@@ -11,7 +11,7 @@ import SnapKit
 
 class WisdomScanKitRootVC: UIViewController {
     
-    let list = [["自定义图片浏览", "系统图片浏览", "跳转-自定义图片浏览"]]
+    let list = [["自定义图片浏览", "系统图片浏览", "跳转-自定义图片浏览", "跳转-系统图片浏览"]]
     
     lazy var imageList: [UIImage] = {
         var rray: [UIImage] = []
@@ -140,11 +140,16 @@ extension WisdomScanKitRootVC: UITableViewDelegate {
             }else if indexPath.row == 1 {
                 
             }else if indexPath.row == 2 {
-                WisdomScanKit.startPhotoChrome(title: "图片浏览",
-                                               images: imageList,
-                                               rootVC: self,
-                                               transform: .push,
-                                               theme: .dark)
+                WisdomScanKit.photoChrome(title: "图片浏览",
+                                          images: imageList,
+                                          rootVC: self,
+                                          transform: .push,
+                                          theme: .dark)
+            }else if indexPath.row == 3 {
+                WisdomScanKit.photoLibraryChrome(title: "图片浏览",
+                                                 rootVC: self,
+                                                 transform: .push,
+                                                 theme: .dark)
             }
         case 1: // 系统图片浏览
             // 动画浏览

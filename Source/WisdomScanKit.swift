@@ -46,19 +46,19 @@ extension WisdomScanKit: WisdomScanPhotoChromeable {
      * transform : vc transform style 'WisdomScanTransformStyle'
      * theme     : vc transform theme style 'WisdomScanThemeStyle'
      */
-    @objc public static func startPhotoChrome(title: String, images: [UIImage], rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle) {
-        WisdomScanManager.startPhotoChrome(title: title, images: images, rootVC: rootVC, transform: transform, theme: theme)
+    @objc public static func photoChrome(title: String, images: [UIImage], rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle) {
+        WisdomScanManager.photoChrome(title: title, images: images, rootVC: rootVC, transform: transform, theme: theme)
     }
     
-    // MARK: Transform Systom Photo Chrome: UIViewController - WisdomPhotoChromeHUD
+    // MARK: Transform Systom Photo Library Chrome: UIViewController - WisdomPhotoChromeHUD
     /*
      * title     : navbar title
      * rootVC    : vc transform root vc 'UIViewController'
      * transform : vc transform style 'WisdomScanTransformStyle'
      * theme     : vc transform theme style 'WisdomScanThemeStyle'
      */
-    @objc public static func startPhotoChromeLibrary(title: String, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle) {
-        WisdomScanManager.startPhotoChromeLibrary(title: title, rootVC: rootVC, transform: transform, theme: theme)
+    @objc public static func photoLibraryChrome(title: String, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle) {
+        WisdomScanManager.photoLibraryChrome(title: title, rootVC: rootVC, transform: transform, theme: theme)
     }
 }
 
