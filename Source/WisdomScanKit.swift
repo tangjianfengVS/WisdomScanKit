@@ -20,9 +20,9 @@ extension WisdomScanKit: WisdomScanPhotoChromeable {
     
     // MARK: Custom Photo Chrome: WisdomPhotoChromeHUD
     /*
-     * startIndex    : image in '[UIImage]' index
-     * startAnimaRect: show image begin animation 'CGRect'
-     * images        : custom '[UIImage]' data
+     * startIndex     : image in '[UIImage]' index
+     * startAnimaRect : show image begin animation 'CGRect'
+     * images         : custom '[UIImage]' data
      */
     @objc public static func startPhotoChrome(startIndex: Int, startAnimaRect: CGRect, images: [UIImage], didChromeClosure:((Int)->(CGRect))?) {
         WisdomScanManager.startPhotoChrome(startIndex: startIndex, startAnimaRect: startAnimaRect, images: images, didChromeClosure: didChromeClosure)
@@ -30,9 +30,9 @@ extension WisdomScanKit: WisdomScanPhotoChromeable {
     
     // MARK: System Photo Chrome: WisdomPhotoChromeHUD
     /*
-     * startIndex    : image in '[UIImage]' index
-     * startAnimaRect: show image begin animation 'CGRect'
-     * assets        : systom 'PHFetchResult<PHAsset>' data
+     * startIndex     : image in '[UIImage]' index
+     * startAnimaRect : show image begin animation 'CGRect'
+     * assets         : systom 'PHFetchResult<PHAsset>' data
      */
     @objc public static func startPhotoChrome(startIndex: Int, startAnimaRect: CGRect, assets: PHFetchResult<PHAsset>, didChromeClosure: ((Int)->(CGRect))?) {
         WisdomScanManager.startPhotoChrome(startIndex: startIndex, startAnimaRect: startAnimaRect, assets: assets, didChromeClosure: didChromeClosure)
@@ -42,12 +42,23 @@ extension WisdomScanKit: WisdomScanPhotoChromeable {
     /*
      * title     : navbar title
      * images    : custom '[UIImage]' data
-     * rootVC    : use transform 'UIViewController'
-     * transform : use 'WisdomScanTransformStyle'
-     * theme     : UI content 'WisdomScanThemeStyle'
+     * rootVC    : vc transform root vc 'UIViewController'
+     * transform : vc transform style 'WisdomScanTransformStyle'
+     * theme     : vc transform theme style 'WisdomScanThemeStyle'
      */
     @objc public static func startPhotoChrome(title: String, images: [UIImage], rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle) {
         WisdomScanManager.startPhotoChrome(title: title, images: images, rootVC: rootVC, transform: transform, theme: theme)
+    }
+    
+    // MARK: Transform Systom Photo Chrome: UIViewController - WisdomPhotoChromeHUD
+    /*
+     * title     : navbar title
+     * rootVC    : vc transform root vc 'UIViewController'
+     * transform : vc transform style 'WisdomScanTransformStyle'
+     * theme     : vc transform theme style 'WisdomScanThemeStyle'
+     */
+    @objc public static func startPhotoChromeLibrary(title: String, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle) {
+        WisdomScanManager.startPhotoChromeLibrary(title: title, rootVC: rootVC, transform: transform, theme: theme)
     }
 }
 

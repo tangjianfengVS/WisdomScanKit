@@ -30,6 +30,8 @@ protocol WisdomScanPhotoChromeable {
     static func startPhotoChrome(startIndex: Int, startAnimaRect: CGRect, assets: PHFetchResult<PHAsset>, didChromeClosure: ((Int)->(CGRect))?)
     
     static func startPhotoChrome(title: String, images: [UIImage], rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle)
+    
+    static func startPhotoChromeLibrary(title: String, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle)
 }
 
 

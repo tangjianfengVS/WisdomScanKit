@@ -32,6 +32,10 @@ extension WisdomScanManager: WisdomScanPhotoChromeable {
         var transform = WisdomScanTransformAnim(rootVC: rootVC, transform: transform)
         transform.startTransform(transformVC: chromeVC, needNav: true)
     }
+    
+    public static func startPhotoChromeLibrary(title: String, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle){
+        
+    }
 }
 
 
