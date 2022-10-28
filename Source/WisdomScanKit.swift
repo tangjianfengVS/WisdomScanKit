@@ -21,9 +21,11 @@ extension WisdomScanKit: WisdomScanPhotoChromeable {
     
     // MARK: Photo Chrome Custom Images: WisdomPhotoChromeHUD
     /*
-     * startIndex     : image in '[UIImage]' index
-     * startAnimaRect : show image begin animation 'CGRect'
-     * images         : custom '[UIImage]' data
+     * startIndex      : image in '[UIImage]' index
+     * startAnimaRect  : show image begin animation 'CGRect'
+     * images          : custom '[UIImage]' data
+     * theme           : ui theme color style 'WisdomScanThemeStyle'
+     * didChromeClosure: callback in photo chrome '((Int)->(CGRect))?)'
      */
     @objc public static func startPhotoChrome(startIndex      : Int,
                                               startAnimaRect  : CGRect,
@@ -39,9 +41,11 @@ extension WisdomScanKit: WisdomScanPhotoChromeable {
     
     // MARK: Photo Chrome System PHAssets: WisdomPhotoChromeHUD
     /*
-     * startIndex     : image in '[UIImage]' index
-     * startAnimaRect : show image begin animation 'CGRect'
-     * assets         : systom 'PHFetchResult<PHAsset>' data
+     * startIndex      : image in '[UIImage]' index
+     * startAnimaRect  : show image begin animation 'CGRect'
+     * assets          : systom 'PHFetchResult<PHAsset>' data
+     * theme           : ui theme color style 'WisdomScanThemeStyle'
+     * didChromeClosure: callback in photo chrome '((Int)->(CGRect))?)'
      */
     @objc public static func startPhotoChrome(startIndex      : Int,
                                               startAnimaRect  : CGRect,
@@ -57,11 +61,11 @@ extension WisdomScanKit: WisdomScanPhotoChromeable {
     
     // MARK: Photo Chrome Custom Images Transform: UIViewController - WisdomPhotoChromeHUD
     /*
-     * title     : navbar title
+     * title     : ui navbar title
      * images    : custom '[UIImage]' data
-     * rootVC    : vc transform rootVC 'UIViewController'
+     * rootVC    : wake up 'UIViewController'
      * transform : vc transform style 'WisdomScanTransformStyle'
-     * theme     : vc transform theme style 'WisdomScanThemeStyle'
+     * theme     : ui theme color style 'WisdomScanThemeStyle'
      */
     @objc public static func photoChrome(title    : String?=nil,
                                          images   : [UIImage],
@@ -74,9 +78,9 @@ extension WisdomScanKit: WisdomScanPhotoChromeable {
     // MARK: Photo Chrome Systom Library Transform: UIViewController - WisdomPhotoChromeHUD
     /*
      * title     : navbar title
-     * rootVC    : vc transform rootVC 'UIViewController'
+     * rootVC    : wake up 'UIViewController'
      * transform : vc transform style 'WisdomScanTransformStyle'
-     * theme     : vc transform theme style 'WisdomScanThemeStyle'
+     * theme     : ui theme color style 'WisdomScanThemeStyle'
      */
     @objc public static func photoLibraryChrome(title    : String?=nil,
                                                 rootVC   : UIViewController,
@@ -89,7 +93,14 @@ extension WisdomScanKit: WisdomScanPhotoChromeable {
 extension WisdomScanKit: WisdomScanPhotoElectable {
     
     // MARK: Photo Elect Custom Images Transform: UIViewController - WisdomPhotoChromeHUD
-    
+    /*
+     * title     : ui navbar title
+     * images    : custom '[UIImage]' data
+     * electCount: elect count style 'WisdomScanCountStyle'
+     * rootVC    : wake up 'UIViewController'
+     * transform : vc transform style 'WisdomScanTransformStyle'
+     * theme     : ui theme color style 'WisdomScanThemeStyle'
+     */
     static func photoElect(title     : String?=nil,
                            images    : [UIImage],
                            electCount: WisdomScanCountStyle = .one,
@@ -100,7 +111,13 @@ extension WisdomScanKit: WisdomScanPhotoElectable {
     }
     
     // MARK: Photo Elect Systom Library Transform: UIViewController - WisdomPhotoChromeHUD
-    
+    /*
+     * title     : ui navbar title
+     * electCount: elect count style 'WisdomScanCountStyle'
+     * rootVC    : wake up 'UIViewController'
+     * transform : vc transform style 'WisdomScanTransformStyle'
+     * theme     : ui theme color style 'WisdomScanThemeStyle'
+     */
     static func photoLibraryElect(title     : String?=nil,
                                   electCount: WisdomScanCountStyle = .one,
                                   rootVC    : UIViewController,
