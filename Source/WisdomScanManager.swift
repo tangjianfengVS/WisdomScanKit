@@ -36,27 +36,42 @@ extension WisdomScanManager: WisdomScanAuthorizeable {
 
 extension WisdomScanManager: WisdomScanPhotoChromeable {
     
-    static func startPhotoChrome(startIndex: Int, startAnimaRect: CGRect, images: [UIImage], didChromeClosure: ((Int)->(CGRect))?) {
+    static func startPhotoChrome(startIndex: Int, startAnimaRect: CGRect, images: [UIImage], theme: WisdomScanThemeStyle, didChromeClosure: ((Int)->(CGRect))?) {
         let viewList = WisdomScanManager.getTransformView()
         let hud = WisdomPhotoChromeHUD(beginIndex: startIndex, beginRect: startAnimaRect, images: images, transformView: viewList.Cover, didChromeClosure: didChromeClosure)
         
         viewList.Root.addSubview(hud)
     }
     
-    static func startPhotoChrome(startIndex: Int, startAnimaRect: CGRect, assets: PHFetchResult<PHAsset>, didChromeClosure: ((Int)->(CGRect))?) {
+    static func startPhotoChrome(startIndex: Int, startAnimaRect: CGRect, assets: PHFetchResult<PHAsset>, theme: WisdomScanThemeStyle, didChromeClosure: ((Int)->(CGRect))?) {
         let viewList = WisdomScanManager.getTransformView()
         let hud = WisdomPhotoChromeHUD(beginIndex: startIndex, beginRect: startAnimaRect, assets: assets, transformView: viewList.Cover, didChromeClosure: didChromeClosure)
         
         viewList.Root.addSubview(hud)
     }
     
-    static func photoChrome(title: String, images: [UIImage], rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle) {
+    static func photoChrome(title: String?, images: [UIImage], rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle) {
         let chromeVC = WisdomPhotoChromeVC(title: title, images: images, transform: transform, theme: theme)
         var transform = WisdomScanTransformAnim(rootVC: rootVC, transform: transform)
         transform.startTransform(transformVC: chromeVC, needNav: true)
     }
     
-    public static func photoLibraryChrome(title: String, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle){
+    public static func photoLibraryChrome(title: String?, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle){
+        let chromeVC = WisdomPhotoChromeVC(title: title, transform: transform, theme: theme)
+        var transform = WisdomScanTransformAnim(rootVC: rootVC, transform: transform)
+        transform.startTransform(transformVC: chromeVC, needNav: true)
+    }
+}
+
+extension WisdomScanManager: WisdomScanPhotoElectable {
+    
+    static func photoElect(title: String?, images: [UIImage], electCount: WisdomScanCountStyle, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle){
+        let chromeVC = WisdomPhotoChromeVC(title: title, images: images, transform: transform, theme: theme)
+        var transform = WisdomScanTransformAnim(rootVC: rootVC, transform: transform)
+        transform.startTransform(transformVC: chromeVC, needNav: true)
+    }
+    
+    static func photoLibraryElect(title: String?, electCount: WisdomScanCountStyle, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle){
         let chromeVC = WisdomPhotoChromeVC(title: title, transform: transform, theme: theme)
         var transform = WisdomScanTransformAnim(rootVC: rootVC, transform: transform)
         transform.startTransform(transformVC: chromeVC, needNav: true)

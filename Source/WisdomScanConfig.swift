@@ -82,7 +82,7 @@ import Photos
 
 /** 照片张数样式 */
 @objc public enum WisdomScanCountStyle: NSInteger {
-    case once=0  /// 1张
+    case one=0  /// 1张
     case four    /// 4张
     case nine    /// 9张
 }

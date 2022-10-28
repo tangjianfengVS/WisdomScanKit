@@ -22,16 +22,22 @@ protocol WisdomScanAuthorizeable {
     static func openSystemSetting()->Bool
 }
 
-
 protocol WisdomScanPhotoChromeable {
     
-    static func startPhotoChrome(startIndex: Int, startAnimaRect: CGRect, images: [UIImage], didChromeClosure: ((Int)->(CGRect))?)
+    static func startPhotoChrome(startIndex: Int, startAnimaRect: CGRect, images: [UIImage], theme: WisdomScanThemeStyle, didChromeClosure: ((Int)->(CGRect))?)
     
-    static func startPhotoChrome(startIndex: Int, startAnimaRect: CGRect, assets: PHFetchResult<PHAsset>, didChromeClosure: ((Int)->(CGRect))?)
+    static func startPhotoChrome(startIndex: Int, startAnimaRect: CGRect, assets: PHFetchResult<PHAsset>, theme: WisdomScanThemeStyle, didChromeClosure: ((Int)->(CGRect))?)
     
-    static func photoChrome(title: String, images: [UIImage], rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle)
+    static func photoChrome(title: String?, images: [UIImage], rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle)
     
-    static func photoLibraryChrome(title: String, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle)
+    static func photoLibraryChrome(title: String?, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle)
+}
+
+protocol WisdomScanPhotoElectable {
+    
+    static func photoElect(title: String?, images: [UIImage], electCount: WisdomScanCountStyle, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle)
+    
+    static func photoLibraryElect(title: String?, electCount: WisdomScanCountStyle, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle)
 }
 
 

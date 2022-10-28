@@ -11,7 +11,8 @@ import SnapKit
 
 class WisdomScanKitRootVC: UIViewController {
     
-    let list = [["自定义图片浏览", "系统图片浏览", "跳转-自定义图片浏览", "跳转-系统图片浏览"]]
+    let list = [["自定义图片浏览", "系统图片浏览", "跳转-自定义图片浏览", "跳转-系统图片浏览"],
+                ["跳转-自定义图片选择"]]
     
     lazy var imageList: [UIImage] = {
         var rray: [UIImage] = []
@@ -152,72 +153,24 @@ extension WisdomScanKitRootVC: UITableViewDelegate {
                                                  theme: .dark)
             }
         case 1: // 系统图片浏览
-            // 动画浏览
-//            WisdomScanKit.startPhotoChrome(startIndex: startIconIndex,
-//                                           startAnimatRect: startIconAnimatRect,
-//                                           iconList: self?.imageList ?? [],
-//                                           didChromeClosure: { (currentIndex: Int) -> CGRect in
-//                // 更新结束动画 Rect
-//                let indexPath = IndexPath(item: currentIndex, section: 0)
-//                let window = UIApplication.shared.delegate?.window!
-//                let cell = testVC.listView.cellForItem(at: indexPath)
-//                var rect: CGRect = .zero
-//
-//                if cell != nil{
-//                      rect = cell!.convert(cell!.bounds, to: window)
-//                      return rect
-//                }
-//                return CGRect.zero
-//            })
-            break
+            if indexPath.item == 0 {
+                WisdomScanKit.photoElect(title: "图片选择",
+                                         images: imageList,
+                                         electCount: .four,
+                                         rootVC: self,
+                                         transform: .push,
+                                         theme: .light)
+            }else if indexPath.item == 1 {
+                WisdomScanKit.photoLibraryElect(title: "图片选择",
+                                                electCount: .four,
+                                                rootVC: self,
+                                                transform: .push,
+                                                theme: .light)
+            }
         case 2: break
             
         default: break
         }
-        
-//        let style: WisdomHUDStyle = WisdomHUDStyle.allCases[indexPath.section]
-//        switch style {
-//        case .succes:
-//            WisdomHUD.showSuccess(text: "加载成功", barStyle: sceneBarStyle, inSupView: view, delays: 3) { interval in
-//                print("")
-//            }
-//        case .error:
-//            WisdomHUD.showError(text: "加载失败", barStyle: sceneBarStyle, inSupView: view, delays: 3) { interval in
-//                print("")
-//            }.setFocusing()
-//        case .warning:
-//            WisdomHUD.showWarning(text: "加载警告", barStyle: sceneBarStyle, inSupView: view, delays: 3) { interval in
-//                print("")
-//            }.setFocusing()
-//        case .loading:
-//            if let loadingStyle = WisdomLoadingStyle(rawValue: indexPath.row) {
-//                WisdomHUD.showLoading(text: "正在加载中", loadingStyle: loadingStyle, barStyle: sceneBarStyle, inSupView: view)
-//
-//                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+8) {
-//
-//                    //WisdomHUD.showLoading(text: "覆盖测试中", loadingStyle: loadingStyle, barStyle: .light)
-//
-//                    //DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+8) {
-//                        WisdomHUD.dismiss()
-//                    //}
-//                }
-//            }
-//        case .text:
-//            switch WisdomTextPlaceStyle.allCases[indexPath.row] {
-//            case .center:
-//                WisdomHUD.showTextCenter(text: "添加失败，请稍后重试", barStyle: sceneBarStyle, inSupView: view, delays: 3) { interval in
-//                    print("")//加载添加
-//                }
-//            case .bottom:
-//                WisdomHUD.showTextBottom(text: "添加失败，请稍后重试,添加失败，请稍后重试,添加失败，请稍后重试,添加失败，请稍后重试,添加失败，请稍后重试",
-//                                         barStyle: sceneBarStyle,
-//                                         inSupView: view,
-//                                         delays: 3) { interval in
-//                    print("")//加载添加
-//                }.setFocusing()
-//            default: break
-//            }
-//        }
     }
 }
 

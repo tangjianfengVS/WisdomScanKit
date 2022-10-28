@@ -64,7 +64,7 @@ class WisdomPhotoChromeVC: UIViewController {
     
     private var beginImage: UIImage?
     
-    init(title: String,
+    init(title: String?,
          images: [UIImage],
          transform: WisdomScanTransformStyle,
          theme: WisdomScanThemeStyle) {
@@ -73,9 +73,13 @@ class WisdomPhotoChromeVC: UIViewController {
         self.transform = transform
         self.isCustomChrome = true
         super.init(nibName: nil, bundle: nil)
+        
+        if let text = title {
+            headerTitle = text
+        }
     }
     
-    init(title: String,
+    init(title: String?,
          transform: WisdomScanTransformStyle,
          theme: WisdomScanThemeStyle) {
         self.images = []
@@ -83,6 +87,10 @@ class WisdomPhotoChromeVC: UIViewController {
         self.transform = transform
         self.isCustomChrome = false
         super.init(nibName: nil, bundle: nil)
+        
+        if let text = title {
+            headerTitle = text
+        }
     }
     
     override public func viewDidLoad() {
@@ -218,20 +226,20 @@ extension WisdomPhotoChromeVC: WisdomPhotoChromeControllerable {
     
     internal func beginShow(index: Int, coverViewFrame: CGRect){
         if isCustomChrome {
-            WisdomScanKit.startPhotoChrome(startIndex: index,
-                                           startAnimaRect: curShowImageRect,
-                                           images: images,
-                                           didChromeClosure: { [weak self] (currentIndex: Int) -> CGRect in
+            WisdomScanManager.startPhotoChrome(startIndex: index,
+                                               startAnimaRect: curShowImageRect,
+                                               images: images,
+                                               didChromeClosure: { [weak self] (currentIndex: Int) -> CGRect in
                 if currentIndex >= self?.images.count ?? 0 {
                     return .zero
                 }
                 return didChrome(currentIndex: currentIndex)
             })
         }else {
-            WisdomScanKit.startPhotoChrome(startIndex: index,
-                                           startAnimaRect: curShowImageRect,
-                                           assets: assets,
-                                           didChromeClosure: { [weak self] (currentIndex: Int) -> CGRect in
+            WisdomScanManager.startPhotoChrome(startIndex: index,
+                                               startAnimaRect: curShowImageRect,
+                                               assets: assets,
+                                               didChromeClosure: { [weak self] (currentIndex: Int) -> CGRect in
                 if currentIndex >= self?.assets.count ?? 0 {
                     return .zero
                 }

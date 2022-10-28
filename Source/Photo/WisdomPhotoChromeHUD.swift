@@ -170,12 +170,9 @@ fileprivate let AMCGSize: CGSize = CGSize(width: 25, height: 25)
             addSubview(label)
             label.isHidden = true
             
-            if currentIndex < assets.count {
-                //imageView.image = fetchResult[currentIndex]
-            }else {
+            if currentIndex >= assets.count {
                 currentIndex = 0
                 imageRect = .zero
-                //imageView.image = fetchResult[currentIndex]
             }
             
             imageManager.requestImage(for: assets[currentIndex],
