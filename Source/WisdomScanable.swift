@@ -121,7 +121,7 @@ protocol WisdomScanPhotoElectable {
 
 protocol WisdomPhotoChromeable {
     
-    func showAnimation(image: UIImage, beginIndex: NSInteger, beginRect: CGRect)
+    func showAnimation(image: UIImage, beginIndex: NSInteger, beginRect: CGRect, theme: WisdomScanThemeStyle)
     
     func tapTouch(tap: UITapGestureRecognizer)
     

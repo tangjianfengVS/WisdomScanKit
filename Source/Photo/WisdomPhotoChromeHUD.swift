@@ -98,6 +98,7 @@ fileprivate let AMCGSize: CGSize = CGSize(width: 25, height: 25)
                       beginRect: CGRect,
                       images: [UIImage],
                       transformView: UIView,
+                      theme: WisdomScanThemeStyle,
                       didChromeClosure: ((Int)->(CGRect))?) {
         
         currentIndex = beginIndex
@@ -127,7 +128,7 @@ fileprivate let AMCGSize: CGSize = CGSize(width: 25, height: 25)
                 imageView.image = images[currentIndex]
             }
             
-            showAnimation(image: images[currentIndex], beginIndex: beginIndex, beginRect: beginRect)
+            showAnimation(image: images[currentIndex], beginIndex: beginIndex, beginRect: beginRect, theme: theme)
             
             if currentIndex != 0 && currentIndex < images.count {
                 layout.updateCurrentOffsetX(index: currentIndex)
@@ -149,6 +150,7 @@ fileprivate let AMCGSize: CGSize = CGSize(width: 25, height: 25)
                       beginRect: CGRect,
                       assets: PHFetchResult<PHAsset>,
                       transformView: UIView,
+                      theme: WisdomScanThemeStyle,
                       didChromeClosure: ((Int)->(CGRect))?) {
         
         currentIndex = beginIndex
@@ -182,7 +184,7 @@ fileprivate let AMCGSize: CGSize = CGSize(width: 25, height: 25)
                                       resultHandler: { [weak self] (image, _) -> Void in
                 self?.imageView.image = image
 
-                self?.showAnimation(image: image!, beginIndex: beginIndex, beginRect: beginRect)
+                self?.showAnimation(image: image!, beginIndex: beginIndex, beginRect: beginRect, theme: theme)
             })
             
             if currentIndex != 0 && currentIndex < assets.count {
@@ -218,7 +220,7 @@ fileprivate let AMCGSize: CGSize = CGSize(width: 25, height: 25)
 extension WisdomPhotoChromeHUD: WisdomPhotoChromeable {
     
     // show begin
-    func showAnimation(image: UIImage, beginIndex: NSInteger, beginRect: CGRect) {
+    func showAnimation(image: UIImage, beginIndex: NSInteger, beginRect: CGRect, theme: WisdomScanThemeStyle) {
         let rect = image.getImageChromeRect()
         if beginRect == CGRect.zero{
             imageView.frame = rect
@@ -227,6 +229,12 @@ extension WisdomPhotoChromeHUD: WisdomPhotoChromeable {
         } else {
             coverView?.frame = beginRect
             imageView.frame = beginRect
+        }
+        
+        switch theme {
+        case .dark: coverView?.backgroundColor = .black
+        case .light: coverView?.backgroundColor = .white
+        default: coverView?.backgroundColor = .clear
         }
         
         UIView.animate(withDuration: 0.25) {[weak self] in

@@ -38,14 +38,14 @@ extension WisdomScanManager: WisdomScanPhotoChromeable {
     
     static func startPhotoChrome(startIndex: Int, startAnimaRect: CGRect, images: [UIImage], theme: WisdomScanThemeStyle, didChromeClosure: ((Int)->(CGRect))?) {
         let viewList = WisdomScanManager.getTransformView()
-        let hud = WisdomPhotoChromeHUD(beginIndex: startIndex, beginRect: startAnimaRect, images: images, transformView: viewList.Cover, didChromeClosure: didChromeClosure)
+        let hud = WisdomPhotoChromeHUD(beginIndex: startIndex, beginRect: startAnimaRect, images: images, transformView: viewList.Cover, theme: theme, didChromeClosure: didChromeClosure)
         
         viewList.Root.addSubview(hud)
     }
     
     static func startPhotoChrome(startIndex: Int, startAnimaRect: CGRect, assets: PHFetchResult<PHAsset>, theme: WisdomScanThemeStyle, didChromeClosure: ((Int)->(CGRect))?) {
         let viewList = WisdomScanManager.getTransformView()
-        let hud = WisdomPhotoChromeHUD(beginIndex: startIndex, beginRect: startAnimaRect, assets: assets, transformView: viewList.Cover, didChromeClosure: didChromeClosure)
+        let hud = WisdomPhotoChromeHUD(beginIndex: startIndex, beginRect: startAnimaRect, assets: assets, transformView: viewList.Cover, theme: theme, didChromeClosure: didChromeClosure)
         
         viewList.Root.addSubview(hud)
     }

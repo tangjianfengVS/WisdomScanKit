@@ -12,7 +12,7 @@ import SnapKit
 class WisdomScanKitRootVC: UIViewController {
     
     let list = [["自定义图片浏览", "系统图片浏览", "跳转-自定义图片浏览", "跳转-系统图片浏览"],
-                ["跳转-自定义图片选择"]]
+                ["跳转-自定义图片选择", "跳转-系统图片选择"]]
     
     lazy var imageList: [UIImage] = {
         var rray: [UIImage] = []
@@ -124,6 +124,7 @@ extension WisdomScanKitRootVC: UITableViewDelegate {
                     WisdomScanKit.startPhotoChrome(startIndex: startIconIndex,
                                                    startAnimaRect: startIconAnimatRect,
                                                    images: self?.imageList ?? [],
+                                                   theme: .dark,
                                                    didChromeClosure: { (currentIndex: Int) -> CGRect in
                         // 更新结束动画 Rect
                         let indexPath = IndexPath(item: currentIndex, section: 0)
@@ -145,7 +146,7 @@ extension WisdomScanKitRootVC: UITableViewDelegate {
                                           images: imageList,
                                           rootVC: self,
                                           transform: .push,
-                                          theme: .dark)
+                                          theme: .light)
             }else if indexPath.row == 3 {
                 WisdomScanKit.photoLibraryChrome(title: "图片浏览",
                                                  rootVC: self,
@@ -165,7 +166,7 @@ extension WisdomScanKitRootVC: UITableViewDelegate {
                                                 electCount: .four,
                                                 rootVC: self,
                                                 transform: .push,
-                                                theme: .light)
+                                                theme: .dark)
             }
         case 2: break
             

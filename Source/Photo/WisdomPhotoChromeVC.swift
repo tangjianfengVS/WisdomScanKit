@@ -229,6 +229,7 @@ extension WisdomPhotoChromeVC: WisdomPhotoChromeControllerable {
             WisdomScanManager.startPhotoChrome(startIndex: index,
                                                startAnimaRect: curShowImageRect,
                                                images: images,
+                                               theme: theme,
                                                didChromeClosure: { [weak self] (currentIndex: Int) -> CGRect in
                 if currentIndex >= self?.images.count ?? 0 {
                     return .zero
@@ -239,6 +240,7 @@ extension WisdomPhotoChromeVC: WisdomPhotoChromeControllerable {
             WisdomScanManager.startPhotoChrome(startIndex: index,
                                                startAnimaRect: curShowImageRect,
                                                assets: assets,
+                                               theme: theme,
                                                didChromeClosure: { [weak self] (currentIndex: Int) -> CGRect in
                 if currentIndex >= self?.assets.count ?? 0 {
                     return .zero
