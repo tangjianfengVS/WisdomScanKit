@@ -94,36 +94,40 @@ extension WisdomScanKit: WisdomScanPhotoElectable {
     
     // MARK: Photo Elect Custom Images Transform: UIViewController - WisdomPhotoChromeHUD
     /*
-     * title     : ui navbar title
-     * images    : custom '[UIImage]' data
-     * electCount: elect count style 'WisdomScanCountStyle'
-     * rootVC    : wake up 'UIViewController'
-     * transform : vc transform style 'WisdomScanTransformStyle'
-     * theme     : ui theme color style 'WisdomScanThemeStyle'
+     * title       : ui navbar title
+     * images      : custom '[UIImage]' data
+     * electCount  : elect count style 'WisdomScanCountStyle'
+     * rootVC      : wake up 'UIViewController'
+     * transform   : vc transform style 'WisdomScanTransformStyle'
+     * theme       : ui theme color style 'WisdomScanThemeStyle'
+     * electClosure: '([UIImage])->()'
      */
-    static func photoElect(title     : String?=nil,
-                           images    : [UIImage],
-                           electCount: WisdomScanCountStyle = .one,
-                           rootVC    : UIViewController,
-                           transform : WisdomScanTransformStyle = .push,
-                           theme     : WisdomScanThemeStyle = .light) {
-        WisdomScanManager.photoElect(title: title, images: images, electCount: electCount, rootVC: rootVC, transform: transform, theme: theme)
+    @objc public static func photoElect(title       : String?=nil,
+                                        images      : [UIImage],
+                                        electCount  : WisdomScanCountStyle = .normal,
+                                        rootVC      : UIViewController,
+                                        transform   : WisdomScanTransformStyle = .push,
+                                        theme       : WisdomScanThemeStyle = .light,
+                                        electClosure: @escaping ([UIImage])->()) {
+        WisdomScanManager.photoElect(title: title, images: images, electCount: electCount, rootVC: rootVC, transform: transform, theme: theme, electClosure: electClosure)
     }
     
     // MARK: Photo Elect Systom Library Transform: UIViewController - WisdomPhotoChromeHUD
     /*
-     * title     : ui navbar title
-     * electCount: elect count style 'WisdomScanCountStyle'
-     * rootVC    : wake up 'UIViewController'
-     * transform : vc transform style 'WisdomScanTransformStyle'
-     * theme     : ui theme color style 'WisdomScanThemeStyle'
+     * title       : ui navbar title
+     * electCount  : elect count style 'WisdomScanCountStyle'
+     * rootVC      : wake up 'UIViewController'
+     * transform   : vc transform style 'WisdomScanTransformStyle'
+     * theme       : ui theme color style 'WisdomScanThemeStyle'
+     * electClosure: '([UIImage])->()'
      */
-    static func photoLibraryElect(title     : String?=nil,
-                                  electCount: WisdomScanCountStyle = .one,
-                                  rootVC    : UIViewController,
-                                  transform : WisdomScanTransformStyle = .push,
-                                  theme     : WisdomScanThemeStyle = .light) {
-        WisdomScanManager.photoLibraryElect(title: title, electCount: electCount, rootVC: rootVC, transform: transform, theme: theme)
+    @objc public static func photoLibraryElect(title       : String?=nil,
+                                               electCount  : WisdomScanCountStyle = .normal,
+                                               rootVC      : UIViewController,
+                                               transform   : WisdomScanTransformStyle = .push,
+                                               theme       : WisdomScanThemeStyle = .light,
+                                               electClosure: @escaping ([UIImage])->()) {
+        WisdomScanManager.photoLibraryElect(title: title, electCount: electCount, rootVC: rootVC, transform: transform, theme: theme, electClosure: electClosure)
     }
 }
 

@@ -28,7 +28,7 @@ class WisdomViewController: UIViewController {
     /** 照片张数样式 */
     var xtElectPhotoCountType: ElectPhotoCountType = .nine
     /** 系统相册界面主题 */
-    var xtElectPhotoTheme: ElectPhotoTheme = .darkDim
+    var xtElectPhotoTheme: WisdomScanThemeStyle = .dark
     @IBOutlet weak var xtPushBtn: UIButton!
     @IBOutlet weak var xtNineBtn: UIButton!
     @IBOutlet weak var xtDarkBtn: UIButton!
@@ -39,7 +39,7 @@ class WisdomViewController: UIViewController {
     /** 照片张数样式 */
     var pzElectPhotoCountType: ElectPhotoCountType = .nine
     /** 删选界面主题 */
-    var pzElectPhotoTheme: ElectPhotoTheme = .whiteLight
+    var pzElectPhotoTheme: WisdomScanThemeStyle = .light
     @IBOutlet weak var pzPushBtn: UIButton!
     @IBOutlet weak var pzNineBtn: UIButton!
     @IBOutlet weak var pzWhiteLightBtn: UIButton!
@@ -57,7 +57,7 @@ class WisdomViewController: UIViewController {
     /** 调用摄像控制器动画样式 */
     var hudType: Bool = true
     /** 二维码扫描样式 */
-    var hudElectPhotoTheme: ElectPhotoTheme = .whiteLight
+    var hudElectPhotoTheme: WisdomScanThemeStyle = .light
     @IBOutlet weak var hudTypeBtn: UIButton!
     @IBOutlet weak var hudWhiteLightBtn: UIButton!
     
@@ -302,12 +302,12 @@ extension WisdomViewController {
             xtDarkBtn.isSelected = false
             btn.isSelected = true
             xtDarkBtn = btn
-            xtElectPhotoTheme = .whiteLight
+            xtElectPhotoTheme = .light
         }else if btn.tag == 2 {
             pzWhiteLightBtn.isSelected = false
             btn.isSelected = true
             pzWhiteLightBtn = btn
-            pzElectPhotoTheme = .whiteLight
+            pzElectPhotoTheme = .light
         }else if btn.tag == 3 {
             rqGreenBtn.isSelected = false
             btn.isSelected = true
@@ -317,7 +317,7 @@ extension WisdomViewController {
             hudWhiteLightBtn.isSelected = false
             btn.isSelected = true
             hudWhiteLightBtn = btn
-            hudElectPhotoTheme = .whiteLight
+            hudElectPhotoTheme = .light
         }
     }
     
@@ -327,12 +327,12 @@ extension WisdomViewController {
             xtDarkBtn.isSelected = false
             btn.isSelected = true
             xtDarkBtn = btn
-            xtElectPhotoTheme = .darkDim
+            xtElectPhotoTheme = .dark
         }else if btn.tag == 2 {
             pzWhiteLightBtn.isSelected = false
             btn.isSelected = true
             pzWhiteLightBtn = btn
-            pzElectPhotoTheme = .darkDim
+            pzElectPhotoTheme = .dark
         }else if btn.tag == 3 {
             rqGreenBtn.isSelected = false
             btn.isSelected = true
@@ -342,7 +342,7 @@ extension WisdomViewController {
             hudWhiteLightBtn.isSelected = false
             btn.isSelected = true
             hudWhiteLightBtn = btn
-            hudElectPhotoTheme = .darkDim
+            hudElectPhotoTheme = .dark
         }
     }
     

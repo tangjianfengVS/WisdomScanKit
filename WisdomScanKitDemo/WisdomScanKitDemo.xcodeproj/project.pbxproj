@@ -19,13 +19,11 @@
 		3EC12A5A29076C8A001F19A2 /* WisdomPhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4529076C8A001F19A2 /* WisdomPhotosVC.swift */; };
 		3EC12A5B29076C8A001F19A2 /* WisdomPhotoSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4629076C8A001F19A2 /* WisdomPhotoSelectVC.swift */; };
 		3EC12A5C29076C8A001F19A2 /* WisdomPhotoChromeHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4729076C8A001F19A2 /* WisdomPhotoChromeHUD.swift */; };
-		3EC12A5D29076C8A001F19A2 /* WisdomPhotoChromeFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4929076C8A001F19A2 /* WisdomPhotoChromeFlowLayout.swift */; };
 		3EC12A5E29076C8A001F19A2 /* WisdomPhotoChromeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4A29076C8A001F19A2 /* WisdomPhotoChromeCell.swift */; };
 		3EC12A5F29076C8A001F19A2 /* WisdomPhotoSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4B29076C8A001F19A2 /* WisdomPhotoSelectCell.swift */; };
 		3EC12A6029076C8A001F19A2 /* WisdomPhotoEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4C29076C8A001F19A2 /* WisdomPhotoEditCell.swift */; };
 		3EC12A6129076C8A001F19A2 /* WisdomPhotoEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4D29076C8A001F19A2 /* WisdomPhotoEditView.swift */; };
 		3EC12A6229076C8A001F19A2 /* WisdomAnimationBgBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4E29076C8A001F19A2 /* WisdomAnimationBgBtn.swift */; };
-		3EC12A6329076C8A001F19A2 /* WisdomPhotoSelectBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A4F29076C8A001F19A2 /* WisdomPhotoSelectBar.swift */; };
 		3EC12A6529076D12001F19A2 /* WisdomScanable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A6429076D12001F19A2 /* WisdomScanable.swift */; };
 		3EC12A6729077853001F19A2 /* WisdomScanKitRootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A6629077853001F19A2 /* WisdomScanKitRootVC.swift */; };
 		3EC12A6929078C4F001F19A2 /* WisdomScanKitRootVI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC12A6829078C4F001F19A2 /* WisdomScanKitRootVI.swift */; };
@@ -55,13 +53,11 @@
 		3EC12A4529076C8A001F19A2 /* WisdomPhotosVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotosVC.swift; sourceTree = "<group>"; };
 		3EC12A4629076C8A001F19A2 /* WisdomPhotoSelectVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoSelectVC.swift; sourceTree = "<group>"; };
 		3EC12A4729076C8A001F19A2 /* WisdomPhotoChromeHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoChromeHUD.swift; sourceTree = "<group>"; };
-		3EC12A4929076C8A001F19A2 /* WisdomPhotoChromeFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoChromeFlowLayout.swift; sourceTree = "<group>"; };
 		3EC12A4A29076C8A001F19A2 /* WisdomPhotoChromeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoChromeCell.swift; sourceTree = "<group>"; };
 		3EC12A4B29076C8A001F19A2 /* WisdomPhotoSelectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoSelectCell.swift; sourceTree = "<group>"; };
 		3EC12A4C29076C8A001F19A2 /* WisdomPhotoEditCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoEditCell.swift; sourceTree = "<group>"; };
 		3EC12A4D29076C8A001F19A2 /* WisdomPhotoEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoEditView.swift; sourceTree = "<group>"; };
 		3EC12A4E29076C8A001F19A2 /* WisdomAnimationBgBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomAnimationBgBtn.swift; sourceTree = "<group>"; };
-		3EC12A4F29076C8A001F19A2 /* WisdomPhotoSelectBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WisdomPhotoSelectBar.swift; sourceTree = "<group>"; };
 		3EC12A6429076D12001F19A2 /* WisdomScanable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomScanable.swift; sourceTree = "<group>"; };
 		3EC12A6629077853001F19A2 /* WisdomScanKitRootVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomScanKitRootVC.swift; sourceTree = "<group>"; };
 		3EC12A6829078C4F001F19A2 /* WisdomScanKitRootVI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WisdomScanKitRootVI.swift; sourceTree = "<group>"; };
@@ -140,13 +136,11 @@
 		3EC12A4829076C8A001F19A2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3EC12A4929076C8A001F19A2 /* WisdomPhotoChromeFlowLayout.swift */,
 				3EC12A4A29076C8A001F19A2 /* WisdomPhotoChromeCell.swift */,
 				3EC12A4B29076C8A001F19A2 /* WisdomPhotoSelectCell.swift */,
 				3EC12A4C29076C8A001F19A2 /* WisdomPhotoEditCell.swift */,
 				3EC12A4D29076C8A001F19A2 /* WisdomPhotoEditView.swift */,
 				3EC12A4E29076C8A001F19A2 /* WisdomAnimationBgBtn.swift */,
-				3EC12A4F29076C8A001F19A2 /* WisdomPhotoSelectBar.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -324,7 +318,6 @@
 				3EC12A6029076C8A001F19A2 /* WisdomPhotoEditCell.swift in Sources */,
 				3EC12A5329076C8A001F19A2 /* WisdomScanManager.swift in Sources */,
 				3EC12A5E29076C8A001F19A2 /* WisdomPhotoChromeCell.swift in Sources */,
-				3EC12A5D29076C8A001F19A2 /* WisdomPhotoChromeFlowLayout.swift in Sources */,
 				3EC12A5F29076C8A001F19A2 /* WisdomPhotoSelectCell.swift in Sources */,
 				3EC12A5429076C8A001F19A2 /* WisdomRQCodeVC.swift in Sources */,
 				3EC12A5029076C8A001F19A2 /* WisdomScanTransform.swift in Sources */,
@@ -334,7 +327,6 @@
 				A5EEF06C2196F03500BDD24A /* ViewController.swift in Sources */,
 				A5EEF06A2196F03500BDD24A /* AppDelegate.swift in Sources */,
 				3EC12A722907FD18001F19A2 /* WisdomPhotoChromeVC.swift in Sources */,
-				3EC12A6329076C8A001F19A2 /* WisdomPhotoSelectBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

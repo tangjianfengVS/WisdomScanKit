@@ -12,10 +12,10 @@ import Photos
 
 
 /** 图片选择器界面主题 */
-@objc public enum ElectPhotoTheme: NSInteger {
-    case whiteLight=0
-    case darkDim
-}
+//@objc public enum ElectPhotoTheme: NSInteger {
+//    case whiteLight=0
+//    case darkDim
+//}
 
 
 /** 调用摄像控制器动画样式 */
@@ -82,9 +82,10 @@ import Photos
 
 /** 照片张数样式 */
 @objc public enum WisdomScanCountStyle: NSInteger {
-    case one=0  /// 1张
-    case four    /// 4张
-    case nine    /// 9张
+    case normal=0 /// 默认
+    case one      /// 1张
+    case four     /// 4张
+    case nine     /// 9张
 }
 
 

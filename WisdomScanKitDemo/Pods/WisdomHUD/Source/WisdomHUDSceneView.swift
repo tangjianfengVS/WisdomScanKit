@@ -136,11 +136,11 @@ final class WisdomHUDSceneView: UIView {
                                          multiplier: 1.0,
                                          constant: content.top_text_space))
         
-        set_contentSize()
-    
-        startDelays(delays: delays)
+        set_imageContentSize()
         
         set_shadowColor(cornerRadius: 10)
+    
+        startDelays(delays: delays)
     }
     
     private func set_TextContent(text: String, delays: TimeInterval, delayClosure: ((TimeInterval)->())?) {
@@ -152,6 +152,26 @@ final class WisdomHUDSceneView: UIView {
         
         wisdom_addConstraint(toCenterX: textLabel, toCenterY: textLabel)
         
+        set_textContentSize()
+        
+        set_shadowColor(cornerRadius: 6)
+    
+        startDelays(delays: delays)
+    }
+    
+    private func set_imageContentSize() {
+        textLabel.layoutIfNeeded()
+        
+        if textLabel.bounds.width + content.lr_text_space*2 >= content.bar_Size.width {
+            widthConstraint.constant = textLabel.bounds.width + content.lr_text_space*2
+        }
+        
+        if content.getContentHeight() + textLabel.bounds.height >= content.bar_Size.height{
+            heightConstraint.constant = content.getContentHeight() + textLabel.bounds.height
+        }
+    }
+    
+    private func set_textContentSize() {
         widthConstraint.constant = 85
         heightConstraint.constant = 43
         
@@ -163,22 +183,6 @@ final class WisdomHUDSceneView: UIView {
         
         if textLabel.bounds.height+10*2 >= heightConstraint.constant {
             heightConstraint.constant = textLabel.bounds.height+10*2
-        }
-    
-        startDelays(delays: delays)
-        
-        set_shadowColor(cornerRadius: 6)
-    }
-    
-    private func set_contentSize() {
-        textLabel.layoutIfNeeded()
-        
-        if textLabel.bounds.width + content.lr_text_space*2 >= content.bar_Size.width {
-            widthConstraint.constant = textLabel.bounds.width + content.lr_text_space*2
-        }
-        
-        if content.getContentHeight() + textLabel.bounds.height >= content.bar_Size.height{
-            heightConstraint.constant = content.getContentHeight() + textLabel.bounds.height
         }
     }
     
@@ -193,11 +197,15 @@ final class WisdomHUDSceneView: UIView {
         let path = UIBezierPath.init(roundedRect: bounds, byRoundingCorners: .allCorners, cornerRadii: CGSize.init(width: cornerRadius/2, height: cornerRadius/2))
         layer.shadowPath = path.cgPath
     }
+    
+    deinit {
+        print("\(self.classForCoder) deinit")
+    }
 }
 
 extension WisdomHUDSceneView: WisdomHUDContentable {
     
-    func setLoadingContent(text: String, loadingStyle: WisdomLoadingStyle) {
+    func setLoadingContent(text: String, loadingStyle: WisdomLoadingStyle, timeout: (TimeInterval, (TimeInterval)->())?) {
         self.loadingStyle = loadingStyle
         
         if loadingStyle == .chaseBall {
@@ -236,9 +244,14 @@ extension WisdomHUDSceneView: WisdomHUDContentable {
                                              multiplier: 1.0,
                                              constant: content.top_text_space))
             
-            set_contentSize()
+            set_imageContentSize()
         }
+        
         set_shadowColor(cornerRadius: 10)
+        
+        if let timeoutInfo = timeout {
+            _=setTimeout(time: timeoutInfo.0, timeoutClosure: timeoutInfo.1)
+        }
     }
     
     func setSuccessContent(text: String, animat: Bool, delays: TimeInterval, delayClosure: ((TimeInterval)->())?) {
@@ -294,6 +307,35 @@ extension WisdomHUDSceneView: WisdomHUDContentable {
     }
 }
 
+extension WisdomHUDSceneView: WisdomHUDLoadingContextable {
+    
+    func setTimeout(time: TimeInterval, timeoutClosure: @escaping ((TimeInterval)->()))->Self {
+        self.delayClosure = timeoutClosure
+        startDelays(delays: time)
+        return self
+    }
+    
+    func setTextFont(font: UIFont)->Self {
+        if textLabel.text?.count ?? 0 > 0 {
+            textLabel.font = font
+            
+            if hudStyle == .text {
+                set_textContentSize()
+            }else {
+                set_imageContentSize()
+            }
+        }
+        return self
+    }
+    
+    func setTextColor(color: UIColor)->Self {
+        if textLabel.text?.count ?? 0 > 0 {
+            textLabel.textColor = color
+        }
+        return self
+    }
+}
+
 extension WisdomHUDSceneView: WisdomHUDDelaysable {
     
     func startDelays(delays: TimeInterval) {
@@ -301,7 +343,7 @@ extension WisdomHUDSceneView: WisdomHUDDelaysable {
             superview?.alpha = 0
         }
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delays, execute: {
-            UIView.animate(withDuration: 0.25, animations: {
+            UIView.animate(withDuration: 0.30, animations: {
                 setAlpha()
             }) { [weak self] _ in
                 self?.endAnimate(delays: delays)
@@ -315,7 +357,11 @@ extension WisdomHUDSceneView: WisdomHUDDelaysable {
         }
         delayClosure = nil
         
-        WisdomHUDOperate.dismiss()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now(), execute: { [weak self] in
+            if let _ = self?.superview{
+                WisdomHUDOperate.dismiss()
+            }
+        })
     }
     
     func executeDelayClosure(){

@@ -157,16 +157,24 @@ extension WisdomScanKitRootVC: UITableViewDelegate {
             if indexPath.item == 0 {
                 WisdomScanKit.photoElect(title: "图片选择",
                                          images: imageList,
-                                         electCount: .four,
+                                         electCount: .normal,
                                          rootVC: self,
                                          transform: .push,
-                                         theme: .light)
+                                         theme: .light,
+                                         electClosure: { images in
+                    
+                    
+                })
             }else if indexPath.item == 1 {
                 WisdomScanKit.photoLibraryElect(title: "图片选择",
                                                 electCount: .four,
                                                 rootVC: self,
                                                 transform: .push,
-                                                theme: .dark)
+                                                theme: .dark,
+                                                electClosure: { images in
+                           
+                           
+                })
             }
         case 2: break
             

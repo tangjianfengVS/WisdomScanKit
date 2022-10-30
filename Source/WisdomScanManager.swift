@@ -65,14 +65,14 @@ extension WisdomScanManager: WisdomScanPhotoChromeable {
 
 extension WisdomScanManager: WisdomScanPhotoElectable {
     
-    static func photoElect(title: String?, images: [UIImage], electCount: WisdomScanCountStyle, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle){
-        let chromeVC = WisdomPhotoChromeVC(title: title, images: images, transform: transform, theme: theme)
+    static func photoElect(title: String?, images: [UIImage], electCount: WisdomScanCountStyle, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle, electClosure: @escaping ([UIImage])->()){
+        let chromeVC = electCount == .normal ? WisdomPhotoSelectBaseVC(title: title, images: images, transform: transform, theme: theme, electClosure: electClosure) : WisdomPhotoSelectVC(title: title, images: images, transform: transform, theme: theme, electClosure: electClosure)
         var transform = WisdomScanTransformAnim(rootVC: rootVC, transform: transform)
         transform.startTransform(transformVC: chromeVC, needNav: true)
     }
     
-    static func photoLibraryElect(title: String?, electCount: WisdomScanCountStyle, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle){
-        let chromeVC = WisdomPhotoChromeVC(title: title, transform: transform, theme: theme)
+    static func photoLibraryElect(title: String?, electCount: WisdomScanCountStyle, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle, electClosure: @escaping ([UIImage])->()){
+        let chromeVC = electCount == .normal ? WisdomPhotoSelectBaseVC(title: title, transform: transform, theme: theme, electClosure: electClosure) : WisdomPhotoSelectVC(title: title, transform: transform, theme: theme, electClosure: electClosure)
         var transform = WisdomScanTransformAnim(rootVC: rootVC, transform: transform)
         transform.startTransform(transformVC: chromeVC, needNav: true)
     }
@@ -83,26 +83,7 @@ extension WisdomScanManager: WisdomScanPhotoElectable {
 
 
 
-
-
-
 public enum WisdomScanManager {
-    
-    ///System album picture display,select
-//    static func startElectSystemPhoto(rootVC:    UIViewController,
-//                                      startType: StartTransformType,
-//                                      countType: ElectPhotoCountType,
-//                                      theme:     ElectPhotoTheme,
-//                                      delegate:  ElectPhotoDelegate?,
-//                                      photoTask: @escaping WisdomPhotoTask) -> WisdomPhotoSelectVC{
-//        let selectVC = WisdomPhotoSelectVC(startTypes: startType, countTypes: countType, colorTheme:theme, delegates:delegate, photoTasks: photoTask)
-//
-//        var transform = TransformAnimation(rootVC: rootVC, transformVC: selectVC, startType: startType)
-//        selectVC.isCreatNav = transform.startTransform(needNav: true)
-//        return selectVC
-//    }
-//
-//
 //    /// Scan RQCode
 //    static func startScanRQCode(rootVC:     UIViewController,
 //                                startType:  StartTransformType,

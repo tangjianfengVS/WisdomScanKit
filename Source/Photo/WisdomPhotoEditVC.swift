@@ -13,7 +13,7 @@ public class WisdomPhotoEditVC: UIViewController {
     /** 浏览页正在展示的图片 */
     fileprivate var currentShowImagerRect: CGRect = .zero
     
-    fileprivate let theme: ElectPhotoTheme
+    fileprivate let theme: WisdomScanThemeStyle
     
     fileprivate var imageArray: [UIImage] = []
     
@@ -58,7 +58,7 @@ public class WisdomPhotoEditVC: UIViewController {
         let btn = UIButton(frame: CGRect(x: 30, y: self.view.bounds.height - 40, width: 50, height: 30))
         btn.addTarget(self, action: #selector(clickBack(btn:)), for: .touchUpInside)
         btn.setTitle("取消", for: .normal)
-        btn.setTitleColor(self.theme == .whiteLight ?UIColor.black:UIColor.white, for: .normal)
+        btn.setTitleColor(self.theme == .light ?UIColor.black:UIColor.white, for: .normal)
         return btn
     }()
     
@@ -67,7 +67,7 @@ public class WisdomPhotoEditVC: UIViewController {
                                          y: self.view.bounds.height - 40, width: 50, height: 30))
         btn.addTarget(self, action: #selector(clickBack(btn:)), for: .touchUpInside)
         btn.setTitle("完成", for: .normal)
-        btn.setTitleColor(self.theme == .whiteLight ?UIColor.black:UIColor.white, for: .normal)
+        btn.setTitleColor(self.theme == .light ?UIColor.black:UIColor.white, for: .normal)
         return btn
     }()
     
@@ -81,7 +81,7 @@ public class WisdomPhotoEditVC: UIViewController {
     
     init(imageList: [UIImage],
          startIconAnimatRect: CGRect,
-         colorTheme: ElectPhotoTheme,
+         colorTheme: WisdomScanThemeStyle,
          endTask: @escaping (Bool,[UIImage])->()) {
         
         if startIconAnimatRect == CGRect.zero {
@@ -106,7 +106,7 @@ public class WisdomPhotoEditVC: UIViewController {
         super.viewDidLoad()
         view.addSubview(toolImgv)
         
-        let start: UIBarStyle = self.theme == .whiteLight ? UIBarStyle.default : UIBarStyle.blackTranslucent
+        let start: UIBarStyle = self.theme == .light ? UIBarStyle.default : UIBarStyle.blackTranslucent
         let bar = UIToolbar(frame: self.view.frame)
         bar.barStyle = start
         

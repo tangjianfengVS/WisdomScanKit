@@ -14,11 +14,11 @@ class WisdomPhotoChromeVC: UIViewController {
     
     private let spacing: CGFloat = 3.5
     
-    private let isCustomChrome: Bool
+    let isCustomChrome: Bool
     
     private lazy var lineCount: CGFloat = { return view.bounds.width > 330 ? 4:3 }()
     
-    private lazy var listView: UICollectionView = {
+    private(set) lazy var listView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionVI = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionVI.register(WisdomPhotoSelectCell.self, forCellWithReuseIdentifier: "\(WisdomPhotoSelectCell.self)")
@@ -52,12 +52,12 @@ class WisdomPhotoChromeVC: UIViewController {
     
     private let transform: WisdomScanTransformStyle
     
-    private let theme: WisdomScanThemeStyle
+    let theme: WisdomScanThemeStyle
     
     /** 选择的结果资源 */
-    private let images: [UIImage]
+    let images: [UIImage]
     
-    private var assets = PHFetchResult<PHAsset>()
+    private(set) var assets = PHFetchResult<PHAsset>()
     
     /** 浏览页正在展示的图片 */
     private var curShowImageRect: CGRect = .zero
@@ -377,5 +377,79 @@ class WisdomNavBackBtn: UIButton {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+
+class WisdomPhotoChromeFlowLayout: UICollectionViewFlowLayout {
+    
+    fileprivate let space: CGFloat=20.0
+    
+    fileprivate var currentOffsetX: CGFloat = 0.0
+    
+    fileprivate let handers: ((Int)->())!
+    
+    init(hander: @escaping ((Int)->())) {
+        handers = hander
+        super.init()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepare() {
+        super.prepare()
+        itemSize = collectionView!.bounds.size
+        scrollDirection = .horizontal
+        minimumLineSpacing = space
+    }
+    
+    /** 更新下偏移尺寸 */
+    func updateCurrentOffsetX(index: Int) {
+        currentOffsetX = CGFloat(index) * (collectionView!.bounds.size.width + space)
+    }
+
+    override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
+        /** 加速手势体验优化 */
+        var contentOffset: CGFloat = proposedContentOffset.x
+       
+        if velocity.x > 0.30 {
+            contentOffset = contentOffset + itemSize.width
+        }else if -velocity.x > 0.30 {
+            contentOffset = contentOffset - itemSize.width
+        }
+        
+        if contentOffset <= itemSize.width {
+            if contentOffset <= itemSize.width/2{
+                currentOffsetX = 0.0
+                handers(0)
+                return .zero
+            }else{
+                currentOffsetX = itemSize.width + space
+                handers(1)
+                return CGPoint(x: currentOffsetX, y: 0)
+            }
+        }else if contentOffset > (itemSize.width + space) {
+            let res = contentOffset - currentOffsetX
+            let fabsfRes: CGFloat = CGFloat(fabsf(Float(res)))
+            
+            if fabsfRes <= itemSize.width/2{
+                handers(Int(currentOffsetX / (itemSize.width + space)))
+                return CGPoint(x: currentOffsetX, y: 0)
+                
+            }else if res > 0{
+                currentOffsetX = currentOffsetX + (itemSize.width + space)
+            }else if res < 0{
+                currentOffsetX = currentOffsetX - (itemSize.width + space)
+                if currentOffsetX < 0{
+                    currentOffsetX = 0
+                }
+            }
+            handers(Int(currentOffsetX / (itemSize.width + space)))
+            return CGPoint(x: currentOffsetX, y: 0)
+        }
+        handers(0)
+        return .zero
     }
 }

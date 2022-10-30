@@ -51,15 +51,7 @@ class WisdomPhotoBaseCell: UICollectionViewCell {
 }
 
 
-class WisdomPhotoSelectCell: UICollectionViewCell {
-    
-    fileprivate lazy var imageView: UIImageView = {
-        let view = UIImageView(frame: self.contentView.bounds)
-        view.backgroundColor = UIColor.cyan
-        view.contentMode = .scaleAspectFill
-        view.clipsToBounds = true
-        return view
-    }()
+class WisdomPhotoSelectCell: WisdomPhotoBaseCell {
     
     private(set) lazy var selectBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: self.contentView.bounds.width - 23, y: 2, width: 21, height: 21))
@@ -72,18 +64,10 @@ class WisdomPhotoSelectCell: UICollectionViewCell {
         return btn
     }()
     
-    public var image: UIImage? {
-        didSet{
-            imageView.image = image
-        }
-    }
-    
-    public var hander: ((Bool,UIImage)->(Bool))?
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.addSubview(imageView)
-        contentView.addSubview(selectBtn)
+//        contentView.addSubview(imageView)
+//        contentView.addSubview(selectBtn)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -92,8 +76,8 @@ class WisdomPhotoSelectCell: UICollectionViewCell {
     
     @objc private func clickSelectedBtn(btn: UIButton){
         if hander != nil {
-            let res = hander!(btn.isSelected,image!)
-            btn.isSelected = res
+//            let res = hander!(btn.isSelected,image!)
+//            btn.isSelected = res
         }
     }
 }

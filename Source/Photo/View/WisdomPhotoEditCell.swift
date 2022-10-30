@@ -15,7 +15,7 @@ class WisdomPhotoEditCell: UICollectionViewCell {
         }
     }
     
-    public var electTheme: ElectPhotoTheme?{
+    public var electTheme: WisdomScanThemeStyle?{
         didSet{
             
         }

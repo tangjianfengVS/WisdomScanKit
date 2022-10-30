@@ -35,9 +35,9 @@ protocol WisdomScanPhotoChromeable {
 
 protocol WisdomScanPhotoElectable {
     
-    static func photoElect(title: String?, images: [UIImage], electCount: WisdomScanCountStyle, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle)
+    static func photoElect(title: String?, images: [UIImage], electCount: WisdomScanCountStyle, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle, electClosure: @escaping ([UIImage])->())
     
-    static func photoLibraryElect(title: String?, electCount: WisdomScanCountStyle, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle)
+    static func photoLibraryElect(title: String?, electCount: WisdomScanCountStyle, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle, electClosure: @escaping ([UIImage])->())
 }
 
 

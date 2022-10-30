@@ -180,7 +180,7 @@ public class WisdomPhotosVC: UIViewController {
     
     fileprivate let countType: ElectPhotoCountType!
     
-    fileprivate let electTheme: ElectPhotoTheme
+    fileprivate let electTheme: WisdomScanThemeStyle
     
     fileprivate let photoTask: WisdomPhotoTask!
     
@@ -193,7 +193,7 @@ public class WisdomPhotosVC: UIViewController {
     
     init(startTypes: StartTransformType,
          countTypes: ElectPhotoCountType,
-         electTheme: ElectPhotoTheme,
+         electTheme: WisdomScanThemeStyle,
          photoTasks: @escaping WisdomPhotoTask) {
         photoTask = photoTasks
         startType = startTypes

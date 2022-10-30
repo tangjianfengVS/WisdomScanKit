@@ -62,7 +62,7 @@ extension WisdomHUDOperate: WisdomHUDGlobalable {
         }
     }
     
-    static func getScreenWindow() -> UIWindow? {
+    static func getScreenWindow()->UIWindow? {
         var screenWindow = UIApplication.shared.delegate?.window
         if screenWindow == nil {
             screenWindow = UIApplication.shared.keyWindow
@@ -79,8 +79,8 @@ extension WisdomHUDOperate: WisdomHUDGlobalable {
         return screenWindow ?? nil
     }
     
-    static func isSmallScreen() -> Bool {
-        func getWidth() -> CGFloat {
+    static func isSmallScreen()->Bool {
+        func getWidth()->CGFloat {
             if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
                 return UIScreen.main.bounds.height
             }else {
@@ -94,13 +94,15 @@ extension WisdomHUDOperate: WisdomHUDGlobalable {
     private static func getSceneView(hudStyle: WisdomHUDStyle,
                                      placeStyle: WisdomTextPlaceStyle?=nil,
                                      barStyle: WisdomSceneBarStyle,
-                                     inSupView: UIView?) -> (WisdomHUDCoverView, WisdomHUDSceneView)? {
+                                     inSupView: UIView?)->(WisdomHUDCoverView, WisdomHUDSceneView)? {
         var cur_inSupView = inSupView
         if cur_inSupView == nil { cur_inSupView = getScreenWindow() }
         
         if let rootVI = cur_inSupView {
             if let coverView = rootVI.viewWithTag(WisdomHUDCoverTag) as? WisdomHUDCoverView {
-                if coverView.focusing {
+                if coverView.isSetting {
+                    
+                    coverView.sceneView?.setDismissImage()
                     coverView.removeFromSuperview()
                     return createCoverView(rootVI: rootVI)
                 }
@@ -108,17 +110,20 @@ extension WisdomHUDOperate: WisdomHUDGlobalable {
                 if let sceneView = coverView.sceneView, sceneView.hudStyle == hudStyle {
                     sceneView.executeDelayClosure()
                     sceneView.setStyleContent(barStyle: barStyle, placeStyle: placeStyle)
+                    coverView.alpha = 1
                     return (coverView, sceneView)
                 }
                 
+                coverView.sceneView?.setDismissImage()
                 coverView.sceneView?.removeFromSuperview()
+                coverView.alpha = 1
                 return (coverView, createAndSetupSceneView(supView: coverView))
             }else {
                 return createCoverView(rootVI: rootVI)
             }
         }
         
-        func createCoverView(rootVI: UIView) -> (WisdomHUDCoverView, WisdomHUDSceneView)? {
+        func createCoverView(rootVI: UIView)->(WisdomHUDCoverView, WisdomHUDSceneView)? {
             let coverView = WisdomHUDCoverView()
             coverView.tag = WisdomHUDCoverTag
             coverView.backgroundColor = WisdomCoverBackgColor
@@ -133,7 +138,7 @@ extension WisdomHUDOperate: WisdomHUDGlobalable {
             return (coverView, createAndSetupSceneView(supView: coverView))
         }
         
-        func createAndSetupSceneView(supView: WisdomHUDCoverView) -> WisdomHUDSceneView {
+        func createAndSetupSceneView(supView: WisdomHUDCoverView)->WisdomHUDSceneView {
             let sceneView = WisdomHUDSceneView(hudStyle: hudStyle, barStyle: barStyle, placeStyle: placeStyle)
             supView.sceneView = sceneView
             supView.addSubview(sceneView)
@@ -168,79 +173,90 @@ extension WisdomHUDOperate: WisdomHUDGlobalable {
 
 extension WisdomHUDOperate: WisdomHUDLoadingable {
     
-    static func showLoading(text: String) {
-        showLoading(text: text, loadingStyle: WisdomLoadingStyle, barStyle: WisdomSceneBarStyle, inSupView: nil)
+    static func showLoading(text: String)->WisdomHUDLoadingContextable {
+        return showLoading(text: text, loadingStyle: WisdomLoadingStyle, barStyle: WisdomSceneBarStyle, inSupView: nil)
     }
     
-    static func showLoading(text: String, inSupView: UIView?) {
+    static func showLoading(text: String, inSupView: UIView?)->WisdomHUDLoadingContextable {
         showLoading(text: text, loadingStyle: WisdomLoadingStyle, barStyle: WisdomSceneBarStyle, inSupView: inSupView)
     }
     
-    static func showLoading(text: String, barStyle: WisdomSceneBarStyle) {
-        showLoading(text: text, loadingStyle: WisdomLoadingStyle, barStyle: barStyle, inSupView: nil)
+    static func showLoading(text: String, barStyle: WisdomSceneBarStyle)->WisdomHUDLoadingContextable {
+        return showLoading(text: text, loadingStyle: WisdomLoadingStyle, barStyle: barStyle, inSupView: nil)
     }
     
-    static func showLoading(text: String, loadingStyle: WisdomLoadingStyle) {
-        showLoading(text: text, loadingStyle: loadingStyle, barStyle: WisdomSceneBarStyle, inSupView: nil)
+    static func showLoading(text: String, loadingStyle: WisdomLoadingStyle)->WisdomHUDLoadingContextable {
+        return showLoading(text: text, loadingStyle: loadingStyle, barStyle: WisdomSceneBarStyle, inSupView: nil)
     }
     
-    static func showLoading(text: String, loadingStyle: WisdomLoadingStyle, barStyle: WisdomSceneBarStyle) {
+    static func showLoading(text: String, loadingStyle: WisdomLoadingStyle, barStyle: WisdomSceneBarStyle)->WisdomHUDLoadingContextable {
         showLoading(text: text, loadingStyle: loadingStyle, barStyle: barStyle, inSupView: nil)
     }
     
-    static func showLoading(text: String, loadingStyle: WisdomLoadingStyle, inSupView: UIView?) {
-        showLoading(text: text, loadingStyle: loadingStyle, barStyle: WisdomSceneBarStyle, inSupView: inSupView)
+    static func showLoading(text: String, loadingStyle: WisdomLoadingStyle, inSupView: UIView?)->WisdomHUDLoadingContextable {
+        return showLoading(text: text, loadingStyle: loadingStyle, barStyle: WisdomSceneBarStyle, inSupView: inSupView)
     }
     
-    static func showLoading(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?) {
-        showLoading(text: text, loadingStyle: WisdomLoadingStyle, barStyle: barStyle, inSupView: inSupView)
+    static func showLoading(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?)->WisdomHUDLoadingContextable {
+        return showLoading(text: text, loadingStyle: WisdomLoadingStyle, barStyle: barStyle, inSupView: inSupView)
     }
     
-    static func showLoading(text: String, loadingStyle: WisdomLoadingStyle, barStyle: WisdomSceneBarStyle, inSupView: UIView?) {
+    static func showLoading(text: String, loadingStyle: WisdomLoadingStyle, barStyle: WisdomSceneBarStyle, inSupView: UIView?)->WisdomHUDLoadingContextable {
+        let context = WisdomHUDLoadingContext()
         if Thread.isMainThread {
             showHUD()
         }else {
             DispatchQueue.main.async { showHUD() }
         }
         func showHUD(){
-            if let sceneView = getSceneView(hudStyle: .loading, barStyle: barStyle, inSupView: inSupView)?.1 {
-                sceneView.setLoadingContent(text: text, loadingStyle: loadingStyle)
+            if let contentView = getSceneView(hudStyle: .loading, barStyle: barStyle, inSupView: inSupView) {
+                context.setCoverView(coverView: contentView.0)
+                contentView.1.setLoadingContent(text: text, loadingStyle: loadingStyle, timeout: context.timeout)
+                
+                if let textColor = context.textColor {
+                    _=context.setTextColor(color: textColor)
+                }
+                
+                if let textFont = context.textFont {
+                    _=context.setTextFont(font: textFont)
+                }
             }
         }
+        return context
     }
 }
 
 extension WisdomHUDOperate: WisdomHUDSuccessable {
     
-    static func showSuccess(text: String)->WisdomHUDContext {
+    static func showSuccess(text: String)->WisdomHUDContextable {
         return showSuccess(text: text, barStyle: WisdomSceneBarStyle, inSupView: nil, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showSuccess(text: String, inSupView: UIView?)->WisdomHUDContext {
+    static func showSuccess(text: String, inSupView: UIView?)->WisdomHUDContextable {
         return showSuccess(text: text, barStyle: WisdomSceneBarStyle, inSupView: inSupView, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showSuccess(text: String, barStyle: WisdomSceneBarStyle)->WisdomHUDContext {
+    static func showSuccess(text: String, barStyle: WisdomSceneBarStyle)->WisdomHUDContextable {
         return showSuccess(text: text, barStyle: barStyle, inSupView: nil, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showSuccess(text: String, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContext {
+    static func showSuccess(text: String, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         return showSuccess(text: text, barStyle: WisdomSceneBarStyle, inSupView: nil, delays: delays, delayClosure: delayClosure)
     }
     
-    static func showSuccess(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?)->WisdomHUDContext {
+    static func showSuccess(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?)->WisdomHUDContextable {
         return showSuccess(text: text, barStyle: barStyle, inSupView: inSupView, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showSuccess(text: String, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContext {
+    static func showSuccess(text: String, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         return showSuccess(text: text, barStyle: WisdomSceneBarStyle, inSupView: inSupView, delays: delays, delayClosure: delayClosure)
     }
     
-    static func showSuccess(text: String, barStyle: WisdomSceneBarStyle, delays: TimeInterval, delayClosure: ((TimeInterval) -> ())?)->WisdomHUDContext {
+    static func showSuccess(text: String, barStyle: WisdomSceneBarStyle, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         return showSuccess(text: text, barStyle: barStyle, inSupView: nil, delays: delays, delayClosure: delayClosure)
     }
     
-    static func showSuccess(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContext {
+    static func showSuccess(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         let context = WisdomHUDContext()
         if Thread.isMainThread {
             showHUD()
@@ -249,10 +265,19 @@ extension WisdomHUDOperate: WisdomHUDSuccessable {
         }
         func showHUD() {
             if let contentView = getSceneView(hudStyle: .succes, barStyle: barStyle, inSupView: inSupView) {
-                context.coverView = contentView.0
+                context.setCoverView(coverView: contentView.0)
                 contentView.1.setSuccessContent(text: text, animat: false, delays: delays, delayClosure: delayClosure)
+                
                 if context.focusing {
-                    context.setFocusing()
+                    _=context.setFocusing()
+                }
+                
+                if let textColor = context.textColor {
+                    _=context.setTextColor(color: textColor)
+                }
+                
+                if let textFont = context.textFont {
+                    _=context.setTextFont(font: textFont)
                 }
             }
         }
@@ -262,35 +287,35 @@ extension WisdomHUDOperate: WisdomHUDSuccessable {
 
 extension WisdomHUDOperate: WisdomHUDErrorable {
     
-    static func showError(text: String)->WisdomHUDContext {
+    static func showError(text: String)->WisdomHUDContextable {
         return showError(text: text, barStyle: WisdomSceneBarStyle, inSupView: nil, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showError(text: String, inSupView: UIView?)->WisdomHUDContext {
+    static func showError(text: String, inSupView: UIView?)->WisdomHUDContextable {
         return showError(text: text, barStyle: WisdomSceneBarStyle, inSupView: inSupView, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showError(text: String, barStyle: WisdomSceneBarStyle)->WisdomHUDContext {
+    static func showError(text: String, barStyle: WisdomSceneBarStyle)->WisdomHUDContextable {
         return showError(text: text, barStyle: barStyle, inSupView: nil, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showError(text: String, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContext {
+    static func showError(text: String, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         return showError(text: text, barStyle: WisdomSceneBarStyle, inSupView: nil, delays: delays, delayClosure: delayClosure)
     }
     
-    static func showError(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?)->WisdomHUDContext {
+    static func showError(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?)->WisdomHUDContextable {
         return showError(text: text, barStyle: barStyle, inSupView: inSupView, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showError(text: String, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContext {
+    static func showError(text: String, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         return showError(text: text, barStyle: WisdomSceneBarStyle, inSupView: inSupView, delays: delays, delayClosure: delayClosure)
     }
     
-    static func showError(text: String, barStyle: WisdomSceneBarStyle, delays: TimeInterval, delayClosure: ((TimeInterval) -> ())?)->WisdomHUDContext {
+    static func showError(text: String, barStyle: WisdomSceneBarStyle, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         return showError(text: text, barStyle: barStyle, inSupView: nil, delays: delays, delayClosure: delayClosure)
     }
     
-    static func showError(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContext {
+    static func showError(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         let context = WisdomHUDContext()
         if Thread.isMainThread {
             showHUD()
@@ -299,10 +324,19 @@ extension WisdomHUDOperate: WisdomHUDErrorable {
         }
         func showHUD() {
             if let contentView = getSceneView(hudStyle: .error, barStyle: barStyle, inSupView: inSupView) {
-                context.coverView = contentView.0
+                context.setCoverView(coverView: contentView.0)
                 contentView.1.setErrorContent(text: text, animat: false, delays: delays, delayClosure: delayClosure)
+                
                 if context.focusing {
-                    context.setFocusing()
+                    _=context.setFocusing()
+                }
+                
+                if let textColor = context.textColor {
+                    _=context.setTextColor(color: textColor)
+                }
+                
+                if let textFont = context.textFont {
+                    _=context.setTextFont(font: textFont)
                 }
             }
         }
@@ -312,35 +346,35 @@ extension WisdomHUDOperate: WisdomHUDErrorable {
 
 extension WisdomHUDOperate: WisdomHUDWarningable {
     
-    static func showWarning(text: String)->WisdomHUDContext {
+    static func showWarning(text: String)->WisdomHUDContextable {
         return showWarning(text: text, barStyle: WisdomSceneBarStyle, inSupView: nil, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showWarning(text: String, inSupView: UIView?)->WisdomHUDContext {
+    static func showWarning(text: String, inSupView: UIView?)->WisdomHUDContextable {
         return showWarning(text: text, barStyle: WisdomSceneBarStyle, inSupView: inSupView, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showWarning(text: String, barStyle: WisdomSceneBarStyle)->WisdomHUDContext {
+    static func showWarning(text: String, barStyle: WisdomSceneBarStyle)->WisdomHUDContextable {
         return showWarning(text: text, barStyle: barStyle, inSupView: nil, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showWarning(text: String, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContext {
+    static func showWarning(text: String, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         return showWarning(text: text, barStyle: WisdomSceneBarStyle, inSupView: nil, delays: delays, delayClosure: delayClosure)
     }
     
-    static func showWarning(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?)->WisdomHUDContext {
+    static func showWarning(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?)->WisdomHUDContextable {
         return showWarning(text: text, barStyle: barStyle, inSupView: inSupView, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showWarning(text: String, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContext {
+    static func showWarning(text: String, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         return showWarning(text: text, barStyle: WisdomSceneBarStyle, inSupView: inSupView, delays: delays, delayClosure: delayClosure)
     }
     
-    static func showWarning(text: String, barStyle: WisdomSceneBarStyle, delays: TimeInterval, delayClosure: ((TimeInterval) -> ())?)->WisdomHUDContext {
+    static func showWarning(text: String, barStyle: WisdomSceneBarStyle, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         return showWarning(text: text, barStyle: barStyle, inSupView: nil, delays: delays, delayClosure: delayClosure)
     }
     
-    static func showWarning(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContext {
+    static func showWarning(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         let context = WisdomHUDContext()
         if Thread.isMainThread {
             showHUD()
@@ -349,8 +383,20 @@ extension WisdomHUDOperate: WisdomHUDWarningable {
         }
         func showHUD() {
             if let contentView = getSceneView(hudStyle: .warning, barStyle: barStyle, inSupView: inSupView) {
-                context.coverView = contentView.0
+                context.setCoverView(coverView: contentView.0)
                 contentView.1.setWarningContent(text: text, animat: false, delays: delays, delayClosure: delayClosure)
+                
+                if context.focusing {
+                    _=context.setFocusing()
+                }
+                
+                if let textColor = context.textColor {
+                    _=context.setTextColor(color: textColor)
+                }
+                
+                if let textFont = context.textFont {
+                    _=context.setTextFont(font: textFont)
+                }
             }
         }
         return context
@@ -359,35 +405,35 @@ extension WisdomHUDOperate: WisdomHUDWarningable {
 
 extension WisdomHUDOperate: WisdomHUDTextCenterable {
     
-    static func showTextCenter(text: String)->WisdomHUDContext {
+    static func showTextCenter(text: String)->WisdomHUDContextable {
         showTextCenter(text: text, barStyle: WisdomSceneBarStyle, inSupView: nil, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showTextCenter(text: String, inSupView: UIView?)->WisdomHUDContext {
+    static func showTextCenter(text: String, inSupView: UIView?)->WisdomHUDContextable {
         showTextCenter(text: text, barStyle: WisdomSceneBarStyle, inSupView: inSupView, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showTextCenter(text: String, barStyle: WisdomSceneBarStyle)->WisdomHUDContext {
+    static func showTextCenter(text: String, barStyle: WisdomSceneBarStyle)->WisdomHUDContextable {
         showTextCenter(text: text, barStyle: barStyle, inSupView: nil, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showTextCenter(text: String, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContext {
+    static func showTextCenter(text: String, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         showTextCenter(text: text, barStyle: WisdomSceneBarStyle, inSupView: nil, delays: delays, delayClosure: delayClosure)
     }
     
-    static func showTextCenter(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?)->WisdomHUDContext {
+    static func showTextCenter(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?)->WisdomHUDContextable {
         showTextCenter(text: text, barStyle: barStyle, inSupView: inSupView, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showTextCenter(text: String, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContext {
+    static func showTextCenter(text: String, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         showTextCenter(text: text, barStyle: WisdomSceneBarStyle, inSupView: inSupView, delays: delays, delayClosure: delayClosure)
     }
     
-    static func showTextCenter(text: String, barStyle: WisdomSceneBarStyle, delays: TimeInterval, delayClosure: ((TimeInterval) -> ())?)->WisdomHUDContext {
+    static func showTextCenter(text: String, barStyle: WisdomSceneBarStyle, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         showTextCenter(text: text, barStyle: barStyle, inSupView: nil, delays: delays, delayClosure: delayClosure)
     }
     
-    static func showTextCenter(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContext {
+    static func showTextCenter(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         let context = WisdomHUDContext()
         if Thread.isMainThread {
             showHUD()
@@ -396,10 +442,19 @@ extension WisdomHUDOperate: WisdomHUDTextCenterable {
         }
         func showHUD() {
             if let contentView = getSceneView(hudStyle: .text, placeStyle: .center, barStyle: barStyle, inSupView: inSupView) {
-                context.coverView = contentView.0
+                context.setCoverView(coverView: contentView.0)
                 contentView.1.setTextContent(text: text, delays: delays, delayClosure: delayClosure)
+                
                 if context.focusing {
-                    context.setFocusing()
+                    _=context.setFocusing()
+                }
+                
+                if let textColor = context.textColor {
+                    _=context.setTextColor(color: textColor)
+                }
+                
+                if let textFont = context.textFont {
+                    _=context.setTextFont(font: textFont)
                 }
             }
         }
@@ -409,35 +464,35 @@ extension WisdomHUDOperate: WisdomHUDTextCenterable {
 
 extension WisdomHUDOperate: WisdomHUDTextBottomable {
     
-    static func showTextBottom(text: String)->WisdomHUDContext {
+    static func showTextBottom(text: String)->WisdomHUDContextable {
         return showTextBottom(text: text, barStyle: WisdomSceneBarStyle, inSupView: nil, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showTextBottom(text: String, inSupView: UIView?)->WisdomHUDContext {
+    static func showTextBottom(text: String, inSupView: UIView?)->WisdomHUDContextable {
         return showTextBottom(text: text, barStyle: WisdomSceneBarStyle, inSupView: inSupView, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showTextBottom(text: String, barStyle: WisdomSceneBarStyle)->WisdomHUDContext {
+    static func showTextBottom(text: String, barStyle: WisdomSceneBarStyle)->WisdomHUDContextable {
         return showTextBottom(text: text, barStyle: barStyle, inSupView: nil, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showTextBottom(text: String, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContext {
+    static func showTextBottom(text: String, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         return showTextBottom(text: text, barStyle: WisdomSceneBarStyle, inSupView: nil, delays: delays, delayClosure: delayClosure)
     }
     
-    static func showTextBottom(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?)->WisdomHUDContext {
+    static func showTextBottom(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?)->WisdomHUDContextable {
         return showTextBottom(text: text, barStyle: barStyle, inSupView: inSupView, delays: WisdomDisplayDelays, delayClosure: nil)
     }
     
-    static func showTextBottom(text: String, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContext {
+    static func showTextBottom(text: String, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         return showTextBottom(text: text, barStyle: WisdomSceneBarStyle, inSupView: inSupView, delays: delays, delayClosure: delayClosure)
     }
     
-    static func showTextBottom(text: String, barStyle: WisdomSceneBarStyle, delays: TimeInterval, delayClosure: ((TimeInterval) -> ())?)->WisdomHUDContext {
+    static func showTextBottom(text: String, barStyle: WisdomSceneBarStyle, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         return showTextBottom(text: text, barStyle: barStyle, inSupView: nil, delays: delays, delayClosure: delayClosure)
     }
     
-    static func showTextBottom(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContext {
+    static func showTextBottom(text: String, barStyle: WisdomSceneBarStyle, inSupView: UIView?, delays: TimeInterval, delayClosure: ((TimeInterval)->())?)->WisdomHUDContextable {
         let context = WisdomHUDContext()
         if Thread.isMainThread {
             showHUD()
@@ -446,10 +501,19 @@ extension WisdomHUDOperate: WisdomHUDTextBottomable {
         }
         func showHUD() {
             if let contentView = getSceneView(hudStyle: .text, placeStyle: .bottom, barStyle: barStyle, inSupView: inSupView) {
-                context.coverView = contentView.0
+                context.setCoverView(coverView: contentView.0)
                 contentView.1.setTextContent(text: text, delays: delays, delayClosure: delayClosure)
+                
                 if context.focusing {
-                    context.setFocusing()
+                    _=context.setFocusing()
+                }
+                
+                if let textColor = context.textColor {
+                    _=context.setTextColor(color: textColor)
+                }
+                
+                if let textFont = context.textFont {
+                    _=context.setTextFont(font: textFont)
                 }
             }
         }
