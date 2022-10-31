@@ -109,7 +109,13 @@ extension WisdomScanKit: WisdomScanPhotoElectable {
                                         transform   : WisdomScanTransformStyle = .push,
                                         theme       : WisdomScanThemeStyle = .light,
                                         electClosure: @escaping ([UIImage])->()) {
-        WisdomScanManager.photoElect(title: title, images: images, electCount: electCount, rootVC: rootVC, transform: transform, theme: theme, electClosure: electClosure)
+        WisdomScanManager.photoElect(title: title,
+                                     images: images,
+                                     electCount: electCount,
+                                     rootVC: rootVC,
+                                     transform: transform,
+                                     theme: theme,
+                                     electClosure: electClosure)
     }
     
     // MARK: Photo Elect Systom Library Transform: UIViewController - WisdomPhotoChromeHUD
@@ -127,7 +133,12 @@ extension WisdomScanKit: WisdomScanPhotoElectable {
                                                transform   : WisdomScanTransformStyle = .push,
                                                theme       : WisdomScanThemeStyle = .light,
                                                electClosure: @escaping ([UIImage])->()) {
-        WisdomScanManager.photoLibraryElect(title: title, electCount: electCount, rootVC: rootVC, transform: transform, theme: theme, electClosure: electClosure)
+        WisdomScanManager.photoLibraryElect(title: title,
+                                            electCount: electCount,
+                                            rootVC: rootVC,
+                                            transform: transform,
+                                            theme: theme,
+                                            electClosure: electClosure)
     }
 }
 
