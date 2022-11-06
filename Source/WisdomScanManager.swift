@@ -56,7 +56,7 @@ extension WisdomScanManager: WisdomScanPhotoChromeable {
         transform.startTransform(transformVC: chromeVC, needNav: true)
     }
     
-    public static func photoLibraryChrome(title: String?, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle){
+    static func photoLibraryChrome(title: String?, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle){
         let chromeVC = WisdomPhotoChromeVC(title: title, transform: transform, theme: theme)
         var transform = WisdomScanTransformAnim(rootVC: rootVC, transform: transform)
         transform.startTransform(transformVC: chromeVC, needNav: true)
@@ -66,21 +66,19 @@ extension WisdomScanManager: WisdomScanPhotoChromeable {
 extension WisdomScanManager: WisdomScanPhotoElectable {
     
     static func photoElect(title: String?, images: [UIImage], electCount: WisdomScanCountStyle, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle, electClosure: @escaping ([UIImage])->()){
-        let chromeVC = electCount == .normal ? WisdomPhotoSelectBaseVC(title: title, images: images, transform: transform, theme: theme, electClosure: electClosure) : WisdomPhotoSelectVC(title: title, images: images, transform: transform, theme: theme, electClosure: electClosure)
+        let chromeVC = electCount == .normal ? WisdomPhotoSelectBaseVC(title: title, images: images, transform: transform, theme: theme, electClosure: electClosure) : WisdomPhotoSelectVC(title: title, images: images, electCount: electCount, transform: transform, theme: theme, electClosure: electClosure)
         var transform = WisdomScanTransformAnim(rootVC: rootVC, transform: transform)
         transform.startTransform(transformVC: chromeVC, needNav: true)
     }
     
     static func photoLibraryElect(title: String?, electCount: WisdomScanCountStyle, rootVC: UIViewController, transform: WisdomScanTransformStyle, theme: WisdomScanThemeStyle, electClosure: @escaping ([UIImage])->()){
-        let chromeVC = electCount == .normal ? WisdomPhotoSelectBaseVC(title: title, transform: transform, theme: theme, electClosure: electClosure) : WisdomPhotoSelectVC(title: title, transform: transform, theme: theme, electClosure: electClosure)
+        let chromeVC = electCount == .normal ? WisdomPhotoSelectBaseVC(title: title, transform: transform, theme: theme, electClosure: electClosure) : WisdomPhotoSelectVC(title: title, electCount: electCount, transform: transform, theme: theme, electClosure: electClosure)
         var transform = WisdomScanTransformAnim(rootVC: rootVC, transform: transform)
         transform.startTransform(transformVC: chromeVC, needNav: true)
     }
+    
+    
 }
-
-
-
-
 
 
 public enum WisdomScanManager {

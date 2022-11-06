@@ -36,6 +36,11 @@ class WisdomPhotoSelectBaseVC: WisdomPhotoChromeVC {
         
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        listView.register(WisdomPhotoSelectCell.self, forCellWithReuseIdentifier: "\(WisdomPhotoSelectCell.self)")
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -68,11 +73,13 @@ extension WisdomPhotoSelectBaseVC {
 }
 
 
-class WisdomPhotoSelectVC: WisdomPhotoChromeVC {
+class WisdomPhotoSelectVC: WisdomPhotoSelectBaseVC {
     
-    let electClosure: ([UIImage])->()
+    private(set) var indexResult: [Int] = []
     
     private var barHeght: CGFloat = 45
+    
+    private let electCount: WisdomScanCountStyle
     
     private lazy var selectBar: WisdomPhotoSelectBar = {
         let bar = WisdomPhotoSelectBar(frame: CGRect(x: 0, y: view.bounds.height-barHeght,
@@ -80,12 +87,15 @@ class WisdomPhotoSelectVC: WisdomPhotoChromeVC {
                                        theme: theme,
                                        handers: { [weak self] (res) in
             if res{
-//                if self?.imageResults.count == 0{
-////                    WisdomHUD.showText(text: "请选择图片",delay: TimeInterval(0.5))
-//                    return
-//                }
-//                self?.photoTask((self?.imageResults)!)
-//                self?.clickBackBtn()
+                if self?.indexResult.count == 0{
+                    return
+                }
+                
+                if let closure = self?.electClosure {
+                    closure([])
+                }
+                
+                self?.clickBackBtn()
             }else {
 //                if self?.beginImage == nil{
 ////                    WisdomHUD.showText(text: "无浏览图片",delay: TimeInterval(0.5))
@@ -115,33 +125,31 @@ class WisdomPhotoSelectVC: WisdomPhotoChromeVC {
         return btn
     }()
     
-    
-    private var indexResult: [Int] = []
-    
-    //private(set) var assets = PHFetchResult<PHAsset>()
-    
-    
+
     init(title: String?,
          images: [UIImage],
+         electCount: WisdomScanCountStyle,
          transform: WisdomScanTransformStyle,
          theme: WisdomScanThemeStyle,
          electClosure: @escaping ([UIImage])->()) {
-        self.electClosure = electClosure
+        self.electCount = electCount
         super.init(title: title,
                    images: images,
                    transform: transform,
-                   theme: theme)
+                   theme: theme,
+                   electClosure: electClosure)
     }
-    
+
     init(title: String?,
+         electCount: WisdomScanCountStyle,
          transform: WisdomScanTransformStyle,
          theme: WisdomScanThemeStyle,
          electClosure: @escaping ([UIImage])->()) {
-        self.electClosure = electClosure
+        self.electCount = electCount
         super.init(title: title,
                    transform: transform,
-                   theme: theme)
-        
+                   theme: theme,
+                   electClosure: electClosure)
     }
     
     override func viewDidLoad() {
@@ -163,7 +171,7 @@ class WisdomPhotoSelectVC: WisdomPhotoChromeVC {
                                       rightView: nil,
                                       edgeInset: UIEdgeInsets(top: 80, left: 0, bottom: 0, right: 20))
         }
-        //rightBtn.isHidden = true
+        rightBtn.isHidden = true
     }
     
     override public func viewSafeAreaInsetsDidChange() {
@@ -189,33 +197,116 @@ extension WisdomPhotoSelectVC {
         selectBar.display(res: false)
         btn.isHidden = true
         btn.setTitle("   重选", for: .normal)
-//        imageResults.removeAll()
-//        indexPathResults.removeAll()
+        indexResult.removeAll()
         listView.reloadData()
+    }
+    
+    /** 处理不同类型模式下的图片选择 */
+    fileprivate func updatePhotoSelect(res: Bool, image: UIImage,index: IndexPath) -> Bool{
+        switch electCount {
+        case .one: break
+//            let first = indexPathResults.first
+//            if !res{
+//                imageResults.removeAll()
+//                indexPathResults.removeAll()
+//                imageResults.append(image)
+//                indexPathResults.append(index)
+//
+//                updateCount()
+//                if first != nil{
+//                    listView.reloadItems(at: [first!,index])
+//                }else{
+//                    listView.reloadItems(at: [index])
+//                }
+//                return true
+//            }else{
+//                imageResults.removeAll()
+//                indexPathResults.removeAll()
+//
+//                updateCount()
+//                listView.reloadItems(at: [index])
+//                return false
+//            }
+        case .four: break
+//            if !res{
+//                if imageResults.count >= 4 {
+////                    WisdomHUD.showText(text: "最多选择4张",delay: TimeInterval(0.5))
+//                    return false
+//                }
+//                imageResults.append(image)
+//                indexPathResults.append(index)
+//
+//                updateCount()
+//                return true
+//            }else{
+//                for (ix,path) in indexPathResults.enumerated() {
+//                    if path == index{
+//                        imageResults.remove(at: ix)
+//                        indexPathResults.remove(at: ix)
+//                    }
+//                }
+//                updateCount()
+//                return false
+//            }
+        case .nine: break
+//            if !res{
+//                if imageResults.count >= 9 {
+////                    WisdomHUD.showText(text: "最多选择9张",delay: TimeInterval(0.5))
+//                    return false
+//                }
+//                imageResults.append(image)
+//                indexPathResults.append(index)
+//
+//                updateCount()
+//                return true
+//            }else{
+//                for (ix,path) in indexPathResults.enumerated() {
+//                    if path == index{
+//                        imageResults.remove(at: ix)
+//                        indexPathResults.remove(at: ix)
+//                    }
+//                }
+//                updateCount()
+//                return false
+//            }
+        default: break
+        }
+        return true
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(WisdomPhotoSelectCell.self)", for: indexPath) as! WisdomPhotoSelectCell
+        
+        if isCustomChrome {
+            cell.image = images[indexPath.item]
+        }else {
+            imageManager.requestImage(for: assets[indexPath.item],
+                                      targetSize: assetGridThumbnailSize,
+                                      contentMode: PHImageContentMode.aspectFit,
+                                      options: nil,
+                                      resultHandler: {[weak self] (image, _) -> Void in
+                cell.image = image
+                
+                if indexPath.item == 0 { self?.beginImage = image }
+            })
+        }
+        
+        if indexResult.contains(indexPath.item){
+            cell.selectBtn.isSelected = true
+        }else{
+            cell.selectBtn.isSelected = false
+        }
+        
+        cell.hander = {[weak self] (res, image) in
+            let resCell = self?.updatePhotoSelect(res: res, image: image, index: indexPath)
+            return resCell!
+        }
+        return cell
     }
 }
     
-//    fileprivate let WisdomPhotoSelectCellID = "WisdomPhotoSelectCellID"
-//
-//    fileprivate let spacing: CGFloat = 4
-//
-//    /** 底部Bar高度 */
-//    fileprivate var barHeght: CGFloat = 45
-//
-//    /** 导航栏高度 */
-//    fileprivate var navBarHeght: CGFloat = 64
-//
-//    fileprivate lazy var rightBtn: UIButton = {
-//        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 56, height: 30))
-//        btn.setTitle("   重选", for: .normal)
-//        btn.isHidden = true
-//        btn.setTitleColor(UIColor.black, for: .normal)
-//        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-//        btn.addTarget(self, action: #selector(reset(btn:)), for: .touchUpInside)
-//        return btn
-//    }()
-//
-//
+
 //    /** 浏览，完成Action */
 //    fileprivate lazy var selectBar: WisdomPhotoSelectBar = {
 //        let bar = WisdomPhotoSelectBar(frame: CGRect(x: 0, y: self.view.bounds.height - barHeght,
@@ -246,198 +337,6 @@ extension WisdomPhotoSelectVC {
 //        })
 //        return bar
 //    }()
-
-//
-//
-//    override public func viewDidLoad() {
-//        super.viewDidLoad()
-//        view.backgroundColor = UIColor.init(white: 0.90, alpha: 1)
-//        view.addSubview(listView)
-//        view.addSubview(selectBar)
-//        setNavbarUI()
-//        authoriza()
-//    }
-//
-//
-//    fileprivate func authoriza() {
-//        PHPhotoLibrary.requestAuthorization({ (status) in
-//            switch status {
-//            case .authorized:
-//                DispatchQueue.global().async {
-//                    self.loadSystemImages()
-//                }
-//            case .denied:
-//                self.upgrades()
-//            case .restricted:
-//                self.upgrades()
-//            case .notDetermined:
-//                DispatchQueue.global().async {
-//                    self.loadSystemImages()
-//                }
-//
-//            default:
-//                break
-//            }
-//        })
-//    }
-//
-//
-//    fileprivate func upgrades(){
-////        showAlert(title: "相册访问权限已关闭", message: "App需要您同意，才能访问相册读取图片", cancelActionTitle: "取消", rightActionTitle: "立即开启") {[weak self] (action) in
-////
-////            if let title = action.title {
-////                if title == "立即开启"{
-//////                    WisdomScanKit.authorizationScan()
-////                }
-////            }
-////
-////            self?.clickBackBtn()
-////        }
-//    }
-//
-//
-//    fileprivate func setNavbarUI(){
-//        if (delegate != nil) {
-//            let backBtn = delegate!.electPhotoNavbarBackItme(navigationVC: navigationController!)
-//            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backBtn)
-//            backBtn.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
-//
-//            let customView = delegate!.electPhotoNavbarCustomTitleItme(navigationVC: navigationController!)
-//            navigationItem.titleView = customView
-//        }else{
-//            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: navbarBackBtn)
-//            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBtn)
-//            navbarBackBtn.addTarget(self, action: #selector(clickBackBtn), for: .touchUpInside)
-//            title = headerTitle
-//        }
-//
-//        rightBtn.titleLabel?.textAlignment = .right
-//
-//        if countType == .once {
-//            rightBtn.isHidden = true
-//        }
-//    }
-//
-//
-//    @objc fileprivate func clickBackBtn(){
-//        if startType == .push {
-//            if navigationController != nil && isCreatNav {
-//                UIView.animate(withDuration: 0.35, animations: {
-//                    self.navigationController!.view.transform = CGAffineTransform(translationX: self.navigationController!.view.bounds.width, y: 0)
-//                }) { (_) in
-//                    self.navigationController!.view.removeFromSuperview()
-//                    self.navigationController!.removeFromParent()
-//                }
-//            }else if navigationController != nil && !isCreatNav {
-//                navigationController!.popViewController(animated: true)
-//            }else{
-//                UIView.animate(withDuration: 0.35, animations: {
-//                    self.view.transform = CGAffineTransform(translationX: self.view.bounds.width, y: 0)
-//                }) { (_) in
-//                    self.view.removeFromSuperview()
-//                    self.removeFromParent()
-//                }
-//            }
-//        }else if startType == .present{
-//            if navigationController != nil {
-//                navigationController!.dismiss(animated: true, completion: nil)
-//            }else{
-//                dismiss(animated: true, completion: nil)
-//            }
-//        }else if startType == .alpha{
-//            if navigationController != nil {
-//                UIView.animate(withDuration: 0.35, animations: {
-//                    self.navigationController!.view.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-//                }) { (_) in
-//                    self.navigationController!.view.removeFromSuperview()
-//                    self.navigationController!.removeFromParent()
-//                }
-//            }else{
-//                UIView.animate(withDuration: 0.35, animations: {
-//                    self.view.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-//                }) { (_) in
-//                    self.view.removeFromSuperview()
-//                    self.removeFromParent()
-//                }
-//            }
-//        }
-//    }
-//
-//
-//    /** 处理不同类型模式下的图片选择 */
-//    fileprivate func updatePhotoSelect(res: Bool, image: UIImage,index: IndexPath) -> Bool{
-//        switch countType! {
-//        case .once:
-//            let first = indexPathResults.first
-//            if !res{
-//                imageResults.removeAll()
-//                indexPathResults.removeAll()
-//                imageResults.append(image)
-//                indexPathResults.append(index)
-//
-//                updateCount()
-//                if first != nil{
-//                    listView.reloadItems(at: [first!,index])
-//                }else{
-//                    listView.reloadItems(at: [index])
-//                }
-//                return true
-//            }else{
-//                imageResults.removeAll()
-//                indexPathResults.removeAll()
-//
-//                updateCount()
-//                listView.reloadItems(at: [index])
-//                return false
-//            }
-//        case .four:
-//            if !res{
-//                if imageResults.count >= 4 {
-////                    WisdomHUD.showText(text: "最多选择4张",delay: TimeInterval(0.5))
-//                    return false
-//                }
-//                imageResults.append(image)
-//                indexPathResults.append(index)
-//
-//                updateCount()
-//                return true
-//            }else{
-//                for (ix,path) in indexPathResults.enumerated() {
-//                    if path == index{
-//                        imageResults.remove(at: ix)
-//                        indexPathResults.remove(at: ix)
-//                    }
-//                }
-//                updateCount()
-//                return false
-//            }
-//        case .nine:
-//            if !res{
-//                if imageResults.count >= 9 {
-////                    WisdomHUD.showText(text: "最多选择9张",delay: TimeInterval(0.5))
-//                    return false
-//                }
-//                imageResults.append(image)
-//                indexPathResults.append(index)
-//
-//                updateCount()
-//                return true
-//            }else{
-//                for (ix,path) in indexPathResults.enumerated() {
-//                    if path == index{
-//                        imageResults.remove(at: ix)
-//                        indexPathResults.remove(at: ix)
-//                    }
-//                }
-//                updateCount()
-//                return false
-//            }
-//        default:
-//            break
-//        }
-//        return true
-//    }
-//
 //
 //    private func updateCount(){
 //        if imageResults.count > 0 {
@@ -451,10 +350,6 @@ extension WisdomPhotoSelectVC {
 //        }
 //    }
 //
-//
-
-//
-//
 //    deinit {
 //        NotificationCenter.default.removeObserver(self)
 //
@@ -463,44 +358,54 @@ extension WisdomPhotoSelectVC {
 //        }
 //    }
 //
-//
 //    required init?(coder aDecoder: NSCoder) {
 //        fatalError("init(coder:) has not been implemented")
 //    }
 //}
+
+
+extension WisdomPhotoSelectVC {
+    
+//    public override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
+////        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WisdomPhotoSelectCellID, for: indexPath) as! WisdomPhotoSelectCell
+////
+////        imageManager.requestImage(for: assetsFetchResults[indexPath.item],
+////                                  targetSize: assetGridThumbnailSize,
+////                                  contentMode: PHImageContentMode.aspectFit,
+////                                  options: nil,
+////                                              resultHandler: { (image, _) -> Void in
+////            cell.image = image
+////            if indexPath.item == 0{
+////                self.beginImage = image
+////            }
+////        })
+////
+////        if indexPathResults.contains(indexPath){
+////            cell.selectBtn.isSelected = true
+////        }else{
+////            cell.selectBtn.isSelected = false
+////        }
+////
+////        cell.hander = {[weak self] (res, image) in
+////            let resCell = self?.updatePhotoSelect(res: res, image: image, index: indexPath)
+////            return resCell!
+////        }
+////        return cell
 //
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(WisdomPhotoBaseCell.self)", for: indexPath) as! WisdomPhotoBaseCell
 //
+//        if isCustomChrome {
+//            cell.image = images[indexPath.item]
+//        }else {
+//            imageManager.requestImage(for: assets[indexPath.item],
+//                                      targetSize: assetGridThumbnailSize,
+//                                      contentMode: PHImageContentMode.aspectFit,
+//                                      options: nil,
+//                                      resultHandler: {[weak self] (image, _) -> Void in
+//                cell.image = image
 //
-//extension WisdomPhotoSelectVC: UICollectionViewDelegate, UICollectionViewDataSource{
-//
-//    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return assetsFetchResults.count
-//    }
-//
-//
-//    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WisdomPhotoSelectCellID, for: indexPath) as! WisdomPhotoSelectCell
-//
-//        imageManager.requestImage(for: assetsFetchResults[indexPath.item],
-//                                  targetSize: assetGridThumbnailSize,
-//                                  contentMode: PHImageContentMode.aspectFit,
-//                                  options: nil,
-//                                              resultHandler: { (image, _) -> Void in
-//            cell.image = image
-//            if indexPath.item == 0{
-//                self.beginImage = image
-//            }
-//        })
-//
-//        if indexPathResults.contains(indexPath){
-//            cell.selectBtn.isSelected = true
-//        }else{
-//            cell.selectBtn.isSelected = false
-//        }
-//
-//        cell.hander = {[weak self] (res, image) in
-//            let resCell = self?.updatePhotoSelect(res: res, image: image, index: indexPath)
-//            return resCell!
+//                if indexPath.item == 0 { self?.beginImage = image }
+//            })
 //        }
 //        return cell
 //    }
@@ -554,7 +459,7 @@ extension WisdomPhotoSelectVC {
 //           }
 //        })
 //    }
-//}
+}
 
 
 class WisdomPhotoSelectBar: UIView {
@@ -594,7 +499,6 @@ class WisdomPhotoSelectBar: UIView {
         return bar
     }()
     
-    
     private let hander: ((Bool)->())!
     private let theme: WisdomScanThemeStyle
     
@@ -614,7 +518,7 @@ class WisdomPhotoSelectBar: UIView {
         if res {
             rightBtn.backgroundColor = UIColor(red: 26/256.0, green: 176/256.0, blue: 72/256.0, alpha: 1)
             rightBtn.setTitleColor(UIColor.white, for: .normal)
-        }else{
+        }else {
             rightBtn.backgroundColor = UIColor(red: 26/256.0, green: 100/256.0, blue: 26/256.0, alpha: 1)
             rightBtn.setTitleColor(UIColor.gray, for: .normal)
         }

@@ -20,7 +20,7 @@ import UIKit
 extension WisdomScanKit: WisdomScanPhotoChromeable {
     
     // MARK: Photo Chrome Custom Images: WisdomPhotoChromeHUD
-    /*
+    /* 自定义图片浏览
      * startIndex      : image in '[UIImage]' index
      * startAnimaRect  : show image begin animation 'CGRect'
      * images          : custom '[UIImage]' data
@@ -40,7 +40,7 @@ extension WisdomScanKit: WisdomScanPhotoChromeable {
     }
     
     // MARK: Photo Chrome System PHAssets: WisdomPhotoChromeHUD
-    /*
+    /* PHAsset 图片浏览
      * startIndex      : image in '[UIImage]' index
      * startAnimaRect  : show image begin animation 'CGRect'
      * assets          : systom 'PHFetchResult<PHAsset>' data
@@ -60,7 +60,7 @@ extension WisdomScanKit: WisdomScanPhotoChromeable {
     }
     
     // MARK: Photo Chrome Custom Images Transform: UIViewController - WisdomPhotoChromeHUD
-    /*
+    /* 跳转-自定义图片浏览-控制器
      * title     : ui navbar title
      * images    : custom '[UIImage]' data
      * rootVC    : wake up 'UIViewController'
@@ -76,7 +76,7 @@ extension WisdomScanKit: WisdomScanPhotoChromeable {
     }
     
     // MARK: Photo Chrome Systom Library Transform: UIViewController - WisdomPhotoChromeHUD
-    /*
+    /* 跳转-系统图片浏览-控制器
      * title     : navbar title
      * rootVC    : wake up 'UIViewController'
      * transform : vc transform style 'WisdomScanTransformStyle'
@@ -93,7 +93,7 @@ extension WisdomScanKit: WisdomScanPhotoChromeable {
 extension WisdomScanKit: WisdomScanPhotoElectable {
     
     // MARK: Photo Elect Custom Images Transform: UIViewController - WisdomPhotoChromeHUD
-    /*
+    /* 自定义图片选择
      * title       : ui navbar title
      * images      : custom '[UIImage]' data
      * electCount  : elect count style 'WisdomScanCountStyle'
@@ -119,7 +119,7 @@ extension WisdomScanKit: WisdomScanPhotoElectable {
     }
     
     // MARK: Photo Elect Systom Library Transform: UIViewController - WisdomPhotoChromeHUD
-    /*
+    /* 系统图片选择
      * title       : ui navbar title
      * electCount  : elect count style 'WisdomScanCountStyle'
      * rootVC      : wake up 'UIViewController'

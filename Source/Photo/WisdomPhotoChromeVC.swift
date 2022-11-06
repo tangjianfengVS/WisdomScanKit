@@ -21,7 +21,6 @@ class WisdomPhotoChromeVC: UIViewController {
     private(set) lazy var listView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionVI = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionVI.register(WisdomPhotoSelectCell.self, forCellWithReuseIdentifier: "\(WisdomPhotoSelectCell.self)")
         collectionVI.register(WisdomPhotoBaseCell.self, forCellWithReuseIdentifier: "\(WisdomPhotoBaseCell.self)")
         
         collectionVI.delegate = self
@@ -62,7 +61,7 @@ class WisdomPhotoChromeVC: UIViewController {
     /** 浏览页正在展示的图片 */
     private var curShowImageRect: CGRect = .zero
     
-    private var beginImage: UIImage?
+    var beginImage: UIImage?
     
     init(title: String?,
          images: [UIImage],

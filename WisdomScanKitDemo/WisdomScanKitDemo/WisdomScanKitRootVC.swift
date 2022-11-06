@@ -141,20 +141,22 @@ extension WisdomScanKitRootVC: UITableViewDelegate {
                 }
             }else if indexPath.row == 1 {
                 
-            }else if indexPath.row == 2 {
+                
+            }else if indexPath.row == 2 { // 自定义图片浏览
                 WisdomScanKit.photoChrome(title: "图片浏览",
                                           images: imageList,
                                           rootVC: self,
                                           transform: .push,
                                           theme: .light)
-            }else if indexPath.row == 3 {
+                
+            }else if indexPath.row == 3 { // 系统图片浏览
                 WisdomScanKit.photoLibraryChrome(title: "图片浏览",
                                                  rootVC: self,
                                                  transform: .push,
                                                  theme: .dark)
             }
-        case 1: // 系统图片浏览
-            if indexPath.item == 0 {
+        case 1:
+            if indexPath.item == 0 { // 自定义图片选择
                 WisdomScanKit.photoElect(title: "图片选择",
                                          images: imageList,
                                          electCount: .normal,
@@ -165,7 +167,7 @@ extension WisdomScanKitRootVC: UITableViewDelegate {
                     
                     
                 })
-            }else if indexPath.item == 1 {
+            }else if indexPath.item == 1 { // 系统图片选择
                 WisdomScanKit.photoLibraryElect(title: "图片选择",
                                                 electCount: .four,
                                                 rootVC: self,
