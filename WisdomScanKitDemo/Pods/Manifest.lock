@@ -1,6 +1,6 @@
 PODS:
   - SnapKit (4.2.0)
-  - WisdomHUD (0.2.3)
+  - WisdomHUD (0.2.7)
 
 DEPENDENCIES:
   - SnapKit
@@ -13,7 +13,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
-  WisdomHUD: 15e7685db68d5bef95ec49381e6f31b48908a433
+  WisdomHUD: 350b16516e4831faaec62ba5bc32493c245cdf95
 
 PODFILE CHECKSUM: 74ef495161c209ef12101cf6b3a0a7a56b5d694f
 

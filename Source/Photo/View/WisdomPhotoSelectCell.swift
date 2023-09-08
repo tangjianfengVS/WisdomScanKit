@@ -53,11 +53,11 @@ class WisdomPhotoBaseCell: UICollectionViewCell {
 class WisdomPhotoSelectCell: WisdomPhotoBaseCell {
     
     private(set) lazy var selectBtn: UIButton = {
-        let btn = UIButton(frame: CGRect(x: self.contentView.bounds.width - 23, y: 2, width: 21, height: 21))
+        let btn = UIButton(frame: CGRect(x: contentView.bounds.width - 23, y: 2, width: 21, height: 21))
         
         var image = WisdomPhotoSelectImage()
         btn.setBackgroundImage(image.imageOfEmpty, for: .normal)
-        btn.setBackgroundImage(image.imageOfSelect, for: .selected)
+        btn.setBackgroundImage(image.imageOfSelect, for: .selected)// Wisdom_Select_Empty   Wisdom_Select_Ing
         
         btn.addTarget(self, action: #selector(clickSelectedBtn), for: .touchUpInside)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 13)

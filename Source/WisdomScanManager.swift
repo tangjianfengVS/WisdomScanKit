@@ -125,13 +125,7 @@ public enum WisdomScanManager {
 //    }
     
     
-    /// get bundle imgae
-    static func bundleImage(name: String) -> UIImage {
-        let bundle = Bundle.init(path:Bundle.init(for: WisdomScanKit.self).path(forResource: "WisdomScanKit", ofType: "bundle")!)!
-        let url = bundle.path(forResource: name, ofType: "png")!
-        let image = UIImage(contentsOfFile: url)!
-        return image
-    }
+    
     
     
     /// Flashlight operation
@@ -175,5 +169,16 @@ extension WisdomScanManager {
         window?.addSubview(rootView)
         rootView.addSubview(coverView)
         return (rootView, coverView)
+    }
+    
+    /// get bundle imgae
+    static func getBundleImage(name: String) -> UIImage {
+        if let path = Bundle(for: WisdomScanKit.self).path(forResource: "WisdomScanKit", ofType: "bundle"),
+           let bundle = Bundle.init(path:path),
+           let url = bundle.path(forResource: name, ofType: "png") {
+            
+            let image = UIImage(contentsOfFile: url)
+        }
+        return UIImage()
     }
 }

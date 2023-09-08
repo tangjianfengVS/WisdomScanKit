@@ -159,8 +159,9 @@ final class WisdomHUDSceneView: UIView {
         startDelays(delays: delays)
     }
     
-    private func set_imageContentSize() {
-        textLabel.layoutIfNeeded()
+    func set_imageContentSize() {
+        textLabel.sizeToFit()
+        layoutIfNeeded()
         
         if textLabel.bounds.width + content.lr_text_space*2 >= content.bar_Size.width {
             widthConstraint.constant = textLabel.bounds.width + content.lr_text_space*2
@@ -175,7 +176,8 @@ final class WisdomHUDSceneView: UIView {
         widthConstraint.constant = 85
         heightConstraint.constant = 43
         
-        textLabel.layoutIfNeeded()
+        textLabel.sizeToFit()
+        layoutIfNeeded()
         
         if textLabel.bounds.width+15*2 >= widthConstraint.constant {
             widthConstraint.constant = textLabel.bounds.width+15*2
